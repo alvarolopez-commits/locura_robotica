@@ -23,6 +23,7 @@
    "teambuff",
    "heal"
   ],
+  "effect_es": "<Repair 2> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)\n【During Pair】Durante tu turno, todas tus Unidades obtienen AP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-001.webp"
  },
  {
@@ -48,6 +49,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【When Paired･(White Base Team) Pilot】Roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-002.webp"
  },
  {
@@ -96,8 +98,9 @@
   "set": "ST01",
   "owned": true,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga con 2 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-004.webp"
  },
  {
@@ -148,6 +151,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【When Paired】Elige 1 Unidad enemiga de Nv.5 o inferior. Obtiene AP-3 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-006.webp"
  },
  {
@@ -198,6 +202,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-008.webp"
  },
  {
@@ -223,6 +228,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\nEsta Unidad no puede elegir al jugador enemigo como objetivo de ataque.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-009.webp"
  },
  {
@@ -246,8 +252,10 @@
   "set": "ST01",
   "owned": true,
   "tags": [
+   "rest",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Paired】Elige 1 Unidad enemiga con 5 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-010.webp"
  },
  {
@@ -271,8 +279,10 @@
   "set": "ST01",
   "owned": true,
   "tags": [
+   "ready",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Attack】【Once per Turn】Elige 1 de tus Recursos. Ponlo en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-011.webp"
  },
  {
@@ -296,8 +306,9 @@
   "set": "ST01",
   "owned": true,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】Elige 1 Unidad enemiga en reposo. Inflígele 1 de daño.\n【Pilot】[Hayato Kobayashi]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-012.webp"
  },
  {
@@ -323,6 +334,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "【Main】Elige 1 Unidad aliada. Recupera 3 HP.\n【Pilot】[Kai Shiden]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-013.webp"
  },
  {
@@ -349,6 +361,7 @@
    "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga. Obtiene AP-3 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-014.webp"
  },
  {
@@ -376,6 +389,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】【Once per Turn】②：Despliega 1 ficha de Unidad [Gundam]((White Base Team)･AP3･HP3) si no tienes Unidades en juego, 1 ficha de Unidad [Guncannon]((White Base Team)･AP2･HP2) si solo tienes 1 Unidad en juego, o 1 ficha de Unidad [Guntank]((White Base Team)･AP1･HP1) si tienes 2 o más Unidades en juego.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-015.webp"
  },
  {
@@ -404,6 +418,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Todas las Unidades Link aliadas obtienen AP+1 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST01-016.webp"
  },
  {
@@ -427,8 +442,10 @@
   "set": "ST02",
   "owned": true,
   "tags": [
-   "breach"
+   "breach",
+   "assault"
   ],
+  "effect_es": "<Breach 5> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\nEsta Unidad puede elegir como objetivo de ataque a una Unidad enemiga activa de Nv.4 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-001.webp"
  },
  {
@@ -454,6 +471,7 @@
   "tags": [
    "ramp"
   ],
+  "effect_es": "【Deploy】Coloca 1 Recurso EX.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-002.webp"
  },
  {
@@ -480,6 +498,7 @@
    "removal",
    "aoe"
   ],
+  "effect_es": "【During Pair】Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige 1 de daño a todas las Unidades enemigas de Nv.3 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-003.webp"
  },
  {
@@ -553,8 +572,9 @@
   "set": "ST02",
   "owned": true,
   "tags": [
-   "other"
+   "ready"
   ],
+  "effect_es": "【Activate･Main】【Once per Turn】④：Pon esta Unidad en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-006.webp"
  },
  {
@@ -605,6 +625,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-008.webp"
  },
  {
@@ -630,6 +651,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-009.webp"
  },
  {
@@ -653,8 +675,10 @@
   "set": "ST02",
   "owned": true,
   "tags": [
+   "selfbuff",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】Esta Unidad obtiene AP+1 y HP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-010.webp"
  },
  {
@@ -681,6 +705,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-011.webp"
  },
  {
@@ -706,6 +731,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "【Main】Elige 1 de tus Unidades. Obtiene <Breach 3> durante este turno.\n\n(Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【Pilot】[Trowa Barton]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-012.webp"
  },
  {
@@ -729,8 +755,9 @@
   "set": "ST02",
   "owned": true,
   "tags": [
-   "other"
+   "damagered"
   ],
+  "effect_es": "【Action】Durante esta batalla, las cartas de tu zona de escudos no pueden recibir daño de Unidades enemigas de Nv.4 o inferior.\n【Pilot】[Quatre Raberba Winner]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-013.webp"
  },
  {
@@ -754,8 +781,10 @@
   "set": "ST02",
   "owned": true,
   "tags": [
+   "rest",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga con 5 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-014.webp"
  },
  {
@@ -782,6 +811,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, mira las 2 cartas superiores de tu mazo y devuelve 1 arriba y 1 al fondo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-015.webp"
  },
  {
@@ -809,6 +839,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, si es tu turno, despliega 1 ficha de Unidad [Tallgeese]((OZ)･AP4･HP2). Si es tu turno y hay una carta con \"Corsica Base\" en su nombre en tu cementerio, despliega en su lugar 2 fichas de Unidad [Leo]((OZ)･AP1･HP1).",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST02-016.webp"
  },
  {
@@ -832,8 +863,10 @@
   "set": "ST03",
   "owned": true,
   "tags": [
-   "other"
+   "removal",
+   "combatkw"
   ],
+  "effect_es": "【During Pair】Esta Unidad obtiene <High-Maneuver>.\n\n(Esta Unidad no puede ser bloqueada.)\nDurante tu turno, cuando esta Unidad destruye una carta de la zona de escudos enemiga con daño de batalla, elige 1 Unidad enemiga. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-001.webp"
  },
  {
@@ -857,8 +890,9 @@
   "set": "ST03",
   "owned": true,
   "tags": [
-   "other"
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 2> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-002.webp"
  },
  {
@@ -907,8 +941,9 @@
   "set": "ST03",
   "owned": true,
   "tags": [
-   "other"
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 2> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-004.webp"
  },
  {
@@ -960,6 +995,7 @@
    "search",
    "scry"
   ],
+  "effect_es": "【Destroyed】Mira las 3 cartas superiores de tu mazo. Puedes revelar 1 carta de Unidad (Zeon)/(Neo Zeon) entre ellas y añadirla a tu mano. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-006.webp"
  },
  {
@@ -1008,8 +1044,10 @@
   "set": "ST03",
   "owned": true,
   "tags": [
+   "selfbuff",
    "trick"
   ],
+  "effect_es": "【Attack】Esta Unidad obtiene AP+2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-008.webp"
  },
  {
@@ -1035,6 +1073,7 @@
   "tags": [
    "token"
   ],
+  "effect_es": "【Deploy】Despliega 1 ficha de Unidad [Zaku Ⅱ]((Zeon)･AP1･HP1) en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-009.webp"
  },
  {
@@ -1060,6 +1099,7 @@
   "tags": [
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Paired】Puedes desplegar desde tu mano 1 carta de Unidad (Neo Zeon)/(Zeon) de Nv.4 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-010.webp"
  },
  {
@@ -1083,8 +1123,11 @@
   "set": "ST03",
   "owned": true,
   "tags": [
+   "selfbuff",
+   "combatkw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Attack】Durante este turno, esta Unidad obtiene AP+1 y, si es una Unidad Link, obtiene <High-Maneuver>.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-011.webp"
  },
  {
@@ -1110,6 +1153,7 @@
   "tags": [
    "trick"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad aliada. Obtiene AP+2 durante este turno.\n【Pilot】[Angelo Sauper]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-012.webp"
  },
  {
@@ -1133,8 +1177,10 @@
   "set": "ST03",
   "owned": true,
   "tags": [
+   "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-013.webp"
  },
  {
@@ -1158,8 +1204,9 @@
   "set": "ST03",
   "owned": true,
   "tags": [
-   "other"
+   "damagered"
   ],
+  "effect_es": "【Action】Elige 1 Unidad aliada. Durante esta batalla, no puede recibir daño de batalla de Unidades enemigas con 2 o menos de AP.\n【Pilot】[Ramba Ral]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-014.webp"
  },
  {
@@ -1183,9 +1230,11 @@
   "set": "ST03",
   "owned": true,
   "tags": [
+   "removal",
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, elige 1 Unidad enemiga con 5 o menos de AP. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-015.webp"
  },
  {
@@ -1213,6 +1262,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, si es tu turno, despliega 1 ficha de Unidad [Char's Zaku Ⅱ]((Zeon)･AP3･HP1) en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST03-016.webp"
  },
  {
@@ -1240,6 +1290,7 @@
    "blocker",
    "bounce"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\n【When Paired･Lv.4 or Higher Pilot】Elige 1 Unidad enemiga con 4 o menos de HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-001.webp"
  },
  {
@@ -1265,6 +1316,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Deploy】Roba 1. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-002.webp"
  },
  {
@@ -1315,6 +1367,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-004.webp"
  },
  {
@@ -1363,8 +1416,9 @@
   "set": "ST04",
   "owned": true,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Attack】Si esta Unidad tiene 5 o más de AP, elige 1 Unidad enemiga de Nv.5 o superior. Inflígele 3 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-006.webp"
  },
  {
@@ -1390,6 +1444,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "<Breach 3> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-007.webp"
  },
  {
@@ -1440,6 +1495,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【During Pair】【Destroyed】Si tienes otra Unidad Link en juego, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-009.webp"
  },
  {
@@ -1466,6 +1522,7 @@
    "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Attack】Elige 1 Unidad enemiga. Obtiene AP-2 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-010.webp"
  },
  {
@@ -1489,8 +1546,10 @@
   "set": "ST04",
   "owned": true,
   "tags": [
+   "assault",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Linked】Durante este turno, esta Unidad puede elegir como objetivo de ataque a una Unidad enemiga activa de Nv.5 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-011.webp"
  },
  {
@@ -1518,6 +1577,7 @@
    "token",
    "burst"
   ],
+  "effect_es": "【Burst】Si no tienes fichas de Unidad (Earth Alliance) en juego, despliega 1 ficha de Unidad [Aile Strike Gundam]((Earth Alliance)･AP3･HP3･<Blocker>).\n【Main】Si no tienes fichas de Unidad (Earth Alliance) en juego, despliega 1 ficha de Unidad [Sword Strike Gundam]((Earth Alliance)･AP4･HP2･<Blocker>) o 1 [Launcher Strike Gundam]((Earth Alliance)･AP2･HP4･<Blocker>).",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-012.webp"
  },
  {
@@ -1544,6 +1604,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad enemiga con 3 o menos de HP. Devuélvela a la mano de su propietario.\n【Pilot】[Mu La Flaga]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-013.webp"
  },
  {
@@ -1567,8 +1628,10 @@
   "set": "ST04",
   "owned": true,
   "tags": [
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad aliada de Nv.2 o inferior. Obtiene <First Strike> durante este turno.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)\n【Pilot】[Miguel Ayman]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-014.webp"
  },
  {
@@ -1593,9 +1656,11 @@
   "owned": true,
   "tags": [
    "blocker",
+   "ready",
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】【Once per Turn】②：Elige 1 Unidad aliada con <Blocker>. Ponla en activo. No puede atacar durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-015.webp"
  },
  {
@@ -1623,6 +1688,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Elige 1 Unidad aliada. Obtiene AP+1 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/ST04-016.webp"
  },
  {
@@ -1649,6 +1715,7 @@
    "draw",
    "heal"
   ],
+  "effect_es": "Todas tus Unidades (White Base Team) obtienen <Repair 1>.\n\n(Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)\n【When Paired】Si tienes 2 o más Unidades más en juego, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-001.webp"
  },
  {
@@ -1672,8 +1739,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "rest",
+   "costred"
   ],
+  "effect_es": "Al jugar esta carta desde tu mano, puedes destruir 1 de tus Unidades Link de Nv.5 con \"Unicorn Mode\" en su nombre. Si lo haces, juega esta carta como si tuviera Nv. y coste 0.\n【Attack】Elige 1 Unidad enemiga. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-002.webp"
  },
  {
@@ -1697,8 +1766,11 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "combatkw",
+   "ready",
    "trick"
   ],
+  "effect_es": "【During Link】【Attack】Elige 12 cartas de tu cementerio. Devuélvelas al mazo de su propietario y barájalo. Si lo haces, pon esta Unidad en activo. Obtiene <First Strike> durante este turno.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-003.webp"
  },
  {
@@ -1722,8 +1794,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "rest",
    "heal"
   ],
+  "effect_es": "<Repair 1> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)\n【When Paired】Elige 1 Unidad enemiga con 2 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-004.webp"
  },
  {
@@ -1747,8 +1821,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【During Link】【Destroyed】Devuelve el Piloto emparejado con esta Unidad a la mano de su propietario. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-005.webp"
  },
  {
@@ -1774,6 +1849,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "<Repair 1> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)\n【During Link】Esta Unidad obtiene HP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-006.webp"
  },
  {
@@ -1799,6 +1875,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Destroyed】Si tienes otra Unidad (OZ) en juego, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-007.webp"
  },
  {
@@ -1822,8 +1899,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga en reposo. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-008.webp"
  },
  {
@@ -1847,8 +1925,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【Deploy】Elige 1 de tus Unidades (White Base Team). Obtiene <High-Maneuver> durante este turno.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-009.webp"
  },
  {
@@ -1872,8 +1952,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【When Paired】Elige 1 Unidad enemiga con 3 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-010.webp"
  },
  {
@@ -1922,8 +2003,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【When Paired】Elige 1 Unidad enemiga con 3 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-012.webp"
  },
  {
@@ -1974,6 +2056,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "【During Link】【Activate･Action】【Once per Turn】Elige 1 Unidad. Recupera 1 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-014.webp"
  },
  {
@@ -1999,6 +2082,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "【Attack】Elige 1 de tus Unidades. Recupera 1 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-015.webp"
  },
  {
@@ -2022,8 +2106,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "costred"
   ],
+  "effect_es": "Mientras tengas 2 o más Unidades (Earth Federation) en juego, esta carta en tu mano obtiene coste -1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-016.webp"
  },
  {
@@ -2049,6 +2134,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "<Repair 1> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-017.webp"
  },
  {
@@ -2099,6 +2185,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "Mientras haya 4 o más Unidades enemigas en juego, esta Unidad obtiene <Blocker>.\n\n(Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-019.webp"
  },
  {
@@ -2122,8 +2209,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga en reposo. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-020.webp"
  },
  {
@@ -2197,8 +2285,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【Activate･Main】Descarta 1 carta de Unidad (Zeon)/(Neo Zeon)：Si esta Unidad no tiene un Piloto emparejado, elige 1 carta de Piloto (Newtype) de Nv.3 o inferior de tu cementerio. Emparéjala con esta Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-023.webp"
  },
  {
@@ -2222,8 +2311,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "aoe",
+   "combatkw"
   ],
+  "effect_es": "<High-Maneuver> (Esta Unidad no puede ser bloqueada.)\n【Deploy】Inflige 3 de daño a todas las Unidades de Nv.5 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-024.webp"
  },
  {
@@ -2247,8 +2338,11 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "ramp",
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【When Paired･(Operation Meteor) Pilot】Coloca 1 Recurso en reposo. Después, esta Unidad obtiene <First Strike> durante este turno.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-025.webp"
  },
  {
@@ -2274,6 +2368,7 @@
   "tags": [
    "token"
   ],
+  "effect_es": "【During Pair】【Destroyed】Despliega 1 ficha de Unidad [Char's Zaku Ⅱ]((Zeon)･AP3･HP1) en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-026.webp"
  },
  {
@@ -2298,8 +2393,10 @@
   "owned": false,
   "tags": [
    "breach",
+   "aoe",
    "blocker"
   ],
+  "effect_es": "<Breach 4> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【Deploy】Si hay 10 o más cartas de Unidad (Zeon)/(Neo Zeon) en tu cementerio, inflige 4 de daño a todas las Unidades con <Blocker>.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-027.webp"
  },
  {
@@ -2323,8 +2420,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "cheat"
   ],
+  "effect_es": "【Deploy】Puedes desplegar desde tu mano 1 carta de Unidad (Maganac Corps).",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-028.webp"
  },
  {
@@ -2349,8 +2447,10 @@
   "owned": false,
   "tags": [
    "breach",
+   "removal",
    "blocker"
   ],
+  "effect_es": "<Breach 4> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【Attack】Elige 1 Unidad enemiga con <Blocker> de Nv.3 o inferior. Destrúyela.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-029.webp"
  },
  {
@@ -2376,6 +2476,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "<Breach 2> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-030.webp"
  },
  {
@@ -2424,8 +2525,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "removal",
    "blocker"
   ],
+  "effect_es": "【When Paired･(Zeon) Pilot】Elige 1 Unidad enemiga con <Blocker> de Nv.2 o inferior. Destrúyela.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-032.webp"
  },
  {
@@ -2451,6 +2554,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "<Repair 1> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-033.webp"
  },
  {
@@ -2476,6 +2580,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "【During Pair】Esta Unidad obtiene <Breach 3>.\n\n(Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-034.webp"
  },
  {
@@ -2577,6 +2682,7 @@
    "removal",
    "aoe"
   ],
+  "effect_es": "【Deploy】Si hay 5 o más Unidades enemigas en juego, inflige 1 de daño a todas las Unidades enemigas.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-038.webp"
  },
  {
@@ -2602,6 +2708,7 @@
   "tags": [
    "scry"
   ],
+  "effect_es": "【Deploy】Mira la carta superior de tu mazo. Devuélvela arriba o al fondo de tu mazo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-039.webp"
  },
  {
@@ -2652,6 +2759,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "<Breach 3> (Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-041.webp"
  },
  {
@@ -2675,8 +2783,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "Esta Unidad puede elegir como objetivo de ataque a una Unidad enemiga activa de Nv.2 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-042.webp"
  },
  {
@@ -2700,8 +2809,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "【Deploy】Elige 1 de tus Unidades verdes. Durante este turno, puede elegir como objetivo de ataque a una Unidad enemiga activa con 4 o menos de AP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-043.webp"
  },
  {
@@ -2725,8 +2835,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal",
+   "aoe"
   ],
+  "effect_es": "【When Paired･(Cyber-Newtype)/(Newtype) Pilot】Elige de 1 a 2 Unidades enemigas. Inflígeles 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-044.webp"
  },
  {
@@ -2752,6 +2864,7 @@
   "tags": [
    "scry"
   ],
+  "effect_es": "【When Paired】Mira las 3 cartas superiores de tu mazo. Puedes desplegar 1 carta de Unidad (ZAFT) de Nv.4 o inferior entre ellas. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-045.webp"
  },
  {
@@ -2775,8 +2888,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "support",
+   "ready"
   ],
+  "effect_es": "【Activate･Main】<Support 3> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)\n【During Pair･(Coordinator) Pilot】【Once per Turn】Cuando uses el <Support> de esta Unidad para aumentar el AP de una Unidad (ZAFT), pon esta Unidad en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-046.webp"
  },
  {
@@ -2800,8 +2915,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Attack】Si hay 2 o más Unidades aliadas más en reposo en juego, elige 1 Unidad enemiga. Inflígele 3 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-047.webp"
  },
  {
@@ -2826,8 +2942,10 @@
   "owned": false,
   "tags": [
    "search",
-   "scry"
+   "scry",
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 1> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)\n【Deploy】Mira la carta superior de tu mazo. Si es una carta de Unidad (Zeon)/(Neo Zeon), puedes revelarla y añadirla a tu mano. Devuelve la carta restante al fondo de tu mazo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-048.webp"
  },
  {
@@ -2851,8 +2969,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【Deploy】Elige 1 de tus Unidades (ZAFT) con 5 o más de AP. Obtiene <First Strike> durante este turno.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-049.webp"
  },
  {
@@ -2876,8 +2996,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Attack】Si esta Unidad tiene 5 o más de AP y está atacando a una Unidad enemiga, elige 1 Unidad enemiga. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-050.webp"
  },
  {
@@ -2926,8 +3047,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-052.webp"
  },
  {
@@ -2951,8 +3073,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Activate･Main】【Once per Turn】①：Elige 1 Unidad enemiga con 2 o menos de AP. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-053.webp"
  },
  {
@@ -2978,6 +3101,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "Mientras esta Unidad tenga 5 o más de AP, obtiene <Breach 3>.\n\n(Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-054.webp"
  },
  {
@@ -3001,8 +3125,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 2> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-055.webp"
  },
  {
@@ -3026,8 +3151,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Destroyed】Elige 1 Unidad enemiga con 5 o menos de AP. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-056.webp"
  },
  {
@@ -3078,6 +3204,7 @@
   "tags": [
    "trick"
   ],
+  "effect_es": "【Activate･Action】【Once per Turn】①：Elige 1 Unidad de Nv.4 o superior. Obtiene AP+1 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-058.webp"
  },
  {
@@ -3101,8 +3228,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "selfbuff",
    "trick"
   ],
+  "effect_es": "【Attack】Si estás atacando al jugador enemigo, esta Unidad obtiene AP+2 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-059.webp"
  },
  {
@@ -3151,8 +3280,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 1> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-061.webp"
  },
  {
@@ -3201,8 +3331,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "combatkw"
   ],
+  "effect_es": "Durante tu turno, mientras esta Unidad combate contra una Unidad enemiga de Nv.2 o inferior, obtiene <First Strike>.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-063.webp"
  },
  {
@@ -3254,6 +3385,7 @@
    "removal",
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\n【During Pair】【Once per Turn】Cuando emparejes un Piloto con esta Unidad o con una de tus Unidades blancas, elige 1 Unidad enemiga. Obtiene AP-2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-065.webp"
  },
  {
@@ -3280,6 +3412,7 @@
    "blocker",
    "token"
   ],
+  "effect_es": "【Deploy】Despliega 1 ficha de Unidad [Fatum-00]((Triple Ship Alliance)･AP2･HP2･<Blocker>).\n【During Pair】【Attack】Elige 1 de tus fichas de Unidad (Triple Ship Alliance). Puede atacar en el turno en que se despliega.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-066.webp"
  },
  {
@@ -3303,8 +3436,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【When Paired】Elige 1 carta de Comando de Nv.5 o inferior de tu cementerio. Añádela a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-067.webp"
  },
  {
@@ -3332,6 +3466,7 @@
    "blocker",
    "bounce"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\n【Deploy】Elige 1 Unidad enemiga con 1 HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-068.webp"
  },
  {
@@ -3355,8 +3490,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "blocker"
+   "blocker",
+   "ready"
   ],
+  "effect_es": "【Activate･Main】【Once per Turn】①：Elige 1 de tus Unidades blancas en reposo con <Blocker>. Ponla en activo. No puede atacar durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-069.webp"
  },
  {
@@ -3380,8 +3517,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "costred"
   ],
+  "effect_es": "Mientras haya 4 o más cartas de Comando en tu cementerio, esta carta en tu mano obtiene coste -2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-070.webp"
  },
  {
@@ -3407,6 +3545,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【During Link】【Attack】Elige 1 Unidad enemiga. Obtiene AP-2 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-071.webp"
  },
  {
@@ -3432,6 +3571,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-072.webp"
  },
  {
@@ -3458,6 +3598,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【During Link】【Attack】Elige 1 Unidad enemiga con 2 o menos de HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-073.webp"
  },
  {
@@ -3483,6 +3624,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Attack】Roba 1. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-074.webp"
  },
  {
@@ -3509,6 +3651,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga con 1 HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-075.webp"
  },
  {
@@ -3532,8 +3675,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "selfbuff"
   ],
+  "effect_es": "Mientras haya 4 o más cartas de Comando en tu cementerio, esta Unidad obtiene AP+1 y HP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-076.webp"
  },
  {
@@ -3584,6 +3728,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga. Obtiene AP-1 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-078.webp"
  },
  {
@@ -3635,6 +3780,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【Destroyed】Elige 1 Unidad enemiga de Nv.2 o inferior. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-080.webp"
  },
  {
@@ -3658,8 +3804,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "selfbuff",
    "blocker"
   ],
+  "effect_es": "Mientras tengas otra Unidad (Triple Ship Alliance) en juego, esta Unidad obtiene AP+1 y <Blocker>.\n\n(Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-081.webp"
  },
  {
@@ -3685,6 +3833,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【During Pair】【Activate･Action】【Once per Turn】②：Elige 1 Unidad enemiga. Obtiene AP-1 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-082.webp"
  },
  {
@@ -3785,6 +3934,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-086.webp"
  },
  {
@@ -3811,6 +3961,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad sea azul, obtiene <Repair 1>.\n\n(Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-087.webp"
  },
  {
@@ -3837,6 +3988,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Linked】Roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-088.webp"
  },
  {
@@ -3863,6 +4015,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad tenga <Repair>, obtiene AP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-089.webp"
  },
  {
@@ -3888,6 +4041,7 @@
   "tags": [
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】El AP de esta Unidad no puede ser reducido por efectos enemigos.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-090.webp"
  },
  {
@@ -3912,8 +4066,10 @@
   "owned": false,
   "tags": [
    "breach",
+   "damagered",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nDurante tu turno, mientras esta Unidad tenga <Breach>, no puede recibir daño de batalla de Unidades enemigas con 3 o menos de AP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-091.webp"
  },
  {
@@ -3940,6 +4096,7 @@
    "breach",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad sea (Zeon), obtiene <Breach 1>.\n\n(Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-092.webp"
  },
  {
@@ -3965,6 +4122,7 @@
   "tags": [
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】【Attack】Elige 1 Unidad enemiga cuyo Nv. sea igual o inferior al de esta Unidad. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-093.webp"
  },
  {
@@ -3991,6 +4149,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Once per Turn】Cuando una Unidad Link enemiga es destruida con daño mientras esta Unidad ataca, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-094.webp"
  },
  {
@@ -4017,6 +4176,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Linked】Descarta 1. Si lo haces, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-095.webp"
  },
  {
@@ -4043,6 +4203,7 @@
    "blocker",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad sea blanca, obtiene <Blocker>.\n\n(Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-096.webp"
  },
  {
@@ -4066,8 +4227,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "ready",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Activate･Main】【Once per Turn】Si tu oponente tiene 8 o más cartas en la mano, pon esta Unidad en activo. No puede atacar durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-097.webp"
  },
  {
@@ -4094,6 +4257,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Activate･Action】【Once per Turn】Si hay en juego una Unidad enemiga con 1 o menos de AP, esta Unidad recupera 1 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-098.webp"
  },
  {
@@ -4117,8 +4281,11 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "rest",
+   "aoe",
    "burst"
   ],
+  "effect_es": "【Burst】Elige 1 Unidad enemiga con 5 o menos de HP. Ponla en reposo.\n【Main】/【Action】Elige de 1 a 2 Unidades enemigas con 3 o menos de HP. Ponlas en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-099.webp"
  },
  {
@@ -4144,6 +4311,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Main】Roba 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-100.webp"
  },
  {
@@ -4169,6 +4337,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad Link aliada. Recupera 3 HP.\n【Pilot】[Lucrezia Noin]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-101.webp"
  },
  {
@@ -4194,6 +4363,7 @@
   "tags": [
    "heal"
   ],
+  "effect_es": "【Main】Todas las Unidades aliadas de Nv.4 o inferior recuperan 2 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-102.webp"
  },
  {
@@ -4217,8 +4387,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【Main】Elige 1 Unidad (Earth Federation) aliada activa y 1 Unidad enemiga activa. Ponlas en reposo.\n【Pilot】[Daguza Mackle]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-103.webp"
  },
  {
@@ -4242,9 +4413,11 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "removal",
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Roba 1.\n【Main】Elige 1 Unidad enemiga en reposo. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-104.webp"
  },
  {
@@ -4272,6 +4445,7 @@
    "trick",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Main】Todas tus Unidades obtienen AP+2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-105.webp"
  },
  {
@@ -4297,6 +4471,7 @@
   "tags": [
    "token"
   ],
+  "effect_es": "【Main】Despliega 2 fichas de Unidad [Zaku Ⅱ]((Zeon)･AP1･HP1).\n【Pilot】[Dozle Zabi]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-106.webp"
  },
  {
@@ -4323,6 +4498,7 @@
    "ramp",
    "burst"
   ],
+  "effect_es": "【Burst】Coloca 1 Recurso EX.\n【Main】Coloca 1 Recurso en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-107.webp"
  },
  {
@@ -4346,8 +4522,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "aoe",
    "blocker"
   ],
+  "effect_es": "【Main】Inflige 2 de daño a todas las Unidades con <Blocker>.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-108.webp"
  },
  {
@@ -4374,6 +4552,7 @@
    "search",
    "scry"
   ],
+  "effect_es": "【Main】Mira las 5 cartas superiores de tu mazo. Puedes revelar 1 carta de Unidad/Piloto (Operation Meteor)/(G Team) entre ellas y añadirla a tu mano. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-109.webp"
  },
  {
@@ -4397,8 +4576,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad de Nv.4 o superior. Durante este turno, puede elegir como objetivo de ataque a una Unidad enemiga activa con 6 o menos de AP.\n【Pilot】[Rasid Kurama]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-110.webp"
  },
  {
@@ -4422,8 +4602,10 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Elige 1 Unidad enemiga. Inflígele 2 de daño.\n【Main】/【Action】Elige 1 Unidad enemiga dañada. Inflígele 3 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-111.webp"
  },
  {
@@ -4447,8 +4629,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】Elige 2 de tus Unidades activas. Ponlas en reposo. Si lo haces, elige 1 Unidad enemiga. Inflígele 3 de daño.\n【Pilot】[Loni Garvey]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-112.webp"
  },
  {
@@ -4474,6 +4657,7 @@
   "tags": [
    "trick"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad (ZAFT) aliada. Obtiene AP+3 durante este turno.\n【Pilot】[Andrew Waldfeld]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-113.webp"
  },
  {
@@ -4499,6 +4683,7 @@
   "tags": [
    "trick"
   ],
+  "effect_es": "【Action】Elige 2 Unidades aliadas. Obtienen AP+1 durante este turno.\n【Pilot】[Yonem Kirks]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-114.webp"
  },
  {
@@ -4522,8 +4707,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad enemiga. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-115.webp"
  },
  {
@@ -4547,8 +4733,9 @@
   "set": "GD01",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad enemiga con 2 o menos de AP. Inflígele 2 de daño.\n【Pilot】[Nicol Amarfi]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-116.webp"
  },
  {
@@ -4576,6 +4763,7 @@
    "bounce",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga con 5 o menos de HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-117.webp"
  },
  {
@@ -4601,6 +4789,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Main】Roba 2. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-118.webp"
  },
  {
@@ -4626,6 +4815,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad enemiga de Nv.4 o inferior. Obtiene AP-2 durante este turno.\n【Pilot】[Chuatury Panlunch]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-119.webp"
  },
  {
@@ -4654,6 +4844,7 @@
    "trick",
    "burst"
   ],
+  "effect_es": "【Burst】Elige 1 Unidad enemiga. Obtiene AP-3 durante este turno.\n【Action】Elige 1 Unidad aliada con <Blocker>. Obtiene AP+3 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-120.webp"
  },
  {
@@ -4678,8 +4869,10 @@
   "owned": false,
   "tags": [
    "blocker",
+   "ready",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】Elige 1 Unidad en reposo con <Blocker>. Ponla en activo. No puede atacar durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-121.webp"
  },
  {
@@ -4706,6 +4899,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【Main】Elige 1 Unidad enemiga con 2 o menos de HP. Devuélvela a la mano de su propietario. Si tienes una Unidad Link en juego, elige en su lugar 1 Unidad enemiga con 4 o menos de HP.\n【Pilot】[Shaddiq Zenelli]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-122.webp"
  },
  {
@@ -4729,9 +4923,11 @@
   "set": "GD01",
   "owned": false,
   "tags": [
+   "rest",
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, elige 1 Unidad enemiga con 3 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-123.webp"
  },
  {
@@ -4759,6 +4955,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Elige 1 Unidad aliada. Recupera 1 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-124.webp"
  },
  {
@@ -4785,6 +4982,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, si es tu turno, puedes desplegar desde tu mano 1 carta de Unidad (Zeon) de Nv.4 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-125.webp"
  },
  {
@@ -4811,6 +5009,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-126.webp"
  },
  {
@@ -4838,6 +5037,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Action】Pon en reposo esta Base：Elige 1 Unidad (ZAFT) aliada con 5 o más de AP. Obtiene <Breach 3> durante esta batalla.\n\n(Cuando el ataque de esta Unidad destruye una Unidad enemiga, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-127.webp"
  },
  {
@@ -4864,6 +5064,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-128.webp"
  },
  {
@@ -4892,6 +5093,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano. Después, elige 1 Unidad enemiga con 3 o menos de HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-129.webp"
  },
  {
@@ -4919,6 +5121,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Si hay en juego una Unidad (Academy) aliada, elige 1 Unidad enemiga. Obtiene AP-1 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD01-130.webp"
  },
  {
@@ -4942,8 +5145,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "heal"
+   "heal",
+   "ready"
   ],
+  "effect_es": "<Repair 2> (Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)\n【Activate･Main】【Once per Turn】Pon en reposo 2 de tus Unidades：Pon esta Unidad en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-001.webp"
  },
  {
@@ -4971,6 +5176,7 @@
    "scry",
    "draw"
   ],
+  "effect_es": "【Deploy】Elige de 1 a 2 de tus Unidades. Durante este turno, cuando destruyan una carta enemiga con daño de batalla, roba 1.\n【During Pair】【Attack】Puedes descartar 2. Si lo haces, elige 1 Unidad enemiga con el Nv. más bajo. Devuélvela al fondo del mazo de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-002.webp"
  },
  {
@@ -4996,6 +5202,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Destroyed】Si tienes un Piloto (Orb) en juego, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-003.webp"
  },
  {
@@ -5020,8 +5227,10 @@
   "owned": false,
   "tags": [
    "scry",
-   "bounce"
+   "bounce",
+   "costred"
   ],
+  "effect_es": "Mientras no tengas Unidades de Nv.6 o superior en juego, esta carta en tu mano obtiene Nv. -1 y coste -1 por cada una de tus Unidades (Orb) en juego.\n【When Linked】Elige 1 Unidad enemiga de Nv.4 o inferior. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-004.webp"
  },
  {
@@ -5047,6 +5256,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-005.webp"
  },
  {
@@ -5073,6 +5283,7 @@
    "token",
    "heal"
   ],
+  "effect_es": "【Once per Turn】Durante tu turno, cuando esta Unidad destruye una carta enemiga con daño de batalla, despliega 1 ficha de Unidad [Pluma]((Calamity War)･AP2･HP1).\nEsta Unidad obtiene tantos <Repair 1> como fichas de Unidad (Calamity War) tengas en juego.\n\n(Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-006.webp"
  },
  {
@@ -5096,8 +5307,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "selfbuff",
    "heal"
   ],
+  "effect_es": "【During Link】Esta Unidad obtiene AP+2 y <Repair 1>.\n\n(Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-007.webp"
  },
  {
@@ -5121,8 +5334,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "costred"
   ],
+  "effect_es": "Mientras tengas en juego un Piloto (Newtype) que no sea azul, esta carta en tu mano obtiene coste -2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-008.webp"
  },
  {
@@ -5196,8 +5410,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】Puedes elegir 1 de tus otras Unidades (Earth Alliance) activas. Ponla en reposo. Si lo haces, elige 1 Unidad enemiga en reposo. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-011.webp"
  },
  {
@@ -5224,6 +5439,7 @@
    "scry",
    "bounce"
   ],
+  "effect_es": "【When Linked】Elige 1 Unidad enemiga en reposo de Nv.3 o inferior. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-012.webp"
  },
  {
@@ -5249,6 +5465,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-013.webp"
  },
  {
@@ -5297,8 +5514,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga en reposo. Inflígele 1 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-015.webp"
  },
  {
@@ -5322,8 +5540,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "combatkw",
    "trick"
   ],
+  "effect_es": "Cuando se despliegue una de tus Unidades (Orb), esta Unidad obtiene <High-Maneuver> durante este turno.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-016.webp"
  },
  {
@@ -5347,8 +5567,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "breach"
+   "breach",
+   "recursion"
   ],
+  "effect_es": "<Breach 5> (Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【When Paired】Puedes elegir 3 cartas (Londo Bell) de tu cementerio. Destiérralas del juego. Si lo haces, elige 1 Unidad enemiga. Inicia una batalla entre esta Unidad y ella y realiza solo el paso de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-017.webp"
  },
  {
@@ -5375,6 +5597,7 @@
    "ramp",
    "damagered"
   ],
+  "effect_es": "Cuando uno de tus Recursos EX sea desterrado del juego, puedes elegir 1 de tus Unidades. Durante este turno, cuando reciba daño enemigo, redúcelo en 3.\n【Deploy】Coloca 3 Recursos EX.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-018.webp"
  },
  {
@@ -5401,6 +5624,7 @@
    "search",
    "scry"
   ],
+  "effect_es": "【Destroyed】Mira las 3 cartas superiores de tu mazo. Puedes revelar 1 carta de Unidad (Londo Bell) entre ellas y añadirla a tu mano. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-019.webp"
  },
  {
@@ -5427,6 +5651,7 @@
    "breach",
    "ramp"
   ],
+  "effect_es": "【During Pair】Esta Unidad obtiene <Breach 3>.\n\n(Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【Deploy】Si hay 2 o más cartas (Londo Bell) en tu cementerio, coloca 1 Recurso EX.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-020.webp"
  },
  {
@@ -5450,9 +5675,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "selfbuff",
    "damagered",
    "trick"
   ],
+  "effect_es": "【Activate･Action】【Once per Turn】①：Esta Unidad obtiene AP+4 durante esta batalla.\n【Once per Turn】Cuando esta Unidad reciba daño enemigo, si tienes un Piloto (Earth Federation) en juego, redúcelo en 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-021.webp"
  },
  {
@@ -5479,6 +5706,7 @@
    "breach",
    "damagered"
   ],
+  "effect_es": "<Breach 3> (Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)\n【Activate･Action】Destierra del juego 2 cartas de Comando de tu cementerio：Durante esta batalla, cuando esta Unidad reciba daño enemigo, redúcelo en 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-022.webp"
  },
  {
@@ -5504,6 +5732,7 @@
   "tags": [
    "ramp"
   ],
+  "effect_es": "【Deploy】Coloca 1 Recurso EX.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-023.webp"
  },
  {
@@ -5527,8 +5756,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【Destroyed】Elige 1 carta de Piloto verde (Earth Federation) de tu cementerio. Añádela a tu mano. Si lo haces, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-024.webp"
  },
  {
@@ -5555,6 +5785,7 @@
    "search",
    "scry"
   ],
+  "effect_es": "【Deploy】Mira las 3 cartas superiores de tu mazo. Puedes revelar 1 carta de Comando entre ellas y añadirla a tu mano. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-025.webp"
  },
  {
@@ -5580,6 +5811,7 @@
   "tags": [
    "aoe"
   ],
+  "effect_es": "Cuenta el número de tus Unidades con \"Gundam Lfrith\"/\"Gundnode\" en su nombre, más esta Unidad. Todas las Unidades enemigas cuyo Nv. sea igual o inferior a ese número se despliegan en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-026.webp"
  },
  {
@@ -5628,8 +5860,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "【Deploy】Elige 1 de tus Unidades (Londo Bell). Durante este turno, puede elegir como objetivo de ataque a una Unidad enemiga activa con 4 o menos de AP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-028.webp"
  },
  {
@@ -5655,6 +5888,7 @@
   "tags": [
    "scry"
   ],
+  "effect_es": "【Deploy】Mira la carta superior de tu mazo. Devuélvela arriba o al fondo de tu mazo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-029.webp"
  },
  {
@@ -5678,8 +5912,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "En el turno en que se despliega esta Unidad, puede elegir como objetivo de ataque a una Unidad enemiga en reposo y atacarla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-030.webp"
  },
  {
@@ -5753,8 +5988,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "breach"
   ],
+  "effect_es": "【Attack】Puedes elegir 2 cartas de Comando (Special Move) de tu cementerio. Destiérralas del juego. Si lo haces, inflige 5 de daño a la primera carta de la zona de escudos de tu oponente.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-033.webp"
  },
  {
@@ -5778,8 +6014,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "discard"
   ],
+  "effect_es": "【During Pair】【Once per Turn】Cuando esta Unidad destruye una carta de la zona de escudos enemiga con daño de batalla, ese jugador enemigo puede descartar 1. Si no descarta con este efecto, puedes desplegar desde tu mano 1 carta de Unidad (Phantom Pain) de Nv.4 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-034.webp"
  },
  {
@@ -5803,8 +6040,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Once per Turn】Cuando esta Unidad destruye una carta de la zona de escudos enemiga con daño, elige 1 Unidad enemiga con 3 o menos de AP. Inflígele 2 de daño.\n【During Link】【Attack】Activa el 【Main】 de la carta emparejada con esta Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-035.webp"
  },
  {
@@ -5831,6 +6069,7 @@
    "removal",
    "aoe"
   ],
+  "effect_es": "【When Paired】Puedes elegir 1 de tus otras Unidades (MF) activas. Ponla en reposo. Si lo haces, inflige 2 de daño a todas las Unidades enemigas cuyo Nv. sea igual o inferior al de esa Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-036.webp"
  },
  {
@@ -5854,8 +6093,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "breach"
+   "breach",
+   "costred"
   ],
+  "effect_es": "Mientras un jugador enemigo tenga 7 o más cartas en su cementerio, esta carta en tu mano obtiene Nv. -3 y coste -3.\n【During Link】Esta Unidad obtiene <Breach 3>.\n\n(Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-037.webp"
  },
  {
@@ -5879,8 +6120,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal",
+   "combatkw"
   ],
+  "effect_es": "【During Link】Esta Unidad obtiene <Suppression>.\n\n(El daño de un ataque a los Escudos se inflige a las 2 primeras cartas a la vez.)\n【Activate･Main】【Once per Turn】Pon en reposo 3 de tus Unidades (CB)：Elige 1 Unidad enemiga. Inflígele 4 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-038.webp"
  },
  {
@@ -5904,8 +6147,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【Attack】Elige 1 de tus Unidades Link (Phantom Pain). Obtiene <High-Maneuver> durante este turno.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-039.webp"
  },
  {
@@ -5929,8 +6174,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "support"
   ],
+  "effect_es": "【Activate･Main】<Support 2> (Pon en reposo esta Unidad. Otra Unidad aliada obtiene AP+(la cantidad indicada) durante este turno.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-040.webp"
  },
  {
@@ -5954,8 +6200,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "discard",
+   "costred"
   ],
+  "effect_es": "Durante un turno en el que tu oponente haya descartado por uno de tus efectos, esta carta en tu mano obtiene coste -2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-041.webp"
  },
  {
@@ -6031,6 +6279,7 @@
   "tags": [
    "other"
   ],
+  "effect_es": "【During Link】【Attack】Activa el 【Main】 de la carta emparejada con esta Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-044.webp"
  },
  {
@@ -6056,6 +6305,7 @@
   "tags": [
    "breach"
   ],
+  "effect_es": "<Breach 3> (Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, inflige la cantidad de daño indicada a la primera carta de la zona de escudos de ese oponente.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-045.webp"
  },
  {
@@ -6079,8 +6329,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "discard"
   ],
+  "effect_es": "【When Paired･(Phantom Pain) Pilot】Elige 1 jugador enemigo con 4 o más cartas en la mano. Descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-046.webp"
  },
  {
@@ -6129,8 +6380,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "En el turno en que se despliega esta Unidad, puede elegir como objetivo de ataque a una Unidad enemiga en reposo y atacarla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-048.webp"
  },
  {
@@ -6155,8 +6407,10 @@
   "owned": false,
   "tags": [
    "removal",
-   "aoe"
+   "aoe",
+   "combatkw"
   ],
+  "effect_es": "<Suppression> (El daño de un ataque a los Escudos se inflige a las 2 primeras cartas a la vez.)\n【Attack】Puedes elegir 1 de tus Unidades. Destrúyela. Si lo haces, cada jugador enemigo elige 1 de sus Unidades que no esté combatiendo. Destrúyelas.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-049.webp"
  },
  {
@@ -6182,6 +6436,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "Cuando esta Unidad inflige daño de batalla a una Unidad enemiga de Nv.4 o inferior sin Piloto emparejado, destruye esa Unidad enemiga.\n【Destroyed】Coloca las 2 cartas superiores de tu mazo en tu cementerio.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-050.webp"
  },
  {
@@ -6205,8 +6460,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "selfbuff",
+   "ready"
   ],
+  "effect_es": "Aumenta el AP de esta Unidad en una cantidad igual al daño que haya recibido.\nAl final de tu turno, puedes elegir 1 de tus Unidades (Tekkadan). Inflígele 1 de daño. Ponla en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-051.webp"
  },
  {
@@ -6230,8 +6487,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "search"
   ],
+  "effect_es": "【Deploy】Puedes elegir 1 de tus otras Unidades. Destrúyela. Si lo haces, coloca las 3 cartas superiores de tu mazo en tu cementerio. Añade a tu mano 1 carta de Unidad (Neo Zeon) que hayas colocado desde tu mazo con este efecto.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-052.webp"
  },
  {
@@ -6255,8 +6513,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【Destroyed】Si esta Unidad es destruida por el efecto de una de tus cartas (Neo Zeon), añádela desde tu cementerio a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-053.webp"
  },
  {
@@ -6283,6 +6542,7 @@
    "draw",
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\n【Once per Turn】Cuando una de tus Unidades sea destruida por un efecto, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-054.webp"
  },
  {
@@ -6306,8 +6566,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "combatkw",
    "damagered"
   ],
+  "effect_es": "<First Strike> (Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)\n【Once per Turn】Cuando esta Unidad reciba daño de batalla enemigo, redúcelo en 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-055.webp"
  },
  {
@@ -6356,8 +6618,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "removal"
+   "ready"
   ],
+  "effect_es": "【Activate･Main】【Once per Turn】Elige 1 de tus otras Unidades. Destrúyela. Si lo haces, pon esta Unidad en activo. No puede elegir al jugador enemigo como objetivo de ataque durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-057.webp"
  },
  {
@@ -6383,6 +6646,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-058.webp"
  },
  {
@@ -6407,8 +6671,10 @@
   "owned": false,
   "tags": [
    "draw",
+   "combatkw",
    "trick"
   ],
+  "effect_es": "【Attack】Elige 1 de tus Unidades (Gjallarhorn) activas. Ponla en reposo. Si lo haces, roba 1. Esta Unidad obtiene <High-Maneuver> durante este turno.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-059.webp"
  },
  {
@@ -6432,8 +6698,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Deploy】/【Attack】Elige 1 Unidad enemiga de Nv.2 o inferior. Destrúyela.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-060.webp"
  },
  {
@@ -6459,6 +6726,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "Mientras tengas otra Unidad (Neo Zeon) en juego, esta Unidad obtiene <Blocker>.\n\n(Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-061.webp"
  },
  {
@@ -6532,8 +6800,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "recursion"
   ],
+  "effect_es": "【Deploy】Si despliegas esta Unidad desde tu cementerio, elige 1 carta de Piloto con \"Shinn Asuka\" en su nombre de tu cementerio. Añádela a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-064.webp"
  },
  {
@@ -6557,8 +6826,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "selfbuff"
   ],
+  "effect_es": "【During Link】Esta Unidad obtiene AP+2 durante tu turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-065.webp"
  },
  {
@@ -6582,8 +6852,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "recursion",
+   "ready"
   ],
+  "effect_es": "【Deploy】Puedes elegir 2 cartas de Unidad (MF) de tu cementerio. Destiérralas del juego. Si lo haces, elige 1 carta de Comando (Special Move) de tu cementerio. Añádela a tu mano.\n【Attack】【Once per Turn】Elige 1 de tus Recursos en reposo. Ponlo en activo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-066.webp"
  },
  {
@@ -6607,8 +6879,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "rest",
+   "combatkw"
   ],
+  "effect_es": "Mientras haya una Unidad enemiga en reposo en juego, esta Unidad obtiene <Suppression>.\n\n(El daño de un ataque a los Escudos se inflige a las 2 primeras cartas a la vez.)\n【Attack】Elige 1 Unidad enemiga. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-067.webp"
  },
  {
@@ -6632,8 +6906,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "selfbuff",
+   "combatkw",
    "trick"
   ],
+  "effect_es": "Cuando actives el 【Main】/【Action】 de un Comando (Special Move), esta Unidad obtiene <Suppression> durante este turno.\n\n(El daño de un ataque a los Escudos se inflige a las 2 primeras cartas a la vez.)\n【During Link】【Attack】Esta Unidad obtiene AP+2 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-068.webp"
  },
  {
@@ -6660,6 +6937,7 @@
    "search",
    "scry"
   ],
+  "effect_es": "Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, mira las 4 cartas superiores de tu mazo. Puedes revelar 1 carta de Comando (Special Move) entre ellas y añadirla a tu mano. Devuelve el resto de cartas al fondo de tu mazo en orden aleatorio.\n【During Link】【Attack】Activa el 【Main】 de la carta emparejada con esta Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-069.webp"
  },
  {
@@ -6683,8 +6961,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "ready"
   ],
+  "effect_es": "【Once per Turn】Durante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, elige 1 de tus Unidades Link (Preventer)/(G Team) en reposo. Ponla en activo. No puede atacar durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-070.webp"
  },
  {
@@ -6710,6 +6989,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【Attack】Si tienes otra Unidad (G Team)/(Preventer) en juego, elige 1 Unidad enemiga. Obtiene AP-2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-071.webp"
  },
  {
@@ -6733,8 +7013,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【When Linked】Elige 1 Unidad enemiga con 4 o menos de HP. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-072.webp"
  },
  {
@@ -6758,8 +7039,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "rest"
   ],
+  "effect_es": "【Deploy】Elige 1 Unidad enemiga en reposo. No se pondrá en activo durante la fase de inicio del próximo turno de tu oponente.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-073.webp"
  },
  {
@@ -6785,6 +7067,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Destroyed】Roba 1. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-074.webp"
  },
  {
@@ -6810,6 +7093,7 @@
   "tags": [
    "blocker"
   ],
+  "effect_es": "<Blocker> (Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)\nEsta Unidad no puede elegir al jugador enemigo como objetivo de ataque.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-075.webp"
  },
  {
@@ -6835,6 +7119,7 @@
   "tags": [
    "other"
   ],
+  "effect_es": "【During Link】【Attack】Activa el 【Main】 de la carta emparejada con esta Unidad.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-076.webp"
  },
  {
@@ -6883,8 +7168,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "assault"
   ],
+  "effect_es": "En el turno en que se despliega esta Unidad, puede elegir como objetivo de ataque a una Unidad enemiga en reposo y atacarla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-078.webp"
  },
  {
@@ -6910,6 +7196,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【Activate･Main】【Once per Turn】Si tienes otra Unidad (G Team)/(Preventer) en juego, elige 1 Unidad enemiga de Nv.4 o inferior. Obtiene AP-1 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-079.webp"
  },
  {
@@ -6961,6 +7248,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Linked】Si es una Unidad (Orb)/(Triple Ship Alliance), roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-081.webp"
  },
  {
@@ -6987,6 +7275,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】Esta Unidad obtiene <Repair 2>.\n\n(Al final de tu turno, esta Unidad recupera la cantidad de HP indicada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-082.webp"
  },
  {
@@ -7014,6 +7303,7 @@
    "bounce",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Paired】Elige 1 Unidad enemiga con 1 HP. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-083.webp"
  },
  {
@@ -7041,6 +7331,7 @@
    "damagered",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nCuando una de tus fichas de Unidad (League Militaire) reciba daño de un efecto enemigo, redúcelo en 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-084.webp"
  },
  {
@@ -7067,6 +7358,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nDurante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, esta Unidad recupera 2 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-085.webp"
  },
  {
@@ -7093,6 +7385,7 @@
    "taunt",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】Las Unidades enemigas que no sean Unidades Link eligen esta Unidad en reposo como objetivo de ataque si es posible al atacar.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-086.webp"
  },
  {
@@ -7116,8 +7409,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "combatkw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad sea (Academy), obtiene <High-Maneuver>.\n\n(Esta Unidad no puede ser bloqueada.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-087.webp"
  },
  {
@@ -7144,6 +7439,7 @@
    "teambuff",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nEsta Unidad y todas tus Unidades con \"Gundam Lfrith\" o \"Gundnode\" en su nombre obtienen AP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-088.webp"
  },
  {
@@ -7167,8 +7463,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano. Si hay 3 o más cartas (MF) en tu cementerio, puedes desplegarla en su lugar como Unidad (AP3・HP3). (No se trata como Piloto.)\n【During Link】【Attack】Si has activado el 【Main】/【Action】 de una carta de Comando (Special Move) durante este turno, elige 1 Unidad enemiga. Inflígele 2 de daño.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-089.webp"
  },
  {
@@ -7196,6 +7494,7 @@
    "scry",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Destroyed】Mira la carta superior de tu mazo. Si es una carta (Phantom Pain), puedes revelarla y añadirla a tu mano. Devuelve la carta restante al fondo de tu mazo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-090.webp"
  },
  {
@@ -7219,8 +7518,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "selfbuff",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras un jugador enemigo tenga 7 o más cartas en su cementerio, esta Unidad obtiene AP+1 y HP+1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-091.webp"
  },
  {
@@ -7244,9 +7545,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "selfbuff",
    "trick",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【During Link】【Attack】Si estás atacando al jugador enemigo, esta Unidad obtiene AP+2 durante esta batalla.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-092.webp"
  },
  {
@@ -7270,8 +7573,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "recursion",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Linked】Puedes elegir 1 carta de Base (Neo Zeon) de tu cementerio. Despliégala.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-093.webp"
  },
  {
@@ -7298,6 +7603,7 @@
    "damagered",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Destroyed】Elige 1 de tus Unidades (Neo Zeon). Durante este turno, cuando reciba daño de batalla enemigo, redúcelo en 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-094.webp"
  },
  {
@@ -7324,6 +7630,7 @@
    "blocker",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nMientras esta Unidad sea (Neo Zeon), obtiene <Blocker>.\n\n(Pon en reposo esta Unidad para cambiar el objetivo del ataque a ella.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-095.webp"
  },
  {
@@ -7350,6 +7657,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Attack】Puedes infligir 1 de daño a esta Unidad. Si lo haces, elige 1 de tus otras Unidades (Tekkadan). Recupera 1 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-096.webp"
  },
  {
@@ -7376,6 +7684,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Paired】Roba 1. Después, descarta 1. Si descartas una carta de Comando (Special Move) con este efecto, puedes activar su 【Main】.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-097.webp"
  },
  {
@@ -7402,6 +7711,7 @@
    "removal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nCuando esta Unidad destruye una carta de la zona de escudos enemiga con daño, elige 1 Unidad enemiga. Obtiene AP-2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-098.webp"
  },
  {
@@ -7428,6 +7738,7 @@
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\nDurante tu turno, cuando esta Unidad destruye una Unidad enemiga con daño de batalla, roba 1. Después, descarta 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-099.webp"
  },
  {
@@ -7451,8 +7762,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "rest",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【When Paired】Elige 1 Unidad enemiga de Nv.5 o inferior. Ponla en reposo.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-100.webp"
  },
  {
@@ -7479,6 +7792,7 @@
    "heal",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Once per Turn】Cuando pagues ① o más por el efecto de una de tus Unidades, si es una Unidad (Militia), puede recuperar 2 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-101.webp"
  },
  {
@@ -7506,6 +7820,7 @@
    "heal",
    "bounce"
   ],
+  "effect_es": "【Action】Al jugar esta carta, elige 1 de los siguientes efectos y actívalo:\n\n■Elige 1 Unidad enemiga con 5 o menos de HP. Devuélvela a la mano de su propietario.\n\n■Elige 1 Unidad. Recupera 3 HP.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-102.webp"
  },
  {
@@ -7532,6 +7847,7 @@
    "heal",
    "trick"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad aliada. Recupera 1 HP y obtiene AP+2 durante este turno.\n【Pilot】[Buran Blutarch]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-103.webp"
  },
  {
@@ -7555,8 +7871,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "ready"
   ],
+  "effect_es": "【Action】Elige 1 Unidad (Shrike Team) aliada. Obtiene el siguiente efecto durante este turno:\n\n■【During Link】【Destroyed】Elige 1 Unidad (League Militaire) aliada. Ponla en activo.\n【Pilot】[Helen Jackson]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-104.webp"
  },
  {
@@ -7584,6 +7901,7 @@
    "bounce",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga de Nv.3 o inferior. Devuélvela a la mano de su propietario.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-105.webp"
  },
  {
@@ -7607,8 +7925,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "ramp",
+   "recursion"
   ],
+  "effect_es": "【Main】Al jugar esta carta, elige 1 de los siguientes efectos y actívalo:\n\n■Coloca 1 Recurso en reposo.\n\n■Elige 1 carta de Piloto de Nv.5 o superior de tu cementerio. Añádela a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-106.webp"
  },
  {
@@ -7635,6 +7955,7 @@
    "ramp",
    "burst"
   ],
+  "effect_es": "【Burst】Coloca 1 Recurso EX.\n【Main】Elige 1 jugador enemigo. Destruye las 2 primeras cartas de la zona de escudos de ese jugador.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-107.webp"
  },
  {
@@ -7658,8 +7979,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "taunt"
   ],
+  "effect_es": "【Action】Elige 1 Unidad (Academy) aliada en reposo. Cambia el objetivo de ataque de una Unidad enemiga en combate a ella.\n【Pilot】[Guel Jeturk]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-108.webp"
  },
  {
@@ -7686,6 +8008,7 @@
    "draw",
    "heal"
   ],
+  "effect_es": "【Action】Elige 1 Unidad (Academy) aliada. Recupera 2 HP. Después, si está emparejada con un Piloto de Nv.3 o inferior, roba 1.\n【Pilot】[Felsi Rollo]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-109.webp"
  },
  {
@@ -7709,9 +8032,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "removal",
    "draw",
    "burst"
   ],
+  "effect_es": "【Burst】Activa el 【Main】 de esta carta.\n【Main】/【Action】Elige 1 Unidad enemiga. Inflígele 2 de daño. Después, si tienes en juego una Unidad con \"Master Gundam\" en su nombre, roba 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-110.webp"
  },
  {
@@ -7737,6 +8062,7 @@
   "tags": [
    "draw"
   ],
+  "effect_es": "【Main】Descarta 1. Si lo haces, roba 2.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-111.webp"
  },
  {
@@ -7760,8 +8086,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "breach"
+   "breach",
+   "recursion"
   ],
+  "effect_es": "【Main】Elige 1 de tus Unidades (MF) sin <Breach>. Obtiene <Breach 3> durante este turno. Tras activar el 【Main】 de esta carta, puedes emparejar esta carta desde tu cementerio con una de tus Unidades (MF).\n【Pilot】[Sai Saici]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-112.webp"
  },
  {
@@ -7785,8 +8113,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "recursion",
    "trick"
   ],
+  "effect_es": "【Main】Elige 1 de tus Unidades (MF) con 4 o menos de AP. Obtiene AP+2 durante este turno. Tras activar el 【Main】 de esta carta, puedes emparejar esta carta desde tu cementerio con una de tus Unidades (MF).\n【Pilot】[George de Sand]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-113.webp"
  },
  {
@@ -7810,8 +8140,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal",
+   "aoe"
   ],
+  "effect_es": "【Main】Destruye todas las Unidades de Nv.4 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-114.webp"
  },
  {
@@ -7836,8 +8168,10 @@
   "owned": false,
   "tags": [
    "draw",
+   "recursion",
    "burst"
   ],
+  "effect_es": "【Burst】Roba 1.\n【Main】Elige 1 carta de Piloto (Neo Zeon) de tu cementerio. Añádela a tu mano.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-115.webp"
  },
  {
@@ -7861,8 +8195,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 Unidad enemiga de Nv.2 o inferior. Destrúyela.\n【Pilot】[Rezin Schnyder]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-116.webp"
  },
  {
@@ -7886,8 +8221,9 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "removal"
   ],
+  "effect_es": "【Main】/【Action】Elige 1 de tus Unidades y 1 Unidad enemiga. Inflígeles 1 de daño.\n【Pilot】[Ride Mass]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-117.webp"
  },
  {
@@ -7914,6 +8250,7 @@
    "removal",
    "ramp"
   ],
+  "effect_es": "【Main】Elige 1 Unidad enemiga. Obtiene AP-2 durante este turno. Si usas un Recurso EX para jugar esta carta, pon en reposo esa Unidad enemiga.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-118.webp"
  },
  {
@@ -7939,6 +8276,7 @@
   "tags": [
    "removal"
   ],
+  "effect_es": "【Action】Elige 1 Unidad enemiga que esté combatiendo contra una de tus Unidades de Nv.5 o superior. Obtiene AP-3 durante esta batalla.\n【Pilot】[Zechs Merquise]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-119.webp"
  },
  {
@@ -7962,8 +8300,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "rest",
+   "combatkw",
    "burst"
   ],
+  "effect_es": "【Burst】Añade esta carta a tu mano.\n【Main】/【Action】Elige 1 Unidad enemiga con 4 o menos de HP. Ponla en reposo. Después, puedes elegir 1 de tus Unidades con \"Shining Gundam\" en su nombre. Obtiene <First Strike> durante este turno.\n\n(Mientras esta Unidad ataca, inflige su daño antes que la Unidad enemiga.)",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-120.webp"
  },
  {
@@ -7987,8 +8328,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "removal"
+   "removal",
+   "recursion"
   ],
+  "effect_es": "【Main】Elige 1 Unidad enemiga. Obtiene AP-2 durante este turno. Tras activar el 【Main】 de esta carta, puedes emparejar esta carta desde tu cementerio con una de tus Unidades (MF).\n【Pilot】[Chibodee Crocket]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-121.webp"
  },
  {
@@ -8012,8 +8355,10 @@
   "set": "GD05",
   "owned": false,
   "tags": [
-   "other"
+   "rest",
+   "recursion"
   ],
+  "effect_es": "【Main】Elige 1 Unidad enemiga de Nv.4 o inferior. Ponla en reposo. Tras activar el 【Main】 de esta carta, puedes emparejar esta carta desde tu cementerio con una de tus Unidades (MF).\n【Pilot】[Argo Gulskii]",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-122.webp"
  },
  {
@@ -8040,6 +8385,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\nDurante el turno de tu oponente, las Unidades (Orb) aliadas no pueden recibir daño de efectos enemigos de 2 o menos.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-123.webp"
  },
  {
@@ -8066,6 +8412,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\nDurante tu turno, cuando fueras a poner en reposo una Unidad con el efecto de una Unidad (League Militaire) aliada, puedes poner en reposo esta Base en su lugar.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-124.webp"
  },
  {
@@ -8093,6 +8440,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Elige 1 Unidad (Londo Bell) aliada. Durante este turno, cuando reciba daño enemigo, redúcelo en 1.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-125.webp"
  },
  {
@@ -8121,6 +8469,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】【Once per Turn】②：Si tienes en juego una Unidad de Nv.5 o superior con \"Gundam Aerial\" en su nombre, despliega 1 ficha de Unidad [Gundnode]((Quiet Zero)･AP2･HP2･<Breach 1>).",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-126.webp"
  },
  {
@@ -8148,6 +8497,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Once per Turn】Cuando una Unidad (Phantom Pain) aliada se linkee, elige 1 Unidad enemiga. No puede activar <Blocker> durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-127.webp"
  },
  {
@@ -8175,6 +8525,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Si hay en juego una Unidad Link (MF) aliada, elige 1 Unidad aliada. Obtiene AP+2 durante este turno.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-128.webp"
  },
  {
@@ -8201,6 +8552,7 @@
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Activate･Main】Pon en reposo esta Base：Si una de tus Unidades ha sido destruida por el efecto de una de tus cartas (Neo Zeon) durante este turno, despliega desde tu mano 1 carta de Unidad (Neo Zeon) de Nv.3 o inferior.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-129.webp"
  },
  {
@@ -8224,9 +8576,11 @@
   "set": "GD05",
   "owned": false,
   "tags": [
+   "cheat",
    "shieldhand",
    "burst"
   ],
+  "effect_es": "【Burst】Despliega esta carta.\n【Deploy】Añade 1 de tus Escudos a tu mano.\n\n【Destroyed】Puedes desterrar del juego esta carta de tu cementerio. Si lo haces, puedes desplegar desde tu mano 1 carta de Base con \"Presidential Office\" en su nombre.",
   "image_url": "https://www.gundam-gcg.com/en/images/cards/card/GD05-130.webp"
  }
 ]

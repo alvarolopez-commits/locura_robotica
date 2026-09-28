@@ -11,23 +11,40 @@ SETS = ["ST01", "ST02", "ST03", "ST04", "GD01", "GD05"]
 OWNED_SETS = {"ST01", "ST02", "ST03", "ST04"}
 
 # key -> regex patterns. Display labels (EN/ES) live in the dashboard's i18n dict, not here.
+# Matching is case-insensitive. "(?:[^.]|\.\d){0,80}\." (dots allowed only as in "Lv.2") keeps a target and its consequence inside the same sentence pair
+# ("Choose 1 enemy Unit ... . Deal 1 damage to it."), so effects that hit your own Units don't count as removal.
 RULES = [
-    ("breach", [r"<Breach", r"Breach \d"]),
-    ("removal", [r"[Rr]est (this|it|1|the chosen)? ?enem", r"[Dd]estroy(ed)? .*enemy", r"deal \d+ damage to .*enemy", r"AP-\d"]),
-    ("aoe", [r"all enem", r"each enem"]),
-    ("search", [r"[Ll]ook at the top \d+ cards? of your deck.*add it to your hand", r"reveal .*add it to your hand"]),
-    ("scry", [r"[Ll]ook at the top card of your deck", r"return (it|the remaining cards)"]),
+    ("breach", [r"<Breach", r"Breach \d", r"damage to the first card in your opponent's shield"]),
+    ("removal", [r"enemy units?(?:[^.]|\.\d){0,80}\.\s*deal \d+ damage", r"deal \d+ damage to [^.]*enemy",
+                 r"enemy units?(?:[^.]|\.\d){0,80}\.\s*destroy (it|them)", r"destroy(ed)? [^.]*enemy", r"destroy all units",
+                 r"enemy players?[^.]*units?\.\s*destroy (it|them)", r"AP-\d"]),
+    ("rest", [r"enemy units?(?:[^.]|\.\d){0,80}\.\s*rest (it|them)", r"rest (this|it|1|the chosen)? ?enem", r"won't be set as active"]),
+    ("aoe", [r"all enem", r"each enem", r"to all units", r"destroy all units", r"choose 1 to \d+ enemy units"]),
+    ("search", [r"look at the top \d+ cards? of your deck.*add it to your hand", r"reveal .*add it to your hand",
+                r"top \d+ cards of your deck into your trash[^.]*\.\s*add"]),
+    ("scry", [r"look at the top card of your deck", r"return (it|the remaining cards)"]),
     ("draw", [r"draw \d+", r"draw a card"]),
-    ("ramp", [r"EX Resource", r"set \d+ [Rr]esource"]),
-    ("teambuff", [r"all your Units", r"[Aa]ll .*Units get AP", r"Link Units? AP"]),
+    ("ramp", [r"EX Resource", r"set \d+ resource", r"place \d+ (rested )?resource"]),
+    ("teambuff", [r"all your Units", r"all .*Units get AP", r"Link Units? AP"]),
+    ("support", [r"<Support \d"]),
+    ("selfbuff", [r"this unit gets ap\+", r"increase this unit's ap"]),
+    ("combatkw", [r"<High-Maneuver>", r"<First Strike>", r"<Suppression>"]),
+    ("assault", [r"may choose an? (active|rested) enemy unit"]),
     ("blocker", [r"<Blocker>"]),
-    ("token", [r"[Tt]oken", r"[Cc]reate 1"]),
+    ("token", [r"token", r"create 1"]),
+    ("cheat", [r"deploy 1 [^.]*from your hand"]),
     ("heal", [r"<Repair", r"recovers? \d+ HP"]),
-    ("taunt", [r"choose this .*as their attack target", r"as (its|their) attack target if possible"]),
-    ("damagered", [r"reduce (it|the damage|enemy damage)", r"immune to"]),
-    ("bounce", [r"[Rr]eturn (it|1 enemy Unit|the chosen Unit) to.*hand"]),
+    ("taunt", [r"choose this .*as their attack target", r"as (its|their) attack target if possible",
+               r"change a battling enemy unit's attack target"]),
+    ("damagered", [r"reduce (it|the damage|enemy damage)", r"immune to", r"can't receive (battle )?damage"]),
+    ("bounce", [r"return (it|1 enemy Unit|the chosen Unit) to.*hand"]),
+    ("recursion", [r"from your trash[^.]*\.\s*(add|pair|deploy)", r"(add|pair|deploy)[^.]*from your trash",
+                   r"return this unit's paired pilot to its owner's hand"]),
+    ("ready", [r"set (this unit|it|them) as active"]),
+    ("discard", [r"(they|that enemy player|opponent)[^.]{0,40}discard"]),
+    ("costred", [r"cost -\d", r"as if it has 0 lv\. and cost"]),
     ("trick", [r"AP\+\d.*this (turn|battle)", r"gains? <[A-Za-z -]+> during this turn"]),
-    ("shieldhand", [r"[Ss]hield.*to your hand", r"add 1 of your [Ss]hields"]),
+    ("shieldhand", [r"shield.*to your hand", r"add 1 of your shields"]),
     ("burst", [r"【Burst】"]),
 ]
 
@@ -46,6 +63,10 @@ def tag_card(card):
             tags = ["other"]
     return tags
 
+# Spanish effect text keyed by the exact English effect (keywords like 【Deploy】/<Blocker> stay as printed).
+with open(os.path.join(DATA_DIR, "effects_es.json"), encoding="utf-8") as f:
+    EFFECTS_ES = json.load(f)
+
 all_cards = []
 for s in SETS:
     path = os.path.join(DATA_DIR, f"{s}.json")
@@ -55,6 +76,11 @@ for s in SETS:
         c["set"] = s
         c["owned"] = s in OWNED_SETS
         c["tags"] = tag_card(c)
+        effect = c.get("effect") or ""
+        if effect.strip() not in ("", "-"):
+            if effect not in EFFECTS_ES:
+                sys.exit(f"Missing Spanish effect for {c['number']}")
+            c["effect_es"] = EFFECTS_ES[effect]
         c["image_url"] = f"https://www.gundam-gcg.com/en/images/cards/card/{c['number']}.webp"
         all_cards.append(c)
 
