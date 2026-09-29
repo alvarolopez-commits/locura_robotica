@@ -26146,7 +26146,7 @@ var CARDS_DATA = [
       compareTitle:'Comparativa de mazos', compareEmpty:'Crea al menos 2 mazos para poder compararlos.', compareCards:'Cartas',
       types:{UNIT:'Unidad',PILOT:'Piloto',COMMAND:'Comando',BASE:'Base'},
       colors:{Blue:'Azul',Green:'Verde',Red:'Rojo',Purple:'Morado',White:'Blanco'},
-      tags:{breach:'Brecha / Remate',removal:'Eliminación',aoe:'Área / Barrido',search:'Búsqueda de cartas',scry:'Manipulación de mazo',draw:'Robo de cartas',ramp:'Aceleración de recursos',teambuff:'Mejora de equipo',blocker:'Bloqueador / Defensa',token:'Generación de fichas',heal:'Curación / Reparar',taunt:'Redirección / Provocar',damagered:'Protección / Reducción de daño',bounce:'Rebote',trick:'Truco de combate',shieldhand:'Escudo a mano',burst:'Estallido',vanilla:'Vainilla (sin efecto)',other:'Otro / Único',rest:'Poner en reposo',support:'Apoyo',selfbuff:'Mejora propia',combatkw:'Ventaja de combate',assault:'Atacar Unidades',cheat:'Despliegue extra',recursion:'Recuperar del cementerio',ready:'Reactivar',discard:'Disrupción del rival',costred:'Reducción de coste',drawback:'Restricción'}
+      tags:{breach:'Breach / Remate',removal:'Eliminación',aoe:'Área / Barrido',search:'Búsqueda de cartas',scry:'Manipulación de mazo',draw:'Robo de cartas',ramp:'Aceleración de recursos',teambuff:'Mejora de equipo',blocker:'Blocker / Defensa',token:'Generación de fichas',heal:'Curación / Repair',taunt:'Redirección / Provocar',damagered:'Protección / Reducción de daño',bounce:'Rebote',trick:'Truco de combate',shieldhand:'Escudo a mano',burst:'Burst',vanilla:'Vainilla (sin efecto)',other:'Otro / Único',rest:'Poner en reposo',support:'Support',selfbuff:'Mejora propia',combatkw:'Ventaja de combate',assault:'Atacar Unidades',cheat:'Despliegue extra',recursion:'Recuperar del cementerio',ready:'Reactivar',discard:'Disrupción del rival',costred:'Reducción de coste',drawback:'Restricción'}
     },
     en: {
       searchEyebrow:'Search card', setPicker:'Set', setAll:'All',
@@ -26185,32 +26185,6 @@ var CARDS_DATA = [
   try{ var saved = localStorage.getItem('msa_lang'); if(saved==='en'||saved==='es') LANG = saved; }catch(e){}
   function t(){ return I18N[LANG]; }
 
-  /* ===== Palabras clave del juego en español (solo al mostrar; los datos no se tocan) ===== */
-  var KW_TRIGGER = { 'Burst':'Estallido', 'Deploy':'Despliegue', 'Main':'Principal', 'Action':'Acción', 'Attack':'Ataque',
-    'Once per Turn':'Una vez por turno', 'During Link':'Durante Link', 'Pilot':'Piloto', 'Activate':'Activar',
-    'Destroyed':'Destruida', 'When Paired':'Al emparejar', 'When Linked':'Al linkear', 'During Pair':'Durante emparejamiento' };
-  var KW_KEYWORD = { 'Blocker':'Bloqueador', 'Breach':'Brecha', 'Repair':'Reparar', 'High-Maneuver':'Alta maniobra',
-    'Suppression':'Supresión', 'Support':'Apoyo', 'First Strike':'Primer golpe' };
-  function locBracketPart(p){
-    var m;
-    if(KW_TRIGGER[p]) return KW_TRIGGER[p];
-    if((m = p.match(/^Development (\d+)$/))) return 'Desarrollo '+m[1];
-    if((m = p.match(/^(.+) Pilot$/))){
-      var q = m[1], mm;
-      if((mm = q.match(/^Lv\.(\d+) or Higher$/))) return 'Piloto de Nv.'+mm[1]+' o superior';
-      if((mm = q.match(/^Lv\.(\d+) or Lower$/))) return 'Piloto de Nv.'+mm[1]+' o inferior';
-      if(I18N.es.colors[q]) return 'Piloto '+I18N.es.colors[q];
-      return 'Piloto '+q;
-    }
-    return p;
-  }
-  function locEffectEs(text){
-    return text
-      .replace(/【([^】]*)】/g, function(_, inner){
-        return '【'+inner.split(/([･・])/).map(function(seg,i){ return i%2 ? seg : locBracketPart(seg.trim()); }).join('')+'】';
-      })
-      .replace(/<([A-Za-z][A-Za-z -]*?)( \d+)?>/g, function(all, name, n){ return KW_KEYWORD[name] ? '<'+KW_KEYWORD[name]+(n||'')+'>' : all; });
-  }
   function locLinkEs(text){ return text.replace(/((?:\([^)]+\)\s*\/?\s*)+)\s*Trait\b/g, function(_, tr){ return 'Rasgo '+tr.trim(); }); }
   function locZoneEs(text){ return text.split(/\s+/).map(function(z){ return z==='Space' ? 'Espacio' : z==='Earth' ? 'Tierra' : z; }).join(' · '); }
 
@@ -26660,8 +26634,7 @@ var CARDS_DATA = [
     if(state.traits.size){ var okT=false; var tl=traitList(c); state.traits.forEach(function(tr){ if(tl.indexOf(tr)!==-1) okT=true; }); if(!okT) return false; }
     if(state.search){
       var q = state.search.toLowerCase();
-      if(LANG==='es' && c.effect_es && c._esLoc===undefined) c._esLoc = locEffectEs(c.effect_es);
-      var hay = (c.name+' '+c.number+' '+c.effect+' '+(c.effect_es||'')+' '+(LANG==='es'?(c._esLoc||''):'')+' '+c.trait).toLowerCase();
+      var hay = (c.name+' '+c.number+' '+c.effect+' '+(c.effect_es||'')+' '+c.trait).toLowerCase();
       if(hay.indexOf(q)===-1) return false;
     }
     return true;
@@ -26781,7 +26754,7 @@ var CARDS_DATA = [
     eff.appendChild(el('div','fl', t().efecto));
     var isVanilla = !card.effect || card.effect==='-' || card.effect.trim()==='';
     var p = document.createElement('p'); if(isVanilla) p.className='vanilla';
-    p.textContent = isVanilla ? t().vainillaTxt : (LANG==='es' && card.effect_es ? locEffectEs(card.effect_es) : card.effect);
+    p.textContent = isVanilla ? t().vainillaTxt : (LANG==='es' && card.effect_es ? card.effect_es : card.effect);
     eff.appendChild(p);
     body.appendChild(eff);
 
