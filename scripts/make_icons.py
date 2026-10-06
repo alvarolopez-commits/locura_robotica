@@ -89,8 +89,11 @@ def default_icon(size, scale):
 def square_source(path, bg):
     src = Image.open(path).convert("RGBA")
     if bg is None:
-        corner = src.getpixel((2, 2))
-        bg = corner[:3] if corner[3] > 200 else BASE
+        n = 10
+        patches = [src.crop(b).convert("RGB").resize((1, 1), Image.BOX).getpixel((0, 0)) for b in
+                   ((0, 0, n, n), (src.width - n, 0, src.width, n), (0, src.height - n, n, src.height), (src.width - n, src.height - n, src.width, src.height))]
+        opaque = src.getpixel((2, 2))[3] > 200
+        bg = tuple(round(sum(p[i] for p in patches) / 4) for i in range(3)) if opaque else BASE
     side = max(src.size)
     sq = Image.new("RGBA", (side, side), bg + (255,))
     sq.alpha_composite(src, ((side - src.width) // 2, (side - src.height) // 2))
