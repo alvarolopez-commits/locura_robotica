@@ -70,6 +70,53 @@ async function staleWhileRevalidate(request, cacheName) {
   return hit || (await refresh) || Response.error();
 }
 
+/* Descarga en segundo plano de todas las imágenes para uso sin conexión.
+ * La página envía la lista; aquí solo se baja lo que falta (así un corte o un cierre no pierde lo ya guardado)
+ * y se informa del progreso a las pestañas abiertas. */
+let warming = false;
+
+const broadcast = async (data) => {
+  const all = await self.clients.matchAll({ includeUncontrolled: true });
+  all.forEach((c) => c.postMessage(data));
+};
+
+async function warmImages(urls) {
+  warming = true;
+  try {
+    const cache = await caches.open(IMAGES);
+    const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+    const todo = urls.filter((u) => !have.has(new URL(u, self.location.origin).pathname));
+    const total = urls.length;
+    if (!todo.length) return broadcast({ type: 'warm-done', total, failed: 0, skipped: true });
+    let done = total - todo.length, failed = 0, next = 0, sent = done, quota = false;
+    broadcast({ type: 'warm-progress', done, total });
+    const worker = async () => {
+      while (!quota && next < todo.length) {
+        const url = todo[next++];
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('http ' + res.status);
+          await cache.put(url, res);
+        } catch (e) {
+          failed++;
+          if (e && e.name === 'QuotaExceededError') quota = true;
+        }
+        done++;
+        if (done - sent >= 12) { sent = done; broadcast({ type: 'warm-progress', done, total }); }
+      }
+    };
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    await broadcast({ type: 'warm-done', total, failed, quota });
+  } finally {
+    warming = false;
+  }
+}
+
+self.addEventListener('message', (event) => {
+  const msg = event.data || {};
+  if (msg.type === 'warm-images' && !warming && Array.isArray(msg.urls)) event.waitUntil(warmImages(msg.urls));
+});
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
