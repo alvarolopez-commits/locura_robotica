@@ -5,7 +5,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MS Archive">
+<meta name="apple-mobile-web-app-title" content="Locura">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <title>Mobile Suit Archive</title>
 <meta name="description" content="Catálogo personal de Gundam Card Game (ST01–ST14, GD01–GD05 y EB01) con ficha completa, categorías de habilidad y constructor de mazos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -484,6 +487,30 @@ input,textarea{ caret-color:var(--accent); }
   .cmp-col{ flex:1 0 220px; max-width:260px; }
 }
 
+/* ===== INSTALAR COMO APP ===== */
+html{ touch-action:manipulation; }
+@media (display-mode:standalone){ html,body{ overscroll-behavior-y:none; } }
+.installCard{ display:none; }
+@media (max-width:899px){
+  .installCard:not([hidden]){
+    position:fixed; z-index:37; left:var(--pad); right:var(--pad); bottom:calc(var(--tab-total) + 10px);
+    display:grid; grid-template-columns:44px minmax(0,1fr); gap:6px 12px; align-items:center;
+    padding:12px 12px 10px; background:var(--navy); color:var(--on-navy);
+    box-shadow:inset 0 2px 0 rgba(139,205,255,.4), 0 14px 30px -12px rgba(10,9,20,.6);
+    animation:icIn .45s var(--ease-out);
+  }
+}
+@keyframes icIn{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+.installCard img{ grid-column:1; grid-row:1; width:44px; height:44px; display:block; }
+.ic-text{ grid-column:2; grid-row:1; display:flex; flex-direction:column; min-width:0; }
+.ic-text b{ font-size:14px; font-weight:700; color:#fff; }
+.ic-text span{ font-size:12.5px; line-height:1.4; color:var(--on-navy-2); }
+.ic-actions{ grid-column:1 / -1; display:flex; justify-content:flex-end; gap:8px; margin-top:4px; }
+.ic-primary,.ic-ghost{ min-height:44px; padding:0 18px; border:0; cursor:pointer; font:inherit; font-size:13px; font-weight:700; }
+.ic-primary{ background:var(--sky); color:var(--sky-ink); clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); }
+.ic-ghost{ background:transparent; color:var(--on-navy-2); }
+.ic-primary:active,.ic-ghost:active{ transform:scale(.96); }
+
 /* ===== ESCRITORIO · barra lateral fija ===== */
 @media (min-width:900px){
   :root{ --pad:28px; --top-h:64px; }
@@ -683,6 +710,15 @@ input,textarea{ caret-color:var(--accent); }
     </main>
   </div>
 </div>
+
+<aside class="installCard cut" id="installCard" role="dialog" aria-labelledby="installTitle" hidden>
+  <img src="/icons/icon-192.png" alt="" width="44" height="44">
+  <div class="ic-text"><b id="installTitle">Instala la app</b><span id="installBody"></span></div>
+  <div class="ic-actions">
+    <button type="button" class="ic-ghost" id="installLater">Ahora no</button>
+    <button type="button" class="ic-primary" id="installBtn">Instalar</button>
+  </div>
+</aside>
 
 <nav class="tabbar" id="tabbar" aria-label="Navegación principal">
   <button type="button" class="tb-item is-active" id="tbCatalog">
@@ -26140,6 +26176,10 @@ var CARDS_DATA = [
       linkNonePilot:'Ningún piloto de estos sets cumple su link.', linkNoneUnit:'Ninguna unidad de estos sets linkea con este piloto.',
       linkByName:'Link directo', linkByTrait:function(tr){ return 'Rasgo · '+tr; },
       tbCatalog:'Catálogo', tbFilters:'Filtros', tbNew:'Nuevo', tbDecks:'Mazos', closeFilters:'Cerrar filtros',
+      installTitle:'Instala la app', installBodyPrompt:'Ábrela a pantalla completa y úsala sin conexión.',
+      installBodyIOS:'Toca Compartir y elige «Añadir a pantalla de inicio».',
+      installBodyMenu:'En el menú del navegador elige «Instalar app» o «Añadir a pantalla de inicio».',
+      installBtn:'Instalar', installLater:'Ahora no', installGotIt:'Entendido',
       showResults:function(n){ return n===1 ? 'Ver 1 carta' : 'Ver '+n+' cartas'; },
       newDeckLabel:'Nombre del mazo', newDeckPh:'Ej. Federación agresiva', adpSubmit:'Crear mazo', viewDeck:'Ver mazo',
       building:'Mazo en construcción', finishDeck:'Terminar mazo', goHome:'Ir al inicio · Catálogo', quickAria:'Filtros rápidos', profileTitle:'Perfil',
@@ -26172,6 +26212,10 @@ var CARDS_DATA = [
       linkNonePilot:'No pilot in these sets meets its link.', linkNoneUnit:'No unit in these sets links with this pilot.',
       linkByName:'Direct link', linkByTrait:function(tr){ return 'Trait · '+tr; },
       tbCatalog:'Catalog', tbFilters:'Filters', tbNew:'New', tbDecks:'Decks', closeFilters:'Close filters',
+      installTitle:'Install the app', installBodyPrompt:'Open it full-screen and use it offline.',
+      installBodyIOS:'Tap Share, then “Add to Home Screen”.',
+      installBodyMenu:'In the browser menu choose “Install app” or “Add to Home screen”.',
+      installBtn:'Install', installLater:'Not now', installGotIt:'Got it',
       showResults:function(n){ return n===1 ? 'Show 1 card' : 'Show '+n+' cards'; },
       newDeckLabel:'Deck name', newDeckPh:'e.g. Aggro Federation', adpSubmit:'Create deck', viewDeck:'View deck',
       building:'Deck in progress', finishDeck:'Finish deck', goHome:'Go home · Catalog', quickAria:'Quick filters', profileTitle:'Profile',
@@ -26829,6 +26873,7 @@ var CARDS_DATA = [
 
   function applyStaticI18n(){
     document.documentElement.lang = LANG;
+    if(typeof installCard !== 'undefined' && installCard && !installCard.hidden) renderInstall();
     document.getElementById('lblAddDeck').textContent = t().addDeck;
     document.getElementById('lblMyDecks').textContent = t().myDecks;
     document.getElementById('lblNewDeckName').textContent = t().newDeckLabel;
@@ -27064,6 +27109,44 @@ var CARDS_DATA = [
     if(!decksPage.hidden) document.getElementById('dpBack').click();
   });
 
+  /* ===== Instalar como app (PWA) ===== */
+  var installCard = document.getElementById('installCard');
+  var installBtn = document.getElementById('installBtn'), installLater = document.getElementById('installLater');
+  var deferredInstall = null;
+  function isStandalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+  function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform)); }
+  function isMobileDevice(){ return isIOS() || /android|mobile/i.test(navigator.userAgent); }
+  function installDismissed(){
+    try{ var d = +localStorage.getItem('msa_install_dismissed'); return !!d && Date.now() - d < 14 * 864e5; }catch(e){ return false; }
+  }
+  function renderInstall(){
+    document.getElementById('installTitle').textContent = t().installTitle;
+    document.getElementById('installBody').textContent = deferredInstall ? t().installBodyPrompt : isIOS() ? t().installBodyIOS : t().installBodyMenu;
+    installBtn.hidden = !deferredInstall;
+    installBtn.textContent = t().installBtn;
+    installLater.textContent = deferredInstall ? t().installLater : t().installGotIt;
+  }
+  function showInstallCard(){
+    if(isStandalone() || !isMobileDevice() || installDismissed()) return;
+    renderInstall(); installCard.hidden = false;
+  }
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredInstall = e; if(!installCard.hidden) renderInstall(); });
+  window.addEventListener('appinstalled', function(){ deferredInstall = null; installCard.hidden = true; });
+  installBtn.addEventListener('click', function(){
+    if(!deferredInstall) return;
+    deferredInstall.prompt();
+    deferredInstall.userChoice.then(function(){ deferredInstall = null; installCard.hidden = true; });
+  });
+  installLater.addEventListener('click', function(){
+    installCard.hidden = true;
+    try{ localStorage.setItem('msa_install_dismissed', String(Date.now())); }catch(e){}
+  });
+  setTimeout(showInstallCard, 6000);
+
+  if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+  }
+
   try{
     ALL = CARDS_DATA;
     loadDecksFromStorage();
@@ -27071,6 +27154,7 @@ var CARDS_DATA = [
     buildFilters();
     render();
     updateDeckPill();
+    if(new URLSearchParams(location.search).get('view') === 'decks') openDecksPage();
   }catch(err){
     document.getElementById('grid').innerHTML = '<div class="empty">'+(LANG==='es'?'No se pudieron cargar los datos: ':'Could not load data: ')+err+'</div>';
   }
