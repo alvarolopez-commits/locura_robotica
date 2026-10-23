@@ -8,7 +8,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(os.path.dirname(DIR), "data")
 SETS = ["ST01", "ST02", "ST03", "ST04", "ST05", "ST06", "ST07", "ST08", "ST09", "ST10", "ST11", "ST12", "ST13", "ST14",
-        "GD01", "GD02", "GD03", "GD04", "GD05", "EB01"]
+        "GD01", "GD02", "GD03", "GD04", "GD05", "GD06", "EB01"]
 OWNED_SETS = {"ST01", "ST02", "ST03", "ST04"}
 
 # key -> regex patterns. Display labels (EN/ES) live in the dashboard's i18n dict, not here.
@@ -32,10 +32,10 @@ RULES = [
     ("support", [r"<Support \d"]),
     ("selfbuff", [r"this unit gets ap\+", r"increase this unit's ap", r"while this unit [^.]*, it gets ap\+"]),
     ("combatkw", [r"<High-Maneuver>", r"<First Strike>", r"<Suppression>"]),
-    ("assault", [r"may choose an? (damaged )?(active|rested) enemy unit"]),
+    ("assault", [r"may choose an? (damaged )?(active|rested) enemy unit", r"begin a battle between"]),
     ("blocker", [r"<Blocker>"]),
     ("token", [r"token", r"create 1"]),
-    ("cheat", [r"deploy 1 [^.]*from your hand", r"pair 1 [^.]*from your hand"]),
+    ("cheat", [r"deploy 1 (?:[^.]|\.\d|(?<=Lv)\.)*from your hand", r"pair 1 [^.]*from your hand"]),
     ("heal", [r"<Repair", r"recovers? \d+ HP"]),
     ("taunt", [r"choose this .*as their attack target", r"as (its|their) attack target if possible",
                r"change a battling enemy unit's attack target"]),
