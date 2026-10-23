@@ -551,6 +551,7 @@ span.legalChip{ cursor:inherit; }
 .dp-deck .legalChip.mini{ align-self:flex-start; }
 
 .rule-badges{ display:flex; flex-wrap:wrap; gap:4px; margin:6px 0 2px; }
+.rule-badges:empty{ display:none; }
 .rule-badge{ border:0; cursor:pointer; font:inherit; font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:4px 9px; min-height:28px; background:var(--tone-2); color:var(--fg-1); }
 .rule-badge.banned{ background:#9f2a24; color:#fff; }
 .rule-badge.restricted{ background:#b4540c; color:#fff; }
@@ -36972,12 +36973,13 @@ var ABILITY_CONFIG = {
     var b = t().legal.badges;
     return r.kind === 'restricted' ? b.restricted(r.max) : b[r.kind];
   }
-  function ruleBadgesEl(number){
-    if(!engineOK()) return null;
-    var rules = Legality.cardRules(number, ruleset(), cardMap());
-    if(!rules.length) return null;
-    var wrap = el('div','rule-badges');
-    wrap.addEventListener('click', function(e){ e.stopPropagation(); });
+  /* Prohibida/restringida siempre; pareja prohibida y grupo exclusivo solo si el mazo activo ya choca con esta carta */
+  function fillRuleBadges(wrap){
+    var number = wrap.dataset.number, deck = activeDeck();
+    var rules = Legality.activeRules(number, deck ? deck.cards : {}, ruleset(), cardMap());
+    var key = LANG+'|'+rules.map(function(r){ return r.kind; }).join(',');
+    if(wrap._key === key) return;
+    wrap._key = key; wrap.textContent = '';
     rules.forEach(function(r){
       var b = el('button','rule-badge '+r.kind, badgeLabel(r));
       b.type = 'button';
@@ -36985,7 +36987,17 @@ var ABILITY_CONFIG = {
       b.addEventListener('click', function(e){ e.stopPropagation(); legalOpener = b; openRulePanel(number); });
       wrap.appendChild(b);
     });
+  }
+  function ruleBadgesEl(number){
+    if(!engineOK()) return null;
+    var wrap = el('div','rule-badges'); wrap.dataset.number = number;
+    wrap.addEventListener('click', function(e){ e.stopPropagation(); });
+    fillRuleBadges(wrap);
     return wrap;
+  }
+  function refreshRuleBadges(){
+    if(!engineOK() || !ALL.length) return;
+    document.querySelectorAll('.rule-badges[data-number]').forEach(fillRuleBadges);
   }
 
   /* --- panel (modal) --- */
@@ -37267,6 +37279,7 @@ var ABILITY_CONFIG = {
     }
     updateBuildBar();
     refreshLegalChips();
+    refreshRuleBadges();
   }
   function deckEntries(deck){
     var order = {UNIT:0,PILOT:1,COMMAND:2,BASE:3};

@@ -198,6 +198,31 @@ test('Quitar un color entero deja 2 colores', () => {
   eq(L.validateDeck(L.applyFix(d, fix), RS, byNumber).errors.length, 0);
 });
 
+console.log('\nInsignias según el mazo');
+const kinds = (n, deck) => L.activeRules(n, deck, RS, byNumber).map((r) => r.kind);
+test('Pareja prohibida: sin la otra carta en el mazo no hay insignia', () => {
+  eq(kinds('ST01-010', {}).length, 0);
+  eq(kinds('ST01-010', { 'ST01-010': 2 }).length, 0);
+});
+test('Pareja prohibida: aparece cuando la pareja ya está en el mazo', () => {
+  eq(kinds('ST05-010', { 'ST01-010': 1 })[0], 'banned_pair');
+  eq(kinds('ST01-010', { 'ST05-010': 3 })[0], 'banned_pair');
+});
+test('Grupo exclusivo: sin otra carta del grupo no hay insignia; con otra sí', () => {
+  const [a, b] = RS.exclusiveGroups[0].cardNumbers;
+  eq(kinds(a, {}).length, 0);
+  eq(kinds(a, { [a]: 2 }).length, 0);
+  eq(kinds(a, { [b]: 1 })[0], 'exclusive_group');
+  eq(kinds(b, { [a]: 1, [b]: 1 })[0], 'exclusive_group');
+});
+test('Prohibida y restringida se muestran siempre', () => {
+  eq(kinds('GD01-020', {})[0], 'banned');
+  eq(kinds('ST02-016', {})[0], 'restricted');
+});
+test('Una carta con cantidad 0 en el mazo no cuenta como presente', () => {
+  eq(kinds('ST05-010', { 'ST01-010': 0 }).length, 0);
+});
+
 console.log('\nRulesets');
 test('getActiveRuleset elige la regla vigente por fecha', () => {
   eq(L.getActiveRuleset(rulesets, '2026-10-23', 'EN').id, 'gcg-global-2026-09-25');

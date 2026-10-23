@@ -190,6 +190,23 @@
     return out;
   }
 
+  /* Insignias que importan ahora: las de carta prohibida o restringida siempre; las de pareja prohibida y grupo exclusivo
+   * solo cuando el mazo ya contiene la otra carta de la pareja o ya llega al máximo de cartas distintas del grupo. */
+  function activeRules(number, deck, ruleset, cardsByNumber) {
+    var n = norm(number), have = {};
+    Object.keys(deck || {}).forEach(function (k) { if (Number(deck[k]) > 0) have[norm(k)] = true; });
+    return cardRules(number, ruleset, cardsByNumber).filter(function (r) {
+      if (r.kind === 'banned_pair') return !!have[r.partner];
+      if (r.kind === 'exclusive_group') {
+        var g = (ruleset.exclusiveGroups || []).filter(function (x) { return x.id === r.groupId; })[0];
+        var members = groupMembers(g, cardsByNumber);
+        var others = Object.keys(have).filter(function (x) { return x !== n && members.has(x); }).length;
+        return others + 1 > g.maxDistinctCardNumbers;
+      }
+      return true;
+    });
+  }
+
   /* Aplica una acción de arreglo y devuelve el mazo nuevo (no muta el original). */
   function applyFix(deck, fix) {
     var d = Object.assign({}, deck);
@@ -202,5 +219,5 @@
   }
 
   return { getActiveRuleset: getActiveRuleset, validateDeck: validateDeck, maxAddable: maxAddable, cardRules: cardRules,
-    groupMembers: groupMembers, applyFix: applyFix, matchesCriteria: matchesCriteria, knownSignatures: knownSignatures, context: context };
+    groupMembers: groupMembers, applyFix: applyFix, matchesCriteria: matchesCriteria, activeRules: activeRules, knownSignatures: knownSignatures, context: context };
 });
