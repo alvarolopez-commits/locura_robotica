@@ -1,0 +1,39 @@
+{
+  "rulesets": [
+    {
+      "id": "gcg-global-2026-09-25",
+      "name": "Official Tournament Rules — 25 Sep 2026",
+      "effectiveFrom": "2026-09-25",
+      "effectiveTo": null,
+      "region": "EN",
+      "status": "active",
+      "sourceUrl": "https://www.gundam-gcg.com/en/news/01_279.html",
+      "deck": { "size": 50, "maxColors": 2, "maxCopies": 4, "resourceDeckSize": 10 },
+      "bannedCards": [
+        { "cardNumber": "GD01-020", "maxCopies": 0 }
+      ],
+      "restrictedCards": [
+        { "cardNumber": "ST02-016", "maxCopies": 2 }
+      ],
+      "bannedPairs": [
+        { "id": "amuro-mikazuki", "cardA": "ST01-010", "cardB": "ST05-010" },
+        { "id": "guntank-m1-astray", "cardA": "GD01-008", "cardB": "GD05-015" }
+      ],
+      "exclusiveGroups": [
+        {
+          "id": "vanilla-lv2-cost1-2-2",
+          "name": "Vanilla Lv.2 / Cost 1 / 2 AP / 2 HP Units",
+          "maxDistinctCardNumbers": 1,
+          "maxCopiesPerSelectedCardNumber": 4,
+          "criteria": { "type": "UNIT", "level": 2, "cost": 1, "ap": 2, "hp": 2, "noEffect": true },
+          "detectByCriteria": true,
+          "cardNumbers": [
+            "GD01-035", "GD01-060", "GD01-085", "GD02-013", "GD02-080", "GD03-032", "GD03-063", "GD04-078",
+            "GD05-014", "GD05-027", "GD05-042", "GD05-062", "GD05-077", "ST01-005", "ST04-008", "ST05-004",
+            "ST05-009", "ST06-004", "ST09-005", "ST10-005", "ST11-008", "ST12-010"
+          ]
+        }
+      ]
+    }
+  ]
+}

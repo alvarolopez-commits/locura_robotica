@@ -3,6 +3,9 @@ import re
 import os
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from abilities import load_config, parse_abilities
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -74,6 +77,8 @@ def tag_card(card):
 with open(os.path.join(DATA_DIR, "effects_es.json"), encoding="utf-8") as f:
     EFFECTS_ES = json.load(f)
 
+ABILITY_CFG = load_config()
+
 all_cards = []
 for s in SETS:
     path = os.path.join(DATA_DIR, f"{s}.json")
@@ -82,7 +87,8 @@ for s in SETS:
     for c in cards:
         c["set"] = s
         c["owned"] = s in OWNED_SETS
-        c["tags"] = tag_card(c)
+        c["tags"] = tag_card(c)   # categorías funcionales (metadato interno; ya no se usan en el filtro HABILIDAD)
+        c.update(parse_abilities(c.get("effect"), ABILITY_CFG))   # keywordEffects / activationTiming / activationType / frequency
         effect = c.get("effect") or ""
         if effect.strip() not in ("", "-"):
             if effect not in EFFECTS_ES:

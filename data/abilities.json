@@ -1,0 +1,27 @@
+{
+  "_nota": "Configuración central de los filtros HABILIDAD y ACTIVACIÓN. Para añadir una keyword o un trigger nuevo basta con añadir su entrada aquí y volver a ejecutar scripts/tag_and_merge.py y scripts/embed_data.py. Los ids son el nombre oficial normalizado (mayúsculas, guiones y espacios -> _).",
+  "keywordEffects": [
+    { "id": "BLOCKER", "label": "Blocker" },
+    { "id": "BREACH", "label": "Breach" },
+    { "id": "REPAIR", "label": "Repair" },
+    { "id": "SUPPORT", "label": "Support" },
+    { "id": "FIRST_STRIKE", "label": "First Strike" },
+    { "id": "HIGH_MANEUVER", "label": "High-Maneuver" },
+    { "id": "SUPPRESSION", "label": "Suppression" }
+  ],
+  "activationTiming": [
+    { "id": "BURST", "label": "Burst" },
+    { "id": "DEPLOY", "label": "Deploy" },
+    { "id": "ATTACK", "label": "Attack" },
+    { "id": "DESTROYED", "label": "Destroyed" },
+    { "id": "WHEN_PAIRED", "label": "When Paired" },
+    { "id": "DURING_PAIR", "label": "During Pair" }
+  ],
+  "activationType": [
+    { "id": "ACTIVATE_MAIN", "label": "Activate · Main" },
+    { "id": "ACTIVATE_ACTION", "label": "Activate · Action" }
+  ],
+  "frequency": [
+    { "id": "ONCE_PER_TURN", "label": "Once per Turn" }
+  ]
+}
