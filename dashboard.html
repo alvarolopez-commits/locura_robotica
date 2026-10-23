@@ -316,8 +316,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .sb-tagwrap.open{ grid-template-rows:1fr; }
 .sb-tagwrap.open > *{ max-height:420px; overflow-y:auto; padding-bottom:14px; }
 .sb-chips{ display:flex; flex-wrap:wrap; gap:8px; }
-#f-set, #f-act{ display:flex; flex-direction:column; gap:8px; }
-#f-act .sb-subhead:not(:first-child){ margin-top:12px; }
+#f-set{ display:flex; flex-direction:column; gap:8px; }
 .sb-subhead{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); margin-top:6px; }
 .sb-subhead:first-child{ margin-top:0; }
 .sb-chips .tag{ text-transform:none; letter-spacing:.01em; font-family:var(--font-sans); font-size:13.5px; font-weight:700; }
@@ -349,10 +348,10 @@ body.is-building .adder{ display:grid; gap:8px; }
 }
 .overlay.in .detail{ opacity:1; transform:none; }
 .detail::before{ content:""; display:block; width:44px; height:4px; background:var(--fg-3); opacity:.4; margin:10px auto 0; }
-.d-head{ display:grid; grid-template-columns:44px 1fr 44px; align-items:start; gap:14px 10px; padding:14px var(--pad) 12px; }
-.d-head > .d-close{ grid-column:3; grid-row:1; }
+.d-head{ display:grid; grid-template-columns:minmax(0,1fr) 64px; align-items:start; gap:14px 8px; padding:14px var(--pad) 12px; }
+.d-head > .d-close{ grid-column:2; grid-row:1; justify-self:end; align-self:start; }
 .d-titlewrap{ grid-column:1 / -1; grid-row:2; }
-.d-img{ grid-column:2; grid-row:1; justify-self:center; width:min(68vw,280px); overflow:hidden; background:var(--tone); aspect-ratio:63/88; border-radius:14px; box-shadow:0 14px 24px -16px rgba(34,30,65,.55); }
+.d-img{ grid-column:1; grid-row:1; justify-self:center; width:min(62vw,264px); overflow:hidden; background:var(--tone); aspect-ratio:63/88; border-radius:14px; box-shadow:0 14px 24px -16px rgba(34,30,65,.55); }
 .d-img img{ width:100%; height:100%; object-fit:cover; display:block; }
 .d-titlewrap{ min-width:0; }
 .d-eye{ display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
@@ -380,6 +379,15 @@ body.is-building .adder{ display:grid; gap:8px; }
 /* ===== VENTANA DEL MAZO (contador de la cabecera) ===== */
 .deckView{ z-index:37; }
 #dvBody{ display:flex; flex-direction:column; gap:22px; }
+.deckView .dv-head{ flex-direction:row; flex-wrap:wrap; align-items:flex-end; justify-content:flex-start; gap:16px 36px; }
+.dv-headmain{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; min-width:0; flex:0 1 auto; }
+.dv-side{ display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px 22px; min-width:0; padding-bottom:2px; }
+.dv-side:empty{ display:none; }
+.dv-sidebox{ display:flex; flex-direction:column; gap:6px; }
+.dv-mini{ display:grid; grid-template-columns:repeat(8,15px); gap:3px; align-items:end; height:64px; }
+.dv-mini .b{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:2px; height:100%; }
+.dv-mini i{ display:block; width:100%; background:var(--sky); opacity:.9; min-height:2px; }
+.dv-mini span{ font-family:var(--font-display); font-size:11px; font-weight:600; line-height:1; color:var(--fg-3); }
 .dv-color{ display:flex; flex-direction:column; gap:14px; padding:16px 14px 18px; background:color-mix(in srgb, var(--accent) 16%, #1d1a38); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
 .dv-chead{ display:flex; align-items:center; gap:10px; }
 .dv-chead .dd-pip{ width:14px; height:14px; }
@@ -407,63 +415,40 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-stat .v small{ font-size:18px; color:var(--fg-3); font-weight:600; }
 .dv-sub{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-3); margin-bottom:6px; }
 .dv-split{ display:flex; flex-wrap:wrap; gap:6px; }
-.dv-curve{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:6px; align-items:end; height:120px; }
-.dv-bar{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px; height:100%; }
-.dv-bar i{ display:block; width:100%; min-height:3px; background:var(--sky); opacity:.9; }
-.dv-bar span{ font-family:var(--font-display); font-size:15px; font-weight:600; color:var(--fg-3); }
-.dv-bar b{ font-family:var(--font-display); font-size:15px; color:var(--fg-1); }
 .dv-empty{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:22px 18px; background:rgba(255,255,255,.06); color:var(--fg-2); }
 @media (min-width:900px){
   .dv-rows{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .dv-stats{ grid-template-columns:repeat(4,minmax(0,1fr)); }
 }
 
-/* ===== AÑADIR AL MAZO (ficha de carta) ===== */
-.d-deckbox{
-  display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:var(--navy); color:var(--on-navy);
-  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+/* ===== AÑADIR AL MAZO (ficha de carta): columna compacta a la derecha de la carta ===== */
+.d-ctl{ grid-column:2; grid-row:1; align-self:end; justify-self:end; width:64px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.dc-btn{ width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--navy); color:#fff; transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease); }
+.dc-btn svg{ width:16px; height:16px; display:block; }
+.dc-btn:hover:not(:disabled){ background:var(--accent); }
+.dc-btn:active:not(:disabled){ transform:scale(.94); }
+.dc-btn:disabled{ background:var(--tone-2); color:var(--fg-3); cursor:not-allowed; }
+.dc-btn:focus-visible,.dc-add:focus-visible,.dl-sel:focus-visible,.dl-rm:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.dc-n{ min-height:36px; display:grid; place-items:center; font-family:var(--font-display); font-size:36px; font-weight:700; line-height:1; color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.dc-add{
+  width:64px; min-height:56px; margin-top:4px; padding:4px 2px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+  background:var(--navy); color:#fff; font-family:var(--font-display); font-size:16px; font-weight:700; letter-spacing:.06em; line-height:1.05; text-transform:uppercase;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease);
 }
-.ddb-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
-.ddb-title{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
-.ddb-rule{ flex:none; font-size:13px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
-.ddb-selwrap{ position:relative; }
-.ddb-selwrap::after{
-  content:""; position:absolute; right:15px; top:50%; width:8px; height:8px; margin-top:-6px; pointer-events:none;
-  border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg);
-}
-.ddb-sel{
-  width:100%; min-height:46px; padding:0 36px 0 13px; font:inherit; font-size:15px; font-weight:700; color:var(--on-navy);
-  background:rgba(255,255,255,.08); border:0; appearance:none; -webkit-appearance:none; cursor:pointer;
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-}
-.ddb-sel:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
-.ddb-step{ display:grid; grid-template-columns:52px minmax(0,1fr) 52px; align-items:center; gap:10px; }
-.ddb-btn{ width:52px; height:52px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.1); color:#fff; transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease); }
-.ddb-btn svg{ width:18px; height:18px; display:block; }
-.ddb-btn:hover:not(:disabled){ background:var(--sky); color:var(--sky-ink); }
-.ddb-btn:active:not(:disabled){ transform:scale(.94); }
-.ddb-btn:disabled{ opacity:.28; cursor:not-allowed; }
-.ddb-n{ text-align:center; font-family:var(--font-display); font-size:36px; font-weight:700; line-height:1; color:#fff; font-variant-numeric:tabular-nums; }
-.ddb-n small{ font-size:20px; font-weight:600; color:var(--on-navy-2); }
-.ddb-chips{ display:flex; gap:8px; }
-.ddb-chip{
-  flex:1 1 0; min-width:0; min-height:46px; display:grid; place-items:center; font-family:var(--font-display); font-size:22px; font-weight:700; color:#fff; background:rgba(255,255,255,.1);
-  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); font-variant-numeric:tabular-nums;
-  transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease);
-}
-.ddb-chip:hover:not(:disabled):not(.is-on){ background:rgba(139,205,255,.35); }
-.ddb-chip:active:not(:disabled){ transform:scale(.95); }
-.ddb-chip.is-on{ background:var(--sky); color:var(--sky-ink); }
-.ddb-chip:disabled:not(.is-on){ opacity:.28; cursor:not-allowed; }
-.ddb-chip:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
-.ddb-chiplabel{ font-family:var(--font-display); font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--on-navy-2); }
-@media (min-width:900px){ .ddb-chips{ max-width:340px; } }
-.ddb-warn{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
-.ddb-warn:empty{ display:none; }
-.ddb-warn p{ flex:1 1 100%; margin:0; font-size:14px; line-height:1.45; color:#ffd2d2; }
-.ddb-note{ margin:0; font-size:14px; line-height:1.45; color:var(--on-navy-2); }
-.ddb-note.ok{ color:#9be3b4; font-weight:700; }
-@media (min-width:900px){ .ddb-step{ grid-template-columns:52px 120px 52px; justify-content:start; } }
+.dc-add small{ font-size:11px; font-weight:600; letter-spacing:.08em; opacity:.85; }
+.dc-add:hover:not(:disabled){ background:var(--accent); }
+.dc-add:active:not(:disabled){ transform:scale(.97); }
+.dc-add.ok{ background:var(--sky); color:var(--sky-ink); }
+.dc-add:disabled{ background:var(--tone-2); color:var(--fg-3); cursor:not-allowed; }
+.d-deckline{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin-top:10px; }
+.dl-selwrap{ position:relative; max-width:100%; }
+.dl-selwrap::after{ content:""; position:absolute; right:13px; top:50%; width:7px; height:7px; margin-top:-6px; pointer-events:none; border-right:2px solid var(--accent-ink); border-bottom:2px solid var(--accent-ink); transform:rotate(45deg); }
+.dl-sel{ max-width:100%; min-height:40px; padding:0 34px 0 12px; border:0; appearance:none; -webkit-appearance:none; cursor:pointer; font:inherit; font-size:14px; font-weight:700; color:var(--fg-1); background:var(--tone); text-overflow:ellipsis; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.dl-stat{ font-size:14px; font-weight:700; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+.dl-rm{ min-height:36px; padding:0 6px; font-size:13px; font-weight:700; color:var(--fg-2); text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.dl-rm:hover{ color:var(--fg-1); }
+.dl-msg{ flex:1 1 100%; margin:0; font-size:13px; font-weight:600; line-height:1.4; color:var(--rose-ink); }
+.dl-msg:empty{ display:none; }
 .d-tagrow{ display:flex; flex-wrap:wrap; gap:6px; }
 .d-source{ font-size:13px; color:var(--fg-3); padding-top:12px; box-shadow:inset 0 1px 0 var(--line); }
 .d-source strong{ color:var(--fg-2); font-weight:700; }
@@ -615,7 +600,9 @@ body.is-building .adder{ display:grid; gap:8px; }
   .overlay{ align-items:center; padding:24px; }
   .detail{ max-height:90dvh; clip-path:polygon(var(--cut-l) 0,100% 0,100% calc(100% - var(--cut-l)),calc(100% - var(--cut-l)) 100%,0 100%,0 var(--cut-l)); }
   .detail::before{ display:none; }
-  .d-head{ grid-template-columns:240px 1fr 44px; gap:20px; padding:22px var(--pad) 16px; }
+  .d-head{ grid-template-columns:240px 1fr 72px; gap:20px; padding:22px var(--pad) 16px; }
+  .d-head > .d-close{ grid-column:3; }
+  .d-ctl{ grid-column:3; }
   .d-img{ grid-column:1; width:240px; }
   .d-titlewrap{ grid-column:2; grid-row:1; align-self:end; }
   .d-name{ font-size:42px; }
@@ -1029,13 +1016,6 @@ html{ touch-action:manipulation; }
         <div class="sb-tagwrap" id="f-kw-wrap"><div class="sb-chips" id="f-kw"></div></div>
       </div>
       <div class="sb-group">
-        <div class="sb-ghead" data-toggle="f-act-wrap">
-          <span class="eyebrow" id="lblFilterAct">Activación</span>
-          <svg class="sb-chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1.5l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="sb-tagwrap" id="f-act-wrap"><div class="sb-chips" id="f-act"></div></div>
-      </div>
-      <div class="sb-group">
         <div class="sb-ghead" data-toggle="f-trait-wrap">
           <span class="eyebrow" id="lblFilterTrait">Rasgos</span>
           <svg class="sb-chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1.5l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1192,10 +1172,13 @@ html{ touch-action:manipulation; }
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span id="lblDvBack">Volver</span>
     </button>
-    <div class="dp-head">
-      <span class="dp-eyebrow" id="dvEyebrow"></span>
-      <h1 class="dp-title" id="dvTitle">Mi mazo</h1>
-      <button type="button" class="legalChip cut" id="dvLegal" hidden></button>
+    <div class="dp-head dv-head">
+      <div class="dv-headmain">
+        <span class="dp-eyebrow" id="dvEyebrow"></span>
+        <h1 class="dp-title" id="dvTitle">Mi mazo</h1>
+        <button type="button" class="legalChip cut" id="dvLegal" hidden></button>
+      </div>
+      <div class="dv-side" id="dvSide"></div>
     </div>
     <div id="dvBody"></div>
   </div>
@@ -36784,7 +36767,7 @@ var ABILITY_CONFIG = {
     es: {
       searchEyebrow:'Buscar carta', setPicker:'Set', setAll:'Todos',
       searchPh:'Nombre, número o texto de habilidad…', searchAria:'Buscar',
-      ownedOnly:'Solo lo que tengo', fSet:'Set', fColor:'Color', fType:'Tipo', fAbility:'Habilidad', fAct:'Activación', actTiming:'Momento', actType:'Tipo de activación', actFreq:'Frecuencia',
+      ownedOnly:'Solo lo que tengo', fSet:'Set', fColor:'Color', fType:'Tipo', fAbility:'Habilidad',
       showCat:'mostrar categorías', hideCat:'ocultar categorías',
       resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros',
       tengo:'Tengo', enColeccion:'En tu colección', onlyMine:'Solo mi colección',
@@ -36823,7 +36806,7 @@ var ABILITY_CONFIG = {
         empty:'Todavía no has añadido cartas a este mazo.', add:'Añadir cartas', lv:'Nv.', cost:'Coste', costMax:'7+'
       },
       deckBlock:{
-        setCopies:'Poner copias', linkJump:'Ver los pilotos con los que linkea', linkJumpUnits:'Ver las unidades con las que linkea',
+        addTop:'Añadir', addBottom:'al mazo', deckLabel:'Mazo', inDeck:function(q,m){ return q+' / '+m+' en el mazo'; }, removeOne:'Quitar 1', linkJump:'Ver los pilotos con los que linkea', linkJumpUnits:'Ver las unidades con las que linkea',
         title:'Añadir al mazo', to:'Mazo de destino', newDeck:'+ Nuevo mazo',
         copies:function(n){ return n===1 ? '1 copia en este mazo' : n+' copias en este mazo'; },
         none:'No está en este mazo',
@@ -36902,7 +36885,7 @@ var ABILITY_CONFIG = {
     en: {
       searchEyebrow:'Search card', setPicker:'Set', setAll:'All',
       searchPh:'Name, number or ability text…', searchAria:'Search',
-      ownedOnly:'Only what I own', fSet:'Set', fColor:'Color', fType:'Type', fAbility:'Ability', fAct:'Activation', actTiming:'Timing', actType:'Activation type', actFreq:'Frequency',
+      ownedOnly:'Only what I own', fSet:'Set', fColor:'Color', fType:'Type', fAbility:'Ability',
       showCat:'show categories', hideCat:'hide categories',
       resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters',
       tengo:'Owned', enColeccion:'In your collection', onlyMine:'Only my collection',
@@ -36941,7 +36924,7 @@ var ABILITY_CONFIG = {
         empty:'You have not added any cards to this deck yet.', add:'Add cards', lv:'Lv.', cost:'Cost', costMax:'7+'
       },
       deckBlock:{
-        setCopies:'Set copies', linkJump:'See the pilots it links with', linkJumpUnits:'See the units it links with',
+        addTop:'Add', addBottom:'to deck', deckLabel:'Deck', inDeck:function(q,m){ return q+' / '+m+' in deck'; }, removeOne:'Remove 1', linkJump:'See the pilots it links with', linkJumpUnits:'See the units it links with',
         title:'Add to deck', to:'Target deck', newDeck:'+ New deck',
         copies:function(n){ return n===1 ? '1 copy in this deck' : n+' copies in this deck'; },
         none:'Not in this deck',
@@ -37025,7 +37008,7 @@ var ABILITY_CONFIG = {
   function locLinkEs(text){ return text.replace(/((?:\([^)]+\)\s*\/?\s*)+)\s*Trait\b/g, function(_, tr){ return 'Rasgo '+tr.trim(); }); }
   function locZoneEs(text){ return text.split(/\s+/).map(function(z){ return z==='Space' ? 'Espacio' : z==='Earth' ? 'Tierra' : z; }).join(' · '); }
 
-  var state = { search:"", ownedOnly:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), timing:new Set(), acts:new Set(), freqs:new Set(), traits:new Set() };
+  var state = { search:"", ownedOnly:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), traits:new Set() };
   var ALL = [];
   function traitList(c){
     if(!c.trait) return [];
@@ -37415,125 +37398,84 @@ var ABILITY_CONFIG = {
     }
     return null;
   }
-  function refreshDeckBlocks(){ document.querySelectorAll('.d-deckbox').forEach(function(b){ if(b._refresh) b._refresh(); }); }
-  /* Bloque de la ficha: el + y el − modifican el mazo activo al momento (una sola fuente de verdad: DECKS) */
-  function deckBlockEl(number){
+  function refreshDeckBlocks(){ document.querySelectorAll('.d-ctl').forEach(function(b){ if(b._refresh) b._refresh(); }); }
+  /* Columna de la ficha: + / cantidad / − / Añadir al mazo (a la derecha de la carta) y, bajo el nombre, el mazo de destino.
+   * Una sola fuente de verdad: DECKS (activeDeck). Devuelve {ctl, line}. */
+  function deckCtlEl(number){
     var cardName = (cardByNumber(number) || {}).name || number;
-    var wrap = el('section','d-deckbox'); wrap.dataset.number = number;
-    var head = el('div','ddb-head');
-    head.appendChild(el('span','ddb-title', t().deckBlock.title));
-    var ruleBtn = el('button','ddb-rule', t().legal.viewRule); ruleBtn.type = 'button'; ruleBtn.hidden = true;
-    ruleBtn.addEventListener('click', function(){ legalOpener = ruleBtn; openRulePanel(number); });
-    head.appendChild(ruleBtn);
-    wrap.appendChild(head);
-
-    var selWrap = el('div','ddb-selwrap');
-    var sel = document.createElement('select'); sel.className = 'ddb-sel';
-    sel.setAttribute('aria-label', t().deckBlock.to);
-    selWrap.appendChild(sel); wrap.appendChild(selWrap);
-
-    var step = el('div','ddb-step');
-    var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'ddb-btn'; minus.innerHTML = ICON_MINUS;
-    minus.setAttribute('aria-label', t().adderLess+' · '+cardName);
-    var nEl = el('div','ddb-n'); nEl.setAttribute('aria-live','polite');
-    var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'ddb-btn'; plus.innerHTML = ICON_PLUS;
+    var ctl = el('div','d-ctl'); ctl.dataset.number = number;
+    var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dc-btn'; plus.innerHTML = ICON_PLUS;
     plus.setAttribute('aria-label', t().adderMore+' · '+cardName);
-    step.appendChild(minus); step.appendChild(nEl); step.appendChild(plus);
-    wrap.appendChild(step);
+    var nEl = el('div','dc-n','1'); nEl.setAttribute('aria-live','polite');
+    var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'dc-btn'; minus.innerHTML = ICON_MINUS;
+    minus.setAttribute('aria-label', t().adderLess+' · '+cardName);
+    var add = document.createElement('button'); add.type = 'button'; add.className = 'dc-add';
+    ctl.appendChild(plus); ctl.appendChild(nEl); ctl.appendChild(minus); ctl.appendChild(add);
 
-    var chipLabel = el('div','ddb-chiplabel', t().deckBlock.setCopies);
-    var chips = el('div','ddb-chips'); chips.setAttribute('role','group'); chips.setAttribute('aria-label', t().deckBlock.setCopies);
-    wrap.appendChild(chipLabel); wrap.appendChild(chips);
-    var warn = el('div','ddb-warn'); wrap.appendChild(warn);
-    var note = el('p','ddb-note'); wrap.appendChild(note);
+    var line = el('div','d-deckline');
+    var selWrap = el('div','dl-selwrap'), sel = document.createElement('select'); sel.className = 'dl-sel';
+    selWrap.appendChild(sel); line.appendChild(selWrap);
+    var stat = el('span','dl-stat'); line.appendChild(stat);
+    var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'dl-rm'; line.appendChild(rm);
+    var msg = el('p','dl-msg'); msg.setAttribute('role','status'); line.appendChild(msg);
 
-    var fb = null, fbTimer = null;
-    function setFb(kind){
-      fb = kind; clearTimeout(fbTimer);
-      fbTimer = setTimeout(function(){ fb = null; fbTimer = null; refresh(); }, 1800);
-    }
+    var pick = 1, flashTimer = null, justAdded = 0;
     function fillDecks(){
-      var ids = Object.keys(DECKS);
       sel.innerHTML = '';
-      ids.forEach(function(id){
-        var o = document.createElement('option'); o.value = id;
-        o.textContent = DECKS[id].name || t().deckNewName;
+      Object.keys(DECKS).forEach(function(id){
+        var o = document.createElement('option'); o.value = id; o.textContent = DECKS[id].name || t().deckNewName;
         if(id === activeDeckId) o.selected = true;
         sel.appendChild(o);
       });
-      var nw = document.createElement('option'); nw.value = '__new'; nw.textContent = t().deckBlock.newDeck;
-      sel.appendChild(nw);
+      var nw = document.createElement('option'); nw.value = '__new'; nw.textContent = t().deckBlock.newDeck; sel.appendChild(nw);
     }
     function refresh(){
+      var D = t().deckBlock;
       fillDecks();
-      var deck = activeDeck();
-      var q = deck ? (deck.cards[number] || 0) : 0;
-      var max = cardMaxCopies(number);
-      var block = addBlocker(number);
-      nEl.textContent = String(q);
-      nEl.appendChild(el('small', null, ' / '+max));
-      minus.disabled = q <= 0;
-      plus.disabled = !!block;
-      /* botones 0..máximo: poner las copias de golpe; solo se pueden marcar las que caben sin romper reglas */
+      sel.setAttribute('aria-label', D.to);
+      var deck = activeDeck(), q = deck ? (deck.cards[number] || 0) : 0;
+      var max = cardMaxCopies(number), block = addBlocker(number);
       var room = block ? 0 : Math.max(0, Math.min(addLimit(number).max, max - q));
-      chipLabel.textContent = t().deckBlock.setCopies;
-      chips.textContent = '';
-      for(var c = 0; c <= max; c++){
-        (function(c){
-          var b = el('button','ddb-chip'+(c === q ? ' is-on' : ''), String(c)); b.type = 'button';
-          b.disabled = c > q + room;
-          b.setAttribute('aria-pressed', String(c === q));
-          b.setAttribute('aria-label', c === 0 ? t().adderLess+' · 0' : c+' · '+cardName);
-          b.addEventListener('click', function(){ setCopies(c); });
-          chips.appendChild(b);
-        })(c);
-      }
-      ruleBtn.hidden = !engineOK() || !Legality.cardRules(number, ruleset(), cardMap()).length;
-      warn.textContent = '';
+      if(room <= 0) pick = 0; else { if(pick < 1) pick = 1; if(pick > room) pick = room; }
+      nEl.textContent = String(pick);
+      plus.disabled = room <= 0 || pick >= room;
+      minus.disabled = room <= 0 || pick <= 1;
+      add.disabled = room <= 0;
+      add.setAttribute('aria-label', D.addTop+' '+D.addBottom+' · '+cardName);
+      if(!flashTimer){ add.classList.remove('ok'); add.textContent = ''; add.appendChild(el('span',null,D.addTop)); add.appendChild(el('small',null,D.addBottom)); }
+      stat.textContent = D.inDeck(q, max);
+      rm.textContent = D.removeOne; rm.hidden = q <= 0;
       var info = block ? blockerText(block) : null;
-      if(info){
-        warn.appendChild(el('span','rule-badge '+info.cls, info.badge));
-        warn.appendChild(el('p', null, info.txt));
-      }
-      note.classList.toggle('ok', !!fb);
-      note.textContent = fb === 'added' ? t().deckBlock.added(q, (deck && deck.name) || t().deckNewName)
-        : fb === 'removed' ? t().deckBlock.removed
-        : block && block.reason === 'copy_limit' ? t().deckBlock.limit
-        : q > 0 ? t().deckBlock.copies(q) : t().deckBlock.none;
+      msg.textContent = info ? info.txt : (block && block.reason === 'copy_limit' ? D.limit : '');
     }
-    function afterChange(kind){
-      setFb(kind);
+    function afterChange(){
       syncSteppers(number);
       if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
       refresh();
     }
-    function setCopies(target){
-      var deck = activeDeck(); if(!deck) return;
-      var cur = deck.cards[number] || 0;
-      if(target === cur) return;
-      if(target < cur){ while((deck.cards[number] || 0) > target) removeFromDeck(number); afterChange(target === 0 ? 'removed' : 'added'); return; }
-      while((deck.cards[number] || 0) < target){ if(!addToDeck(number)) break; }
-      afterChange('added');
-    }
-    minus.addEventListener('click', function(){
-      var deck = activeDeck(); if(!deck || !(deck.cards[number] > 0)) return;
-      removeFromDeck(number); afterChange('removed');
+    plus.addEventListener('click', function(){ pick++; refresh(); });
+    minus.addEventListener('click', function(){ pick--; refresh(); });
+    add.addEventListener('click', function(){
+      var n = pick, done = 0;
+      for(var i = 0; i < n; i++){ if(addToDeck(number)) done++; else break; }
+      if(!done){ refresh(); return; }
+      pick = 1; justAdded = done;
+      clearTimeout(flashTimer);
+      add.classList.add('ok'); add.textContent = ''; add.appendChild(el('span',null,'✓')); add.appendChild(el('small',null,t().adderAdded.replace(/^✓\s*/, '')));
+      flashTimer = setTimeout(function(){ flashTimer = null; refresh(); }, 1100);
+      afterChange();
     });
-    plus.addEventListener('click', function(){
-      if(!addToDeck(number)){ refresh(); return; }
-      afterChange('added');
-    });
+    rm.addEventListener('click', function(){ removeFromDeck(number); afterChange(); });
     sel.addEventListener('change', function(){
       if(sel.value === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
       else activeDeckId = sel.value;
       saveDecksToStorage();
       if(!document.getElementById('decksPage').hidden) showDpView();
-      render(); updateDeckPill();
-      refresh();
+      pick = 1; render(); updateDeckPill(); refresh();
     });
-    wrap._refresh = refresh;
+    ctl._refresh = refresh;
     refresh();
-    return wrap;
+    return {ctl:ctl, line:line};
   }
 
   function refreshAdders(){ document.querySelectorAll('.adder').forEach(function(a){ if(a._refresh) a._refresh(); }); }
@@ -37937,10 +37879,6 @@ var ABILITY_CONFIG = {
     }
     var kwBox = document.getElementById('f-kw'); kwBox.innerHTML = '';
     fillAbility(kwBox, 'keywordEffects', 'kws');
-    var actBox = document.getElementById('f-act'); actBox.innerHTML = '';
-    fillAbility(actBox, 'activationTiming', 'timing', t().actTiming);
-    fillAbility(actBox, 'activationType', 'acts', t().actType);
-    fillAbility(actBox, 'frequency', 'freqs', t().actFreq);
     var traitCounts = {};
     ALL.forEach(function(c){ traitList(c).forEach(function(tr){ traitCounts[tr]=(traitCounts[tr]||0)+1; }); });
     var traitBox = document.getElementById('f-trait'); traitBox.innerHTML = '';
@@ -37977,8 +37915,7 @@ var ABILITY_CONFIG = {
     if(state.sets.size && !state.sets.has(c.set)) return false;
     if(state.colors.size && !state.colors.has(c.color)) return false;
     if(state.types.size && !state.types.has(c.type)) return false;
-    if(!anyOf(state.kws, c.keywordEffects||[]) || !anyOf(state.timing, c.activationTiming||[]) ||
-       !anyOf(state.acts, c.activationType||[]) || !anyOf(state.freqs, c.frequency||[])) return false;
+    if(!anyOf(state.kws, c.keywordEffects||[])) return false;
     if(state.traits.size){ var okT=false; var tl=traitList(c); state.traits.forEach(function(tr){ if(tl.indexOf(tr)!==-1) okT=true; }); if(!okT) return false; }
     if(state.search){
       var q = state.search.toLowerCase();
@@ -38051,12 +37988,10 @@ var ABILITY_CONFIG = {
     state.sets.forEach(function(s){ addRemovable(s, function(){ state.sets.delete(s); buildFilters(); render(); }); });
     state.colors.forEach(function(c){ addRemovable(t().colors[c]||c, function(){ state.colors.delete(c); buildFilters(); render(); }); });
     state.types.forEach(function(ty){ addRemovable(t().types[ty]||ty, function(){ state.types.delete(ty); buildFilters(); render(); }); });
-    [['kws','keywordEffects'],['timing','activationTiming'],['acts','activationType'],['freqs','frequency']].forEach(function(g){
-      state[g[0]].forEach(function(id){ addRemovable(abilityLabel(g[1], id), function(){ state[g[0]].delete(id); buildFilters(); render(); }); });
-    });
+    state.kws.forEach(function(id){ addRemovable(abilityLabel('keywordEffects', id), function(){ state.kws.delete(id); buildFilters(); render(); }); });
     state.traits.forEach(function(tr){ addRemovable(tr, function(){ state.traits.delete(tr); buildFilters(); render(); }); });
     if(state.ownedOnly){ addRemovable(t().onlyMine, function(){ state.ownedOnly=false; document.getElementById('ownedOnly').checked=false; render(); }); }
-    var nActive = state.sets.size + state.colors.size + state.types.size + state.kws.size + state.timing.size + state.acts.size + state.freqs.size + state.traits.size + (state.ownedOnly?1:0);
+    var nActive = state.sets.size + state.colors.size + state.types.size + state.kws.size + state.traits.size + (state.ownedOnly?1:0);
     var badge = document.getElementById('tbFilterBadge');
     badge.hidden = !nActive; badge.textContent = nActive;
   }
@@ -38079,10 +38014,13 @@ var ABILITY_CONFIG = {
     var dname = el('h2','d-name', card.name); dname.id = 'dName';
     tw.appendChild(dname);
     var rbd = ruleBadgesEl(card.number); if(rbd) tw.appendChild(rbd);
+    var dctl = deckCtlEl(card.number);
+    tw.appendChild(dctl.line);
     head.appendChild(tw);
     var close = el('button','d-close'); close.type = 'button'; close.innerHTML = ICON_X; close.onclick = closeDetail;
     close.setAttribute('aria-label', LANG==='es'?'Cerrar ficha':'Close card');
     head.appendChild(close);
+    head.appendChild(dctl.ctl);
     wrap.appendChild(head);
 
     var kpiRow = el('div','d-kpirow');
@@ -38113,7 +38051,6 @@ var ABILITY_CONFIG = {
     var tagsWrap = el('div','d-tagrow');
     card.tags.filter(function(tg){ return tg!=='vanilla'; }).forEach(function(tg){ tagsWrap.appendChild(el('span','tag hi', t().tags[tg]||tg)); });
     body.appendChild(tagsWrap);
-    body.appendChild(deckBlockEl(card.number));
 
     var src = el('div','d-source');
     src.innerHTML = '<strong>'+t().origen+'</strong> '+(card.source_title||'—')+' &nbsp;·&nbsp; <strong>'+t().disponibleEn+'</strong> '+(card.where_to_get||'—');
@@ -38213,7 +38150,6 @@ var ABILITY_CONFIG = {
     document.getElementById('lblFilterColor').textContent = t().fColor;
     document.getElementById('lblFilterType').textContent = t().fType;
     document.getElementById('lblFilterAbility').textContent = t().fAbility;
-    document.getElementById('lblFilterAct').textContent = t().fAct;
     document.getElementById('lblFilterTrait').textContent = t().rasgos;
     document.getElementById('clearFilters').textContent = t().clearFilters;
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
@@ -38262,7 +38198,7 @@ var ABILITY_CONFIG = {
   document.getElementById('searchBtn').addEventListener('click', runSearch);
   document.getElementById('ownedOnly').addEventListener('change', function(e){ state.ownedOnly = e.target.checked; render(); });
   document.getElementById('clearFilters').addEventListener('click', function(){
-    state = { search:"", ownedOnly:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), timing:new Set(), acts:new Set(), freqs:new Set(), traits:new Set() };
+    state = { search:"", ownedOnly:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), traits:new Set() };
     document.getElementById('searchMain').value = '';
     document.getElementById('ownedOnly').checked = false;
     buildFilters();
@@ -38404,6 +38340,7 @@ var ABILITY_CONFIG = {
     document.getElementById('dvEyebrow').textContent = V.eyebrow(total);
     document.getElementById('dvTitle').textContent = deck.name || L.deckNewName;
     paintLegalChip(document.getElementById('dvLegal'), deck);
+    var side = document.getElementById('dvSide'); side.innerHTML = '';
     var body = document.getElementById('dvBody'); body.innerHTML = '';
     if(!entries.length){
       var empty = el('div','dv-empty'); empty.appendChild(el('span',null,V.empty));
@@ -38466,24 +38403,24 @@ var ABILITY_CONFIG = {
     if(avg !== null) stat(V.avgCost, avg.toFixed(1).replace('.', LANG === 'es' ? ',' : '.'));
     sum.appendChild(stats);
 
-    var cb = el('div'); cb.appendChild(el('div','dv-sub', V.colors));
+    /* colores y curva de coste, junto al nombre del mazo */
+    var cb = el('div','dv-sidebox'); cb.appendChild(el('div','dv-sub', V.colors));
     var split = el('div','dv-split');
     Object.keys(byColor).sort(function(a,b){ return colorRank(a)-colorRank(b); }).forEach(function(color){
       var n = byColor[color].reduce(function(a,e){ return a+e.qty; }, 0);
       var ch = el('span','dp-chip'), pip = el('span','dd-pip'); pip.dataset.color = color;
       ch.appendChild(pip); ch.appendChild(document.createTextNode((L.colors[color] || color)+' · '+n)); split.appendChild(ch);
     });
-    cb.appendChild(split); sum.appendChild(cb);
-
-    var cv = el('div'); cv.appendChild(el('div','dv-sub', V.curve));
-    var wrap = el('div','dv-curve'), peak = Math.max.apply(null, curve) || 1;
+    cb.appendChild(split); side.appendChild(cb);
+    var cv = el('div','dv-sidebox'); cv.appendChild(el('div','dv-sub', V.curve));
+    var mini = el('div','dv-mini'), peak = Math.max.apply(null, curve) || 1;
     curve.forEach(function(n, i){
-      var col = el('div','dv-bar'); col.appendChild(el('b',null, n ? String(n) : ''));
-      var bar = document.createElement('i'); bar.style.height = (n ? Math.max(4, Math.round(n / peak * 84)) : 3)+'px'; if(!n) bar.style.opacity = '.25';
+      var col = el('div','b'); col.title = (i === 7 ? V.costMax : String(i))+' · '+n;
+      var bar = document.createElement('i'); bar.style.height = (n ? Math.max(4, Math.round(n / peak * 44)) : 2)+'px'; if(!n) bar.style.opacity = '.25';
       col.appendChild(bar); col.appendChild(el('span',null, i === 7 ? V.costMax : String(i)));
-      wrap.appendChild(col);
+      mini.appendChild(col);
     });
-    cv.appendChild(wrap); sum.appendChild(cv);
+    cv.appendChild(mini); side.appendChild(cv);
     body.appendChild(sum);
   }
   function openDeckView(){
