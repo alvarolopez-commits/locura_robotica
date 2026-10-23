@@ -367,6 +367,40 @@ body.is-building .adder{ display:grid; gap:8px; }
 .d-effect .fl{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); margin-bottom:8px; }
 .d-effect p{ margin:0; font-size:15px; line-height:1.65; color:var(--on-navy); white-space:pre-line; }
 .d-effect p.vanilla{ color:var(--on-navy-2); }
+
+/* ===== AÑADIR AL MAZO (ficha de carta) ===== */
+.d-deckbox{
+  display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:var(--navy); color:var(--on-navy);
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+}
+.ddb-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.ddb-title{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
+.ddb-rule{ flex:none; font-size:13px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
+.ddb-selwrap{ position:relative; }
+.ddb-selwrap::after{
+  content:""; position:absolute; right:15px; top:50%; width:8px; height:8px; margin-top:-6px; pointer-events:none;
+  border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg);
+}
+.ddb-sel{
+  width:100%; min-height:46px; padding:0 36px 0 13px; font:inherit; font-size:15px; font-weight:700; color:var(--on-navy);
+  background:rgba(255,255,255,.08); border:0; appearance:none; -webkit-appearance:none; cursor:pointer;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+}
+.ddb-sel:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.ddb-step{ display:grid; grid-template-columns:52px minmax(0,1fr) 52px; align-items:center; gap:10px; }
+.ddb-btn{ width:52px; height:52px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.1); color:#fff; transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease); }
+.ddb-btn svg{ width:18px; height:18px; display:block; }
+.ddb-btn:hover:not(:disabled){ background:var(--sky); color:var(--sky-ink); }
+.ddb-btn:active:not(:disabled){ transform:scale(.94); }
+.ddb-btn:disabled{ opacity:.28; cursor:not-allowed; }
+.ddb-n{ text-align:center; font-family:var(--font-display); font-size:36px; font-weight:700; line-height:1; color:#fff; font-variant-numeric:tabular-nums; }
+.ddb-n small{ font-size:20px; font-weight:600; color:var(--on-navy-2); }
+.ddb-warn{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.ddb-warn:empty{ display:none; }
+.ddb-warn p{ flex:1 1 100%; margin:0; font-size:14px; line-height:1.45; color:#ffd2d2; }
+.ddb-note{ margin:0; font-size:14px; line-height:1.45; color:var(--on-navy-2); }
+.ddb-note.ok{ color:#9be3b4; font-weight:700; }
+@media (min-width:900px){ .ddb-step{ grid-template-columns:52px 120px 52px; justify-content:start; } }
 .d-tagrow{ display:flex; flex-wrap:wrap; gap:6px; }
 .d-source{ font-size:13px; color:var(--fg-3); padding-top:12px; box-shadow:inset 0 1px 0 var(--line); }
 .d-source strong{ color:var(--fg-2); font-weight:700; }
@@ -703,65 +737,135 @@ html{ touch-action:manipulation; }
 
 /* ===== PANTALLA DE INICIO ===== */
 .splash{
-  position:fixed; inset:0; z-index:200; display:grid; place-items:center; align-content:center; gap:26px; padding:24px;
-  background:radial-gradient(60vmax 60vmax at 50% 42%, #2c2757 0%, #221e41 46%, #15122a 100%); color:var(--on-navy);
-  transition:opacity .55s var(--ease), visibility 0s linear .55s; overflow:hidden;
+  position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:24px; overflow:hidden;
+  background:radial-gradient(72vmax 72vmax at 50% 44%, #332c66 0%, #221e41 42%, #110e22 100%);
+  color:var(--on-navy); transition:opacity .5s var(--ease), visibility 0s linear .5s;
 }
 .splash.is-out{ opacity:0; visibility:hidden; pointer-events:none; }
-.splash::before{
-  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+
+/* rejilla de fondo en movimiento */
+.sp-grid{
+  position:absolute; inset:-22%; pointer-events:none; opacity:0;
   background:
-    linear-gradient(rgba(139,205,255,.06) 1px, transparent 1px) 0 0 / 100% 36px,
-    linear-gradient(90deg, rgba(139,205,255,.06) 1px, transparent 1px) 0 0 / 36px 100%;
-  -webkit-mask-image:radial-gradient(closest-side at 50% 44%, #000 20%, transparent 100%); mask-image:radial-gradient(closest-side at 50% 44%, #000 20%, transparent 100%);
-  animation:spFade .9s var(--ease-out) both;
+    linear-gradient(rgba(139,205,255,.11) 1px, transparent 1px) 0 0 / 100% 44px,
+    linear-gradient(90deg, rgba(139,205,255,.11) 1px, transparent 1px) 0 0 / 44px 100%;
+  -webkit-mask-image:radial-gradient(closest-side at 50% 46%, #000 10%, transparent 92%);
+  mask-image:radial-gradient(closest-side at 50% 46%, #000 10%, transparent 92%);
+  animation:spGridIn 1.3s var(--ease-out) both, spGridMove 7s linear infinite;
 }
-.sp-mark{ position:relative; width:min(46vw,176px); aspect-ratio:1; display:grid; place-items:center; }
+@keyframes spGridIn{ from{ opacity:0; } to{ opacity:.6; } }
+@keyframes spGridMove{ to{ transform:translate3d(44px,44px,0); } }
+
+.sp-stage{ position:relative; display:grid; justify-items:center; gap:24px; }
+
+/* marca: icono + anillos + corchetes */
+.sp-mark{ position:relative; width:min(44vw,184px); aspect-ratio:1; display:grid; place-items:center; animation:spMark 1s .05s var(--ease-out) both; }
+@keyframes spMark{ from{ opacity:0; transform:scale(.84); } to{ opacity:1; transform:none; } }
 .sp-mark::before{
-  content:""; position:absolute; inset:-26%; border-radius:50%; pointer-events:none;
-  background:radial-gradient(closest-side, rgba(139,205,255,.34), transparent 70%); animation:spGlow 1.4s .1s var(--ease-out) both;
+  content:""; position:absolute; inset:-36%; border-radius:50%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(139,205,255,.4), transparent 70%); animation:spGlow 1.6s .15s var(--ease-out) both;
 }
-.sp-icon{
-  position:relative; width:100%; height:100%; display:block; object-fit:cover;
+@keyframes spGlow{ 0%{ opacity:0; transform:scale(.45); } 60%{ opacity:1; } 100%{ opacity:.9; transform:none; } }
+/* onda de impacto al aterrizar el icono */
+.sp-mark::after{
+  content:""; position:absolute; inset:0; pointer-events:none; border:2px solid var(--sky); opacity:0;
   clip-path:polygon(var(--cut-l) 0,100% 0,100% calc(100% - var(--cut-l)),calc(100% - var(--cut-l)) 100%,0 100%,0 var(--cut-l));
-  animation:spIcon .8s .1s var(--ease-out) both;
+  animation:spShock .95s .74s var(--ease-out) both;
+}
+@keyframes spShock{ 0%{ opacity:.95; transform:scale(1); } 100%{ opacity:0; transform:scale(1.7); } }
+
+.sp-orbit{ position:absolute; inset:-17%; pointer-events:none; animation:spOrbit 1.15s .1s var(--ease-out) both; }
+@keyframes spOrbit{ from{ opacity:0; transform:scale(1.55) rotate(-40deg); } to{ opacity:1; transform:none; } }
+.sp-ring{ position:absolute; inset:0; border-radius:50%; border:1.5px solid transparent; border-top-color:rgba(139,205,255,.95); border-bottom-color:rgba(139,205,255,.22); animation:spSpin 6s linear infinite; }
+.sp-ring.r2{ inset:8%; border-top-color:transparent; border-left-color:rgba(255,255,255,.55); border-right-color:rgba(139,205,255,.45); animation-duration:3.6s; animation-direction:reverse; }
+@keyframes spSpin{ to{ transform:rotate(360deg); } }
+
+.sp-plate{
+  position:relative; width:100%; height:100%; overflow:hidden;
+  clip-path:polygon(var(--cut-l) 0,100% 0,100% calc(100% - var(--cut-l)),calc(100% - var(--cut-l)) 100%,0 100%,0 var(--cut-l));
+}
+.sp-icon{ display:block; width:100%; height:100%; object-fit:cover; animation:spIcon .95s .22s var(--ease-out) both; }
+@keyframes spIcon{ 0%{ opacity:0; transform:scale(1.2); filter:brightness(2.6) contrast(.6) saturate(.15); } 55%{ opacity:1; } 100%{ opacity:1; transform:none; filter:none; } }
+.sp-glitch{
+  position:absolute; inset:0; pointer-events:none; opacity:0; mix-blend-mode:screen;
+  background:url("icons/icon-512.png") center / cover no-repeat; animation:spGlitch .5s .52s steps(1,end) both;
+}
+@keyframes spGlitch{
+  0%{ opacity:.8; transform:translate(-8px,2px); filter:hue-rotate(165deg) saturate(3); }
+  20%{ opacity:.65; transform:translate(7px,-4px); filter:hue-rotate(-75deg) saturate(3); }
+  40%{ opacity:.5; transform:translate(-5px,5px); filter:hue-rotate(200deg) saturate(2); }
+  60%{ opacity:.3; transform:translate(4px,0); filter:none; }
+  100%{ opacity:0; transform:none; }
 }
 .sp-scan{
-  position:absolute; left:0; right:0; top:0; height:34%; pointer-events:none; opacity:0;
-  background:linear-gradient(180deg, transparent, rgba(139,205,255,.55), transparent);
-  clip-path:polygon(var(--cut-l) 0,100% 0,100% 100%,0 100%,0 var(--cut-l)); mix-blend-mode:screen; animation:spScan 1s .55s var(--ease) both;
+  position:absolute; left:0; right:0; top:0; height:42%; pointer-events:none; opacity:0; mix-blend-mode:screen;
+  background:linear-gradient(180deg, transparent, rgba(139,205,255,.7), transparent); animation:spScan .9s .48s var(--ease) both;
 }
-.sp-br{ position:absolute; width:22px; height:22px; border:solid var(--sky); opacity:0; animation:spBr .55s .45s var(--ease-out) both; }
-.sp-br.tl{ top:-12px; left:-12px; border-width:2px 0 0 2px; --dx:10px; --dy:10px; }
-.sp-br.tr{ top:-12px; right:-12px; border-width:2px 2px 0 0; --dx:-10px; --dy:10px; }
-.sp-br.bl{ bottom:-12px; left:-12px; border-width:0 0 2px 2px; --dx:10px; --dy:-10px; }
-.sp-br.brr{ bottom:-12px; right:-12px; border-width:0 2px 2px 0; --dx:-10px; --dy:-10px; }
-.sp-word{
-  font-family:var(--font-display); font-weight:800; text-transform:uppercase; font-size:clamp(34px,9vw,52px); line-height:1;
-  letter-spacing:.34em; margin-right:-.34em; color:#fff; text-align:center; animation:spWord .9s .7s var(--ease-out) both;
-}
-.sp-bar{ width:min(46vw,176px); height:2px; background:rgba(255,255,255,.14); overflow:hidden; margin-top:-8px; animation:spFade .4s .9s both; }
-.sp-bar i{ display:block; height:100%; width:100%; background:var(--sky); transform:scaleX(0); transform-origin:left; animation:spBar 1.1s .95s var(--ease) both; }
-@keyframes spFade{ from{ opacity:0; } to{ opacity:1; } }
-@keyframes spGlow{ from{ opacity:0; transform:scale(.6); } to{ opacity:1; transform:none; } }
-@keyframes spIcon{ from{ opacity:0; transform:scale(.82); filter:brightness(2.2) saturate(.3); } 60%{ filter:none; } to{ opacity:1; transform:none; filter:none; } }
-@keyframes spScan{ 0%{ opacity:0; transform:translateY(-30%); } 15%{ opacity:1; } 85%{ opacity:1; } 100%{ opacity:0; transform:translateY(300%); } }
+@keyframes spScan{ 0%{ opacity:0; transform:translateY(-130%); } 15%{ opacity:1; } 85%{ opacity:1; } 100%{ opacity:0; transform:translateY(300%); } }
+
+.sp-br{ position:absolute; width:26px; height:26px; border:solid var(--sky); opacity:0; animation:spBr .6s .44s cubic-bezier(.2,1.5,.35,1) both; }
+.sp-br.tl{ top:-13px; left:-13px; border-width:2px 0 0 2px; --dx:16px; --dy:16px; }
+.sp-br.tr{ top:-13px; right:-13px; border-width:2px 2px 0 0; --dx:-16px; --dy:16px; }
+.sp-br.bl{ bottom:-13px; left:-13px; border-width:0 0 2px 2px; --dx:16px; --dy:-16px; }
+.sp-br.brr{ bottom:-13px; right:-13px; border-width:0 2px 2px 0; --dx:-16px; --dy:-16px; }
 @keyframes spBr{ from{ opacity:0; transform:translate(var(--dx),var(--dy)); } to{ opacity:1; transform:none; } }
-@keyframes spWord{ from{ opacity:0; letter-spacing:.7em; margin-right:-.7em; filter:blur(6px); } to{ opacity:1; letter-spacing:.34em; margin-right:-.34em; filter:none; } }
+
+/* palabra, letra a letra */
+.sp-word{
+  display:flex; font-family:var(--font-display); font-weight:800; text-transform:uppercase;
+  font-size:clamp(34px,9.5vw,56px); line-height:1; color:#fff; margin-right:-.3em;
+  animation:spWordGlow 1s 1.3s var(--ease-out) both;
+}
+@keyframes spWordGlow{ from{ text-shadow:none; } to{ text-shadow:0 0 26px rgba(139,205,255,.55); } }
+.sp-word span{ display:inline-block; letter-spacing:.3em; opacity:0; animation:spLetter .55s var(--ease-out) both; }
+@keyframes spLetter{ from{ opacity:0; transform:translateY(28px) scaleY(1.45); filter:blur(9px); } to{ opacity:1; transform:none; filter:none; } }
+.sp-word span:nth-child(1){ animation-delay:.78s; }
+.sp-word span:nth-child(2){ animation-delay:.84s; }
+.sp-word span:nth-child(3){ animation-delay:.90s; }
+.sp-word span:nth-child(4){ animation-delay:.96s; }
+.sp-word span:nth-child(5){ animation-delay:1.02s; }
+.sp-word span:nth-child(6){ animation-delay:1.08s; }
+.sp-word span:nth-child(7){ animation-delay:1.14s; }
+.sp-word span:nth-child(8){ animation-delay:1.20s; }
+
+.sp-bar{ width:min(44vw,184px); height:2px; margin-top:-8px; background:rgba(255,255,255,.14); overflow:hidden; opacity:0; animation:spFadeIn .4s 1.2s both; }
+.sp-bar i{ display:block; height:100%; width:100%; background:linear-gradient(90deg, var(--sky), #fff); transform:scaleX(0); transform-origin:left; animation:spBar 1s 1.25s var(--ease) both; }
+@keyframes spFadeIn{ from{ opacity:0; } to{ opacity:1; } }
 @keyframes spBar{ to{ transform:scaleX(1); } }
+
+/* barrido y destello finales */
+.sp-sweep{
+  position:absolute; left:0; right:0; top:0; height:38vh; pointer-events:none; opacity:0; mix-blend-mode:screen;
+  background:linear-gradient(180deg, transparent, rgba(139,205,255,.16) 46%, rgba(139,205,255,.3) 50%, rgba(139,205,255,.16) 54%, transparent);
+  animation:spSweep 1.1s 1.05s var(--ease) both;
+}
+@keyframes spSweep{ 0%{ opacity:0; transform:translateY(-110%); } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ opacity:0; transform:translateY(270%); } }
+.sp-flash{ position:absolute; inset:0; pointer-events:none; background:#cfeaff; opacity:0; animation:spFlash .55s 2.18s var(--ease-out) both; }
+@keyframes spFlash{ 0%{ opacity:0; } 16%{ opacity:.42; } 100%{ opacity:0; } }
+
 @media (prefers-reduced-motion:reduce){
-  .splash *,.splash::before,.sp-mark::before{ animation-duration:.01s !important; animation-delay:0s !important; }
+  .splash *,.sp-mark::before,.sp-mark::after{ animation-duration:.01s !important; animation-delay:0s !important; animation-iteration-count:1 !important; }
+  .sp-flash,.sp-sweep,.sp-glitch,.sp-scan{ display:none; }
 }
 </style>
 
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
-  <div class="sp-mark">
-    <img class="sp-icon" src="icons/icon-192.png" alt="" width="176" height="176" decoding="async">
-    <span class="sp-scan"></span>
-    <i class="sp-br tl"></i><i class="sp-br tr"></i><i class="sp-br bl"></i><i class="sp-br brr"></i>
+  <i class="sp-grid"></i>
+  <div class="sp-stage">
+    <div class="sp-mark">
+      <span class="sp-orbit"><span class="sp-ring"></span><span class="sp-ring r2"></span></span>
+      <span class="sp-plate">
+        <img class="sp-icon" src="icons/icon-512.png" alt="" width="184" height="184" decoding="async" fetchpriority="high">
+        <span class="sp-glitch"></span>
+        <span class="sp-scan"></span>
+      </span>
+      <i class="sp-br tl"></i><i class="sp-br tr"></i><i class="sp-br bl"></i><i class="sp-br brr"></i>
+    </div>
+    <div class="sp-word"><span>G</span><span>U</span><span>N</span><span>D</span><span>A</span><span>N</span><span>E</span><span>O</span></div>
+    <div class="sp-bar"><i></i></div>
   </div>
-  <div class="sp-word">Gundaneo</div>
-  <div class="sp-bar"><i></i></div>
+  <i class="sp-sweep"></i>
+  <i class="sp-flash"></i>
 </div>
 <script>
 /* Pantalla de inicio: una vez por sesión, se salta con un toque o una tecla */
@@ -780,7 +884,7 @@ html{ touch-action:manipulation; }
   }
   sp.addEventListener('click', hide);
   document.addEventListener('keydown', hide, {once:true});
-  setTimeout(hide, reduce ? 600 : 2300);
+  setTimeout(hide, reduce ? 700 : 2750);
 })();
 </script>
 
@@ -36635,6 +36739,20 @@ var ABILITY_CONFIG = {
       adderAria:function(n){ return 'Añadir '+n+(n===1?' copia':' copias')+' al mazo'; }, adderInDeck:function(n){ return 'En el mazo · '+n+'/4'; },
       warmProgress:function(d,n){ return 'Guardando las cartas para usarlas sin conexión · '+d+'/'+n; },
       warmDone:'Listo: ya puedes usar la app sin conexión',
+      deckBlock:{
+        title:'Añadir al mazo', to:'Mazo de destino', newDeck:'+ Nuevo mazo',
+        copies:function(n){ return n===1 ? '1 copia en este mazo' : n+' copias en este mazo'; },
+        none:'No está en este mazo',
+        added:function(n,d){ return '✓ '+(n===1 ? '1 copia' : n+' copias')+' en '+d; },
+        removed:'✓ Quitada del mazo',
+        limit:'Límite alcanzado',
+        bannedTxt:'No puede añadirse a un mazo legal con las reglas actuales.',
+        restrictedTxt:function(m){ return 'Máximo '+m+(m===1 ? ' copia' : ' copias')+' con las reglas actuales.'; },
+        pairTxt:function(n){ return n+' ya está en el mazo: estas dos cartas no pueden ir juntas.'; },
+        groupTxt:function(g){ return 'Tu mazo ya usa otra carta del grupo: '+g+'.'; },
+        colorTxt:function(m){ return 'Añadirla metería un tercer color: el máximo es '+m+'.'; },
+        fullTxt:function(sz){ return 'Este mazo ya tiene '+sz+' cartas. Quita una antes de añadir otra.'; }
+      },
       legal:{
         statusLegal:'Legal de torneo', statusIncomplete:'Mazo incompleto', statusIllegal:'Mazo ilegal',
         colorsN:function(n){ return n===1 ? '1 color' : n+' colores'; },
@@ -36733,6 +36851,20 @@ var ABILITY_CONFIG = {
       adderAria:function(n){ return 'Add '+n+(n===1?' copy':' copies')+' to the deck'; }, adderInDeck:function(n){ return 'In deck · '+n+'/4'; },
       warmProgress:function(d,n){ return 'Saving the cards for offline use · '+d+'/'+n; },
       warmDone:'Done: you can now use the app offline',
+      deckBlock:{
+        title:'Add to deck', to:'Target deck', newDeck:'+ New deck',
+        copies:function(n){ return n===1 ? '1 copy in this deck' : n+' copies in this deck'; },
+        none:'Not in this deck',
+        added:function(n,d){ return '✓ '+(n===1 ? '1 copy' : n+' copies')+' in '+d; },
+        removed:'✓ Removed from deck',
+        limit:'Limit reached',
+        bannedTxt:'It cannot be added to a legal deck under the current rules.',
+        restrictedTxt:function(m){ return 'Up to '+m+(m===1 ? ' copy' : ' copies')+' under the current rules.'; },
+        pairTxt:function(n){ return n+' is already in the deck: these two cards cannot go together.'; },
+        groupTxt:function(g){ return 'Your deck already uses another card from the group: '+g+'.'; },
+        colorTxt:function(m){ return 'Adding it would bring in a third color: the limit is '+m+'.'; },
+        fullTxt:function(sz){ return 'This deck already has '+sz+' cards. Remove one before adding another.'; }
+      },
       legal:{
         statusLegal:'Tournament legal', statusIncomplete:'Deck incomplete', statusIllegal:'Illegal deck',
         colorsN:function(n){ return n===1 ? '1 color' : n+' colors'; },
@@ -37151,6 +37283,144 @@ var ABILITY_CONFIG = {
     else if(!legalModal.contains(document.activeElement)){ e.preventDefault(); first.focus(); }
   }
 
+  /* ===== AÑADIR AL MAZO: copias máximas y motivo de bloqueo (prioridad de la especificación §33) ===== */
+  function cardMaxCopies(number){
+    if(!engineOK()) return 4;
+    var rules = Legality.cardRules(number, ruleset(), cardMap());
+    if(rules.filter(function(r){ return r.kind === 'banned'; }).length) return 0;
+    var r = rules.filter(function(x){ return x.kind === 'restricted'; })[0];
+    return r ? r.max : 4;
+  }
+  /* null si se puede añadir una copia más; si no, { reason, ... } */
+  function addBlocker(number){
+    var deck = activeDeck();
+    if(!deck) return {reason:'no_deck'};
+    var q = deck.cards[number] || 0;
+    if(!engineOK()) return q >= 4 ? {reason:'copy_limit'} : null;
+    var max = cardMaxCopies(number);
+    if(max === 0) return {reason:'banned'};
+    var active = Legality.activeRules(number, deck.cards, ruleset(), cardMap());
+    var pair = active.filter(function(r){ return r.kind === 'banned_pair'; })[0];
+    if(pair) return {reason:'banned_pair', partner:pair.partner};
+    var grp = active.filter(function(r){ return r.kind === 'exclusive_group'; })[0];
+    if(grp) return {reason:'exclusive_group', groupId:grp.groupId};
+    if(q >= max) return {reason: max < 4 ? 'restricted' : 'copy_limit', max:max};
+    var lim = addLimit(number);
+    if(lim.max >= 1) return null;
+    var b = lim.blockedBy;
+    if(b && b.ruleType === 'color_limit') return {reason:'color_limit', allowed:b.allowedValue};
+    if(b && b.ruleType === 'deck_size') return {reason:'deck_full', size:b.allowedValue};
+    return {reason:(b && b.ruleType) || 'copy_limit'};
+  }
+  /* Insignia roja + explicación del bloqueo. El límite normal de 4 no es un conflicto: va en la nota. */
+  function blockerText(block){
+    var L = t().legal, D = t().deckBlock;
+    switch(block.reason){
+      case 'banned':          return {cls:'banned', badge:L.badges.banned, txt:D.bannedTxt};
+      case 'banned_pair':     return {cls:'banned_pair', badge:L.badges.banned_pair, txt:D.pairTxt(cardLabel(block.partner))};
+      case 'exclusive_group': return {cls:'exclusive_group', badge:L.badges.exclusive_group, txt:D.groupTxt(groupName(block.groupId))};
+      case 'restricted':      return {cls:'restricted', badge:L.badges.restricted(block.max), txt:D.restrictedTxt(block.max)};
+      case 'color_limit':     return {cls:'incompatible', badge:L.block.color_limit, txt:D.colorTxt(block.allowed)};
+      case 'deck_full':       return {cls:'incompatible', badge:L.block.deck_size, txt:D.fullTxt(block.size)};
+    }
+    return null;
+  }
+  function refreshDeckBlocks(){ document.querySelectorAll('.d-deckbox').forEach(function(b){ if(b._refresh) b._refresh(); }); }
+  /* Bloque de la ficha: el + y el − modifican el mazo activo al momento (una sola fuente de verdad: DECKS) */
+  function deckBlockEl(number){
+    var cardName = (cardByNumber(number) || {}).name || number;
+    var wrap = el('section','d-deckbox'); wrap.dataset.number = number;
+    var head = el('div','ddb-head');
+    head.appendChild(el('span','ddb-title', t().deckBlock.title));
+    var ruleBtn = el('button','ddb-rule', t().legal.viewRule); ruleBtn.type = 'button'; ruleBtn.hidden = true;
+    ruleBtn.addEventListener('click', function(){ legalOpener = ruleBtn; openRulePanel(number); });
+    head.appendChild(ruleBtn);
+    wrap.appendChild(head);
+
+    var selWrap = el('div','ddb-selwrap');
+    var sel = document.createElement('select'); sel.className = 'ddb-sel';
+    sel.setAttribute('aria-label', t().deckBlock.to);
+    selWrap.appendChild(sel); wrap.appendChild(selWrap);
+
+    var step = el('div','ddb-step');
+    var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'ddb-btn'; minus.innerHTML = ICON_MINUS;
+    minus.setAttribute('aria-label', t().adderLess+' · '+cardName);
+    var nEl = el('div','ddb-n'); nEl.setAttribute('aria-live','polite');
+    var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'ddb-btn'; plus.innerHTML = ICON_PLUS;
+    plus.setAttribute('aria-label', t().adderMore+' · '+cardName);
+    step.appendChild(minus); step.appendChild(nEl); step.appendChild(plus);
+    wrap.appendChild(step);
+
+    var warn = el('div','ddb-warn'); wrap.appendChild(warn);
+    var note = el('p','ddb-note'); wrap.appendChild(note);
+
+    var fb = null, fbTimer = null;
+    function setFb(kind){
+      fb = kind; clearTimeout(fbTimer);
+      fbTimer = setTimeout(function(){ fb = null; fbTimer = null; refresh(); }, 1800);
+    }
+    function fillDecks(){
+      var ids = Object.keys(DECKS);
+      sel.innerHTML = '';
+      ids.forEach(function(id){
+        var o = document.createElement('option'); o.value = id;
+        o.textContent = DECKS[id].name || t().deckNewName;
+        if(id === activeDeckId) o.selected = true;
+        sel.appendChild(o);
+      });
+      var nw = document.createElement('option'); nw.value = '__new'; nw.textContent = t().deckBlock.newDeck;
+      sel.appendChild(nw);
+    }
+    function refresh(){
+      fillDecks();
+      var deck = activeDeck();
+      var q = deck ? (deck.cards[number] || 0) : 0;
+      var max = cardMaxCopies(number);
+      var block = addBlocker(number);
+      nEl.textContent = String(q);
+      nEl.appendChild(el('small', null, ' / '+max));
+      minus.disabled = q <= 0;
+      plus.disabled = !!block;
+      ruleBtn.hidden = !engineOK() || !Legality.cardRules(number, ruleset(), cardMap()).length;
+      warn.textContent = '';
+      var info = block ? blockerText(block) : null;
+      if(info){
+        warn.appendChild(el('span','rule-badge '+info.cls, info.badge));
+        warn.appendChild(el('p', null, info.txt));
+      }
+      note.classList.toggle('ok', !!fb);
+      note.textContent = fb === 'added' ? t().deckBlock.added(q, (deck && deck.name) || t().deckNewName)
+        : fb === 'removed' ? t().deckBlock.removed
+        : block && block.reason === 'copy_limit' ? t().deckBlock.limit
+        : q > 0 ? t().deckBlock.copies(q) : t().deckBlock.none;
+    }
+    function afterChange(kind){
+      setFb(kind);
+      syncSteppers(number);
+      if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
+      refresh();
+    }
+    minus.addEventListener('click', function(){
+      var deck = activeDeck(); if(!deck || !(deck.cards[number] > 0)) return;
+      removeFromDeck(number); afterChange('removed');
+    });
+    plus.addEventListener('click', function(){
+      if(!addToDeck(number)){ refresh(); return; }
+      afterChange('added');
+    });
+    sel.addEventListener('change', function(){
+      if(sel.value === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
+      else activeDeckId = sel.value;
+      saveDecksToStorage();
+      if(!document.getElementById('decksPage').hidden) showDpView();
+      render(); updateDeckPill();
+      refresh();
+    });
+    wrap._refresh = refresh;
+    refresh();
+    return wrap;
+  }
+
   function refreshAdders(){ document.querySelectorAll('.adder').forEach(function(a){ if(a._refresh) a._refresh(); }); }
   var ICON_MINUS = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   var ICON_PLUS = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -37280,6 +37550,7 @@ var ABILITY_CONFIG = {
     updateBuildBar();
     refreshLegalChips();
     refreshRuleBadges();
+    refreshDeckBlocks();
   }
   function deckEntries(deck){
     var order = {UNIT:0,PILOT:1,COMMAND:2,BASE:3};
@@ -37705,7 +37976,6 @@ var ABILITY_CONFIG = {
       var k = el('div','d-kpi'); k.appendChild(el('div','kl',p[0])); var v=el('div','kv num',p[1]); k.appendChild(v); kpiRow.appendChild(k);
     });
     wrap.appendChild(kpiRow);
-    wrap.appendChild(adderEl(card.number, true));
 
     var body = el('div','d-body');
     var frow = el('div','d-fieldrow');
@@ -37725,6 +37995,7 @@ var ABILITY_CONFIG = {
     var tagsWrap = el('div','d-tagrow');
     card.tags.filter(function(tg){ return tg!=='vanilla'; }).forEach(function(tg){ tagsWrap.appendChild(el('span','tag hi', t().tags[tg]||tg)); });
     body.appendChild(tagsWrap);
+    body.appendChild(deckBlockEl(card.number));
 
     var src = el('div','d-source');
     src.innerHTML = '<strong>'+t().origen+'</strong> '+(card.source_title||'—')+' &nbsp;·&nbsp; <strong>'+t().disponibleEn+'</strong> '+(card.where_to_get||'—');
@@ -37780,7 +38051,7 @@ var ABILITY_CONFIG = {
   }
   document.getElementById('detail').addEventListener('keydown', function(e){
     if(e.key!=='Tab') return;
-    var f = [].slice.call(this.querySelectorAll('button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'));
+    var f = [].slice.call(this.querySelectorAll('button:not([disabled]), select, [href], [tabindex]:not([tabindex="-1"])'));
     if(!f.length) return;
     var first = f[0], last = f[f.length-1];
     if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
