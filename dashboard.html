@@ -127,9 +127,13 @@ input,textarea{ caret-color:var(--accent); }
 .deck-count{
   display:flex; align-items:center; gap:8px; min-height:42px; padding:0 16px; background:var(--sky); color:var(--sky-ink);
   font-family:var(--font-display); font-size:17px; font-weight:700; letter-spacing:.04em; font-variant-numeric:tabular-nums; white-space:nowrap;
-  cursor:default; user-select:none; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-  transition:background .2s var(--ease), color .2s var(--ease);
+  border:0; cursor:pointer; -webkit-tap-highlight-color:transparent; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  transition:background .2s var(--ease), color .2s var(--ease), transform .14s var(--ease), filter .15s var(--ease);
 }
+.deck-count:hover{ filter:brightness(1.07); }
+.deck-count:active{ transform:scale(.97); }
+.deck-count:focus-visible{ outline:2px solid #fff; outline-offset:-3px; }
+.deck-count[aria-expanded="true"]{ filter:brightness(1.12); }
 .deck-count.is-complete{ background:#9be3b4; color:#10341f; }
 .deck-count.is-over{ background:#f4a6a6; color:#5a1111; }
 /* Navegación: menú de tres rayas */
@@ -363,10 +367,56 @@ body.is-building .adder{ display:grid; gap:8px; }
 .d-fieldrow{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px 16px; }
 .d-field .fl{ font-family:var(--font-display); font-size:13px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); }
 .d-field .fv{ font-size:14px; font-weight:700; color:var(--fg-1); }
+.d-field .fv.is-link{ display:inline-flex; align-items:center; gap:6px; min-height:36px; margin:-6px 0; padding:6px 0; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.d-field .fv.is-link::after{ content:""; flex:none; width:7px; height:7px; margin-top:-3px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg); }
+.d-field .fv.is-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.d-links.is-flash .d-links-head{ animation:linkFlash 1.3s var(--ease-out); }
+@keyframes linkFlash{ 0%,45%{ background:rgba(139,205,255,.5); box-shadow:0 0 0 8px rgba(139,205,255,.5); } 100%{ background:transparent; box-shadow:0 0 0 8px transparent; } }
 .d-effect{ background:var(--navy); padding:16px 16px 18px; clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
 .d-effect .fl{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); margin-bottom:8px; }
 .d-effect p{ margin:0; font-size:15px; line-height:1.65; color:var(--on-navy); white-space:pre-line; }
 .d-effect p.vanilla{ color:var(--on-navy-2); }
+
+/* ===== VENTANA DEL MAZO (contador de la cabecera) ===== */
+.deckView{ z-index:37; }
+#dvBody{ display:flex; flex-direction:column; gap:22px; }
+.dv-color{ display:flex; flex-direction:column; gap:14px; padding:16px 14px 18px; background:color-mix(in srgb, var(--accent) 16%, #1d1a38); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
+.dv-chead{ display:flex; align-items:center; gap:10px; }
+.dv-chead .dd-pip{ width:14px; height:14px; }
+.dv-cname{ font-family:var(--font-display); font-size:26px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-1); line-height:1; }
+.dv-ccount{ margin-left:auto; font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--sky); font-variant-numeric:tabular-nums; }
+.dv-type{ display:flex; flex-direction:column; gap:6px; }
+.dv-thead{ display:flex; align-items:baseline; gap:8px; font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-3); padding-bottom:4px; border-bottom:1px solid var(--line); }
+.dv-thead b{ color:var(--fg-2); font-variant-numeric:tabular-nums; }
+.dv-rows{ display:grid; grid-template-columns:minmax(0,1fr); gap:4px; }
+.dv-row{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:12px; width:100%; min-height:62px; padding:4px 10px 4px 4px; text-align:left; background:rgba(255,255,255,.05); color:var(--fg-1); transition:background .15s var(--ease); }
+.dv-row:hover{ background:rgba(255,255,255,.1); }
+.dv-row:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.dv-thumb{ width:44px; height:54px; overflow:hidden; background:rgba(0,0,0,.25); }
+.dv-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.dv-name{ font-size:15px; font-weight:700; line-height:1.2; overflow-wrap:anywhere; }
+.dv-meta{ display:block; margin-top:2px; font-size:12px; font-weight:500; color:var(--fg-3); font-variant-numeric:tabular-nums; }
+.dv-qty{ font-family:var(--font-display); font-size:30px; font-weight:700; line-height:1; color:var(--sky); font-variant-numeric:tabular-nums; }
+.dv-qty small{ font-size:18px; font-weight:600; color:var(--fg-3); }
+.dv-summary{ display:flex; flex-direction:column; gap:16px; padding:18px 16px 20px; background:var(--panel); border-top:3px solid var(--sky); }
+.dv-stitle{ font-family:var(--font-display); font-size:28px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--fg-1); line-height:1; }
+.dv-stats{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.dv-stat{ padding:10px 12px; background:rgba(255,255,255,.06); }
+.dv-stat .k{ font-family:var(--font-display); font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); }
+.dv-stat .v{ font-family:var(--font-display); font-size:32px; font-weight:700; line-height:1.05; color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.dv-stat .v small{ font-size:18px; color:var(--fg-3); font-weight:600; }
+.dv-sub{ font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-3); margin-bottom:6px; }
+.dv-split{ display:flex; flex-wrap:wrap; gap:6px; }
+.dv-curve{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:6px; align-items:end; height:120px; }
+.dv-bar{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px; height:100%; }
+.dv-bar i{ display:block; width:100%; min-height:3px; background:var(--sky); opacity:.9; }
+.dv-bar span{ font-family:var(--font-display); font-size:15px; font-weight:600; color:var(--fg-3); }
+.dv-bar b{ font-family:var(--font-display); font-size:15px; color:var(--fg-1); }
+.dv-empty{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:22px 18px; background:rgba(255,255,255,.06); color:var(--fg-2); }
+@media (min-width:900px){
+  .dv-rows{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .dv-stats{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
 
 /* ===== AÑADIR AL MAZO (ficha de carta) ===== */
 .d-deckbox{
@@ -395,6 +445,19 @@ body.is-building .adder{ display:grid; gap:8px; }
 .ddb-btn:disabled{ opacity:.28; cursor:not-allowed; }
 .ddb-n{ text-align:center; font-family:var(--font-display); font-size:36px; font-weight:700; line-height:1; color:#fff; font-variant-numeric:tabular-nums; }
 .ddb-n small{ font-size:20px; font-weight:600; color:var(--on-navy-2); }
+.ddb-chips{ display:flex; gap:8px; }
+.ddb-chip{
+  flex:1 1 0; min-width:0; min-height:46px; display:grid; place-items:center; font-family:var(--font-display); font-size:22px; font-weight:700; color:#fff; background:rgba(255,255,255,.1);
+  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); font-variant-numeric:tabular-nums;
+  transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease);
+}
+.ddb-chip:hover:not(:disabled):not(.is-on){ background:rgba(139,205,255,.35); }
+.ddb-chip:active:not(:disabled){ transform:scale(.95); }
+.ddb-chip.is-on{ background:var(--sky); color:var(--sky-ink); }
+.ddb-chip:disabled:not(.is-on){ opacity:.28; cursor:not-allowed; }
+.ddb-chip:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.ddb-chiplabel{ font-family:var(--font-display); font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--on-navy-2); }
+@media (min-width:900px){ .ddb-chips{ max-width:340px; } }
 .ddb-warn{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
 .ddb-warn:empty{ display:none; }
 .ddb-warn p{ flex:1 1 100%; margin:0; font-size:14px; line-height:1.45; color:#ffd2d2; }
@@ -894,10 +957,10 @@ html{ touch-action:manipulation; }
     <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma / Switch language">
       <span class="lt-opt" data-lang="es">ES</span><span class="lt-opt" data-lang="en">EN</span>
     </button>
-    <div class="deck-count" id="deckCount" role="status" aria-live="polite" aria-label="Cartas en el mazo: 0 de 50">
+    <button type="button" class="deck-count" id="deckCount" aria-haspopup="dialog" aria-label="Ver el mazo: 0 de 50 cartas">
       <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
       <span id="deckPillCount">0 / 50</span>
-    </div>
+    </button>
     <div class="pillWrap">
       <button type="button" class="hamburger" id="menuBtn" aria-label="Abrir menú" aria-haspopup="menu" aria-expanded="false" aria-controls="pillMenu">
         <svg width="22" height="22" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -1120,6 +1183,21 @@ html{ touch-action:manipulation; }
       </div>
       <div class="dp-rows" id="dpRows"></div>
     </div>
+  </div>
+</section>
+
+<section class="decksPage deckView" id="deckView" hidden role="dialog" aria-modal="true" aria-labelledby="dvTitle">
+  <div class="dp-inner">
+    <button type="button" class="dp-back" id="dvBack">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="lblDvBack">Volver</span>
+    </button>
+    <div class="dp-head">
+      <span class="dp-eyebrow" id="dvEyebrow"></span>
+      <h1 class="dp-title" id="dvTitle">Mi mazo</h1>
+      <button type="button" class="legalChip cut" id="dvLegal" hidden></button>
+    </div>
+    <div id="dvBody"></div>
   </div>
 </section>
 
@@ -36717,7 +36795,7 @@ var ABILITY_CONFIG = {
       deckCopy:'Copiar lista', deckCopied:'¡Copiado!', deckNewName:'Mazo',
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Refuerzo extra',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
-      myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Cartas en el mazo: '+n+' de 50'; },
+      myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
       compTitle:'Competición', compSub:'Qué se está jugando y funcionando ahora mismo.', compSoon:'Próximamente',
       compTabs:{overview:'Overview', archetypes:'Arquetipos', cards:'Cartas', events:'Eventos', matchups:'Matchups'},
       compQ:{overview:'¿Qué se está jugando ahora mismo?', archetypes:'¿Qué arquetipos dominan el meta?', cards:'¿Qué cartas se juegan y cuántas copias?', events:'¿Qué torneos se han jugado y quién ganó?', matchups:'¿Cómo le va a cada arquetipo contra los demás?'},
@@ -36739,7 +36817,13 @@ var ABILITY_CONFIG = {
       adderAria:function(n){ return 'Añadir '+n+(n===1?' copia':' copias')+' al mazo'; }, adderInDeck:function(n){ return 'En el mazo · '+n+'/4'; },
       warmProgress:function(d,n){ return 'Guardando las cartas para usarlas sin conexión · '+d+'/'+n; },
       warmDone:'Listo: ya puedes usar la app sin conexión',
+      deckView:{
+        back:'Volver', summary:'Resumen', eyebrow:function(n){ return n+' / 50 cartas'; },
+        total:'Total', avgCost:'Coste medio', colors:'Colores', byType:'Por tipo', curve:'Curva de coste',
+        empty:'Todavía no has añadido cartas a este mazo.', add:'Añadir cartas', lv:'Nv.', cost:'Coste', costMax:'7+'
+      },
       deckBlock:{
+        setCopies:'Poner copias', linkJump:'Ver los pilotos con los que linkea', linkJumpUnits:'Ver las unidades con las que linkea',
         title:'Añadir al mazo', to:'Mazo de destino', newDeck:'+ Nuevo mazo',
         copies:function(n){ return n===1 ? '1 copia en este mazo' : n+' copias en este mazo'; },
         none:'No está en este mazo',
@@ -36829,7 +36913,7 @@ var ABILITY_CONFIG = {
       deckCopy:'Copy list', deckCopied:'Copied!', deckNewName:'Deck',
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
-      myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'Cards in deck: '+n+' of 50'; },
+      myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
       compTitle:'Competition', compSub:'What is being played and what is working right now.', compSoon:'Coming soon',
       compTabs:{overview:'Overview', archetypes:'Archetypes', cards:'Cards', events:'Events', matchups:'Matchups'},
       compQ:{overview:'What is being played right now?', archetypes:'Which archetypes lead the meta?', cards:'Which cards are played, and how many copies?', events:'Which tournaments were played and who won?', matchups:'How does each archetype fare against the others?'},
@@ -36851,7 +36935,13 @@ var ABILITY_CONFIG = {
       adderAria:function(n){ return 'Add '+n+(n===1?' copy':' copies')+' to the deck'; }, adderInDeck:function(n){ return 'In deck · '+n+'/4'; },
       warmProgress:function(d,n){ return 'Saving the cards for offline use · '+d+'/'+n; },
       warmDone:'Done: you can now use the app offline',
+      deckView:{
+        back:'Back', summary:'Summary', eyebrow:function(n){ return n+' / 50 cards'; },
+        total:'Total', avgCost:'Average cost', colors:'Colors', byType:'By type', curve:'Cost curve',
+        empty:'You have not added any cards to this deck yet.', add:'Add cards', lv:'Lv.', cost:'Cost', costMax:'7+'
+      },
       deckBlock:{
+        setCopies:'Set copies', linkJump:'See the pilots it links with', linkJumpUnits:'See the units it links with',
         title:'Add to deck', to:'Target deck', newDeck:'+ New deck',
         copies:function(n){ return n===1 ? '1 copy in this deck' : n+' copies in this deck'; },
         none:'Not in this deck',
@@ -37351,6 +37441,9 @@ var ABILITY_CONFIG = {
     step.appendChild(minus); step.appendChild(nEl); step.appendChild(plus);
     wrap.appendChild(step);
 
+    var chipLabel = el('div','ddb-chiplabel', t().deckBlock.setCopies);
+    var chips = el('div','ddb-chips'); chips.setAttribute('role','group'); chips.setAttribute('aria-label', t().deckBlock.setCopies);
+    wrap.appendChild(chipLabel); wrap.appendChild(chips);
     var warn = el('div','ddb-warn'); wrap.appendChild(warn);
     var note = el('p','ddb-note'); wrap.appendChild(note);
 
@@ -37381,6 +37474,20 @@ var ABILITY_CONFIG = {
       nEl.appendChild(el('small', null, ' / '+max));
       minus.disabled = q <= 0;
       plus.disabled = !!block;
+      /* botones 0..máximo: poner las copias de golpe; solo se pueden marcar las que caben sin romper reglas */
+      var room = block ? 0 : Math.max(0, Math.min(addLimit(number).max, max - q));
+      chipLabel.textContent = t().deckBlock.setCopies;
+      chips.textContent = '';
+      for(var c = 0; c <= max; c++){
+        (function(c){
+          var b = el('button','ddb-chip'+(c === q ? ' is-on' : ''), String(c)); b.type = 'button';
+          b.disabled = c > q + room;
+          b.setAttribute('aria-pressed', String(c === q));
+          b.setAttribute('aria-label', c === 0 ? t().adderLess+' · 0' : c+' · '+cardName);
+          b.addEventListener('click', function(){ setCopies(c); });
+          chips.appendChild(b);
+        })(c);
+      }
       ruleBtn.hidden = !engineOK() || !Legality.cardRules(number, ruleset(), cardMap()).length;
       warn.textContent = '';
       var info = block ? blockerText(block) : null;
@@ -37399,6 +37506,14 @@ var ABILITY_CONFIG = {
       syncSteppers(number);
       if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
       refresh();
+    }
+    function setCopies(target){
+      var deck = activeDeck(); if(!deck) return;
+      var cur = deck.cards[number] || 0;
+      if(target === cur) return;
+      if(target < cur){ while((deck.cards[number] || 0) > target) removeFromDeck(number); afterChange(target === 0 ? 'removed' : 'added'); return; }
+      while((deck.cards[number] || 0) < target){ if(!addToDeck(number)) break; }
+      afterChange('added');
     }
     minus.addEventListener('click', function(){
       var deck = activeDeck(); if(!deck || !(deck.cards[number] > 0)) return;
@@ -37551,6 +37666,7 @@ var ABILITY_CONFIG = {
     refreshLegalChips();
     refreshRuleBadges();
     refreshDeckBlocks();
+    if(typeof deckView !== 'undefined' && deckView && !deckView.hidden) renderDeckView();
   }
   function deckEntries(deck){
     var order = {UNIT:0,PILOT:1,COMMAND:2,BASE:3};
@@ -37980,7 +38096,9 @@ var ABILITY_CONFIG = {
     var body = el('div','d-body');
     var frow = el('div','d-fieldrow');
     [[t().tipo,t().types[card.type]||card.type],[t().rasgos,card.trait||'—'],[t().link,(LANG==='es'&&card.link)?locLinkEs(card.link):(card.link||'—')],[t().zona,(LANG==='es'&&card.zone&&card.zone!=='-')?locZoneEs(card.zone):(card.zone||'—')]].forEach(function(p){
-      var f = el('div','d-field'); f.appendChild(el('div','fl',p[0])); f.appendChild(el('div','fv',p[1])); frow.appendChild(f);
+      var f = el('div','d-field'); f.appendChild(el('div','fl',p[0])); f.appendChild(el('div','fv',p[1]));
+      if(p[0] === t().link) f.dataset.field = 'link';
+      frow.appendChild(f);
     });
     body.appendChild(frow);
 
@@ -38035,6 +38153,18 @@ var ABILITY_CONFIG = {
         ls.appendChild(strip);
       }
       body.appendChild(ls);
+      /* el valor de LINK lleva directo a la lista de cartas con las que enlaza (útil sobre todo en móvil) */
+      var lf = frow.querySelector('[data-field="link"] .fv');
+      if(lf && partners.length && card.link && card.link !== '-'){
+        var jump = function(){
+          ls.scrollIntoView({behavior:'smooth', block:'start'});
+          ls.classList.remove('is-flash'); void ls.offsetWidth; ls.classList.add('is-flash');
+        };
+        lf.classList.add('is-link'); lf.setAttribute('role','button'); lf.tabIndex = 0;
+        lf.setAttribute('aria-label', (card.type==='UNIT' ? t().deckBlock.linkJump : t().deckBlock.linkJumpUnits)+' ('+partners.length+')');
+        lf.addEventListener('click', jump);
+        lf.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); jump(); } });
+      }
     }
     wrap.appendChild(body);
     var overlay = document.getElementById('overlay');
@@ -38094,6 +38224,7 @@ var ABILITY_CONFIG = {
     if(!document.getElementById('compPage').hidden) renderComp(); else document.getElementById('lblCompBack').textContent = t().dpBackCatalog;
     document.getElementById('compTitle').textContent = t().compTitle;
     document.getElementById('compSub').textContent = t().compSub;
+    if(!document.getElementById('deckView').hidden) renderDeckView();
     document.getElementById('lblTbCatalog').textContent = t().tbCatalog;
     document.getElementById('lblTbFilters').textContent = t().tbFilters;
     document.getElementById('lblTbNew').textContent = t().tbNew;
@@ -38165,8 +38296,8 @@ var ABILITY_CONFIG = {
   });
 
   function updateTabbar(){
-    var comp = document.getElementById('compPage');
-    var active = comp && !comp.hidden ? null : !document.getElementById('decksPage').hidden ? 'tbDecks' : sidebar.classList.contains('open') ? 'tbFilters' : 'tbCatalog';
+    var comp = document.getElementById('compPage'), dvw = document.getElementById('deckView');
+    var active = (comp && !comp.hidden) || (dvw && !dvw.hidden) ? null : !document.getElementById('decksPage').hidden ? 'tbDecks' : sidebar.classList.contains('open') ? 'tbFilters' : 'tbCatalog';
     ['tbCatalog','tbFilters','tbDecks'].forEach(function(id){
       var b = document.getElementById(id);
       b.classList.toggle('is-active', id===active);
@@ -38178,30 +38309,30 @@ var ABILITY_CONFIG = {
     if(!document.getElementById('overlay').hidden) closeDetail();
     if(!cmpModal.hidden) closeCompareModal();
     if(!pillMenu.hidden) closePillMenu();
-    closeSidebar(); closeCompPage();
+    closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     selectDeckAction(null);
     window.scrollTo({top:0, behavior:'smooth'});
   });
   document.getElementById('tbCatalog').addEventListener('click', function(){
     var wasHome = document.getElementById('decksPage').hidden && compPage.hidden && !sidebar.classList.contains('open');
-    closeSidebar(); closeCompPage();
+    closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(wasHome) window.scrollTo({top:0, behavior:'smooth'});
   });
   document.getElementById('tbFilters').addEventListener('click', function(){
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
-    closeCompPage();
+    closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     openSidebar();
   });
   document.getElementById('tbNew').addEventListener('click', function(){
-    closeSidebar(); closeCompPage();
+    closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     window.scrollTo({top:0, behavior:'smooth'});
     openAddDeckPanel();
   });
-  document.getElementById('tbDecks').addEventListener('click', function(){ closeSidebar(); closeCompPage(); openDecksPage(); });
+  document.getElementById('tbDecks').addEventListener('click', function(){ closeSidebar(); closeCompPage(); closeDeckView(); openDecksPage(); });
 
   /* Acordeón Añadir mazo / Ver mis mazos: solo uno seleccionado */
   var btnAdd = document.getElementById('btnAddDeck'), btnMy = document.getElementById('btnMyDecks');
@@ -38260,6 +38391,123 @@ var ABILITY_CONFIG = {
     } else { fallbackCopy(text); done(); }
   });
 
+  /* ===== VENTANA DEL MAZO: color → tipo, y un resumen abajo ===== */
+  var deckView = document.getElementById('deckView'), deckViewOpener = null;
+  function typeLabelPl(type){
+    var es = {UNIT:'Unidades', PILOT:'Pilotos', COMMAND:'Comandos', BASE:'Bases'}, en = {UNIT:'Units', PILOT:'Pilots', COMMAND:'Commands', BASE:'Bases'};
+    return (LANG === 'es' ? es : en)[type] || type;
+  }
+  function renderDeckView(){
+    var deck = activeDeck(); if(!deck) return;
+    var L = t(), V = L.deckView, total = deckTotal(deck), entries = deckEntries(deck);
+    document.getElementById('lblDvBack').textContent = V.back;
+    document.getElementById('dvEyebrow').textContent = V.eyebrow(total);
+    document.getElementById('dvTitle').textContent = deck.name || L.deckNewName;
+    paintLegalChip(document.getElementById('dvLegal'), deck);
+    var body = document.getElementById('dvBody'); body.innerHTML = '';
+    if(!entries.length){
+      var empty = el('div','dv-empty'); empty.appendChild(el('span',null,V.empty));
+      var go = document.createElement('button'); go.type = 'button'; go.className = 'dp-btn dp-btn-primary';
+      go.appendChild(el('span',null,V.add));
+      go.addEventListener('click', function(){ closeDeckView(); setBuilding(true); render(); updateDeckPill(); });
+      empty.appendChild(go); body.appendChild(empty); return;
+    }
+    var byColor = {};
+    entries.forEach(function(en){ (byColor[en.card.color] = byColor[en.card.color] || []).push(en); });
+    Object.keys(byColor).sort(function(a,b){ return colorRank(a)-colorRank(b); }).forEach(function(color){
+      var list = byColor[color], n = list.reduce(function(a,e){ return a+e.qty; }, 0);
+      var sec = el('section','dv-color');
+      var head = el('div','dv-chead'); var pip = el('span','dd-pip'); pip.dataset.color = color;
+      head.appendChild(pip); head.appendChild(el('span','dv-cname', L.colors[color] || color)); head.appendChild(el('span','dv-ccount', String(n)));
+      sec.appendChild(head);
+      TYPE_ORDER.forEach(function(type){
+        var items = list.filter(function(e){ return e.card.type === type; });
+        if(!items.length) return;
+        var tn = items.reduce(function(a,e){ return a+e.qty; }, 0);
+        var box = el('div','dv-type'), th = el('div','dv-thead', typeLabelPl(type)+' ');
+        th.appendChild(el('b',null,String(tn))); box.appendChild(th);
+        var rows = el('div','dv-rows');
+        items.forEach(function(e){
+          var c = e.card, row = document.createElement('button'); row.type = 'button'; row.className = 'dv-row';
+          row.setAttribute('aria-label', c.name+' · '+c.number+' ×'+e.qty);
+          var th2 = el('span','dv-thumb'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.number+'.webp'; th2.appendChild(im);
+          var nm = el('span','dv-name', c.name); nm.appendChild(el('span','dv-meta', c.number+' · '+V.lv+' '+c.lv+' · '+V.cost+' '+c.cost));
+          var q = el('span','dv-qty', '×'+e.qty);
+          row.appendChild(th2); row.appendChild(nm); row.appendChild(q);
+          row.addEventListener('click', function(){ openDetail(c); });
+          rows.appendChild(row);
+        });
+        box.appendChild(rows); sec.appendChild(box);
+      });
+      body.appendChild(sec);
+    });
+
+    /* resumen */
+    var sum = el('section','dv-summary'); sum.appendChild(el('h2','dv-stitle', V.summary));
+    var costs = [], curve = [0,0,0,0,0,0,0,0];
+    entries.forEach(function(e){
+      var c = Number(e.card.cost);
+      if(isNaN(c)) return;
+      for(var i=0;i<e.qty;i++) costs.push(c);
+      curve[Math.min(7, c)] += e.qty;
+    });
+    var avg = costs.length ? (costs.reduce(function(a,b){ return a+b; }, 0) / costs.length) : null;
+    var stats = el('div','dv-stats');
+    function stat(k, v, small){
+      var d = el('div','dv-stat'); d.appendChild(el('div','k',k));
+      var vv = el('div','v', v); if(small){ vv.appendChild(el('small',null,' '+small)); }
+      d.appendChild(vv); stats.appendChild(d);
+    }
+    stat(V.total, String(total), '/ 50');
+    TYPE_ORDER.forEach(function(type){
+      var n = entries.filter(function(e){ return e.card.type === type; }).reduce(function(a,e){ return a+e.qty; }, 0);
+      stat(typeLabelPl(type), String(n));
+    });
+    if(avg !== null) stat(V.avgCost, avg.toFixed(1).replace('.', LANG === 'es' ? ',' : '.'));
+    sum.appendChild(stats);
+
+    var cb = el('div'); cb.appendChild(el('div','dv-sub', V.colors));
+    var split = el('div','dv-split');
+    Object.keys(byColor).sort(function(a,b){ return colorRank(a)-colorRank(b); }).forEach(function(color){
+      var n = byColor[color].reduce(function(a,e){ return a+e.qty; }, 0);
+      var ch = el('span','dp-chip'), pip = el('span','dd-pip'); pip.dataset.color = color;
+      ch.appendChild(pip); ch.appendChild(document.createTextNode((L.colors[color] || color)+' · '+n)); split.appendChild(ch);
+    });
+    cb.appendChild(split); sum.appendChild(cb);
+
+    var cv = el('div'); cv.appendChild(el('div','dv-sub', V.curve));
+    var wrap = el('div','dv-curve'), peak = Math.max.apply(null, curve) || 1;
+    curve.forEach(function(n, i){
+      var col = el('div','dv-bar'); col.appendChild(el('b',null, n ? String(n) : ''));
+      var bar = document.createElement('i'); bar.style.height = (n ? Math.max(4, Math.round(n / peak * 84)) : 3)+'px'; if(!n) bar.style.opacity = '.25';
+      col.appendChild(bar); col.appendChild(el('span',null, i === 7 ? V.costMax : String(i)));
+      wrap.appendChild(col);
+    });
+    cv.appendChild(wrap); sum.appendChild(cv);
+    body.appendChild(sum);
+  }
+  function openDeckView(){
+    if(!activeDeck()) return;
+    closeSidebar(); closeCompPage(); closeDeckView();
+    if(!document.getElementById('decksPage').hidden) closeDecksPage();
+    if(!cmpModal.hidden) closeCompareModal();
+    deckViewOpener = document.getElementById('deckCount');
+    renderDeckView();
+    deckView.hidden = false; deckView.scrollTop = 0;
+    document.getElementById('deckCount').setAttribute('aria-expanded','true');
+    updateTabbar();
+    document.getElementById('dvBack').focus({preventScroll:true});
+  }
+  function closeDeckView(){
+    if(deckView.hidden) return;
+    deckView.hidden = true;
+    document.getElementById('deckCount').setAttribute('aria-expanded','false');
+    updateTabbar();
+  }
+  document.getElementById('deckCount').addEventListener('click', function(){ if(deckView.hidden) openDeckView(); else closeDeckView(); });
+  document.getElementById('dvBack').addEventListener('click', closeDeckView);
+  document.getElementById('dvLegal').addEventListener('click', function(){ legalOpener = this; openLegalPanel(activeDeckId); });
+
   /* ===== COMPETICIÓN =====
    * Parte del meta (no de un mazo del usuario). Estructura preparada para los datos que vendrán (Meta Lab):
    * cada sección declara qué filtros admitirá; cuando haya datos se marca `ready` y se pinta su contenido. */
@@ -38302,7 +38550,7 @@ var ABILITY_CONFIG = {
     panel.appendChild(ul);
   }
   function openCompPage(){
-    closeSidebar();
+    closeSidebar(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
     renderComp();
@@ -38316,7 +38564,7 @@ var ABILITY_CONFIG = {
     try{ if(!fromHistory && location.hash === '#competicion') history.back(); }catch(e){}
     updateTabbar();
   }
-  document.getElementById('compBack').addEventListener('click', function(){ closeCompPage(); });
+  document.getElementById('compBack').addEventListener('click', function(){ closeCompPage(); closeDeckView(); });
   window.addEventListener('popstate', function(){
     if(location.hash === '#competicion'){ if(compPage.hidden) openCompPage(); } else closeCompPage(true);
   });
@@ -38341,7 +38589,7 @@ var ABILITY_CONFIG = {
     if(!pillMenu.hidden && !e.target.closest('.pillWrap')) closePillMenu();
   });
   document.getElementById('pmNewDeck').addEventListener('click', function(){
-    closePillMenu(); closeCompPage();
+    closePillMenu(); closeCompPage(); closeDeckView();
     if(!decksPage.hidden){
       var id = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length+1));
       openDeckDetail(id);
@@ -38351,8 +38599,8 @@ var ABILITY_CONFIG = {
       openAddDeckPanel();
     }
   });
-  document.getElementById('pmMyDecks').addEventListener('click', function(){ closePillMenu(); closeCompPage(); openDecksPage(); });
-  document.getElementById('pmCompare').addEventListener('click', function(){ closePillMenu(); closeCompPage(); openCompareModal(); });
+  document.getElementById('pmMyDecks').addEventListener('click', function(){ closePillMenu(); closeCompPage(); closeDeckView(); openDecksPage(); });
+  document.getElementById('pmCompare').addEventListener('click', function(){ closePillMenu(); closeCompPage(); closeDeckView(); openCompareModal(); });
   document.getElementById('pmCompetition').addEventListener('click', function(){ closePillMenu(); openCompPage(); });
 
   var cmpScrim = document.getElementById('cmpScrim'), cmpModal = document.getElementById('cmpModal');
@@ -38380,6 +38628,7 @@ var ABILITY_CONFIG = {
     if(!cmpModal.hidden){ closeCompareModal(); return; }
     if(!document.getElementById('overlay').hidden){ closeDetail(); return; }
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
+    if(!deckView.hidden){ closeDeckView(); document.getElementById('deckCount').focus(); return; }
     if(!compPage.hidden){ closeCompPage(); return; }
     if(!decksPage.hidden) document.getElementById('dpBack').click();
   });
