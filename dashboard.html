@@ -184,9 +184,8 @@ body.menu-open .db-top{ z-index:46; }
 .pa-ico{ width:22px; height:22px; flex:none; display:grid; place-items:center; background:rgba(139,205,255,.2); color:var(--sky); transition:background .2s var(--ease), color .2s var(--ease); }
 .pa-btn.is-selected .pa-ico{ background:rgba(14,35,56,.14); color:var(--sky-ink); }
 .pa-sep{ display:none; }
-.avatar{ flex:none; width:52px; height:52px; padding:3px; position:relative; background:linear-gradient(135deg, var(--sky), var(--accent)); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
-.avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-.avatar::after{ content:""; position:absolute; right:4px; bottom:4px; width:10px; height:10px; border-radius:50%; background:#6fdc8c; box-shadow:0 0 0 2px var(--paper); }
+.avatar{ flex:none; width:52px; height:52px; position:relative; }   /* el icono de la marca va tal cual: cuadrado con sus esquinas redondeadas, sin marco ni recorte */
+.avatar img{ width:100%; height:100%; aspect-ratio:1 / 1; object-fit:cover; display:block; }
 
 .addDeckPanel{ display:grid; grid-template-rows:0fr; opacity:0; transition:grid-template-rows .32s var(--ease-out), opacity .22s var(--ease); }
 .addDeckPanel.open{ grid-template-rows:1fr; opacity:1; }
@@ -370,9 +369,21 @@ body.is-building .adder{ display:grid; gap:8px; }
 .detail{
   width:100%; max-width:660px; max-height:94dvh; overflow-y:auto; overscroll-behavior:contain; background:var(--paper);
   clip-path:polygon(var(--cut-l) 0,100% 0,100% 100%,0 100%,0 var(--cut-l));
-  opacity:0; transform:translateY(24px); transition:opacity .22s var(--ease-out), transform .3s var(--ease-out);
+  opacity:0; transform:scale(.99); transform-origin:50% 100%; transition:opacity .22s var(--ease-out), transform .3s var(--ease-out);
 }
 .overlay.in .detail{ opacity:1; transform:none; }
+/* carta compartida grid <-> ficha: la carta que viaja, y la ficha esperando a que aterrice */
+.fly-card{ position:fixed; z-index:60; margin:0; pointer-events:none; transform-origin:50% 50%; transform-style:preserve-3d; will-change:transform; }
+.fc-face{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; border-radius:14px; backface-visibility:hidden; -webkit-backface-visibility:hidden; background:var(--tone); }
+.fc-back{ transform:rotateY(180deg); border:3px solid #8bcdff; box-sizing:border-box;
+  background:repeating-linear-gradient(135deg,rgba(139,205,255,.14) 0 10px,transparent 10px 20px), linear-gradient(160deg,#2c2757,#1a1636); }
+.detail.fly-wait .d-head > :not(.d-img):not(.d-close), .detail.fly-wait .d-kpirow, .detail.fly-wait .d-body{ opacity:0; }
+.detail.fly-hold .d-img{ opacity:0; }
+@media (prefers-reduced-motion: reduce){
+  .overlay{ transition-duration:.15s !important; }
+  .detail{ transition-duration:.15s !important; transform:scale(.97); }
+  .overlay.in .detail{ transform:none; }
+}
 .detail::before{ content:""; display:block; width:44px; height:4px; background:var(--fg-3); opacity:.4; margin:10px auto 0; }
 .d-head{ display:grid; grid-template-columns:minmax(0,1fr) 64px; align-items:start; gap:14px 8px; padding:14px var(--pad) 12px; }
 .d-head > .d-close{ grid-column:2; grid-row:1; justify-self:end; align-self:start; }
@@ -962,14 +973,13 @@ html{ touch-action:manipulation; }
 @keyframes spSpin{ to{ transform:rotate(360deg); } }
 
 .sp-plate{
-  position:relative; width:100%; height:100%; overflow:hidden;
-  clip-path:polygon(var(--cut-l) 0,100% 0,100% calc(100% - var(--cut-l)),calc(100% - var(--cut-l)) 100%,0 100%,0 var(--cut-l));
+  position:relative; width:100%; height:100%; overflow:hidden; border-radius:22%;
 }
 .sp-icon{ display:block; width:100%; height:100%; object-fit:cover; animation:spIcon .95s .22s var(--ease-out) both; }
 @keyframes spIcon{ 0%{ opacity:0; transform:scale(1.2); filter:brightness(2.6) contrast(.6) saturate(.15); } 55%{ opacity:1; } 100%{ opacity:1; transform:none; filter:none; } }
 .sp-glitch{
   position:absolute; inset:0; pointer-events:none; opacity:0; mix-blend-mode:screen;
-  background:url("icons/icon-512.png") center / cover no-repeat; animation:spGlitch .5s .52s steps(1,end) both;
+  background:url("brand/locura-robotica-icon.png") center / cover no-repeat; animation:spGlitch .5s .52s steps(1,end) both;
 }
 @keyframes spGlitch{
   0%{ opacity:.8; transform:translate(-8px,2px); filter:hue-rotate(165deg) saturate(3); }
@@ -1036,7 +1046,7 @@ html{ touch-action:manipulation; }
     <div class="sp-mark">
       <span class="sp-orbit"><span class="sp-ring"></span><span class="sp-ring r2"></span></span>
       <span class="sp-plate">
-        <img class="sp-icon" src="icons/icon-512.png" alt="" width="184" height="184" decoding="async" fetchpriority="high">
+        <img class="sp-icon" src="brand/locura-robotica-icon.png" alt="" width="184" height="184" decoding="async" fetchpriority="high">
         <span class="sp-glitch"></span>
         <span class="sp-scan"></span>
       </span>
@@ -1182,7 +1192,7 @@ html{ touch-action:manipulation; }
           </button>
         </div>
         <div class="avatar" title="Perfil">
-          <img src="data:image/webp;base64,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" alt="Foto de perfil" width="200" height="200">
+          <img src="brand/locura-robotica-icon.png" alt="Locura robótica" width="52" height="52">
         </div>
         </div>
         <div class="addDeckPanel" id="addDeckPanel" inert>
@@ -1242,7 +1252,7 @@ html{ touch-action:manipulation; }
 </div>
 
 <aside class="installCard cut" id="installCard" role="dialog" aria-labelledby="installTitle" hidden>
-  <img src="/icons/icon-192.png" alt="" width="44" height="44">
+  <img src="brand/locura-robotica-icon.png" alt="" width="44" height="44">
   <div class="ic-text"><b id="installTitle">Instala la app</b><span id="installBody"></span></div>
   <div class="ic-actions">
     <button type="button" class="ic-ghost" id="installLater">Ahora no</button>
@@ -52910,7 +52920,8 @@ var EFFECT_CONFIG = {
   function fxPaint(node, id){ var bg = actColor(id); node.style.setProperty('--fx-bg', bg); node.style.setProperty('--fx-fg', contrastText(bg)); }
   function fxBox(e){
     var box = el('span','fx-box'), act = e.act, label = fxLang(FX_ACTION[e.action]);
-    if(act){ fxPaint(box, act); box.textContent = fxLang(FX_ACT[act])+' · '+label; } else { box.classList.add('neutral'); box.textContent = label; }
+    if(act === 'BURST' && e.action === 'ADD_TO_HAND'){ fxPaint(box, act); box.textContent = fxLang(FX_ACT[act]); }   /* "Burst: añadir a la mano" es lo normal: solo "Burst" */
+    else if(act){ fxPaint(box, act); box.textContent = fxLang(FX_ACT[act])+' · '+label; } else { box.classList.add('neutral'); box.textContent = label; }
     return box;
   }
   /* resumen sin repetidos (misma activación y misma acción) */
@@ -53057,7 +53068,8 @@ var EFFECT_CONFIG = {
     if(!btn) return;
     if(!engineOK()){ btn.hidden = true; return; }
     var L = t().legal, r = legalOf(deck), s = r.summary;
-    btn.hidden = false;
+    btn.hidden = r.status !== 'illegal';   /* el aviso solo aparece si el mazo incumple alguna regla */
+    if(btn.hidden) return;
     btn.className = 'legalChip '+(mini ? 'mini' : 'cut')+' is-'+r.status;
     btn.textContent = '';
     btn.appendChild(el('i','lc-dot'));
@@ -53634,7 +53646,8 @@ var EFFECT_CONFIG = {
           var c = x.card;
           var item = el('div','dp-card'+(x.qty===0?' is-zero':''));
           var img = document.createElement('img'); img.loading = 'lazy'; img.src = 'images/'+c.number+'.webp'; img.alt = c.name;
-          img.addEventListener('click', function(){ openDetail(c); });
+          img.dataset.number = c.number;
+          img.addEventListener('click', function(){ openDetail(c, img); });
           item.appendChild(img);
           var info = el('div','dp-cinfo');
           info.appendChild(el('div','dp-cname', c.name));
@@ -53856,13 +53869,13 @@ var EFFECT_CONFIG = {
     inner.tabIndex = 0;
     inner.setAttribute('role','button');
     inner.setAttribute('aria-label', card.name+' · '+card.number+(card.owned?' · '+t().tengo:''));
-    inner.onclick = function(){ openDetail(card); };
+    inner.onclick = function(){ openDetail(card, inner.querySelector('.card-imgwrap')); };
     inner.addEventListener('keydown', function(e){
-      if((e.key==='Enter'||e.key===' ') && e.target===inner){ e.preventDefault(); openDetail(card); }
+      if((e.key==='Enter'||e.key===' ') && e.target===inner){ e.preventDefault(); openDetail(card, inner.querySelector('.card-imgwrap')); }
     });
     var bit = el('div','colorbit'); bit.dataset.color = card.color; inner.appendChild(bit);
     if(card.owned) inner.appendChild(el('div','delta delta-up status', t().tengo));
-    var imgwrap = el('div','card-imgwrap');
+    var imgwrap = el('div','card-imgwrap'); imgwrap.dataset.number = card.number;
     var img = document.createElement('img'); img.loading='lazy'; img.src='images/'+card.number+'.webp'; img.alt=card.name;
     imgwrap.appendChild(img); inner.appendChild(imgwrap);
     var body = el('div','card-body');
@@ -53924,9 +53937,61 @@ var EFFECT_CONFIG = {
     badge.hidden = !nActive; badge.textContent = nActive;
   }
 
-  var detailCard = null, detailReturnFocus = null;
-  function openDetail(card){
-    if(document.getElementById('overlay').hidden) detailReturnFocus = document.activeElement;
+  /* ===== Carta compartida: la carta del grid viaja a la ficha y vuelve (FLIP con Web Animations) ===== */
+  var cardFly = { busy:false, clone:null, anim:null, timers:[] };
+  var FLY_MS = 850, FLY_EASE = 'cubic-bezier(.3,.55,.25,1)';
+  function flyReduced(){ return !!(REDUCED && REDUCED.matches); }
+  function flyRectOK(r){ return !!r && r.width > 8 && r.height > 8 && r.bottom > 0 && r.right > 0 && r.top < innerHeight && r.left < innerWidth; }
+  function flyContent(wrap){ return [].slice.call(wrap.querySelectorAll('.d-head > :not(.d-img):not(.d-close), .d-kpirow, .d-body')); }
+  /* termina todo vuelo pendiente: sin clones huérfanos, origen visible, estado desbloqueado */
+  function flyCleanup(){
+    cardFly.timers.forEach(clearTimeout); cardFly.timers = [];
+    if(cardFly.anim){ try{ cardFly.anim.cancel(); }catch(e){} cardFly.anim = null; }
+    if(cardFly.clone){ cardFly.clone.remove(); cardFly.clone = null; }
+    document.getElementById('detail').classList.remove('fly-wait','fly-hold');
+    cardFly.busy = false;
+  }
+  /* la carta de origen se oculta (sigue ocupando su sitio) mientras su ficha está abierta */
+  var flyHidden = [];
+  function flyHide(n){ n.style.visibility = 'hidden'; flyHidden.push(n); }
+  function flyShowAll(){ flyHidden.forEach(function(n){ n.style.visibility = ''; }); flyHidden = []; }
+  /* clone de la carta: mismo tamaño que el destino, desplazado/escalado hasta el origen; solo transform y sombra */
+  function flyCard(imgUrl, from, to, dir){
+    var clone = el('div','fly-card'); var im = new Image(); im.decoding = 'sync'; im.src = imgUrl; im.alt = ''; im.className = 'fc-face'; clone.appendChild(im);
+    clone.appendChild(el('div','fc-face fc-back'));
+    clone.style.cssText = 'left:'+to.left+'px;top:'+to.top+'px;width:'+to.width+'px;height:'+to.height+'px';
+    document.body.appendChild(clone);
+    var dx = (from.left+from.width/2) - (to.left+to.width/2), dy = (from.top+from.height/2) - (to.top+to.height/2), s0 = from.width / to.width;
+    var BIG = '0 18px 45px rgba(0,0,0,.22)', MID = '0 14px 30px -6px rgba(0,0,0,.25)', REST = '0 14px 24px -16px rgba(34,30,65,.55)', SRC = '0 4px 10px -6px rgba(0,0,0,.25)';
+    function fr(off, p, k, lift, ry, rz, sh, rad){
+      var q = dir > 0 ? p : 1 - p;                    /* 0 = origen, 1 = destino; al cerrar el recorrido va al revés */
+      var sg = dir > 0 ? 1 : -1;
+      return { offset:off, boxShadow:sh, borderRadius:rad+'px', transform:'perspective(1200px) translate3d('+(dx*(1-q))+'px,'+(dy*(1-q)-lift)+'px,0) scale('+((s0+(1-s0)*q)*k)+') rotateY('+(ry*sg)+'deg) rotateZ('+(rz*sg)+'deg)' };
+    }
+    /* giro completo en Y mientras viaja: 360° (al cerrar gira al revés) */
+    var frames = dir > 0 ? [
+      fr(0, 0, 1, 0, 0, 0, SRC, 0), fr(.16, 0, 1.04, 12, 10, -.8, BIG, 0), fr(.4, .45, 1.04, 12, 170, -2, BIG, 0),
+      fr(.76, .97, 1, 2, 340, .7, MID, 0), fr(1, 1, 1, 0, 360, 0, REST, 0)
+    ] : [
+      fr(0, 1, 1, 0, 0, 0, REST, 0), fr(.18, .9, 1.04, 12, 10, -.8, BIG, 0), fr(.45, .5, 1.04, 12, 170, -2, BIG, 0),
+      fr(.8, .04, 1, 2, 340, .7, MID, 0), fr(1, 0, 1, 0, 360, 0, SRC, 0)
+    ];
+    cardFly.clone = clone;
+    cardFly.anim = clone.animate(frames, { duration: dir > 0 ? FLY_MS : FLY_MS - 40, easing: FLY_EASE, fill:'forwards' });
+    return cardFly.anim.finished;
+  }
+  function flyUrl(src){ var im = src.tagName === 'IMG' ? src : src.querySelector('img'); return (im && im.complete && im.naturalWidth) ? (im.currentSrc || im.src) : null; }
+  function flyContentIn(wrap){
+    flyContent(wrap).forEach(function(n){ n.animate([{opacity:0, transform:'translateY(7px)'},{opacity:1, transform:'none'}], {duration:180, easing:FLY_EASE, fill:'backwards'}); });
+    wrap.classList.remove('fly-wait');
+  }
+
+  var detailCard = null, detailReturnFocus = null, detailSrc = null, detailGrid = false;
+  function openDetail(card, srcEl){
+    if(cardFly.busy) return;
+    var wasOpen = !document.getElementById('overlay').hidden, prevCard = detailCard;
+    if(!wasOpen){ detailReturnFocus = document.activeElement; detailSrc = srcEl || null; detailGrid = !!(srcEl && srcEl.classList.contains('card-imgwrap')); }
+    else if(prevCard !== card) detailSrc = null;     /* saltando de carta dentro de la ficha: sin vuelo, solo fundido */
     detailCard = card;
     var wrap = document.getElementById('detail');
     wrap.innerHTML = '';
@@ -54043,16 +54108,66 @@ var EFFECT_CONFIG = {
     }
     wrap.appendChild(body);
     var overlay = document.getElementById('overlay');
-    overlay.hidden = false;
+    wrap.classList.remove('fly-wait','fly-hold');
+    var url = srcEl && !wasOpen && !flyReduced() ? flyUrl(srcEl) : null, sourceRect = url ? srcEl.getBoundingClientRect() : null;
+    if(!url || !flyRectOK(sourceRect)){
+      overlay.hidden = false;
+      if(!wasOpen) wrap.scrollTop = 0;
+      else if(prevCard !== card) wrap.animate([{opacity:.5},{opacity:1}], {duration:160, easing:FLY_EASE});
+      requestAnimationFrame(function(){ overlay.classList.add('in'); });
+      close.focus({preventScroll:true});
+      return;
+    }
+    /* grid -> ficha: se mide el destino real con la ficha ya montada y sin escalar, y la carta aterriza ahí */
+    cardFly.busy = true;
+    wrap.classList.add('fly-wait','fly-hold');
+    overlay.hidden = false; wrap.scrollTop = 0;
+    wrap.style.transition = 'none'; wrap.style.transform = 'none';
+    var to = wrap.querySelector('.d-img').getBoundingClientRect();
+    wrap.style.transform = ''; void wrap.offsetWidth; wrap.style.transition = '';
+    flyShowAll(); flyHide(srcEl);
     requestAnimationFrame(function(){ overlay.classList.add('in'); });
+    flyCard(url, sourceRect, to, 1).then(null, function(){}).then(function(){
+      if(!cardFly.busy) return;                         /* cancelado */
+      flyCleanup();                                      /* la carta real aparece y el clon se va en el mismo instante */
+      close.focus({preventScroll:true});
+    });
+    /* el contenido entra cuando la carta casi ha aterrizado, sin escalonado largo */
+    cardFly.timers.push(setTimeout(function(){ if(cardFly.busy) flyContentIn(wrap); }, FLY_MS * .82));
+    cardFly.timers.push(setTimeout(function(){ if(cardFly.busy) flyCleanup(); }, FLY_MS + 500));   /* red de seguridad */
     close.focus({preventScroll:true});
   }
   function closeDetail(){
-    var overlay = document.getElementById('overlay');
+    if(cardFly.busy) return;
+    var overlay = document.getElementById('overlay'), wrap = document.getElementById('detail'), num = detailCard && detailCard.number;
+    var src = detailSrc && document.contains(detailSrc) && detailSrc.dataset.number === num ? detailSrc : null;
+    if(!src && detailGrid && num) src = document.querySelector('.card-imgwrap[data-number="'+num+'"]');
+    var imgEl = wrap.querySelector('.d-img'), url = src ? flyUrl(src) : null;
+    var from = imgEl ? imgEl.getBoundingClientRect() : null, to = url ? src.getBoundingClientRect() : null;
+    var finish = function(){
+      flyShowAll();
+      overlay.hidden = true;
+      if(detailReturnFocus && document.contains(detailReturnFocus)) detailReturnFocus.focus({preventScroll:true});
+      detailReturnFocus = null; detailSrc = null; detailGrid = false;
+    };
+    if(!url || !src.offsetParent || !flyRectOK(to) || !flyRectOK(from) || flyReduced()){
+      /* sin origen utilizable (filtrado, fuera de pantalla, sin movimiento): la carta se encoge y se funde con la ficha */
+      if(imgEl && !flyReduced()) imgEl.animate([{transform:'none', opacity:1},{transform:'scale(.96)', opacity:0}], {duration:200, easing:FLY_EASE, fill:'forwards'});
+      overlay.classList.remove('in');
+      setTimeout(finish, 220);
+      return;
+    }
+    /* ficha -> grid: el recorrido inverso; el origen se recalcula ahora, no se reutiliza el de la apertura */
+    cardFly.busy = true;
+    wrap.classList.add('fly-hold');
+    flyContent(wrap).forEach(function(n){ n.animate([{opacity:1},{opacity:0}], {duration:110, fill:'forwards'}); });
+    flyHide(src);
     overlay.classList.remove('in');
-    setTimeout(function(){ overlay.hidden = true; }, 220);
-    if(detailReturnFocus && document.contains(detailReturnFocus)) detailReturnFocus.focus({preventScroll:true});
-    detailReturnFocus = null;
+    flyCard(url, from, to, -1).then(null, function(){}).then(function(){
+      if(!cardFly.busy) return;
+      flyCleanup(); finish();
+    });
+    cardFly.timers.push(setTimeout(function(){ if(cardFly.busy){ flyCleanup(); finish(); } }, FLY_MS + 500));
   }
   document.getElementById('detail').addEventListener('keydown', function(e){
     if(e.key!=='Tab') return;

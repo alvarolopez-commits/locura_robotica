@@ -3,7 +3,7 @@
  * - Imágenes de cartas: caché primero (no cambian) y se guardan al verlas.
  * - Fuentes de Google: caché primero.
  * Sube SHELL_VERSION si cambias la lista de PRECACHE. */
-const SHELL_VERSION = 'v2';
+const SHELL_VERSION = 'v3';
 const SHELL = 'locura-shell-' + SHELL_VERSION;
 const IMAGES = 'locura-images';
 const FONTS = 'locura-fonts';
@@ -13,7 +13,7 @@ const PRECACHE = [
   '/legality.js',
   '/manifest.webmanifest',
   '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/brand/locura-robotica-icon.png',
   '/icons/apple-touch-icon.png',
   '/icons/favicon-32.png',
 ];
