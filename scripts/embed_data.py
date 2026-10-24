@@ -46,12 +46,16 @@ def main():
     html = embed(html, "CARDS_DATA", cards, "\n];")
     html = embed(html, "RULESETS", rulesets, "\n];", after_var="CARDS_DATA")
     html = embed(html, "ABILITY_CONFIG", abilities, "\n};", after_var="RULESETS")
+    effect_cfg = json.load(open(os.path.join(ROOT, "data", "effects_config.json"), encoding="utf-8"))
+    effect_cfg = {k: v for k, v in effect_cfg.items() if not k.startswith("_")}
+    html = embed(html, "EFFECT_CONFIG", effect_cfg, "\n};", after_var="ABILITY_CONFIG")
 
     open(HTML, "w", encoding="utf-8", newline="").write(html)
     check = open(HTML, encoding="utf-8").read()
     assert extract(check, "CARDS_DATA", "\n];") == cards
     assert extract(check, "RULESETS", "\n];") == rulesets
     assert extract(check, "ABILITY_CONFIG", "\n};") == abilities
+    assert extract(check, "EFFECT_CONFIG", "\n};") == effect_cfg
     print("cartas:", len(cards), "| rulesets:", [x["id"] for x in rulesets], "| grupos de habilidad:", list(abilities))
 
 

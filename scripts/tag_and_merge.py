@@ -5,6 +5,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from abilities import load_config, parse_abilities
+import effects as fxmod
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -78,6 +79,8 @@ with open(os.path.join(DATA_DIR, "effects_es.json"), encoding="utf-8") as f:
     EFFECTS_ES = json.load(f)
 
 ABILITY_CFG = load_config()
+FX_OVERRIDES = fxmod.load_overrides()
+FX_REPORT = []
 
 all_cards = []
 for s in SETS:
@@ -89,6 +92,9 @@ for s in SETS:
         c["owned"] = s in OWNED_SETS
         c["tags"] = tag_card(c)   # categorías funcionales (metadato interno; ya no se usan en el filtro HABILIDAD)
         c.update(parse_abilities(c.get("effect"), ABILITY_CFG))   # keywordEffects / activationTiming / activationType / frequency
+        # efectos estructurados (activación + acción literal). Las `tags` antiguas NO intervienen: solo auditoría.
+        c["effects"] = fxmod.apply_overrides(c["number"], fxmod.parse_effects(c.get("effect")), FX_OVERRIDES)
+        FX_REPORT.append((c["number"], c["tags"], c["effects"]))
         effect = c.get("effect") or ""
         if effect.strip() not in ("", "-"):
             if effect not in EFFECTS_ES:
@@ -102,6 +108,15 @@ with open(out_path, "w", encoding="utf-8") as f:
     json.dump(all_cards, f, ensure_ascii=False, indent=1)
 
 print(f"Total cards: {len(all_cards)}")
+
+# informe de migración (solo local): card_number, old_tags, new_effects, confidence, needs_review
+import csv
+os.makedirs(os.path.join(DATA_DIR, "meta"), exist_ok=True)
+with open(os.path.join(DATA_DIR, "meta", "effects_report.csv"), "w", encoding="utf-8-sig", newline="") as f:
+    w = csv.writer(f); w.writerow(["card_number", "old_tags", "new_effects", "min_confidence", "needs_review"])
+    for number, tags, effs in FX_REPORT:
+        if not effs: continue
+        w.writerow([number, " | ".join(tags), " | ".join(f"{e['act'] or '-'}·{e['action']}" for e in effs), min(e["conf"] for e in effs), int(fxmod.needs_review(effs))])
 from collections import Counter
 tag_counts = Counter(t for c in all_cards for t in c["tags"])
 for tag, cnt in tag_counts.most_common():
