@@ -84,6 +84,7 @@ input,textarea{ caret-color:var(--accent); }
 }
 .tag.hi{ background:var(--accent); color:#fff; }
 .tag.chip{ cursor:pointer; background:var(--tone); color:var(--fg-2); min-height:40px; padding:8px 16px; clip-path:none; border-radius:9999px; }
+.sb-chips .tag.chip{ max-width:100%; white-space:normal; text-align:left; line-height:1.15; border-radius:20px; }   /* rasgos largos ("Earth Sphere Unified Nation · 1") se cortaban sin avisar en la barra lateral de escritorio */
 .tag.chip.active{ background:var(--sky); color:var(--sky-ink); }
 .tag.chip[data-color="Blue"].active{ background:var(--c-blue); color:#fff; }
 .tag.chip[data-color="Green"].active{ background:var(--c-green); color:#fff; }
@@ -207,6 +208,10 @@ body.menu-open .db-top{ z-index:46; }
 .bb-eyebrow{ display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
 .bb-dot{ width:8px; height:8px; background:var(--sky); }
 .bb-name{ font-family:var(--font-display); font-size:clamp(24px,7vw,32px); font-weight:700; line-height:1.05; letter-spacing:.01em; text-transform:uppercase; color:#fff; margin-top:2px; overflow-wrap:anywhere; }
+.bb-namebtn{ touch-action:manipulation; display:block; max-width:100%; padding:6px 0; margin:-6px 0; font:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; text-align:left; line-height:inherit; overflow-wrap:anywhere; cursor:pointer; text-decoration:underline dotted transparent; text-underline-offset:6px; transition:text-decoration-color .15s var(--ease); }
+.bb-namebtn:hover{ text-decoration-color:rgba(255,255,255,.55); }
+.bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+.bb-nameinput{ width:100%; min-height:44px; padding:0 0 2px; font:inherit; letter-spacing:inherit; text-transform:inherit; color:#fff; background:transparent; border:0; border-bottom:2px solid var(--sky); border-radius:0; outline:none; }
 .bb-side{ display:flex; align-items:center; gap:14px; }
 .bb-count{ font-size:13px; font-weight:600; color:var(--on-navy-2); font-variant-numeric:tabular-nums; }
 .bb-count b{ font-family:var(--font-display); font-size:34px; font-weight:700; color:#fff; line-height:1; margin-right:2px; }
@@ -223,7 +228,7 @@ body.menu-open .db-top{ z-index:46; }
 .sb-btn{ flex:none; width:44px; height:44px; display:grid; place-items:center; background:var(--sky); color:var(--sky-ink); border-radius:50%; transition:transform .16s var(--ease); }
 .sb-btn:active{ transform:scale(.95); }
 .addfilter-btn{ display:none; }
-.quick{ display:flex; flex-wrap:wrap; gap:6px; padding:8px 0 0; }
+.quick{ display:flex; flex-wrap:nowrap; gap:6px; padding:8px var(--pad) 0; margin:0 calc(var(--pad) * -1); overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; }   /* una sola fila que se desliza: en 320 px la barra pegajosa ocupaba un cuarto de la pantalla con dos filas de chips */
 .quick::-webkit-scrollbar{ display:none; }
 .quick .tag{ flex:none; }
 
@@ -277,20 +282,15 @@ body.menu-open .db-top{ z-index:46; }
 .tag.chip.fx-chip,.tag.chip.fx-plain{ font-family:var(--font-sans); letter-spacing:0; text-transform:none; font-weight:700; font-size:13px; }
 .card-tagrow{ display:flex; flex-wrap:wrap; gap:4px; }
 .card-tagrow:empty{ display:none; }
-.card-tagrow .tag{ font-size:11px; font-weight:600; letter-spacing:.02em; text-transform:lowercase; padding:4px 8px; min-height:22px; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+.card-tagrow .tag{ font-size:12px; font-weight:600; letter-spacing:.02em; text-transform:lowercase; padding:4px 8px; min-height:22px; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
 .card-body:has(.card-tagrow:empty){ padding-bottom:8px; }
 .empty{ grid-column:1 / -1; text-align:center; padding:56px 20px; color:var(--fg-3); font-size:14px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
 
 /* selector +/− grande: pulgar cómodo */
-.deck-stepper{ display:grid; grid-template-columns:44px 1fr 44px 36px; align-items:center; gap:0; }
-.ds-del{ width:36px !important; height:36px !important; margin-left:6px; color:var(--rose-ink); background:rgba(244,166,166,.3); }
-.ds-del svg{ width:15px !important; height:15px !important; }
 .ds-btn{ width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--tone); color:var(--fg-1); transition:background .15s var(--ease), color .15s var(--ease), transform .12s var(--ease); }
 .ds-btn svg{ width:16px; height:16px; display:block; }
 .ds-btn:active{ background:var(--accent); color:#fff; transform:scale(.96); }
 .ds-btn:disabled{ opacity:.35; cursor:not-allowed; }
-.ds-count{ font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1; text-align:center; color:var(--fg-3); }
-.deck-stepper.has-qty .ds-count{ color:var(--accent-ink); }
 
 /* ===== AÑADIR AL MAZO · solo mientras se construye un mazo ===== */
 .adder{ display:none; }
@@ -452,25 +452,30 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-thead{ display:flex; align-items:baseline; gap:8px; font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-3); padding-bottom:4px; border-bottom:1px solid var(--line); }
 .dv-thead b{ color:var(--fg-2); font-variant-numeric:tabular-nums; }
 .dv-rows{ display:grid; grid-template-columns:minmax(0,1fr); gap:4px; }
-.dv-row{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:8px; min-height:62px; padding:0 8px 0 6px; background:transparent; box-shadow:inset 0 -1px 0 var(--line); color:var(--fg-1); transition:background .15s var(--ease); }
+.dv-row{ display:grid; grid-template-columns:auto auto minmax(0,1fr) auto; align-items:center; gap:8px; min-height:62px; padding:0 6px; background:transparent; box-shadow:inset 0 -1px 0 var(--line); color:var(--fg-1); transition:background .15s var(--ease); }
 .dv-row:hover{ background:rgba(255,255,255,.06); }
-.dv-open{ display:grid; grid-template-columns:44px minmax(0,1fr); align-items:center; gap:12px; min-width:0; min-height:62px; padding:4px 4px 4px 4px; text-align:left; color:inherit; background:transparent; }
+.dv-color{ width:100%; max-width:920px; }   /* en pantallas anchas el nombre y sus botones quedaban a 800 px de distancia */
+.dv-row.is-zero{ opacity:.5; }   /* detalle de Mis mazos: carta quitada en esta visita, se queda para poder volver a añadirla */
+.dv-cname{ margin:0; }
+.dv-open{ display:grid; grid-template-columns:44px minmax(0,1fr); align-items:center; gap:10px; min-width:0; min-height:62px; padding:4px 4px 4px 4px; text-align:left; color:inherit; background:transparent; }
 .dv-open:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
-.dv-step{ display:flex; align-items:center; gap:6px; }
-.dv-cbit{ width:14px; height:14px; }   /* cuadradito con el color de la carta, a la izquierda de la fila */
-.dv-sbtn{ width:44px; height:44px; border-radius:50%; display:grid; place-items:center; color:var(--sky); background:rgba(139,205,255,.14); border:2px solid #4a9be0; transition:background .15s var(--ease), transform .12s var(--ease); }
-.dv-sbtn svg{ width:14px; height:14px; display:block; }
+.dv-step{ display:flex; align-items:center; gap:4px; }
+.dd-pip.dv-cbit{ width:12px; height:12px; }   /* fila: círculo con las copias · cuadradito de color · carta · botones pequeños */
+.dv-sbtn{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:var(--sky); background:rgba(139,205,255,.14); border:1.5px solid #4a9be0; transition:background .15s var(--ease), transform .12s var(--ease); }
+.dv-sbtn svg{ width:11px; height:11px; display:block; }
 .dv-sbtn:hover:not(:disabled){ background:rgba(139,205,255,.32); }
 .dv-sbtn:active:not(:disabled){ transform:scale(.92); }
 .dv-sbtn:disabled{ opacity:.3; cursor:not-allowed; }
 .dv-sbtn:focus-visible{ outline:2px solid #fff; outline-offset:1px; }
-.dv-del{ width:44px; height:44px; margin-left:6px; color:var(--rose); border-color:rgba(244,166,166,.65); background:rgba(244,166,166,.12); }
-.dv-del svg{ width:15px; height:15px; }
+.dv-sbtn{ position:relative; }
+.dv-sbtn::after{ content:""; position:absolute; inset:-7px -2px; }   /* se ve de 30 px pero se pulsa en 34×44 (sin pisar al botón vecino) */
+.dv-del{ width:30px; height:30px; margin-left:4px; color:var(--rose); border-color:rgba(244,166,166,.65); background:rgba(244,166,166,.12); }
+.dv-del svg{ width:12px; height:12px; }
 .dv-thumb{ width:44px; height:54px; overflow:hidden; background:rgba(0,0,0,.25); }
 .dv-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
 .dv-name{ font-size:15px; font-weight:700; line-height:1.2; overflow-wrap:anywhere; }
 .dv-meta{ display:block; margin-top:2px; font-size:12px; font-weight:500; color:var(--fg-3); font-variant-numeric:tabular-nums; }
-.dv-qty{ flex:none; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-display); font-size:22px; font-weight:700; line-height:1; color:var(--sky); background:rgba(139,205,255,.18); box-shadow:inset 0 0 0 2px rgba(139,205,255,.5); font-variant-numeric:tabular-nums; }   /* círculo con las copias */
+.dv-qty{ flex:none; width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-display); font-size:19px; font-weight:700; line-height:1; color:var(--sky); background:rgba(139,205,255,.18); box-shadow:inset 0 0 0 2px rgba(139,205,255,.5); font-variant-numeric:tabular-nums; }   /* círculo con las copias */
 .dv-qty small{ font-size:18px; font-weight:600; color:var(--fg-3); }
 .dv-summary{ display:flex; flex-direction:column; gap:16px; padding:18px 16px 20px; background:var(--panel); border-top:3px solid var(--sky); }
 .dv-stitle{ font-family:var(--font-display); font-size:28px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--fg-1); line-height:1; }
@@ -483,7 +488,6 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-split{ display:flex; flex-wrap:wrap; gap:6px; }
 .dv-empty{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:22px 18px; background:rgba(255,255,255,.06); color:var(--fg-2); }
 @media (min-width:900px){
-  .dv-rows{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .dv-stats{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:36px; }
 }
 
@@ -538,7 +542,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .rip{ position:absolute; border-radius:50%; pointer-events:none; background:currentColor; opacity:.24; transform:scale(0); animation:rip .5s var(--ease-out) forwards; }
 @keyframes rip{ to{ transform:scale(1); opacity:0; } }
 .tb-item,.pm-item,.dp-btn,.comp-tab,.comp-chip,.dv-sbtn,.dc-btn,.dc-add,.hamburger,.deck-count,.dv-count,.ad-add,.dp-back,.dp-new,.tag.chip,.dd-iconbtn,.legalChip,.lt-opt,.ds-btn,.dv-open,.d-link,.comp-core,.sb-ghead{ -webkit-tap-highlight-color:transparent; }
-.pm-item,.dp-btn,.comp-tab,.comp-chip,.dv-sbtn,.dc-btn,.dc-add,.hamburger,.deck-count,.dv-count,.ad-add,.dp-back,.dp-new,.tag.chip,.dd-iconbtn,.legalChip,.lt-opt,.ds-btn,.dv-open{ position:relative; overflow:hidden; }
+.pm-item,.dp-btn,.comp-tab,.comp-chip,.dc-btn,.dc-add,.hamburger,.deck-count,.dv-count,.ad-add,.dp-back,.dp-new,.tag.chip,.dd-iconbtn,.legalChip,.lt-opt,.ds-btn,.dv-open{ position:relative; overflow:hidden; }
 .dz-inner{ transition:transform .14s var(--ease); }
 .dz-inner:active{ transform:scale(.982); }
 .dp-deck:active,.d-link:active,.comp-core:active,.dv-row:active{ transform:scale(.98); }
@@ -553,7 +557,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .decksPage::before{
   content:""; position:fixed; left:0; right:0; bottom:0; height:min(118vw,640px); z-index:0; pointer-events:none;
   background:url("assets/decks-hero.webp") 60% 28% / cover no-repeat;
-  opacity:.42; mix-blend-mode:luminosity;
+  opacity:.3; mix-blend-mode:luminosity;   /* .42 dejaba rostros y brillos justo detrás de las notas de 13 px y bajaba su contraste */
   -webkit-mask-image:linear-gradient(0deg, #000 0%, #000 38%, transparent 100%); mask-image:linear-gradient(0deg, #000 0%, #000 38%, transparent 100%);
 }
 .dp-inner{ position:relative; z-index:1; }
@@ -624,7 +628,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .cr-track.mid::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:2px; background:rgba(255,255,255,.55); z-index:1; }
 .cr-track.mid i.win{ background:#9be3b4; } .cr-track.mid i.lose{ background:#f4a6a6; }
 .comp-sources{ display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--fg-3); }
-.comp-sources a{ color:var(--sky); text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere; }
+.comp-sources a{ color:var(--sky); text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere; display:inline-block; padding:13px 0; margin:-13px 0; }   /* zona táctil de 44 px sin mover el texto */
 @media (min-width:720px){
   .comp-row{ grid-template-columns:34px minmax(180px,1.2fr) minmax(160px,1fr) auto; }
   .cr-bar{ grid-column:3; } .cr-meta{ grid-column:4; justify-content:flex-end; }
@@ -666,51 +670,24 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dp-dtitle{ display:flex; flex-direction:column; gap:4px; min-width:0; }
 .dp-name{ width:100%; min-height:48px; border:0; outline:0; background:transparent; font-family:var(--font-display); font-size:clamp(32px,9vw,46px); font-weight:700; letter-spacing:.01em; text-transform:uppercase; color:var(--fg-1); line-height:1; box-shadow:inset 0 -2px 0 var(--line); transition:box-shadow .15s var(--ease); }
 .dp-name:focus{ box-shadow:inset 0 -3px 0 var(--sky); }
-.dp-actions{ display:flex; gap:8px; }
+.dp-actions{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,136px),1fr)); gap:8px; }   /* móvil: 2×2 en vez de 4 botones cortados en una fila */
+.dp-actions .dp-btn{ padding:0 10px; white-space:normal; text-align:center; line-height:1.15; }
 .dp-btn{ flex:1; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:50px; padding:0 18px; font-size:15px; font-weight:700; color:var(--fg-1); background:rgba(255,255,255,.09); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); transition:background .15s var(--ease); }
 .dp-btn:hover{ background:rgba(255,255,255,.15); }
 .dp-btn-primary{ background:var(--sky); color:var(--sky-ink); }
 .dp-btn-primary:hover{ background:#a6d9ff; }
 .dp-rows{ display:flex; flex-direction:column; gap:14px; }
-.dp-row{ position:relative; overflow:hidden; padding:14px 12px 14px 18px; background:rgba(29,26,56,.94); display:flex; flex-direction:column; gap:12px; clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
-.dp-row::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--row-c, var(--fg-3)); }
-.dp-row-head{ display:flex; align-items:center; gap:10px; }
-.dp-row-title{ font-family:var(--font-display); font-size:20px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-1); }
-.dp-row-count{ font-size:13px; font-weight:700; color:var(--fg-3); }
-.dp-cols{ display:grid; grid-template-columns:1fr; gap:8px; }
-.dp-col{ min-width:0; padding:10px; display:flex; flex-direction:column; gap:4px; background:rgba(255,255,255,.04); }
-.dp-col:has(.dp-col-empty){ padding:10px 12px; opacity:.6; }
-.dp-col:has(.dp-col-empty) .dp-col-head{ box-shadow:none; padding:0 4px; margin:0; }
-.dp-col:has(.dp-col-empty) .dp-col-empty{ display:none; }
-.dp-col-head{ display:flex; justify-content:space-between; align-items:baseline; padding:2px 4px 8px; margin-bottom:2px; box-shadow:inset 0 -1px 0 var(--line); }
-.dp-col-head .eyebrow{ color:var(--fg-2); }
-.dp-col-head b{ font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
-.dp-col-empty{ font-size:13px; color:var(--fg-3); padding:12px 4px; text-align:center; }
-.dp-card{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:6px 4px; transition:background .15s var(--ease), opacity .2s var(--ease); }
-.dp-card:hover{ background:rgba(255,255,255,.05); }
-.dp-card.is-zero{ opacity:.45; }
-.dp-card img{ width:44px; height:61px; object-fit:cover; flex:none; background:var(--tone); cursor:zoom-in; }
-.dp-cinfo{ flex:1 1 110px; min-width:0; }
-.dp-cname{ font-size:14px; font-weight:700; color:var(--fg-1); line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.dp-cnum{ font-size:12px; color:var(--fg-3); margin-top:3px; display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
 /* − n + y papelera en una sola fila; si no caben junto al nombre bajan enteros, alineados a la derecha */
-.dp-card .deck-stepper{ grid-template-columns:44px 30px 44px 50px; flex:none; margin-left:auto; }
-.dp-card .ds-btn{ width:44px; height:44px; color:var(--sky); background:rgba(139,205,255,.14); border:2px solid #4a9be0; }
-.dp-card .ds-btn:hover:not(:disabled){ background:rgba(139,205,255,.32); }
-.dp-card .ds-btn:active:not(:disabled){ background:rgba(139,205,255,.4); color:var(--sky); transform:scale(.92); }
-.dp-card .ds-del{ width:44px !important; height:44px !important; color:var(--rose); background:rgba(244,166,166,.12); border-color:rgba(244,166,166,.65); }
 /* + en verde cuando la carta ya está en el mazo, igual que en la ficha */
-.dv-sbtn.has-qty,.dp-card .deck-stepper.has-qty .ds-plus{ color:#8fe3b0; background:rgba(47,168,95,.2); border-color:#2fa85f; }
-.dv-sbtn.has-qty:hover:not(:disabled),.dp-card .deck-stepper.has-qty .ds-plus:hover:not(:disabled){ background:rgba(47,168,95,.34); }
-.dp-card .ds-count{ font-size:22px; color:var(--fg-2); }
-.dp-card .deck-stepper.has-qty .ds-count{ color:var(--sky); }
+.dv-sbtn.has-qty{ color:#8fe3b0; background:rgba(47,168,95,.2); border-color:#2fa85f; }
+.dv-sbtn.has-qty:hover:not(:disabled){ background:rgba(47,168,95,.34); }
 .dp-empty{ text-align:center; padding:48px 20px; color:var(--fg-3); font-size:14px; display:flex; flex-direction:column; align-items:center; gap:16px; background:rgba(255,255,255,.04); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
 .dd-iconbtn{ width:44px; height:44px; display:grid; place-items:center; color:var(--fg-2); background:rgba(255,255,255,.08); font-size:15px; border-radius:50%; transition:background .15s var(--ease), color .15s var(--ease); }
 .dd-iconbtn:hover{ background:var(--accent); color:#fff; }
 .dd-iconbtn.dd-danger.armed{ background:var(--rose); color:var(--rose-ink); font-weight:700; }
 .dd-stat{ background:var(--tone); padding:6px 10px; display:flex; flex-direction:column; min-width:48px; }
 .dd-stat b{ font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
-.dd-stat span{ font-size:11px; color:var(--fg-3); text-transform:uppercase; letter-spacing:.04em; }
+.dd-stat span{ font-size:12px; color:var(--fg-3); text-transform:uppercase; letter-spacing:.04em; }
 .dd-stat.warn b{ color:var(--rose); }
 .dd-pip{ display:inline-block; width:9px; height:9px; flex:none; }
 .dd-pip[data-color="Blue"]{ background:var(--c-blue); } .dd-pip[data-color="Green"]{ background:var(--c-green); }
@@ -739,7 +716,6 @@ body.is-building .adder{ display:grid; gap:8px; }
   :root{ --pad:20px; }
   .grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
   .dp-grid{ grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); }
-  .dp-cols{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .d-fieldrow{ grid-template-columns:repeat(4,auto); justify-content:start; gap:12px 28px; }
 }
 @media (min-width:640px){
@@ -782,7 +758,7 @@ span.legalChip{ cursor:inherit; }
 
 .rule-badges{ display:flex; flex-wrap:wrap; gap:4px; margin:6px 0 2px; }
 .rule-badges:empty{ display:none; }
-.rule-badge{ border:0; cursor:pointer; font:inherit; font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:4px 9px; min-height:28px; background:var(--tone-2); color:var(--fg-1); }
+.rule-badge{ border:0; cursor:pointer; font:inherit; font-size:12px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:4px 9px; min-height:28px; background:var(--tone-2); color:var(--fg-1); }
 .rule-badge.banned{ background:#9f2a24; color:#fff; }
 .rule-badge.restricted{ background:#c8402f; color:#fff; }
 .rule-badge.banned_pair,.rule-badge.exclusive_group{ background:#c43b32; color:#fff; }
@@ -894,9 +870,7 @@ html{ touch-action:manipulation; }
   .dz-inner{ --cut:14px; }
   .dz-inner:hover{ transform:translateY(-4px); }
   .dz-inner:hover .card-imgwrap img{ transform:scale(1.035); }
-  .deck-stepper{ grid-template-columns:38px 1fr 38px; }
   .ds-btn{ width:38px; height:38px; }
-  .ds-count{ font-size:22px; }
   .ad-qty{ grid-template-columns:44px 1fr 44px; }
   .adder .ds-btn{ width:44px; height:44px; }
   .adder.big .ds-btn{ width:52px; height:52px; }
@@ -911,9 +885,9 @@ html{ touch-action:manipulation; }
   .dp-grid{ gap:12px; }
   .dp-dhead{ flex-direction:row; align-items:flex-end; justify-content:space-between; }
   .dp-dtitle{ flex:1; min-width:220px; }
-  .dp-actions{ flex:none; }
+  .dp-actions{ display:flex; flex:none; }
+  .dp-actions .dp-btn{ padding:0 18px; white-space:nowrap; }
   .dp-btn{ flex:none; }
-  .dp-cols{ grid-template-columns:repeat(4,minmax(0,1fr)); }
 }
 @media (min-width:900px) and (max-width:1100px){ .dp-cols{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media (max-width:420px){
@@ -1051,9 +1025,19 @@ html{ touch-action:manipulation; }
   .tag.removable{ min-height:44px; }
   .tag.removable button{ width:36px; height:36px; }
 }
-@media (max-width:479px){
-  /* la ventana del mazo: si círculo + − + papelera no caben junto al nombre, bajan a su propia línea, a la derecha */
-  .dv-row{ grid-template-columns:auto minmax(0,1fr); }
+@media (max-width:430px){
+  /* la ventana del mazo en móvil: todo en una línea (copias · color · carta · botones), compacto para que el nombre tenga sitio */
+  .dv-row{ gap:6px; padding:0 4px; }
+  .dv-open{ grid-template-columns:36px minmax(0,1fr); gap:8px; padding:4px 0; }
+  .dv-thumb{ width:36px; height:46px; }
+  .dv-name{ font-size:14px; }
+  .dv-qty{ width:32px; height:32px; font-size:18px; }
+  .dv-step{ gap:3px; }
+  .dv-del{ margin-left:2px; }
+}
+@media (max-width:339px){
+  /* pantallas muy estrechas: los botones − + papelera bajan a su propia línea, a la derecha */
+  .dv-row{ grid-template-columns:auto auto minmax(0,1fr); }
   .dv-step{ grid-column:1 / -1; justify-self:end; padding-bottom:8px; }
 }
 @media (max-width:359px){
@@ -1118,7 +1102,7 @@ html{ touch-action:manipulation; }
 .dl-meta{ font-size:13px; line-height:1.4; color:var(--fg-3); overflow-wrap:anywhere; }
 .dl-stats{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; font-weight:700; color:var(--fg-2); }
 .dl-actions{ display:flex; flex-wrap:wrap; gap:8px; }
-.dl-actions .dp-btn{ flex:1 1 150px; }
+.dl-actions .dp-btn{ flex:1 1 150px; white-space:normal; text-align:center; line-height:1.15; padding:0 12px; }   /* "Ver listas de torneo" se cortaba a 375 px */
 .dl-msg{ font-size:14px; font-weight:700; color:#8fe3b0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
 .dl-cards{ display:flex; flex-direction:column; gap:12px; }
 .dl-type{ font-family:var(--font-display); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); box-shadow:inset 0 -1px 0 var(--line); padding-bottom:4px; margin-bottom:4px; }
@@ -1191,7 +1175,7 @@ html{ touch-action:manipulation; }
 .dl-kpis{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
 .dl-kpi{ display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 4px 7px; text-align:center; background:rgba(255,255,255,.07); box-shadow:inset 0 2px 0 rgba(139,205,255,.45); }
 .dl-kpi b{ font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1; color:var(--fg-1); }
-.dl-kpi span{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); overflow-wrap:anywhere; }
+.dl-kpi span{ font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--fg-3); overflow-wrap:anywhere; }
 @media (max-width:359px){ .dl-edate{ white-space:normal; text-align:right; } }
 /* ===== Ventana del mazo: papelera de eliminar mazo (derecha) y papelera de vaciar cartas (junto al contador) ===== */
 .deckView .dv-head{ position:relative; padding-right:56px; }
@@ -1369,13 +1353,12 @@ html{ touch-action:manipulation; }
       <div class="buildBar" id="buildBar" hidden>
         <div class="bb-main">
           <span class="bb-eyebrow"><i class="bb-dot"></i><span id="lblBuilding">Mazo en construcción</span></span>
-          <h2 class="bb-name" id="bbName"></h2>
+          <h2 class="bb-name"><button type="button" class="bb-namebtn" id="bbName"></button></h2>
           <button type="button" class="legalChip cut" id="bbLegal" hidden></button>
         </div>
         <div class="bb-side">
           <span class="bb-count"><b id="bbCount">0</b>/50</span>
           <button type="button" class="bb-link ml-btn" id="bbCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
-          <button type="button" class="bb-link" id="bbView">Ver mazo</button>
           <button type="button" class="dd-close" id="bbClose" aria-label="Terminar mazo" title="Terminar">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </button>
@@ -53248,7 +53231,7 @@ var EFFECT_CONFIG = {
   /* Onda al pulsar: nace en el punto exacto del toque */
   document.addEventListener('pointerdown', function(e){
     if(REDUCED && REDUCED.matches) return;
-    var t0 = e.target.closest ? e.target.closest('.pm-item,.dp-btn,.comp-tab,.comp-chip,.dv-sbtn,.dc-btn,.dc-add,.hamburger,.deck-count,.dv-count,.ad-add,.dp-back,.dp-new,.tag.chip,.dd-iconbtn,.legalChip,.lt-opt,.ds-btn,.dv-open') : null;
+    var t0 = e.target.closest ? e.target.closest('.pm-item,.dp-btn,.comp-tab,.comp-chip,.dc-btn,.dc-add,.hamburger,.deck-count,.dv-count,.ad-add,.dp-back,.dp-new,.tag.chip,.dd-iconbtn,.legalChip,.lt-opt,.ds-btn,.dv-open') : null;
     if(!t0 || t0.disabled) return;
     var r = t0.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.2, w = document.createElement('span');
     w.className = 'rip'; w.style.cssText = 'width:'+d+'px;height:'+d+'px;left:'+(e.clientX - r.left - d/2)+'px;top:'+(e.clientY - r.top - d/2)+'px';
@@ -53758,39 +53741,6 @@ var EFFECT_CONFIG = {
   var ICON_DOWN = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v9.5M3.8 8.6L8 12.8l4.2-4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_STAR = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2l1.9 3.9 4.1.6-3 2.9.7 4.1L8 11.5 4.3 13.5l.7-4.1-3-2.9 4.1-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
   var ICON_X = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
-  function stepperEl(number){
-    var qty = (activeDeck() && activeDeck().cards[number]) || 0;
-    var wrap = el('div', 'deck-stepper'+(qty>0?' has-qty':''));
-    wrap.dataset.number = number;
-    var cardName = (cardByNumber(number)||{}).name || number;
-    var minus = document.createElement('button'); minus.type='button'; minus.className='ds-btn ds-minus'; minus.innerHTML=ICON_MINUS; minus.dataset.number=number;
-    minus.setAttribute('aria-label', (LANG==='es'?'Quitar una copia de ':'Remove one copy of ')+cardName);
-    var count = el('span','ds-count num',String(qty)); count.dataset.number = number;
-    var plus = document.createElement('button'); plus.type='button'; plus.className='ds-btn ds-plus'; plus.innerHTML=ICON_PLUS; plus.dataset.number=number;
-    plus.setAttribute('aria-label', (LANG==='es'?'Añadir una copia de ':'Add one copy of ')+cardName);
-    plus.disabled = qty>=4 || addLimit(number).max < 1;
-    function refreshDeckViews(){
-      if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
-    }
-    minus.addEventListener('click', function(e){
-      e.stopPropagation();
-      removeFromDeck(number); syncSteppers(number); refreshDeckViews();
-    });
-    plus.addEventListener('click', function(e){
-      e.stopPropagation();
-      addToDeck(number); syncSteppers(number); refreshDeckViews();
-    });
-    var del = document.createElement('button'); del.type = 'button'; del.className = 'ds-btn ds-del'; del.innerHTML = TRASH_SVG; del.dataset.number = number;
-    del.disabled = qty <= 0;
-    del.setAttribute('aria-label', t().deckBlock.removeAll+' · '+cardName); del.title = t().deckBlock.removeAll;
-    del.addEventListener('click', function(e){
-      e.stopPropagation();
-      var d = activeDeck(); while(d && (d.cards[number] || 0) > 0) removeFromDeck(number);
-      syncSteppers(number); refreshDeckViews();
-    });
-    wrap.appendChild(minus); wrap.appendChild(count); wrap.appendChild(plus); wrap.appendChild(del);
-    return wrap;
-  }
   /* Selector de copias del mazo en construcción (catálogo y ficha): el + añade al instante, el − quita una; el número son las copias en el mazo (máx. 4) */
   function adderEl(number, big){
     var cardName = (cardByNumber(number)||{}).name || number;
@@ -53805,7 +53755,7 @@ var EFFECT_CONFIG = {
     var plus = document.createElement('button'); plus.type='button'; plus.className='ds-btn ad-plus'; plus.innerHTML=ICON_PLUS;
     plus.setAttribute('aria-label', (LANG==='es'?'Añadir una copia de ':'Add one copy of ')+cardName);
     qtyBox.appendChild(minus); qtyBox.appendChild(nEl); qtyBox.appendChild(plus);
-    wrap.appendChild(whyEl); wrap.appendChild(qtyBox);
+    wrap.appendChild(qtyBox); wrap.appendChild(whyEl);
     function inDeck(){ var d = activeDeck(); return (d && d.cards[number]) || 0; }
     function refresh(){
       var q = inDeck(), lim = building ? addLimit(number) : {max: 4 - q, blockedBy: null}, room = Math.min(4 - q, lim.max);
@@ -53817,7 +53767,7 @@ var EFFECT_CONFIG = {
       if(why){
         if(room <= 0 && /^(banned_pair|exclusive_group|color_limit)$/.test(lim.blockedBy.ruleType)) whyEl.appendChild(el('span','rule-badge incompatible', t().legal.incompatible));
         whyEl.appendChild(el('span', null, why));
-      } else if(room <= 0 && q > 0) whyEl.appendChild(el('span', null, t().adderFull));
+      }
       wrap.classList.toggle('has-qty', q > 0);
     }
     wrap._refresh = refresh;
@@ -53841,16 +53791,8 @@ var EFFECT_CONFIG = {
   }
   function refreshTileQty(){ document.querySelectorAll('.dz-qty').forEach(paintTileQty); }
   function syncSteppers(number){
-    var deck = activeDeck();
-    var n = deck ? (deck.cards[number]||0) : 0;
-    document.querySelectorAll('.ds-count[data-number="'+number+'"]').forEach(function(elx){ elx.textContent = n; });
-    document.querySelectorAll('.deck-stepper[data-number="'+number+'"]').forEach(function(elx){ elx.classList.toggle('has-qty', n>0); var d = elx.querySelector('.ds-del'); if(d) d.disabled = n <= 0; });
     if(building) refreshAdders();
     else document.querySelectorAll('.adder[data-number="'+number+'"]').forEach(function(a){ if(a._refresh) a._refresh(); });
-    document.querySelectorAll('.ds-plus').forEach(function(b){
-      var nb = b.dataset.number, qb = deck ? (deck.cards[nb]||0) : 0;
-      b.disabled = qb>=4 || addLimit(nb).max < 1;
-    });
     updateDeckPill();
   }
   var building = false;
@@ -53868,7 +53810,9 @@ var EFFECT_CONFIG = {
     if(building && deck && !wasBuilding) refreshAdders();
     if(!building || !deck){ bar.hidden = true; return; }
     bar.hidden = false;
-    document.getElementById('bbName').textContent = deck.name || t().deckNewName;
+    var bbn = document.getElementById('bbName');
+    bbn.textContent = deck.name || t().deckNewName;
+    bbn.title = LANG === 'es' ? 'Abrir el mazo · doble clic para renombrar' : 'Open the deck · double-click to rename';
     document.getElementById('bbCount').textContent = deckTotal(deck);
   }
   var lastDeckN = null;
@@ -53963,6 +53907,7 @@ var EFFECT_CONFIG = {
     ensureSaveChips();
     SAVE_SLOTS = SAVE_SLOTS.filter(function(b){ return document.contains(b); });
     var st = cloud.state || {}, C = t().cloud, ph = st.phase, show = cloud.configured && !!cloud.user || (cloud.configured && ph === 'signedout' && st.pending);
+    if(ph === 'error') show = false;   /* "No se pudo guardar · Reintentar" no se enseña: los mazos siguen guardados en el dispositivo y la nube reintenta sola al volver la conexión o la pestaña */
     var label = ph === 'saved' ? C.saved : ph === 'saving' || ph === 'pending' ? C.saving : ph === 'offline' ? C.offline : ph === 'conflict' ? C.conflict : ph === 'signedout' ? C.signedout : C.error;
     if(ph === 'error' || ph === 'offline') label += ' · ' + C.retry;
     if(ph === 'conflict') label = C.reload;
@@ -54392,49 +54337,10 @@ var EFFECT_CONFIG = {
       rowsEl.appendChild(empty);
       return;
     }
-    var colorList = [];
-    items.forEach(function(x){ if(colorList.indexOf(x.card.color)===-1) colorList.push(x.card.color); });
-    colorList.sort(function(a,b){ return colorRank(a)-colorRank(b); });
-    colorList.forEach(function(color){
-      var inColor = items.filter(function(x){ return x.card.color===color; });
-      var colorTotal = inColor.reduce(function(s,x){ return s+x.qty; }, 0);
-      var row = el('section','dp-row');
-      row.style.setProperty('--row-c', 'var(--c-'+String(color).toLowerCase()+', var(--fg-3))');
-      var head = el('div','dp-row-head');
-      var pip = el('span','dd-pip'); pip.dataset.color = color; head.appendChild(pip);
-      head.appendChild(el('span','dp-row-title', t().colors[color]||color));
-      head.appendChild(el('span','dp-row-count num', colorTotal+' '+t().cardsWord));
-      row.appendChild(head);
-      var cols = el('div','dp-cols');
-      TYPE_ORDER.forEach(function(ty){
-        var list = inColor.filter(function(x){ return x.card.type===ty; });
-        list.sort(function(a,b){ return (a.card.lv-b.card.lv) || a.card.name.localeCompare(b.card.name); });
-        var col = el('div','dp-col');
-        var ch = el('div','dp-col-head');
-        ch.appendChild(el('span','eyebrow', t().types[ty]||ty));
-        ch.appendChild(el('b',null,String(list.reduce(function(s,x){ return s+x.qty; }, 0))));
-        col.appendChild(ch);
-        if(!list.length) col.appendChild(el('div','dp-col-empty','—'));
-        list.forEach(function(x){
-          var c = x.card;
-          var item = el('div','dp-card'+(x.qty===0?' is-zero':''));
-          var img = document.createElement('img'); img.loading = 'lazy'; img.src = 'images/'+c.number+'.webp'; img.alt = c.name;
-          img.dataset.number = c.number;
-          img.addEventListener('click', function(){ openDetail(c, img); });
-          item.appendChild(img);
-          var info = el('div','dp-cinfo');
-          info.appendChild(el('div','dp-cname', c.name));
-          var num = el('div','dp-cnum');
-          num.appendChild(el('span','num', c.number+(c.lv!==undefined&&c.lv!==null&&c.lv!==''?' · Lv.'+c.lv:'')));
-          info.appendChild(num);
-          item.appendChild(info);
-          item.appendChild(stepperEl(c.number));
-          col.appendChild(item);
-        });
-        cols.appendChild(col);
-      });
-      row.appendChild(cols);
-      rowsEl.appendChild(row);
+    deckSegments(rowsEl, items, function(number, kind, fn){
+      fn(); syncSteppers(number); renderDeckDetail();
+      var f = rowsEl.querySelector('[data-key="'+number+'|'+kind+'"]');
+      if(f && !f.disabled) f.focus({preventScroll:true});
     });
   }
   function showDpView(){
@@ -54645,8 +54551,8 @@ var EFFECT_CONFIG = {
     imgwrap.appendChild(img); inner.appendChild(imgwrap);
     var qty = el('span','dz-qty'); qty.dataset.number = card.number; inner.appendChild(qty); paintTileQty(qty);
     var body = el('div','card-body');
+    body.appendChild(adderEl(card.number));   /* el selector va primero: misma altura en todas las tarjetas de la fila */
     var rb = ruleBadgesEl(card.number); if(rb) body.appendChild(rb);
-    body.appendChild(adderEl(card.number));
     var fxRow = el('div','card-fxrow'), fxs = fxSummary(card);
     fxs.slice(0,2).forEach(function(e){ fxRow.appendChild(fxBox(e)); });
     if(fxs.length > 2){ var more = el('span','fx-more','+'+(fxs.length-2)); more.setAttribute('aria-label', t().fxMoreAria(fxs.length-2)); fxRow.appendChild(more); }
@@ -54983,7 +54889,6 @@ var EFFECT_CONFIG = {
     document.getElementById('newDeckName').placeholder = t().newDeckPh;
     document.getElementById('lblAdpSubmit').textContent = t().adpSubmit;
     document.getElementById('lblBuilding').textContent = t().building;
-    document.getElementById('bbView').textContent = t().viewDeck;
     document.getElementById('bbClose').setAttribute('aria-label', t().finishDeck);
     document.getElementById('bbClose').title = t().finishDeck;
     document.getElementById('homeLogo').setAttribute('aria-label', t().goHome);
@@ -55163,9 +55068,32 @@ var EFFECT_CONFIG = {
     var bar = document.getElementById('buildBar');
     bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = '';
   });
-  document.getElementById('bbView').addEventListener('click', function(){
-    openDecksPage(); openDeckDetail(activeDeckId);
-  });
+  /* nombre del mazo en construcción: un clic abre el mazo, doble clic (o doble toque, o F2) lo renombra en el sitio */
+  (function(){
+    var btn = document.getElementById('bbName'), timer = null;
+    function openIt(){ openDecksPage(); openDeckDetail(activeDeckId); }
+    function rename(){
+      var deck = activeDeck(); if(!deck || !btn.parentNode.querySelector) return;
+      if(btn.parentNode.querySelector('.bb-nameinput')) return;
+      var inp = document.createElement('input'); inp.type = 'text'; inp.maxLength = 40; inp.className = 'bb-nameinput';
+      inp.value = deck.name || ''; inp.setAttribute('aria-label', t().newDeckLabel); inp.autocomplete = 'off'; inp.spellcheck = false;
+      btn.hidden = true; btn.parentNode.appendChild(inp); inp.focus(); inp.select();
+      var done = false;
+      function finish(save){
+        if(done) return; done = true;
+        var v = inp.value.trim();
+        if(save && v && v !== deck.name){ deck.name = v; saveDecksToStorage(); }
+        inp.remove(); btn.hidden = false; updateBuildBar(); btn.focus({preventScroll:true});
+      }
+      inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); finish(true); } else if(e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); finish(false); } });
+      inp.addEventListener('blur', function(){ finish(true); });
+    }
+    btn.addEventListener('click', function(){
+      if(timer){ clearTimeout(timer); timer = null; rename(); return; }
+      timer = setTimeout(function(){ timer = null; openIt(); }, 260);
+    });
+    btn.addEventListener('keydown', function(e){ if(e.key === 'F2'){ e.preventDefault(); clearTimeout(timer); timer = null; rename(); } });
+  })();
   document.getElementById('bbClose').addEventListener('click', function(){ setBuilding(false); });
 
   /* Página Mis mazos */
@@ -55193,6 +55121,54 @@ var EFFECT_CONFIG = {
   function typeLabelPl(type){
     var es = {UNIT:'Unidades', PILOT:'Pilotos', COMMAND:'Comandos', BASE:'Bases'}, en = {UNIT:'Units', PILOT:'Pilots', COMMAND:'Commands', BASE:'Bases'};
     return (LANG === 'es' ? es : en)[type] || type;
+  }
+  /* Lista de un mazo por tipos (Unidades, Pilotos, Bases, Comandos), común a la ventana del mazo y al detalle de Mis mazos.
+     Fila: copias · color · carta · − + papelera. edit(number, kind, fn) aplica el cambio y repinta. */
+  function deckSegments(target, entries, edit){
+    var L = t(), V = L.deckView;
+    function stat(c, k){ var n = parseInt(c[k], 10); return isNaN(n) ? 0 : n; }
+    ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
+      var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
+        /* unidades: mayor AP+HP primero y, si empatan, mayor AP; el resto (y los empates finales) por color */
+        if(type === 'UNIT'){
+          var d = (stat(b.card,'ap') + stat(b.card,'hp')) - (stat(a.card,'ap') + stat(a.card,'hp')) || stat(b.card,'ap') - stat(a.card,'ap');
+          if(d) return d;
+        }
+        return colorRank(a.card.color) - colorRank(b.card.color) || a.card.name.localeCompare(b.card.name);
+      });
+      if(!sorted.length) return;
+      var sec = el('section','dv-color');
+      var head = el('div','dv-chead'); head.appendChild(el('h3','dv-cname', typeLabelPl(type)));
+      head.appendChild(el('span','dv-ccount', String(sorted.reduce(function(a,e){ return a+e.qty; }, 0))));
+      sec.appendChild(head);
+      var rows = el('div','dv-rows');
+      sorted.forEach(function(e){
+        var c = e.card, row = el('div','dv-row'+(e.qty === 0 ? ' is-zero' : ''));
+        var cbit = el('span','dd-pip dv-cbit'); cbit.dataset.color = c.color; cbit.setAttribute('aria-hidden','true');
+        var open = document.createElement('button'); open.type = 'button'; open.className = 'dv-open';
+        open.setAttribute('aria-label', c.name+' · '+c.number+' ×'+e.qty+' · '+V.openCard);
+        var th2 = el('span','dv-thumb'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.number+'.webp'; th2.appendChild(im);
+        var nm = el('span','dv-name', c.name); nm.appendChild(el('span','dv-meta', c.number+' · '+V.lv+' '+c.lv+' · '+V.cost+' '+c.cost));
+        open.appendChild(th2); open.appendChild(nm);
+        open.addEventListener('click', function(){ openDetail(c, im); });
+        var step = el('div','dv-step');
+        var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'dv-sbtn'; minus.innerHTML = ICON_MINUS; minus.dataset.key = c.number+'|m';
+        minus.setAttribute('aria-label', L.adderLess+' · '+c.name); minus.disabled = e.qty <= 0;
+        var q = el('span','dv-qty', String(e.qty)); q.setAttribute('aria-label', '×'+e.qty);
+        var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dv-sbtn'+(e.qty > 0 ? ' has-qty' : ''); plus.innerHTML = ICON_PLUS; plus.dataset.key = c.number+'|p';
+        plus.setAttribute('aria-label', L.adderMore+' · '+c.name);
+        plus.disabled = !!addBlocker(c.number);
+        minus.addEventListener('click', function(){ edit(c.number, 'm', function(){ removeFromDeck(c.number); }); });
+        plus.addEventListener('click', function(){ edit(c.number, 'p', function(){ addToDeck(c.number); }); });
+        var del = document.createElement('button'); del.type = 'button'; del.className = 'dv-sbtn dv-del'; del.innerHTML = TRASH_SVG; del.dataset.key = c.number+'|d';
+        del.setAttribute('aria-label', L.deckBlock.removeAll+' · '+c.name); del.title = L.deckBlock.removeAll; del.disabled = e.qty <= 0;
+        del.addEventListener('click', function(){ edit(c.number, 'd', function(){ var d = activeDeck(); while(d && (d.cards[c.number] || 0) > 0) removeFromDeck(c.number); }); });
+        step.appendChild(minus); step.appendChild(plus); step.appendChild(del);
+        row.appendChild(q); row.appendChild(cbit); row.appendChild(open); row.appendChild(step);
+        rows.appendChild(row);
+      });
+      sec.appendChild(rows); target.appendChild(sec);
+    });
   }
   function renderDeckView(){
     var deck = activeDeck(); if(!deck) return;
@@ -55228,52 +55204,7 @@ var EFFECT_CONFIG = {
       go.addEventListener('click', function(){ closeDeckView(); setBuilding(true); render(); updateDeckPill(); });
       empty.appendChild(go); body.appendChild(empty); return;
     }
-    /* segmentos por tipo (Unidades, Pilotos, Bases, Comandos); el color ya lo marca el cuadradito de cada fila */
-    ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
-      function stat(c, k){ var n = parseInt(c[k], 10); return isNaN(n) ? 0 : n; }
-      var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
-        /* unidades: mayor AP+HP primero y, si empatan, mayor AP; el resto (y los empates finales) por color */
-        if(type === 'UNIT'){
-          var d = (stat(b.card,'ap') + stat(b.card,'hp')) - (stat(a.card,'ap') + stat(a.card,'hp')) || stat(b.card,'ap') - stat(a.card,'ap');
-          if(d) return d;
-        }
-        return colorRank(a.card.color) - colorRank(b.card.color);
-      });
-      if(!sorted.length) return;
-      var sec = el('section','dv-color');
-      var head = el('div','dv-chead'); head.appendChild(el('span','dv-cname', typeLabelPl(type)));
-      head.appendChild(el('span','dv-ccount', String(sorted.reduce(function(a,e){ return a+e.qty; }, 0))));
-      sec.appendChild(head);
-      var rows = el('div','dv-rows');
-      {
-        sorted.forEach(function(e){
-          var c = e.card, row = el('div','dv-row');
-          var cbit = el('span','dd-pip dv-cbit'); cbit.dataset.color = c.color; cbit.setAttribute('aria-hidden','true');
-          var open = document.createElement('button'); open.type = 'button'; open.className = 'dv-open';
-          open.setAttribute('aria-label', c.name+' · '+c.number+' ×'+e.qty+' · '+V.openCard);
-          var th2 = el('span','dv-thumb'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.number+'.webp'; th2.appendChild(im);
-          var nm = el('span','dv-name', c.name); nm.appendChild(el('span','dv-meta', c.number+' · '+V.lv+' '+c.lv+' · '+V.cost+' '+c.cost));
-          open.appendChild(th2); open.appendChild(nm);
-          open.addEventListener('click', function(){ openDetail(c); });
-          var step = el('div','dv-step');
-          var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'dv-sbtn'; minus.innerHTML = ICON_MINUS; minus.dataset.key = c.number+'|m';
-          minus.setAttribute('aria-label', L.adderLess+' · '+c.name);
-          var q = el('span','dv-qty', String(e.qty)); q.setAttribute('aria-label', '×'+e.qty);
-          var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dv-sbtn'+(e.qty > 0 ? ' has-qty' : ''); plus.innerHTML = ICON_PLUS; plus.dataset.key = c.number+'|p';
-          plus.setAttribute('aria-label', L.adderMore+' · '+c.name);
-          plus.disabled = !!addBlocker(c.number);
-          minus.addEventListener('click', function(){ dvEdit(c.number, 'm', function(){ removeFromDeck(c.number); }); });
-          plus.addEventListener('click', function(){ dvEdit(c.number, 'p', function(){ addToDeck(c.number); }); });
-          var del = document.createElement('button'); del.type = 'button'; del.className = 'dv-sbtn dv-del'; del.innerHTML = TRASH_SVG;
-          del.setAttribute('aria-label', L.deckBlock.removeAll+' · '+c.name); del.title = L.deckBlock.removeAll;
-          del.addEventListener('click', function(){ dvEdit(c.number, 'd', function(){ var d = activeDeck(); while(d && (d.cards[c.number] || 0) > 0) removeFromDeck(c.number); }); });
-          step.appendChild(q); step.appendChild(minus); step.appendChild(plus); step.appendChild(del);
-          row.appendChild(cbit); row.appendChild(open); row.appendChild(step);
-          rows.appendChild(row);
-        });
-      }
-      sec.appendChild(rows); body.appendChild(sec);
-    });
+    deckSegments(body, entries, function(number, kind, fn){ dvEdit(number, kind, fn); });
 
     /* resumen */
     var sum = el('section','dv-summary'); sum.appendChild(el('h2','dv-stitle', V.summary));
