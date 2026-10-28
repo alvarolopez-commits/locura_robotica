@@ -721,7 +721,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dd-stat b{ font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
 .dd-stat span{ font-size:11px; color:var(--fg-3); text-transform:uppercase; letter-spacing:.04em; }
 .dd-stat.warn b{ color:var(--rose); }
-.dd-pip{ width:9px; height:9px; flex:none; }
+.dd-pip{ display:inline-block; width:9px; height:9px; flex:none; }
 .dd-pip[data-color="Blue"]{ background:var(--c-blue); } .dd-pip[data-color="Green"]{ background:var(--c-green); }
 .dd-pip[data-color="Red"]{ background:var(--c-red); } .dd-pip[data-color="Purple"]{ background:var(--c-purple); }
 .dd-pip[data-color="White"]{ background:var(--c-white); }
@@ -1142,6 +1142,53 @@ html{ touch-action:manipulation; }
 .dv-delete:active,.dp-btn-danger:active{ transform:scale(.97); }
 #confirmOk{ background:#b3261e; color:#fff; box-shadow:none; }
 #confirmOk:hover{ background:#c9332a; }
+/* ===== META LAB (COMPARAR) ===== */
+.metaPage{ z-index:39; }
+.ml-btn{ display:inline-flex; align-items:center; gap:8px; min-height:44px; }
+.ml-btn[hidden]{ display:none; }
+.dv-delete.ml-btn{ color:var(--sky); box-shadow:inset 0 0 0 2px rgba(139,205,255,.55); background:rgba(139,205,255,.12); }
+#metaBody{ display:flex; flex-direction:column; gap:18px; }
+.ml-arch .dd-pip,.dl-head .dd-pip{ width:14px; height:14px; margin-right:4px; vertical-align:middle; }
+.ml-ctx{ font-size:13px; line-height:1.45; color:var(--fg-3); }
+.ml-warn{ padding:10px 14px; font-size:14px; line-height:1.45; color:var(--fg-2); background:rgba(226,161,59,.14); box-shadow:inset 3px 0 0 #e2a13b; }
+.ml-modes{ display:flex; flex-wrap:wrap; gap:6px; }
+.ml-modes .tag.chip{ background:rgba(255,255,255,.08); color:var(--fg-2); }
+.ml-modes .tag.chip.active{ background:var(--sky); color:var(--sky-ink); }
+.ml-head{ display:flex; flex-direction:column; gap:10px; padding:16px; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--sky); }
+.ml-eyebrow{ font-family:var(--font-display); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
+.ml-arch{ font-family:var(--font-display); font-size:28px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-1); display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.ml-big{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.ml-big b{ font-family:var(--font-display); font-size:44px; font-weight:700; color:var(--fg-1); line-height:1; }
+.ml-big span{ font-size:14px; color:var(--fg-3); }
+.ml-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.ml-chip{ padding:3px 10px; border-radius:9999px; font-size:12px; font-weight:700; background:rgba(255,255,255,.1); color:var(--fg-2); }
+.ml-chip.ev-high{ background:rgba(79,184,172,.25); color:#8fe3d6; } .ml-chip.ev-medium{ background:rgba(226,161,59,.22); color:#f3c97a; } .ml-chip.ev-low,.ml-chip.ev-insufficient{ background:rgba(147,163,196,.22); color:#c3cde0; }
+.ml-det summary{ min-height:44px; display:flex; align-items:center; cursor:pointer; font-size:14px; font-weight:700; color:var(--sky); }
+.ml-det p{ font-size:14px; line-height:1.5; color:var(--fg-2); margin:0 0 8px; }
+.ml-cands{ display:flex; flex-direction:column; gap:6px; }
+.ml-cand{ display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:4px 12px; width:100%; min-height:56px; padding:8px 12px; text-align:left; color:inherit; background:rgba(255,255,255,.06); }
+.ml-cand[aria-pressed="true"]{ box-shadow:inset 3px 0 0 var(--sky); background:rgba(139,205,255,.12); }
+.ml-cand b{ font-size:15px; color:var(--fg-1); } .ml-cand small{ font-size:12px; color:var(--fg-3); } .ml-cand .pct{ font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--sky); }
+.ml-bar{ grid-column:1 / -1; height:4px; background:rgba(255,255,255,.1); } .ml-bar i{ display:block; height:100%; background:var(--sky); }
+.ml-tabs{ display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.ml-sec{ display:flex; flex-direction:column; gap:10px; }
+.ml-note{ font-size:14px; line-height:1.5; color:var(--fg-3); }
+.ml-table{ width:100%; border-collapse:collapse; font-size:15px; }
+.ml-table th,.ml-table td{ padding:10px 6px; text-align:right; box-shadow:inset 0 -1px 0 var(--line); } .ml-table th:first-child,.ml-table td:first-child{ text-align:left; }
+.ml-table th{ font-family:var(--font-display); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); font-weight:600; }
+.ml-table td{ font-variant-numeric:tabular-nums; color:var(--fg-1); font-weight:700; }
+.ml-row{ display:grid; grid-template-columns:44px minmax(0,1fr); gap:6px 12px; padding:8px 0; box-shadow:inset 0 -1px 0 var(--line); }
+.ml-row img{ width:44px; height:61px; object-fit:cover; background:rgba(0,0,0,.25); grid-row:1 / span 3; cursor:pointer; }
+.ml-row b{ font-size:14px; line-height:1.25; color:var(--fg-1); } .ml-row small{ font-size:13px; color:var(--fg-3); }
+.ml-line{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px; }
+.meta-role{ padding:2px 9px; border-radius:9999px; font-size:12px; font-weight:700; background:rgba(147,163,196,.22); color:#c3cde0; white-space:nowrap; }
+.meta-role.core{ background:rgba(79,184,172,.28); color:#8fe3d6; } .meta-role.common{ background:rgba(79,184,172,.16); color:#9fdcd2; }
+.meta-role.flex{ background:rgba(226,161,59,.2); color:#f3c97a; } .meta-role.flex_low,.meta-role.off_meta{ background:rgba(226,161,59,.12); color:#e8c48a; }
+.meta-role.new{ background:rgba(139,205,255,.22); color:#a8d8ff; }
+.ml-why{ min-height:44px; padding:0 4px; font-size:13px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
+.ml-why-txt{ grid-column:2; font-size:13px; line-height:1.5; color:var(--fg-2); padding:6px 10px; background:rgba(255,255,255,.06); }
+.ml-pkg{ padding:10px 12px; background:rgba(255,255,255,.06); font-size:14px; color:var(--fg-2); }
+.ml-load{ padding:40px 0; font-size:15px; color:var(--fg-3); }
 </style>
 
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -1318,6 +1365,7 @@ html{ touch-action:manipulation; }
         </div>
         <div class="bb-side">
           <span class="bb-count"><b id="bbCount">0</b>/50</span>
+          <button type="button" class="bb-link ml-btn" id="bbCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
           <button type="button" class="bb-link" id="bbView">Ver mazo</button>
           <button type="button" class="dd-close" id="bbClose" aria-label="Terminar mazo" title="Terminar">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -1415,6 +1463,7 @@ html{ touch-action:manipulation; }
             <span id="lblDpAddCards">Añadir cartas</span>
           </button>
           <button class="dp-btn" id="dpCopy"><span id="lblDpCopy">Copiar lista</span></button>
+          <button class="dp-btn dp-btn-primary ml-btn" id="dpCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
           <button class="dp-btn dp-btn-danger" id="dpDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDpDelete">Eliminar mazo</span></button>
         </div>
       </div>
@@ -1442,6 +1491,7 @@ html{ touch-action:manipulation; }
             <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
             <span id="dvCountTxt">0 / 50</span>
           </button>
+          <button type="button" class="dv-delete ml-btn" id="dvCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
           <button type="button" class="dv-delete" id="dvDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDvDelete">Eliminar mazo</span></button>
         </div>
         <div class="dv-selwrap"><select class="dv-select" id="dvSelect"></select></div>
@@ -1450,6 +1500,17 @@ html{ touch-action:manipulation; }
       <div class="dv-side" id="dvSide"></div>
     </div>
     <div id="dvBody"></div>
+  </div>
+</section>
+
+<section class="decksPage metaPage" id="metaPage" hidden aria-labelledby="metaTitle">
+  <div class="dp-inner">
+    <button type="button" class="dp-back" id="metaBack">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="lblMetaBack">Volver</span>
+    </button>
+    <div class="dp-head"><h1 class="dp-title" id="metaTitle">Meta Lab</h1><p class="comp-sub" id="metaSub"></p></div>
+    <div id="metaBody"></div>
   </div>
 </section>
 
@@ -1514,6 +1575,7 @@ html{ touch-action:manipulation; }
 <script src="legality.js"></script>
 <script src="config.js"></script>
 <script src="decks_sync.js"></script>
+<script src="meta.js"></script>
 <script src="data/meta/competition.js" onerror="void 0"></script>
 <script>
 var CARDS_DATA = [
@@ -52697,6 +52759,37 @@ var EFFECT_CONFIG = {
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Refuerzo extra',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
       myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
+      meta:{
+        title:'Meta Lab', compare:'Comparar', compareAria:'Comparar este mazo con el meta', loading:'Analizando tu mazo frente al meta…', error:'No se pudieron cargar los datos del meta.', retry:'Reintentar', back:'Volver',
+        deckLine:function(n, colors){ return n+' cartas'+(colors ? ' · '+colors : ''); }, legalNote:'Tu mazo no cumple alguna regla actual. Puedes compararlo igualmente: la legalidad y el meta son cosas distintas.',
+        context:function(fmt, win, date){ return fmt+' · Datos del '+win+' · recogidos el '+date; },
+        boundary:function(sets, n){ return n === 1 ? 'Tu mazo incluye 1 carta de '+sets+', posterior a estos datos del meta: aparece como «Nueva» y no se compara.' : 'Tu mazo incluye '+n+' cartas de '+sets+', posteriores a estos datos del meta: aparecen como «Nueva» y no se comparan.'; },
+        modes:{closest:'Más cercano', colors:'Mismo color', archetype:'Elegir arquetipo', all:'Todo el meta'}, pickArch:'Arquetipo', modeAria:'Con qué comparar',
+        headClosest:'Arquetipo más cercano', headColors:'Perfil de tus colores', headAll:'Perfil de todo el meta', headArch:'Arquetipo elegido', similarity:'Similitud',
+        coverage:function(n){ return 'Las cartas más jugadas de este perfil cubren '+n+' de tus 50.'; }, lists:function(n){ return n+' listas'; },
+        evidence:{high:'Evidencia alta', medium:'Evidencia media', low:'Evidencia baja', insufficient:'Datos insuficientes'},
+        whySim:'¿Qué significa este %?', simExplain:'Compara tus copias con las copias esperadas de las cartas más jugadas del perfil, dando más peso a las más habituales. No es la probabilidad de ganar ni una nota de calidad: solo mide cuánto se parece tu mazo a lo que se juega.',
+        noClear:'No encontramos un arquetipo claro', noClearText:'Tu mazo no se parece lo bastante a ningún arquetipo concreto. Puedes compararlo con el perfil de tus colores o con todo el meta.',
+        lowEvidenceText:function(n){ return 'Este perfil se apoya en solo '+n+' listas: los porcentajes pueden cambiar mucho con pocas listas más.'; }, noData:'Este perfil no tiene datos suficientes para comparar.',
+        mergedNote:'Un perfil combinado mezcla estilos distintos, así que la similitud sale baja por construcción: úsalo para ver la composición y las cartas habituales, no para puntuar tu mazo.',
+        candidates:'Arquetipos candidatos', candidatesNote:'Elige uno para compararlo.', tabs:{summary:'Resumen', cards:'Cartas', diff:'Diferencias'},
+        comp:{title:'Composición', you:'Tú', meta:'Meta', note:'«Meta» suma las copias esperadas de las cartas más jugadas del perfil; no incluye las menos habituales.',
+          rows:{units:'Unidades', pilots:'Pilotos', commands:'Comandos', bases:'Bases', avgUnitCost:'Coste medio de las Unidades', unitsLv5:'Unidades de nivel 5 o más', earlyUnits:'Unidades de coste 2 o menos'}},
+        roles:{core:'Core', common:'Común', flex:'Flex', flex_low:'Poco habitual', off_meta:'Fuera del meta', new:'Nueva', insufficient_data:'Datos insuficientes'},
+        cardsTitle:'Tus cartas frente al perfil', you:function(n){ return 'Tú ×'+n; }, metaCopies:function(a, p){ return 'Meta ×'+a+' ('+p+' % de las listas)'; },
+        below:function(p){ return 'Por debajo del '+p+' % de las listas'; }, newCard:'Set posterior a estos datos', noInfo:'Sin datos suficientes',
+        why:'¿Por qué?', hideWhy:'Ocultar',
+        whyCard:function(p, a, n){ return 'Aparece en el '+p+' % de las '+n+' listas del arquetipo; cuando la llevan, son '+a+' copias de media.'; },
+        whyOff:function(p, n){ return 'No está entre las cartas más jugadas de este arquetipo: aparece en menos del '+p+' % de sus '+n+' listas. No es una valoración de la carta.'; },
+        whyNew:'Pertenece a un set que sale después de la fecha de estos datos, así que todavía no hay listas con ella.', whyInsuf:'El arquetipo tiene muy pocas listas para decir nada fiable de esta carta.',
+        missingTitle:'Cartas habituales que no estás jugando', missingNote:'Aparecen en la mayoría de las listas de este arquetipo y juegas menos copias que la media. Es información, no una corrección.',
+        missingRow:function(p, a, u){ return 'En el '+p+' % de las listas · media ×'+a+' · tú ×'+u; }, none:'Nada que destacar.',
+        unusualTitle:'Elecciones poco habituales', unusualNote:'Cartas tuyas que casi no aparecen en las listas de este arquetipo. Pueden ser una apuesta personal o formar parte de una combinación; aquí solo te lo señalamos.',
+        inPackage:'Forma parte de un paquete', packagesTitle:'Paquetes detectados', packagesNote:'Cartas de tu mazo que funcionan juntas: una Unidad y su Piloto, o varias del mismo rasgo. Si una carta poco habitual está en un paquete, probablemente sea intencionada.',
+        pkgLink:'Unidad + Piloto', pkgTrait:'Mismo rasgo',
+        ignored:function(n){ return n+(n === 1 ? ' carta de tu mazo ya no existe' : ' cartas de tu mazo ya no existen')+' en el catálogo y no se han tenido en cuenta.'; },
+        source:'Fuente', window:'ventana', retrieved:'recogidos el', viewSource:'Ver el perfil en Side-6', copies:'copias'
+      },
       dl:{
         intro:function(n, m, from, to){ return n+' listas de '+m+' arquetipos de los mejores puestos de los eventos recientes ('+from+' – '+to+').'; },
         dataFrom:'Datos recogidos el', source:'Fuente', loading:'Cargando listas…', error:'No se pudieron cargar las listas.', retry:'Reintentar',
@@ -52860,6 +52953,37 @@ var EFFECT_CONFIG = {
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
       myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
+      meta:{
+        title:'Meta Lab', compare:'Compare', compareAria:'Compare this deck with the meta', loading:'Analysing your deck against the meta…', error:'Could not load the meta data.', retry:'Retry', back:'Back',
+        deckLine:function(n, colors){ return n+' cards'+(colors ? ' · '+colors : ''); }, legalNote:'Your deck breaks a current rule. You can still compare it: legality and the meta are separate things.',
+        context:function(fmt, win, date){ return fmt+' · Data from '+win+' · collected on '+date; },
+        boundary:function(sets, n){ return 'Your deck has '+n+(n === 1 ? ' card' : ' cards')+' from '+sets+', released after this meta data: they show as “New” and are not compared.'; },
+        modes:{closest:'Closest', colors:'Same colors', archetype:'Pick archetype', all:'Whole meta'}, pickArch:'Archetype', modeAria:'What to compare with',
+        headClosest:'Closest archetype', headColors:'Profile of your colors', headAll:'Whole-meta profile', headArch:'Chosen archetype', similarity:'Similarity',
+        coverage:function(n){ return 'The most played cards in this profile cover '+n+' of your 50.'; }, lists:function(n){ return n+' lists'; },
+        evidence:{high:'High evidence', medium:'Medium evidence', low:'Low evidence', insufficient:'Insufficient data'},
+        whySim:'What does this % mean?', simExplain:'It compares your copies with the expected copies of the profile’s most played cards, weighting the most common ones more. It is not a win probability or a quality score: it only measures how much your deck looks like what is being played.',
+        noClear:'No clear archetype found', noClearText:'Your deck does not resemble any single archetype enough. You can compare it with the profile of your colors or with the whole meta.',
+        lowEvidenceText:function(n){ return 'This profile rests on only '+n+' lists: percentages can change a lot with a few more lists.'; }, noData:'This profile does not have enough data to compare.',
+        mergedNote:'A combined profile mixes different styles, so similarity is low by construction: use it to see composition and common cards, not to score your deck.',
+        candidates:'Candidate archetypes', candidatesNote:'Pick one to compare against it.', tabs:{summary:'Summary', cards:'Cards', diff:'Differences'},
+        comp:{title:'Composition', you:'You', meta:'Meta', note:'“Meta” adds up the expected copies of the profile’s most played cards; it does not include the less common ones.',
+          rows:{units:'Units', pilots:'Pilots', commands:'Commands', bases:'Bases', avgUnitCost:'Average Unit cost', unitsLv5:'Level 5+ Units', earlyUnits:'Units costing 2 or less'}},
+        roles:{core:'Core', common:'Common', flex:'Flex', flex_low:'Uncommon', off_meta:'Off-meta', new:'New', insufficient_data:'Insufficient data'},
+        cardsTitle:'Your cards against the profile', you:function(n){ return 'You ×'+n; }, metaCopies:function(a, p){ return 'Meta ×'+a+' ('+p+'% of lists)'; },
+        below:function(p){ return 'Below '+p+'% of lists'; }, newCard:'Set released after this data', noInfo:'Not enough data',
+        why:'Why?', hideWhy:'Hide',
+        whyCard:function(p, a, n){ return 'Appears in '+p+'% of the archetype’s '+n+' lists; when included, it averages '+a+' copies.'; },
+        whyOff:function(p, n){ return 'It is not among this archetype’s most played cards: it shows up in under '+p+'% of its '+n+' lists. This is not a judgement of the card.'; },
+        whyNew:'It belongs to a set released after this data, so there are no lists with it yet.', whyInsuf:'The archetype has too few lists to say anything reliable about this card.',
+        missingTitle:'Common cards you are not playing', missingNote:'They appear in most lists of this archetype and you play fewer copies than the average. It is information, not a correction.',
+        missingRow:function(p, a, u){ return 'In '+p+'% of lists · average ×'+a+' · you ×'+u; }, none:'Nothing to highlight.',
+        unusualTitle:'Uncommon choices', unusualNote:'Cards of yours that barely appear in this archetype’s lists. They may be a personal pick or part of a combo; we only point them out.',
+        inPackage:'Part of a package', packagesTitle:'Detected packages', packagesNote:'Cards in your deck that work together: a Unit and its Pilot, or several sharing a trait. If an uncommon card is in a package, it is probably intentional.',
+        pkgLink:'Unit + Pilot', pkgTrait:'Same trait',
+        ignored:function(n){ return n+(n === 1 ? ' card in your deck no longer exists' : ' cards in your deck no longer exist')+' in the catalogue and were ignored.'; },
+        source:'Source', window:'window', retrieved:'collected on', viewSource:'See the profile on Side-6', copies:'copies'
+      },
       dl:{
         intro:function(n, m, from, to){ return n+' top-finish lists across '+m+' archetypes from recent events ('+from+' – '+to+').'; },
         dataFrom:'Data collected on', source:'Source', loading:'Loading lists…', error:'Could not load the lists.', retry:'Retry',
@@ -53718,7 +53842,8 @@ var EFFECT_CONFIG = {
   function updateDeckPill(){
     var deck = activeDeck();
     var n = deck ? deckTotal(deck) : 0;
-    refreshTileQty();
+    refreshTileQty(); if(typeof updateCompareButtons === 'function') updateCompareButtons();
+    if(typeof metaPage !== 'undefined' && metaPage && !metaPage.hidden){ var md = DECKS[ML.deckId]; if(!md || deckTotal(md) !== 50) closeMeta(); else renderMeta(); }
     var pc = document.getElementById('deckPillCount');
     if(pc) pc.textContent = n+' / 50';
     var box = document.getElementById('deckCount');
@@ -54086,6 +54211,7 @@ var EFFECT_CONFIG = {
     if(!archived){
       item(d.favorite ? C.unfav : C.fav, function(){ closeDeckMenu(); toggleFavoriteLocal(id); renderDecksGrid(); });
       item(C.rename, function(){ closeDeckMenu(); openDeckDetail(id); var ni = document.getElementById('dpName'); ni.focus(); ni.select(); });
+      if(deckTotal(d) === 50 && typeof Meta !== 'undefined') item(t().meta.compare, function(){ closeDeckMenu(); openMeta(id, btn); });
       item(C.duplicate, function(){ closeDeckMenu(); duplicateDeckLocal(id); renderDecksGrid(); });
       item(C.archive, function(){ closeDeckMenu(); archiveDeckLocal(id); renderDecksGrid(); });
     } else {
@@ -54180,6 +54306,7 @@ var EFFECT_CONFIG = {
     meta.appendChild(document.createTextNode(total+'/50 '+t().cardsWord+' · '+t().colorsCount(nColors)));
     if(nColors>2){ meta.appendChild(document.createTextNode(' · ')); meta.appendChild(el('span','warn', t().maxTwoColors)); }
     paintLegalChip(document.getElementById('dpLegal'), deck);
+    if(typeof updateCompareButtons === 'function') updateCompareButtons();
 
     var nums = {};
     Object.keys(deck.cards).forEach(function(n){ nums[n] = true; });
@@ -54782,6 +54909,8 @@ var EFFECT_CONFIG = {
   function applyStaticI18n(){
     document.documentElement.lang = LANG;
     if(typeof paintDeleteLabels === 'function') paintDeleteLabels();
+    if(typeof updateCompareButtons === 'function') updateCompareButtons();
+    if(typeof metaPage !== 'undefined' && metaPage && !metaPage.hidden) renderMeta();
     if(typeof installCard !== 'undefined' && installCard && !installCard.hidden) renderInstall();
     document.getElementById('lblAddDeck').textContent = t().addDeck;
     document.getElementById('lblMyDecks').textContent = t().myDecks;
@@ -55213,6 +55342,191 @@ var EFFECT_CONFIG = {
   }
   function cOpenCard(num){ var c = cardByNumber(num); if(c) openDetail(c); }
 
+  /* ===== META LAB · COMPARAR el mazo con el meta ===== */
+  var ML = { deckId:null, mode:{type:'closest'}, tab:'summary', status:'idle', data:null, sets:null, why:{}, opener:null };
+  var metaPage = document.getElementById('metaPage');
+  function loadMeta(){
+    if(ML.status === 'loading' || ML.status === 'ok') return;
+    ML.status = 'loading';
+    Promise.all([fetch('data/meta.json').then(function(r){ if(!r.ok) throw new Error('meta '+r.status); return r.json(); }),
+                 fetch('data/sets.json').then(function(r){ return r.ok ? r.json() : {sets:{}}; }).catch(function(){ return {sets:{}}; })])
+      .then(function(a){ ML.data = a[0]; ML.sets = a[1].sets || {}; ML.status = 'ok'; if(!metaPage.hidden) renderMeta(); })
+      .catch(function(){ ML.status = 'error'; if(!metaPage.hidden) renderMeta(); });
+  }
+  function openMeta(deckId, opener){
+    var d = DECKS[deckId]; if(!d || deckTotal(d) !== 50 || typeof Meta === 'undefined') return;
+    ML.deckId = deckId; ML.mode = {type:'closest'}; ML.tab = 'summary'; ML.why = {}; ML.opener = opener || document.activeElement;
+    closeSidebar(); loadMeta(); renderMeta();
+    metaPage.hidden = false; metaPage.scrollTop = 0; enter(metaPage, 'forward');
+    var b = document.getElementById('metaBack'); if(b) b.focus({preventScroll:true});
+  }
+  function closeMeta(){
+    if(metaPage.hidden) return; metaPage.hidden = true; ML.deckId = null;
+    if(ML.opener && document.contains(ML.opener)) try{ ML.opener.focus({preventScroll:true}); }catch(e){} ML.opener = null;
+  }
+  function metaPct(x){ return String(Math.round(x * 1000) / 10).replace('.', LANG === 'es' ? ',' : '.'); }
+  function metaNum(x){ return String(Math.round(x * 100) / 100).replace('.', LANG === 'es' ? ',' : '.'); }
+  function metaCompare(){
+    var deck = DECKS[ML.deckId]; if(!deck) return null;
+    return Meta.compare({name:deck.name, cards:deck.cards}, ML.mode, {meta:ML.data, cardMap:cardMap(), setDates:ML.sets, legality:engineOK() ? legalOf(deck) : null});
+  }
+  function renderMeta(){
+    var M = t().meta, body = document.getElementById('metaBody'), deck = DECKS[ML.deckId];
+    document.getElementById('lblMetaBack').textContent = M.back; document.getElementById('metaTitle').textContent = M.title;
+    body.innerHTML = '';
+    if(!deck){ document.getElementById('metaSub').textContent = ''; return; }
+    var colors = Object.keys(deckColorCounts(deck)).sort(function(a, b){ return colorRank(a) - colorRank(b); }).map(function(c){ return t().colors[c] || c; }).join(' / ');
+    document.getElementById('metaSub').textContent = (deck.name || t().deckNewName)+' · '+M.deckLine(deckTotal(deck), colors);
+    if(ML.status === 'idle' || ML.status === 'loading'){ body.appendChild(el('p','ml-load', M.loading)); return; }
+    if(ML.status === 'error'){
+      body.appendChild(el('p','ml-load', M.error)); var rb = el('button','dp-btn', M.retry); rb.type = 'button';
+      rb.addEventListener('click', function(){ ML.status = 'idle'; loadMeta(); renderMeta(); }); body.appendChild(rb); return;
+    }
+    var R = metaCompare(); if(!R) return; var snap = ML.data.snapshot;
+    if(engineOK()){ var lg = legalOf(deck); if(lg.status === 'illegal') body.appendChild(el('p','ml-warn', M.legalNote)); }
+    body.appendChild(el('p','ml-ctx', M.context(snap.formatLabel, snap.windowFrom && snap.windowTo ? fmtDate(snap.windowFrom)+' – '+fmtDate(snap.windowTo) : (snap.windowLabel || '—'), fmtDate(snap.retrievedAt.slice(0, 10)))));
+    if(R.boundary.crossed) body.appendChild(el('p','ml-warn', M.boundary(R.boundary.sets.join(', '), R.boundary.cards.length)));
+    if(R.ignoredCards.length) body.appendChild(el('p','ml-warn', M.ignored(R.ignoredCards.length)));
+
+    var modes = el('div','ml-modes'); modes.setAttribute('role','group'); modes.setAttribute('aria-label', M.modeAria);
+    ['closest','colors','archetype','all'].forEach(function(ty){
+      var b = el('button','tag chip'+(ML.mode.type === ty ? ' active' : ''), M.modes[ty]); b.type = 'button'; b.setAttribute('aria-pressed', String(ML.mode.type === ty));
+      b.addEventListener('click', function(){
+        if(ty === 'archetype') ML.mode = {type:'archetype', archetypeId:(R.selected && !R.selected.id.indexOf('colors:') && R.selected.id !== 'all' ? R.selected.id : (R.ranking.top[0] || {}).archetypeId) || ML.data.archetypes[0].id};
+        else ML.mode = {type:ty};
+        ML.why = {}; renderMeta();
+      });
+      modes.appendChild(b);
+    });
+    body.appendChild(modes);
+    if(ML.mode.type === 'archetype'){
+      var f = el('label','dl-field'); f.appendChild(el('span',null, M.pickArch));
+      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = 'mlArch';
+      ML.data.archetypes.slice().sort(function(a, b){ return a.name.localeCompare(b.name); }).forEach(function(a){
+        var o = document.createElement('option'); o.value = a.id; o.textContent = a.name+' ('+M.lists(a.deckCount)+')'; if(a.id === ML.mode.archetypeId) o.selected = true; sel.appendChild(o);
+      });
+      sel.addEventListener('change', function(){ ML.mode = {type:'archetype', archetypeId:sel.value}; ML.why = {}; renderMeta(); var again = document.getElementById('mlArch'); if(again) again.focus(); });
+      f.appendChild(sel); body.appendChild(f);
+    }
+
+    var sel2 = R.selected;
+    if(!sel2){ body.appendChild(el('p','ml-note', M.noData)); return; }
+    var head = el('section','ml-head');
+    head.appendChild(el('div','ml-eyebrow', ML.mode.type === 'colors' ? M.headColors : ML.mode.type === 'all' ? M.headAll : ML.mode.type === 'archetype' ? M.headArch : M.headClosest));
+    var arch = (ML.data.archetypes.filter(function(a){ return a.id === sel2.id; })[0]) || null;
+    var an = el('div','ml-arch'); if(arch){ var pips = el('span'); arch.colors.forEach(function(l){ var full = {B:'Blue', G:'Green', R:'Red', P:'Purple', W:'White'}[l]; var p = el('span','dd-pip'); p.dataset.color = full; pips.appendChild(p); }); an.appendChild(pips); }
+    an.appendChild(document.createTextNode((arch ? arch.name.replace(/^(\w)(\w)\s/, '$1/$2 ') : sel2.name === 'all' ? M.modes.all : sel2.name))); head.appendChild(an);
+    var simObj = R.ranking.top.filter(function(x){ return x.archetypeId === sel2.id; })[0];
+    var simVal = simObj ? simObj.similarity : Meta.similarity(Object.keys(deck.cards).reduce(function(o, k){ if(cardMap()[k]) o[k] = deck.cards[k]; return o; }, {}), ML.data.archetypes.filter(function(a){ return a.id === sel2.id; })[0] || Meta.mergeProfiles(ML.data.archetypes, 'all', 'all')).value;
+    var big = el('div','ml-big'); big.appendChild(el('b',null, metaPct(simVal)+' %')); big.appendChild(el('span',null, M.similarity)); head.appendChild(big);
+    var covU = Object.keys(deck.cards).reduce(function(sum, k){ return sum + (R.cardAnalysis.some(function(c){ return c.number === k && c.adoption !== null; }) ? deck.cards[k] : 0); }, 0);
+    head.appendChild(el('p','ml-note', M.coverage(covU)));
+    if(ML.mode.type === 'colors' || ML.mode.type === 'all') head.appendChild(el('p','ml-note', M.mergedNote));
+    var chips = el('div','ml-chips'); chips.appendChild(el('span','ml-chip', M.lists(sel2.deckCount))); chips.appendChild(el('span','ml-chip ev-'+sel2.evidence, M.evidence[sel2.evidence])); head.appendChild(chips);
+    if(sel2.evidence === 'low' || sel2.evidence === 'insufficient') head.appendChild(el('p','ml-warn', M.lowEvidenceText(sel2.deckCount)));
+    var det = document.createElement('details'); det.className = 'ml-det'; det.appendChild(el('summary',null, M.whySim)); det.appendChild(el('p',null, M.simExplain)); head.appendChild(det);
+    body.appendChild(head);
+    if(ML.mode.type === 'closest' && R.state === 'no_clear'){
+      var nc = el('section','ml-sec'); nc.appendChild(el('h2','comp-h', M.noClear)); nc.appendChild(el('p','ml-note', M.noClearText)); body.appendChild(nc);
+    }
+
+    if(R.ranking.top.length){
+      var cs = el('section','ml-sec'); cs.appendChild(el('h2','comp-h', M.candidates)); cs.appendChild(el('p','ml-note', M.candidatesNote));
+      var list = el('div','ml-cands');
+      R.ranking.top.forEach(function(c){
+        var a = ML.data.archetypes.filter(function(x){ return x.id === c.archetypeId; })[0]; if(!a) return;
+        var b = el('button','ml-cand'); b.type = 'button'; b.setAttribute('aria-pressed', String(ML.mode.type === 'archetype' && ML.mode.archetypeId === a.id));
+        var l = el('span'); l.appendChild(el('b',null, a.name.replace(/^(\w)(\w)\s/, '$1/$2 '))); l.appendChild(document.createElement('br')); l.appendChild(el('small',null, M.lists(a.deckCount)+' · '+M.evidence[c.evidence]));
+        b.appendChild(l); b.appendChild(el('span','pct', metaPct(c.similarity)+' %'));
+        var bar = el('span','ml-bar'), fill = document.createElement('i'); fill.style.width = Math.round(c.similarity * 100)+'%'; bar.appendChild(fill); b.appendChild(bar);
+        b.addEventListener('click', function(){ ML.mode = {type:'archetype', archetypeId:a.id}; ML.why = {}; renderMeta(); metaPage.scrollTop = 0; });
+        list.appendChild(b);
+      });
+      cs.appendChild(list); body.appendChild(cs);
+    }
+
+    var tabs = el('div','ml-tabs'); tabs.setAttribute('role','tablist');
+    ['summary','cards','diff'].forEach(function(id){
+      var b = el('button','comp-tab', M.tabs[id]); b.type = 'button'; b.setAttribute('role','tab'); b.setAttribute('aria-selected', String(ML.tab === id));
+      b.addEventListener('click', function(){ ML.tab = id; renderMeta(); }); tabs.appendChild(b);
+    });
+    body.appendChild(tabs);
+    var panel = el('div','ml-sec'); panel.setAttribute('role','tabpanel'); body.appendChild(panel);
+    if(ML.tab === 'summary') metaSummary(panel, R, M);
+    else if(ML.tab === 'cards') metaCards(panel, R, M, sel2);
+    else metaDiff(panel, R, M);
+
+    var foot = el('div','comp-sources'), line = el('div'); var a1 = document.createElement('a'); a1.href = sel2.sourceUrl || snap.source.url; a1.target = '_blank'; a1.rel = 'noopener noreferrer'; a1.textContent = M.viewSource;
+    line.appendChild(document.createTextNode(M.source+': Side-6 · ')); line.appendChild(a1); line.appendChild(document.createTextNode(' · '+M.retrieved+' '+fmtDate(snap.retrievedAt.slice(0, 10)))); foot.appendChild(line); body.appendChild(foot);
+  }
+  function metaSummary(panel, R, M){
+    panel.appendChild(el('h2','comp-h', M.comp.title));
+    var tb = document.createElement('table'); tb.className = 'ml-table';
+    var th = document.createElement('tr'); ['', M.comp.you, M.comp.meta].forEach(function(h){ th.appendChild(el('th',null,h)); }); tb.appendChild(th);
+    R.composition.forEach(function(r){
+      if(r.key.indexOf('tag:') === 0 || M.comp.rows[r.key] === undefined) return;
+      var tr = document.createElement('tr'); tr.appendChild(el('td',null, M.comp.rows[r.key]));
+      var money = r.key === 'avgUnitCost';
+      tr.appendChild(el('td',null, r.user === null ? '—' : metaNum(r.user))); tr.appendChild(el('td',null, r.meta === null ? '—' : metaNum(r.meta))); tb.appendChild(tr);
+    });
+    var wrap = el('div'); wrap.style.overflowX = 'auto'; wrap.appendChild(tb); panel.appendChild(wrap); panel.appendChild(el('p','ml-note', M.comp.note));
+  }
+  function metaWhy(c, R, M){
+    if(c.role === 'new') return M.whyNew; if(c.role === 'insufficient_data') return M.whyInsuf;
+    if(c.adoption !== null) return M.whyCard(metaPct(c.adoption), metaNum(c.avgCopies), c.sampleSize);
+    return M.whyOff(metaPct(c.upperBound || 0), c.sampleSize);
+  }
+  function metaCards(panel, R, M, sel){
+    panel.appendChild(el('h2','comp-h', M.cardsTitle));
+    var order = {core:0, common:1, flex:2, flex_low:3, off_meta:4, new:5, insufficient_data:6};
+    var rows = R.cardAnalysis.slice().sort(function(a, b){ return (order[a.role] - order[b.role]) || (b.userCopies - a.userCopies) || a.number.localeCompare(b.number); });
+    rows.forEach(function(c){
+      var cd = cardByNumber(c.number), row = el('div','ml-row');
+      var im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.number+'.webp'; if(cd) im.addEventListener('click', function(){ openDetail(cd, im); }); row.appendChild(im);
+      row.appendChild(el('b',null, cd ? cd.name : c.number));
+      var l = el('div','ml-line'); l.appendChild(el('span','meta-role '+c.role, M.roles[c.role])); l.appendChild(el('small',null, M.you(c.userCopies))); row.appendChild(l);
+      var l2 = el('div','ml-line'); l2.appendChild(el('small',null, c.adoption !== null ? M.metaCopies(metaNum(c.avgCopies), metaPct(c.adoption)) : c.role === 'new' ? M.newCard : c.role === 'insufficient_data' ? M.noInfo : M.below(metaPct(c.upperBound || 0))));
+      var k = c.number, wb = el('button','ml-why', ML.why[k] ? M.hideWhy : M.why); wb.type = 'button'; wb.setAttribute('aria-expanded', String(!!ML.why[k]));
+      wb.addEventListener('click', function(){ ML.why[k] = !ML.why[k]; renderMeta(); }); l2.appendChild(wb); row.appendChild(l2);
+      if(ML.why[k]) row.appendChild(el('div','ml-why-txt', metaWhy(c, R, M)));
+      panel.appendChild(row);
+    });
+  }
+  function metaDiff(panel, R, M){
+    function cardLine(num, text){
+      var cd = cardByNumber(num), row = el('div','ml-row'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+num+'.webp';
+      if(cd) im.addEventListener('click', function(){ openDetail(cd, im); }); row.appendChild(im);
+      row.appendChild(el('b',null, cd ? cd.name : num)); row.appendChild(el('small',null, text)); return row;
+    }
+    panel.appendChild(el('h2','comp-h', M.missingTitle)); panel.appendChild(el('p','ml-note', M.missingNote));
+    if(!R.missingCommon.length) panel.appendChild(el('p','ml-note', M.none));
+    R.missingCommon.forEach(function(m){ panel.appendChild(cardLine(m.number, M.missingRow(metaPct(m.adoption), metaNum(m.avgCopies), m.userCopies))); });
+    panel.appendChild(el('h2','comp-h', M.unusualTitle)); panel.appendChild(el('p','ml-note', M.unusualNote));
+    if(!R.unusual.length) panel.appendChild(el('p','ml-note', M.none));
+    R.unusual.forEach(function(u){
+      var pk = u.packageId ? R.packages.filter(function(p){ return p.id === u.packageId; })[0] : null;
+      var row = cardLine(u.number, M.roles[u.role]+' · '+M.you(u.copies)+(pk ? ' · '+M.inPackage : '')); panel.appendChild(row);
+    });
+    panel.appendChild(el('h2','comp-h', M.packagesTitle)); panel.appendChild(el('p','ml-note', M.packagesNote));
+    if(!R.packages.length) panel.appendChild(el('p','ml-note', M.none));
+    R.packages.slice(0, 12).forEach(function(p){
+      var c = el('div','ml-pkg'); c.appendChild(el('b',null, p.name)); c.appendChild(document.createTextNode(' · '+(p.reason === 'link' ? M.pkgLink : M.pkgTrait)+' · '+p.cards.map(function(n){ var cd = cardByNumber(n); return cd ? cd.name : n; }).join(', ')));
+      panel.appendChild(c);
+    });
+  }
+  /* COMPARAR aparece solo con exactamente 50 cartas */
+  function updateCompareButtons(){
+    var deck = activeDeck(), show = !!deck && deckTotal(deck) === 50 && typeof Meta !== 'undefined';
+    var dpd = typeof dpDeckId !== 'undefined' && dpDeckId && DECKS[dpDeckId];
+    [['bbCompare', show], ['dvCompare', show], ['dpCompare', !!dpd && deckTotal(dpd) === 50 && typeof Meta !== 'undefined']].forEach(function(p){ var b = document.getElementById(p[0]); if(b) b.hidden = !p[1]; });
+    var lbl = t().meta.compare; [].forEach.call(document.querySelectorAll('.lblCompare'), function(x){ x.textContent = lbl; });
+    [['bbCompare'], ['dvCompare'], ['dpCompare']].forEach(function(p){ var b = document.getElementById(p[0]); if(b) b.setAttribute('aria-label', t().meta.compareAria); });
+  }
+  document.getElementById('bbCompare').addEventListener('click', function(){ openMeta(activeDeckId, this); });
+  document.getElementById('dvCompare').addEventListener('click', function(){ openMeta(activeDeckId, this); });
+  document.getElementById('dpCompare').addEventListener('click', function(){ openMeta(dpDeckId, this); });
+  document.getElementById('metaBack').addEventListener('click', closeMeta);
+
   /* ---- listas de los últimos eventos: data/decklists.json (se sube a GitHub; no depende de competition.js) ---- */
   var DL = { status:'idle', data:null, shown:12, arch:'', event:'', sort:'recent', open:{}, created:{}, copied:{} };
   function loadDecklists(){
@@ -55631,6 +55945,7 @@ var EFFECT_CONFIG = {
     if(pillMenu.classList.contains('open')){ closePillMenu(); menuBtn.focus(); return; }
     if(!cmpModal.hidden){ closeCompareModal(); return; }
     if(!document.getElementById('overlay').hidden){ closeDetail(); return; }
+    if(!metaPage.hidden){ closeMeta(); return; }
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
     if(!deckView.hidden){ closeDeckView(); document.getElementById('deckCount').focus(); return; }
     if(!compPage.hidden){ closeCompPage(); return; }

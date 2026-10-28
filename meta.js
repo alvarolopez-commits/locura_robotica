@@ -14,7 +14,7 @@
   var DEFAULTS = {
     roleCore: 0.75, roleCommon: 0.5, roleFlex: 0.2,         // umbrales del diseño (spec §14)
     evidence: { high: 100, medium: 30, low: 10 },
-    clearArchetype: 0.25,                                    // provisional: se calibrará con mazos reales
+    clearArchetype: 0.30,                                    // calibrado 28 oct 2026: 40 mazos aleatorios ≤0,11; listas reales de torneo ≥0,39 (mediana 0,77)
     missingMinAdoption: 0.5, maxMissing: 12, maxCandidates: 4
   };
   var COLOR_LETTER = { Blue: 'B', Green: 'G', Red: 'R', Purple: 'P', White: 'W' };

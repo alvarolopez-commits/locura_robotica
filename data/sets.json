@@ -1,0 +1,7 @@
+{
+  "_nota": "Fecha de lanzamiento de los sets que importan para el meta. Solo los sets con fecha verificada: una carta es 'NUEVA' si su set sale después de la fecha de los datos del meta. GD05 y GD06 según el plan del proyecto y la sección Competición; revisar en la web oficial (https://www.gundam-gcg.com/en/products/) al salir cada set.",
+  "sets": {
+    "GD05": { "releaseDate": "2026-07-24", "source": "https://www.gundam-gcg.com/en/products/" },
+    "GD06": { "releaseDate": "2026-10-30", "source": "https://www.gundam-gcg.com/en/products/" }
+  }
+}
