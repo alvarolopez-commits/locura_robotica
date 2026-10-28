@@ -3,7 +3,7 @@
  * - Imágenes de cartas: caché primero (no cambian) y se guardan al verlas.
  * - Fuentes de Google: caché primero.
  * Sube SHELL_VERSION si cambias la lista de PRECACHE. */
-const SHELL_VERSION = 'v3';
+const SHELL_VERSION = 'v4';
 const SHELL = 'locura-shell-' + SHELL_VERSION;
 const IMAGES = 'locura-images';
 const FONTS = 'locura-fonts';
@@ -11,6 +11,8 @@ const KEEP = [SHELL, IMAGES, FONTS];
 const PRECACHE = [
   '/',
   '/legality.js',
+  '/config.js',
+  '/decks_sync.js',
   '/manifest.webmanifest',
   '/icons/icon-192.png',
   '/brand/locura-robotica-icon.png',
@@ -125,6 +127,7 @@ self.addEventListener('fetch', (event) => {
 
   if (url.hostname === 'fonts.googleapis.com') return event.respondWith(staleWhileRevalidate(request, FONTS));
   if (url.hostname === 'fonts.gstatic.com') return event.respondWith(cacheFirst(request, FONTS));
+  if (url.hostname === 'cdn.jsdelivr.net' && url.pathname.indexOf('/npm/@supabase/supabase-js@') === 0) return event.respondWith(cacheFirst(request, SHELL));   // el cliente de cuentas también funciona sin conexión
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate' || url.pathname === '/' || url.pathname === '/dashboard.html') {

@@ -1,0 +1,25 @@
+{
+  "_nota": "Lista de avatares elegibles. Cada uno: id único (sin espacios), name (texto accesible) y file (imagen cuadrada dentro de esta carpeta, mínimo 256x256, PNG/WebP/JPG). El icono Zaku va siempre primero y no se lista aquí.",
+  "avatars": [
+    {
+      "id": "mono-azul",
+      "name": "Mono-eye azul",
+      "file": "mono-azul.webp"
+    },
+    {
+      "id": "mono-verde",
+      "name": "Mono-eye verde",
+      "file": "mono-verde.webp"
+    },
+    {
+      "id": "mono-blanco",
+      "name": "Mono-eye blanco",
+      "file": "mono-blanco.webp"
+    },
+    {
+      "id": "optimus",
+      "name": "Optimus y Bumblebee",
+      "file": "optimus.webp"
+    }
+  ]
+}
