@@ -1189,6 +1189,17 @@ html{ touch-action:manipulation; }
 .ml-why-txt{ grid-column:2; font-size:13px; line-height:1.5; color:var(--fg-2); padding:6px 10px; background:rgba(255,255,255,.06); }
 .ml-pkg{ padding:10px 12px; background:rgba(255,255,255,.06); font-size:14px; color:var(--fg-2); }
 .ml-load{ padding:40px 0; font-size:15px; color:var(--fg-3); }
+/* ===== Eventos: bandera · título · fecha, y KPIs de tipos ===== */
+.dl-event{ display:flex; align-items:center; gap:10px; min-width:0; }
+.dl-flag{ flex:none; width:24px; height:24px; border-radius:50%; overflow:hidden; box-shadow:0 0 0 1.5px rgba(255,255,255,.35); display:inline-block; }
+.dl-flag svg{ display:block; width:100%; height:100%; }
+.dl-etitle{ flex:1 1 auto; min-width:0; font-size:15px; font-weight:700; line-height:1.3; color:var(--fg-1); overflow-wrap:anywhere; }
+.dl-edate{ flex:none; font-size:13px; font-weight:700; color:var(--fg-3); white-space:nowrap; font-variant-numeric:tabular-nums; }
+.dl-kpis{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+.dl-kpi{ display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 4px 7px; text-align:center; background:rgba(255,255,255,.07); box-shadow:inset 0 2px 0 rgba(139,205,255,.45); }
+.dl-kpi b{ font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1; color:var(--fg-1); }
+.dl-kpi span{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); overflow-wrap:anywhere; }
+@media (max-width:359px){ .dl-edate{ white-space:normal; text-align:right; } }
 </style>
 
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -52799,6 +52810,19 @@ var EFFECT_CONFIG = {
         issues:function(n){ return n===1 ? '1 problema de reglas' : n+' problemas de reglas'; }, more:function(n){ return 'Ver más ('+n+')'; },
         empty:'No hay listas con estos filtros.', cards:'cartas', noEvent:'Evento sin título', descPrefix:'Lista de torneo'
       },
+      cp:{
+        ctx:function(fmt, win, date){ return fmt+' · Ventana '+win+' · datos recogidos el '+date+'.'; }, share:'Presencia', lists:function(n){ return n+' listas'; },
+        vsPrev:function(e){ return 'frente a '+e; }, loading:'Cargando datos del meta…', error:'No se pudieron cargar los datos.', retry:'Reintentar',
+        moversNone:'Sin movimientos destacados con datos suficientes.', stapleNote:'Aproximado: solo cuenta las 40 cartas más jugadas de cada arquetipo.',
+        allStyles:'Todos los estilos', styles:{Aggro:'Aggro', Midrange:'Midrange', Control:'Control'}, sortShare:'Presencia', sortName:'Nombre', fStyle:'Estilo', fSort:'Orden',
+        topCards:'Cartas más jugadas', seeLists:'Ver listas de torneo', showCards:'Ver cartas', hideCards:'Ocultar cartas', adoption:function(p, a){ return p+' % de las listas · ×'+a+' de media'; },
+        archNote:'Presencia = parte de las listas registradas en la ventana. Es presencia en torneo, no win rate.',
+        cardSearch:'Buscar carta', cardType:'Tipo', allTypes:'Todos los tipos', inArchs:function(n, names){ return 'En '+n+(n === 1 ? ' arquetipo' : ' arquetipos')+(names ? ': '+names : ''); },
+        cardsNote:'Porcentaje aproximado sobre todas las listas del meta. Una carta fuera del top 40 de un arquetipo no suma en él, así que las menos jugadas salen infravaloradas.',
+        more:function(n){ return 'Ver más ('+n+')'; }, noResults:'Ninguna carta coincide.',
+        eventsNote:'Eventos de los que hay listas de los mejores puestos en este momento. No son todos los eventos jugados.', eventLists:function(n){ return n+(n === 1 ? ' lista' : ' listas'); },
+        winner:'1.º puesto', seeEventLists:'Ver las listas', noEventTitle:'Evento sin título', top:'Mejores puestos'
+      },
       compTitle:'Competición', compSub:'Qué se está jugando y funcionando ahora mismo.', compSoon:'Próximamente',
       compTabs:{decklists:'Listas', overview:'Overview', archetypes:'Arquetipos', cards:'Cartas', events:'Eventos', matchups:'Matchups'},
       compQ:{decklists:'¿Qué listas han ganado los últimos eventos?', overview:'¿Qué se está jugando ahora mismo?', archetypes:'¿Qué arquetipos dominan el meta?', cards:'¿Qué cartas se juegan y cuántas copias?', events:'¿Qué torneos se han jugado y quién ganó?', matchups:'¿Cómo le va a cada arquetipo contra los demás?'},
@@ -52866,7 +52890,7 @@ var EFFECT_CONFIG = {
         introOut:'Guarda tus mazos en tu cuenta y úsalos desde cualquier dispositivo. Te enviamos un enlace al correo, sin contraseña.',
         email:'Correo electrónico', emailPh:'tu@correo.com', sendLink:'Enviarme el enlace', sending:'Enviando…',
         linkSent:function(e){ return 'Te hemos enviado un enlace a '+e+'. Ábrelo en este dispositivo para entrar.'; },
-        signedAs:'Sesión iniciada como', signOut:'Cerrar sesión', emailInvalid:'Escribe un correo válido.', sendFail:'No se pudo enviar el enlace. Inténtalo de nuevo.',
+        signedAs:'Sesión iniciada como', signOut:'Cerrar sesión', emailInvalid:'Escribe un correo válido.', sendFail:'No se pudo enviar el enlace. Inténtalo de nuevo.', sendRate:'Se han pedido demasiados enlaces en poco tiempo. Espera unos 30–60 minutos y vuelve a intentarlo (un solo enlace cada vez).', sendNet:'Sin conexión con el servidor de cuentas. Revisa tu conexión e inténtalo de nuevo.',
         notReady:'No se pudo cargar el servicio de cuentas. Tus mazos siguen guardándose en este navegador.',
         localNote:'Tus mazos solo están en este navegador. Inicia sesión para guardarlos en tu cuenta.',
         sessionExpired:'Tu sesión ha caducado. Inicia sesión para guardar los cambios pendientes.', syncNow:'Sincronizar ahora',
@@ -52993,6 +53017,19 @@ var EFFECT_CONFIG = {
         legal:'Tournament legal', issues:function(n){ return n===1 ? '1 rule issue' : n+' rule issues'; }, more:function(n){ return 'Show more ('+n+')'; },
         empty:'No lists match these filters.', cards:'cards', noEvent:'Untitled event', descPrefix:'Tournament list'
       },
+      cp:{
+        ctx:function(fmt, win, date){ return fmt+' · Window '+win+' · data collected on '+date+'.'; }, share:'Presence', lists:function(n){ return n+' lists'; },
+        vsPrev:function(e){ return 'vs '+e; }, loading:'Loading meta data…', error:'Could not load the data.', retry:'Retry',
+        moversNone:'No notable movement with enough data.', stapleNote:'Approximate: it only counts each archetype’s 40 most played cards.',
+        allStyles:'All styles', styles:{Aggro:'Aggro', Midrange:'Midrange', Control:'Control'}, sortShare:'Presence', sortName:'Name', fStyle:'Style', fSort:'Sort',
+        topCards:'Most played cards', seeLists:'See tournament lists', showCards:'Show cards', hideCards:'Hide cards', adoption:function(p, a){ return p+'% of lists · ×'+a+' on average'; },
+        archNote:'Presence = share of the lists recorded in the window. It is tournament presence, not win rate.',
+        cardSearch:'Search card', cardType:'Type', allTypes:'All types', inArchs:function(n, names){ return 'In '+n+(n === 1 ? ' archetype' : ' archetypes')+(names ? ': '+names : ''); },
+        cardsNote:'Approximate percentage over all meta lists. A card outside an archetype’s top 40 does not count there, so the least played cards are understated.',
+        more:function(n){ return 'Show more ('+n+')'; }, noResults:'No card matches.',
+        eventsNote:'Events with top-finish lists right now. They are not every event that was played.', eventLists:function(n){ return n+(n === 1 ? ' list' : ' lists'); },
+        winner:'1st place', seeEventLists:'See the lists', noEventTitle:'Untitled event', top:'Top finishes'
+      },
       compTitle:'Competition', compSub:'What is being played and what is working right now.', compSoon:'Coming soon',
       compTabs:{decklists:'Lists', overview:'Overview', archetypes:'Archetypes', cards:'Cards', events:'Events', matchups:'Matchups'},
       compQ:{decklists:'Which lists won the latest events?', overview:'What is being played right now?', archetypes:'Which archetypes lead the meta?', cards:'Which cards are played, and how many copies?', events:'Which tournaments were played and who won?', matchups:'How does each archetype fare against the others?'},
@@ -53060,7 +53097,7 @@ var EFFECT_CONFIG = {
         introOut:'Save your decks to your account and use them on any device. We email you a link, no password needed.',
         email:'Email', emailPh:'you@email.com', sendLink:'Email me the link', sending:'Sending…',
         linkSent:function(e){ return 'We sent a link to '+e+'. Open it on this device to sign in.'; },
-        signedAs:'Signed in as', signOut:'Sign out', emailInvalid:'Enter a valid email.', sendFail:'Could not send the link. Please try again.',
+        signedAs:'Signed in as', signOut:'Sign out', emailInvalid:'Enter a valid email.', sendFail:'Could not send the link. Please try again.', sendRate:'Too many links were requested in a short time. Wait 30–60 minutes and try again (one link at a time).', sendNet:'Cannot reach the accounts server. Check your connection and try again.',
         notReady:'The accounts service could not be loaded. Your decks keep saving in this browser.',
         localNote:'Your decks are only in this browser. Sign in to save them to your account.',
         sessionExpired:'Your session expired. Sign in to save the pending changes.', syncNow:'Sync now',
@@ -54063,8 +54100,9 @@ var EFFECT_CONFIG = {
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ accountMsg = { err:true, text:C.emailInvalid }; renderAccount(); return; }
       accountBusy = true; accountMsg = null; renderAccount();
       cloud.client.auth.signInWithOtp({ email:email, options:{ emailRedirectTo: location.origin + '/' } }).then(function(r){
-        accountBusy = false; accountMsg = r.error ? { err:true, text:C.sendFail } : { err:false, text:C.linkSent(email) }; renderAccount();
-      }, function(){ accountBusy = false; accountMsg = { err:true, text:C.sendFail }; renderAccount(); });
+        var er = r.error, why = er && (er.status === 429 || /rate.?limit/i.test(String(er.code || '')+' '+String(er.message || ''))) ? C.sendRate : C.sendFail;
+        accountBusy = false; accountMsg = er ? { err:true, text:why } : { err:false, text:C.linkSent(email) }; renderAccount();
+      }, function(){ accountBusy = false; accountMsg = { err:true, text:C.sendNet }; renderAccount(); });
     }
     go.addEventListener('click', submit);
     inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); submit(); } });
@@ -55298,10 +55336,10 @@ var EFFECT_CONFIG = {
    * cada sección declara qué filtros admitirá; cuando haya datos se marca `ready` y se pinta su contenido. */
   var COMP_SECTIONS = [
     {id:'decklists', ready:true,  filters:['archetype','event']},
-    {id:'overview',   ready:false, filters:['period','region','format']},
-    {id:'archetypes', ready:false, filters:['period','region','country','eventType','colors','set']},
-    {id:'cards',      ready:false, filters:['period','region','archetype','colors','set']},
-    {id:'events',     ready:false, filters:['period','region','country','eventType','set']},
+    {id:'overview',   ready:true,  filters:['period','region','format']},
+    {id:'archetypes', ready:true,  filters:['period','region','country','eventType','colors','set']},
+    {id:'cards',      ready:true,  filters:['period','region','archetype','colors','set']},
+    {id:'events',     ready:true,  filters:['period','region','country','eventType','set']},
     {id:'matchups',   ready:false, filters:['period','archetype','set']}
   ];
   var compPage = document.getElementById('compPage');
@@ -55350,8 +55388,8 @@ var EFFECT_CONFIG = {
     ML.status = 'loading';
     Promise.all([fetch('data/meta.json').then(function(r){ if(!r.ok) throw new Error('meta '+r.status); return r.json(); }),
                  fetch('data/sets.json').then(function(r){ return r.ok ? r.json() : {sets:{}}; }).catch(function(){ return {sets:{}}; })])
-      .then(function(a){ ML.data = a[0]; ML.sets = a[1].sets || {}; ML.status = 'ok'; if(!metaPage.hidden) renderMeta(); })
-      .catch(function(){ ML.status = 'error'; if(!metaPage.hidden) renderMeta(); });
+      .then(function(a){ ML.data = a[0]; ML.sets = a[1].sets || {}; ML.status = 'ok'; if(!metaPage.hidden) renderMeta(); if(!compPage.hidden) renderComp(); })
+      .catch(function(){ ML.status = 'error'; if(!metaPage.hidden) renderMeta(); if(!compPage.hidden) renderComp(); });
   }
   function openMeta(deckId, opener){
     var d = DECKS[deckId]; if(!d || deckTotal(d) !== 50 || typeof Meta === 'undefined') return;
@@ -55533,8 +55571,8 @@ var EFFECT_CONFIG = {
     if(DL.status === 'loading' || DL.status === 'ok') return;
     DL.status = 'loading';
     fetch('data/decklists.json').then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(function(j){
-      DL.data = j; DL.status = 'ok'; if(!compPage.hidden && compState.tab === 'decklists') renderComp();
-    }).catch(function(){ DL.status = 'error'; if(!compPage.hidden && compState.tab === 'decklists') renderComp(); });
+      DL.data = j; DL.status = 'ok'; if(!compPage.hidden) renderComp();
+    }).catch(function(){ DL.status = 'error'; if(!compPage.hidden) renderComp(); });
   }
   function dlFlat(){
     var out = [];
@@ -55560,6 +55598,42 @@ var EFFECT_CONFIG = {
     var rows = Object.keys(d.cards).map(function(n){ var c = cardByNumber(n); return d.cards[n]+' '+n+(c ? ' '+c.name : ''); });
     return rows.join('\n');
   }
+  /* Banderas circulares en SVG sencillo: el círculo recorta el rectángulo de la bandera (viewBox 3x2). Sin país conocido: un globo neutro. */
+  var FLAG_SVG = {
+    JP:'<rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".6" fill="#bc002d"/>',
+    PH:'<rect width="3" height="1" fill="#0038a8"/><rect y="1" width="3" height="1" fill="#ce1126"/><path d="M0 0L1.7 1 0 2z" fill="#fff"/><circle cx=".52" cy="1" r=".2" fill="#fcd116"/>',
+    ID:'<rect width="3" height="1" fill="#ce1126"/><rect y="1" width="3" height="1" fill="#fff"/>',
+    US:'<rect width="3" height="2" fill="#fff"/><g fill="#b22234"><rect width="3" height=".154"/><rect y=".308" width="3" height=".154"/><rect y=".615" width="3" height=".154"/><rect y=".923" width="3" height=".154"/><rect y="1.231" width="3" height=".154"/><rect y="1.538" width="3" height=".154"/><rect y="1.846" width="3" height=".154"/></g><rect width="1.2" height="1.077" fill="#3c3b6e"/>',
+    DE:'<rect width="3" height=".667" fill="#000"/><rect y=".667" width="3" height=".667" fill="#dd0000"/><rect y="1.333" width="3" height=".667" fill="#ffce00"/>',
+    FR:'<rect width="1" height="2" fill="#0055a4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ef4135"/>',
+    IT:'<rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/>',
+    ES:'<rect width="3" height="2" fill="#aa151b"/><rect y=".5" width="3" height="1" fill="#f1bf00"/>',
+    GB:'<rect width="3" height="2" fill="#012169"/><path d="M0 0L3 2M3 0L0 2" stroke="#fff" stroke-width=".4"/><path d="M0 0L3 2M3 0L0 2" stroke="#c8102e" stroke-width=".16"/><path d="M1.5 0V2M0 1H3" stroke="#fff" stroke-width=".66"/><path d="M1.5 0V2M0 1H3" stroke="#c8102e" stroke-width=".4"/>',
+    CA:'<rect width="3" height="2" fill="#fff"/><rect width=".75" height="2" fill="#d52b1e"/><rect x="2.25" width=".75" height="2" fill="#d52b1e"/><circle cx="1.5" cy="1" r=".34" fill="#d52b1e"/>',
+    MX:'<rect width="1" height="2" fill="#006847"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce1126"/>',
+    BR:'<rect width="3" height="2" fill="#009c3b"/><path d="M1.5 .2L2.7 1 1.5 1.8.3 1z" fill="#ffdf00"/><circle cx="1.5" cy="1" r=".38" fill="#002776"/>',
+    KR:'<rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".5" fill="#cd2e3a"/><path d="M1 1a.5.5 0 0 0 1 0z" fill="#0047a0"/>',
+    TW:'<rect width="3" height="2" fill="#fe0000"/><rect width="1.5" height="1" fill="#000095"/><circle cx=".75" cy=".5" r=".28" fill="#fff"/>',
+    SG:'<rect width="3" height="1" fill="#ed2939"/><rect y="1" width="3" height="1" fill="#fff"/><circle cx=".6" cy=".5" r=".3" fill="#fff"/>',
+    TH:'<rect width="3" height="2" fill="#a51931"/><rect y=".33" width="3" height="1.34" fill="#f4f5f8"/><rect y=".67" width="3" height=".67" fill="#2d2a4a"/>',
+    MY:'<rect width="3" height="2" fill="#cc0001"/><rect y=".286" width="3" height=".286" fill="#fff"/><rect y=".857" width="3" height=".286" fill="#fff"/><rect y="1.429" width="3" height=".286" fill="#fff"/><rect width="1.5" height="1.143" fill="#010066"/>'
+  };
+  function flagEl(code){
+    var wrap = el('span','dl-flag'), name = code;
+    try{ name = new Intl.DisplayNames([LANG === 'es' ? 'es' : 'en'], {type:'region'}).of(code) || code; }catch(e){}
+    wrap.setAttribute('role','img'); wrap.setAttribute('aria-label', code ? name : '—'); wrap.title = code ? name : '';
+    var body = code && FLAG_SVG[code] ? FLAG_SVG[code] : '<rect width="3" height="2" fill="#5F7F8D"/><circle cx="1.5" cy="1" r=".62" fill="none" stroke="#dbe7f0" stroke-width=".12"/><path d="M.88 1h1.24M1.5.38v1.24M1.5.38c-.34.3-.34.94 0 1.24M1.5.38c.34.3.34.94 0 1.24" fill="none" stroke="#dbe7f0" stroke-width=".08"/>';
+    wrap.innerHTML = '<svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+body+'</svg>';
+    return wrap;
+  }
+  function evKey(e){ return (e && e.title ? e.title : '')+'|'+(e && e.date ? e.date : '')+'|'+(e && e.country ? e.country : ''); }
+  /* bandera a la izquierda del título del evento y su fecha a la derecha */
+  function eventLine(e, titleFallback){
+    var row = el('div','dl-event'); row.appendChild(flagEl(e && e.country));
+    row.appendChild(el('span','dl-etitle', e && e.title ? e.title : titleFallback));
+    if(e && e.date) row.appendChild(el('span','dl-edate', fmtDate(e.date)));
+    return row;
+  }
   function dlDeckEl(a, d, rerender){
     var U = t().dl, L = t(), box = el('article','dl-deck'), key = d.h;
     box.style.setProperty('--row-c', a.colors && a.colors[0] ? 'var(--c-'+String(a.colors[0]).toLowerCase()+', var(--sky))' : 'var(--sky)');
@@ -55567,15 +55641,11 @@ var EFFECT_CONFIG = {
     head.appendChild(pips); head.appendChild(el('span','dl-name', a.name));
     if(d.place) head.appendChild(el('span','dl-place', U.place(d.place)));
     box.appendChild(head);
-    var meta = (d.event && d.event.title ? d.event.title : U.noEvent)+(d.event && d.event.date ? ' · '+fmtDate(d.event.date) : '');
-    box.appendChild(el('div','dl-meta', meta));
-    var tc = dlTypeCounts(d.cards), st = el('div','dl-stats');
-    ['UNIT','PILOT','COMMAND','BASE'].forEach(function(ty){ if(tc[ty]) st.appendChild(el('span',null, tc[ty]+' '+(L.types[ty] || ty))); });
-    if(engineOK()){
-      var cardsOnly = {}; Object.keys(d.cards).forEach(function(n){ cardsOnly[n] = d.cards[n]; });
-      var r = Legality.validateDeck(cardsOnly, ruleset(), cardMap());
-      st.appendChild(el('span', null, r.status === 'legal' ? '✓ '+U.legal : U.issues(r.errors.length)));
-    }
+    box.appendChild(eventLine(d.event, U.noEvent));
+    var tc = dlTypeCounts(d.cards), st = el('div','dl-kpis');
+    ['UNIT','PILOT','COMMAND','BASE'].forEach(function(ty){
+      var k = el('div','dl-kpi'); k.appendChild(el('b',null, String(tc[ty]))); k.appendChild(el('span',null, L.types[ty] || ty)); st.appendChild(k);
+    });
     box.appendChild(st);
     var acts = el('div','dl-actions');
     var bView = el('button','dp-btn', DL.open[key] ? U.hide : U.view); bView.type = 'button'; bView.setAttribute('aria-expanded', String(!!DL.open[key]));
@@ -55636,15 +55706,15 @@ var EFFECT_CONFIG = {
       sel.addEventListener('change', function(){ onChange(sel.value); DL.shown = 12; renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
       f.appendChild(sel); return f;
     }
-    var events = {}; all.forEach(function(x){ if(x.d.event && x.d.event.id) events[x.d.event.id] = x.d.event.title || U.noEvent; });
+    var events = {}, evDate = {}; all.forEach(function(x){ var e = x.d.event; if(e && e.id){ var k = evKey(e); events[k] = (e.title || U.noEvent)+(e.date ? ' · '+fmtDate(e.date) : ''); evDate[k] = e.date || ''; } });
     var archOpts = [['', U.allArch]].concat(DL.data.archetypes.map(function(a){ return [a.id, a.name+' ('+a.decks.length+')']; }));
-    var evOpts = [['', U.allEvents]].concat(Object.keys(events).sort(function(a, b){ return events[a].localeCompare(events[b]); }).map(function(id){ return [id, events[id]]; }));
+    var evOpts = [['', U.allEvents]].concat(Object.keys(events).sort(function(a, b){ return String(evDate[b]).localeCompare(String(evDate[a])) || events[a].localeCompare(events[b]); }).map(function(k){ return [k, events[k]]; }));
     var fl = el('div','dl-filters');
     fl.appendChild(field(U.fArch, 'dlArch', archOpts, DL.arch, function(v){ DL.arch = v; }));
     fl.appendChild(field(U.fEvent, 'dlEvent', evOpts, DL.event, function(v){ DL.event = v; }));
     fl.appendChild(field(U.fSort, 'dlSort', [['recent', U.sortRecent], ['place', U.sortPlace]], DL.sort, function(v){ DL.sort = v; }));
     panel.appendChild(fl);
-    var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && x.d.event.id === DL.event)); });
+    var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && evKey(x.d.event) === DL.event)); });
     rows.sort(function(x, y){
       if(DL.sort === 'place') return ((x.d.place || 99) - (y.d.place || 99)) || String(y.d.event.date).localeCompare(String(x.d.event.date));
       return String(y.d.event.date).localeCompare(String(x.d.event.date)) || ((x.d.place || 99) - (y.d.place || 99));
@@ -55665,132 +55735,187 @@ var EFFECT_CONFIG = {
     var foot = el('div','comp-sources'), line = el('div'); var a = document.createElement('a'); a.href = snap.source.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = snap.source.name;
     line.appendChild(document.createTextNode(U.source+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.dataFrom+' '+fmtDate(snap.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
   }
+  /* ===== Competición con datos públicos ===== */
+  var CP = { cardsShown:20, cardQ:'', cardType:'', archStyle:'', archSort:'share', archOpen:{}, eventsShown:15 };
+  function cpNeed(panel, holder, ready){
+    var U = t().cp;
+    if(holder.status === 'idle' || holder.status === 'loading'){ panel.appendChild(el('p','comp-note', U.loading)); return; }
+    if(holder.status === 'error'){
+      panel.appendChild(el('p','comp-note', U.error)); var b = el('button','dp-btn', U.retry); b.type = 'button';
+      b.addEventListener('click', function(){ holder.status = 'idle'; if(holder === ML) loadMeta(); else loadDecklists(); renderComp(); }); panel.appendChild(b); return;
+    }
+    ready();
+  }
+  function cpNeedMeta(panel, ready){
+    loadMeta();
+    cpNeed(panel, ML, function(){
+      var M = ML.data, eras = M.snapshot.eras || [M.snapshot.era], cur = M.snapshot.era, prev = eras[eras.indexOf(cur) - 1] || null;
+      var tot = function(e){ return M.archetypes.reduce(function(sum, a){ return sum + ((a.eraDecks && a.eraDecks[e]) || 0); }, 0); };
+      var P = { cur:cur, prev:prev, totCur:tot(cur), totPrev:prev ? tot(prev) : 0 };
+      P.share = function(a){ return P.totCur ? ((a.eraDecks && a.eraDecks[cur]) || a.deckCount) / P.totCur * 100 : 0; };
+      P.prevShare = function(a){ return prev && P.totPrev && a.eraDecks && a.eraDecks[prev] !== undefined ? a.eraDecks[prev] / P.totPrev * 100 : null; };
+      P.merged = Meta.mergeProfiles(M.archetypes, 'all', 'all');
+      ready(M, P);
+    });
+  }
+  function cpName(a){ return a.name.replace(/^(\w)(\w)\s/, '$1/$2 '); }
+  function cpArchPips(a){
+    var w = document.createDocumentFragment(); var full = {B:'Blue', G:'Green', R:'Red', P:'Purple', W:'White'};
+    (a.colors || []).forEach(function(l){ var p = el('span','dd-pip'); p.dataset.color = full[l]; p.title = t().colors[full[l]] || full[l]; w.appendChild(p); });
+    return w;
+  }
+  function cpHeader(panel, M, U){
+    var snap = M.snapshot, T = t().cp;
+    var w = snap.windowFrom && snap.windowTo ? fmtDate(snap.windowFrom)+' – '+fmtDate(snap.windowTo) : (snap.windowLabel || '—');
+    panel.appendChild(el('p','comp-note', T.ctx(snap.formatLabel, w, fmtDate(snap.retrievedAt.slice(0, 10)))));
+  }
+  function cpFooter(panel, url, snapDate, U){
+    var foot = el('div','comp-sources'), line = el('div'); var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Side-6';
+    line.appendChild(document.createTextNode(U.sources+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(snapDate.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
+  }
+  function cpCardRow(num, line1, line2){
+    var cd = cardByNumber(num), row = el('div','ml-row'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+num+'.webp';
+    if(cd) im.addEventListener('click', function(){ openDetail(cd, im); }); row.appendChild(im);
+    row.appendChild(el('b',null, cd ? cd.name : num)); row.appendChild(el('small',null, line1)); if(line2) row.appendChild(el('small',null, line2)); return row;
+  }
+  function cpOverview(panel, M, P, U){
+    var T = t().cp; cpHeader(panel, M, U);
+    var snap = M.snapshot, sec = cSec(panel, U.tournament, U.tournamentNote(snap.era, cNum(P.totCur, 0)));
+    var list = M.archetypes.filter(function(a){ return P.share(a) > 0; }).sort(function(a, b){ return P.share(b) - P.share(a); }), max = P.share(list[0]) || 1;
+    var rows = el('div','comp-rows');
+    list.forEach(function(a, i){
+      var row = el('div','comp-row'); row.appendChild(el('div','cr-rank', String(i + 1)));
+      var nm = el('div','cr-name'); nm.appendChild(cpArchPips(a)); nm.appendChild(document.createTextNode(cpName(a))); row.appendChild(nm);
+      var bar = el('div','cr-bar'), tr = el('div','cr-track'), fill = document.createElement('i'); fill.style.width = Math.max(2, Math.round(P.share(a) / max * 100))+'%'; tr.appendChild(fill);
+      bar.appendChild(tr); bar.appendChild(el('span','cr-val', cPct(P.share(a)))); row.appendChild(bar);
+      var meta = el('div','cr-meta'); meta.appendChild(el('span',null, T.lists((a.eraDecks && a.eraDecks[P.cur]) || a.deckCount)));
+      var ps = P.prevShare(a); if(ps !== null && ((a.eraDecks[P.prev] || 0) >= 30 || (a.eraDecks[P.cur] || 0) >= 30)){ var mv = cPP(Math.round((P.share(a) - ps) * 10) / 10); if(mv) meta.appendChild(mv); }
+      meta.appendChild(cEv(Meta.evidenceLevel((a.eraDecks && a.eraDecks[P.cur]) || a.deckCount).toUpperCase(), U)); row.appendChild(meta); rows.appendChild(row);
+    });
+    sec.appendChild(rows);
+    // movimientos: solo con datos suficientes en las dos ventanas
+    var sm = cSec(panel, U.movers, U.moversNote+' '+(P.prev ? T.vsPrev(P.prev)+'.' : ''));
+    var movers = M.archetypes.filter(function(a){ var ps = P.prevShare(a); return ps !== null && (a.eraDecks[P.cur] || 0) >= 30 && (a.eraDecks[P.prev] || 0) >= 30; })
+      .map(function(a){ return {a:a, d:P.share(a) - P.prevShare(a), now:P.share(a), before:P.prevShare(a)}; })
+      .filter(function(m){ return Math.abs(m.d) >= 1; }).sort(function(x, y){ return Math.abs(y.d) - Math.abs(x.d); }).slice(0, 6);
+    if(!movers.length) sm.appendChild(el('p','comp-note', T.moversNone));
+    var mrows = el('div','comp-rows');
+    movers.forEach(function(m){
+      var row = el('div','comp-row'), rk = el('div','cr-rank comp-ico'); rk.innerHTML = m.d > 0 ? ICON_UP : ICON_DOWN; row.appendChild(rk);
+      var nm = el('div','cr-name'); nm.appendChild(cpArchPips(m.a)); nm.appendChild(document.createTextNode(cpName(m.a))); nm.appendChild(el('span','comp-tag', m.d > 0 ? U.riser : U.faller)); row.appendChild(nm);
+      var bar = el('div','cr-bar'); bar.appendChild(el('span','comp-note', U.prev+' '+cPct(m.before)+' → '+cPct(m.now))); bar.appendChild(cPP(Math.round(m.d * 10) / 10)); row.appendChild(bar); mrows.appendChild(row);
+    });
+    sm.appendChild(mrows);
+    // cartas más presentes (aproximado)
+    var ss = cSec(panel, U.staples, T.stapleNote);
+    Object.keys(P.merged.cards).sort(function(a, b){ return P.merged.cards[b].adoption - P.merged.cards[a].adoption; }).slice(0, 10).forEach(function(n){
+      var c = P.merged.cards[n]; ss.appendChild(cpCardRow(n, T.adoption(cNum(c.adoption * 100), cNum(c.avgCopies, 2))));
+    });
+    cpFooter(panel, snap.source.url, snap.retrievedAt, U);
+  }
+  function cpArchetypes(panel, M, P, U){
+    var T = t().cp; cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.archNote));
+    function field(label, id, opts, val, onChange){
+      var f = el('label','dl-field'); f.appendChild(el('span',null,label));
+      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
+      opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
+      sel.addEventListener('change', function(){ onChange(sel.value); renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
+      f.appendChild(sel); return f;
+    }
+    var fl = el('div','dl-filters');
+    fl.appendChild(field(T.fStyle, 'cpStyle', [['', T.allStyles], ['Aggro', T.styles.Aggro], ['Midrange', T.styles.Midrange], ['Control', T.styles.Control]], CP.archStyle, function(v){ CP.archStyle = v; }));
+    fl.appendChild(field(T.fSort, 'cpSort', [['share', T.sortShare], ['name', T.sortName]], CP.archSort, function(v){ CP.archSort = v; }));
+    panel.appendChild(fl);
+    var list = M.archetypes.filter(function(a){ return (!CP.archStyle || a.style === CP.archStyle) && P.share(a) > 0; });
+    list.sort(function(a, b){ return CP.archSort === 'name' ? a.name.localeCompare(b.name) : P.share(b) - P.share(a); });
+    var box = el('div','dl-list');
+    list.forEach(function(a){
+      var d = el('article','dl-deck'); d.style.setProperty('--row-c', a.colors[0] ? 'var(--c-'+({B:'blue',G:'green',R:'red',P:'purple',W:'white'}[a.colors[0]])+', var(--sky))' : 'var(--sky)');
+      var head = el('div','dl-head'); var pw = el('span'); pw.appendChild(cpArchPips(a)); head.appendChild(pw); head.appendChild(el('span','dl-name', cpName(a)));
+      head.appendChild(el('span','dl-place', cPct(P.share(a)))); d.appendChild(head);
+      var n = (a.eraDecks && a.eraDecks[P.cur]) || a.deckCount;
+      var st = el('div','dl-stats'); st.appendChild(el('span',null, T.lists(n))); st.appendChild(cEv(Meta.evidenceLevel(n).toUpperCase(), U)); d.appendChild(st);
+      var acts = el('div','dl-actions');
+      var bo = el('button','dp-btn', CP.archOpen[a.id] ? T.hideCards : T.showCards); bo.type = 'button'; bo.setAttribute('aria-expanded', String(!!CP.archOpen[a.id]));
+      bo.addEventListener('click', function(){ CP.archOpen[a.id] = !CP.archOpen[a.id]; renderComp(); }); acts.appendChild(bo);
+      var bl = el('button','dp-btn dp-btn-primary', T.seeLists); bl.type = 'button';
+      bl.addEventListener('click', function(){ DL.arch = a.id; DL.event = ''; DL.shown = 12; compState.tab = 'decklists'; compState.dir = 'back'; compState.animate = true; renderComp(); compPage.scrollTop = 0; });
+      acts.appendChild(bl); d.appendChild(acts);
+      if(CP.archOpen[a.id]){
+        var wrap = el('div','dl-cards'); wrap.appendChild(el('div','dl-type', T.topCards));
+        Object.keys(a.cards).sort(function(x, y){ return a.cards[y].adoption - a.cards[x].adoption; }).slice(0, 12).forEach(function(num){
+          wrap.appendChild(cpCardRow(num, T.adoption(cNum(a.cards[num].adoption * 100), cNum(a.cards[num].avgCopies, 2))));
+        });
+        d.appendChild(wrap);
+      }
+      box.appendChild(d);
+    });
+    panel.appendChild(box); cpFooter(panel, M.snapshot.source.url, M.snapshot.retrievedAt, U);
+  }
+  function cpCards(panel, M, P, U){
+    var T = t().cp, L = t(); cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.cardsNote));
+    var fl = el('div','dl-filters');
+    var f1 = el('label','dl-field'); f1.appendChild(el('span',null, T.cardSearch));
+    var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'dl-select'; inp.id = 'cpQ'; inp.value = CP.cardQ; inp.autocomplete = 'off';
+    inp.addEventListener('input', function(){ CP.cardQ = inp.value; CP.cardsShown = 20; paint(); }); f1.appendChild(inp); fl.appendChild(f1);
+    var f2 = el('label','dl-field'); f2.appendChild(el('span',null, T.cardType));
+    var sel = document.createElement('select'); sel.className = 'dl-select';
+    [['', T.allTypes], ['UNIT', L.types.UNIT], ['PILOT', L.types.PILOT], ['COMMAND', L.types.COMMAND], ['BASE', L.types.BASE]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === CP.cardType) op.selected = true; sel.appendChild(op); });
+    sel.addEventListener('change', function(){ CP.cardType = sel.value; CP.cardsShown = 20; paint(); }); f2.appendChild(sel); fl.appendChild(f2);
+    panel.appendChild(fl);
+    var users = {};     // carta -> arquetipos que la juegan en >= 20 % de sus listas
+    M.archetypes.forEach(function(a){ Object.keys(a.cards).forEach(function(n){ if(a.cards[n].adoption >= 0.2) (users[n] = users[n] || []).push(a); }); });
+    var all = Object.keys(P.merged.cards).map(function(n){ return {n:n, c:P.merged.cards[n], cd:cardByNumber(n)}; }).sort(function(a, b){ return b.c.adoption - a.c.adoption; });
+    var box = el('div'); panel.appendChild(box);
+    function paint(){
+      box.innerHTML = '';
+      var q = CP.cardQ.trim().toLowerCase();
+      var rows = all.filter(function(x){ return (!CP.cardType || (x.cd && x.cd.type === CP.cardType)) && (!q || x.n.toLowerCase().indexOf(q) !== -1 || (x.cd && x.cd.name.toLowerCase().indexOf(q) !== -1)); });
+      if(!rows.length) box.appendChild(el('p','comp-note', T.noResults));
+      rows.slice(0, CP.cardsShown).forEach(function(x){
+        var us = (users[x.n] || []).slice().sort(function(a, b){ return P.share(b) - P.share(a); });
+        box.appendChild(cpCardRow(x.n, T.adoption(cNum(x.c.adoption * 100), cNum(x.c.avgCopies, 2)), T.inArchs(us.length, us.slice(0, 3).map(cpName).join(', '))));
+      });
+      if(rows.length > CP.cardsShown){
+        var b = el('button','dp-btn dl-more', T.more(rows.length - CP.cardsShown)); b.type = 'button'; b.addEventListener('click', function(){ CP.cardsShown += 20; paint(); }); box.appendChild(b);
+      }
+    }
+    paint(); cpFooter(panel, M.snapshot.source.url, M.snapshot.retrievedAt, U);
+  }
+  function cpEvents(panel, U){
+    var T = t().cp, D = DL.data, evs = {};
+    D.archetypes.forEach(function(a){ a.decks.forEach(function(d){
+      var id = d.event && d.event.id; if(!id) return; var k = evKey(d.event);
+      var e = evs[k] || (evs[k] = {key:k, ev:d.event, title:d.event.title, date:d.event.date, decks:[]}); e.decks.push({a:a, d:d});
+    }); });
+    var list = Object.keys(evs).map(function(k){ return evs[k]; }).sort(function(a, b){ return String(b.date).localeCompare(String(a.date)) || b.decks.length - a.decks.length; });
+    panel.appendChild(el('p','comp-note', T.eventsNote));
+    var box = el('div','dl-list'); panel.appendChild(box);
+    list.slice(0, CP.eventsShown).forEach(function(e){
+      var d = el('article','dl-deck'); d.appendChild(eventLine(e.ev, T.noEventTitle));
+      d.appendChild(el('div','dl-meta', T.eventLists(e.decks.length)));
+      var top = e.decks.filter(function(x){ return x.d.place && x.d.place <= 4; }).sort(function(a, b){ return a.d.place - b.d.place; });
+      if(top.length){
+        var st = el('div','dl-stats'); st.appendChild(el('span',null, T.top+': '));
+        top.slice(0, 4).forEach(function(x){ st.appendChild(el('span',null, (LANG === 'es' ? x.d.place+'.º ' : x.d.place+'· ')+cpName(x.a))); }); d.appendChild(st);
+      }
+      var acts = el('div','dl-actions'), b = el('button','dp-btn dp-btn-primary', T.seeEventLists); b.type = 'button';
+      b.addEventListener('click', function(){ DL.event = e.key; DL.arch = ''; DL.shown = 12; compState.tab = 'decklists'; compState.dir = 'back'; compState.animate = true; renderComp(); compPage.scrollTop = 0; });
+      acts.appendChild(b); d.appendChild(acts); box.appendChild(d);
+    });
+    if(list.length > CP.eventsShown){
+      var more = el('button','dp-btn dl-more', T.more(list.length - CP.eventsShown)); more.type = 'button'; more.addEventListener('click', function(){ CP.eventsShown += 15; renderComp(); }); panel.appendChild(more);
+    }
+    var foot = el('div','comp-sources'), line = el('div'), a1 = document.createElement('a'); a1.href = D.snapshot.source.url; a1.target = '_blank'; a1.rel = 'noopener noreferrer'; a1.textContent = 'Side-6';
+    line.appendChild(document.createTextNode(U.sources+': ')); line.appendChild(a1); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(D.snapshot.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
+  }
   var COMP_VIEWS = {
     decklists: dlView,
-    /* ---- Overview: qué se juega en torneo ---- */
-    overview: function(panel, D, U){
-      var ctx = el('div','comp-ctx');
-      var left = el('div'); left.appendChild(el('div','comp-k', U.format)); left.appendChild(el('div','comp-v', D.formatLabel)); ctx.appendChild(left);
-      var right = el('div'); right.appendChild(el('p','comp-note', U.upcoming(String(D.format.upcomingBooster).replace(' — ', ' · '), fmtDate(D.format.upcomingRelease)))); right.appendChild(el('p','comp-note', U.asOf(fmtDate(D.asOf)))); ctx.appendChild(right);
-      panel.appendChild(ctx);
-
-      var snap = D.snapshots[D.tournamentSnapshot];
-      var sec = cSec(panel, U.tournament, U.tournamentNote(snap.windowLabel, cNum(snap.records, 0)));
-      var rows = el('div','comp-rows'), max = Math.max.apply(null, D.tournament.map(function(r){ return r.share || 0; })) || 1;
-      D.tournament.slice().sort(function(a,b){ return a.rank - b.rank; }).forEach(function(r){
-        var a = D.archetypes[r.archetypeId], row = el('div','comp-row');
-        row.appendChild(el('div','cr-rank', String(r.rank)));
-        var nm = el('div','cr-name'); nm.appendChild(cPips(a)); nm.appendChild(document.createTextNode(a.name)); nm.appendChild(el('span','comp-tier', U.tier+' '+r.tier)); row.appendChild(nm);
-        var bar = el('div','cr-bar'), tr = el('div','cr-track'), fill = document.createElement('i'); fill.style.width = Math.max(2, Math.round((r.share || 0) / max * 100))+'%'; tr.appendChild(fill);
-        bar.appendChild(tr); bar.appendChild(el('span','cr-val', cPct(r.share))); row.appendChild(bar);
-        var meta = el('div','cr-meta'); meta.appendChild(el('span',null, r.decks+' '+U.decks)); var mv = cPP(r.movement); if(mv) meta.appendChild(mv); meta.appendChild(cEv(r.evidence, U)); row.appendChild(meta);
-        rows.appendChild(row);
-      });
-      sec.appendChild(rows);
-
-      var sm = cSec(panel, U.movers, U.moversNote), mrows = el('div','comp-rows');
-      D.movers.slice().sort(function(a,b){ return Math.abs(b.change === null ? 99 : b.change) - Math.abs(a.change === null ? 99 : a.change); }).forEach(function(m){
-        var row = el('div','comp-row'); var rk = el('div','cr-rank comp-ico'); rk.innerHTML = m.type === 'RISER' ? ICON_UP : m.type === 'FALLER' ? ICON_DOWN : ICON_STAR; row.appendChild(rk);
-        var nm = el('div','cr-name'); nm.appendChild(document.createTextNode(m.label));
-        nm.appendChild(el('span','comp-tag'+(m.type === 'NEW' ? ' new' : ''), m.type === 'RISER' ? U.riser : m.type === 'FALLER' ? U.faller : U.isNew)); row.appendChild(nm);
-        var bar = el('div','cr-bar'), left2 = el('span','comp-note', m.previous === null ? '' : U.prev+' '+cPct(m.previous)+' → '+cPct(m.share));
-        if(m.previous === null) left2.textContent = cPct(m.share);
-        bar.appendChild(left2); var v = m.change === null ? el('span','comp-flat','—') : cPP(m.change); bar.appendChild(v); row.appendChild(bar);
-        row.appendChild(el('div','cr-meta', m.decks+' '+U.decks)); mrows.appendChild(row);
-      });
-      sm.appendChild(mrows);
-      var st = cSec(panel, U.staples, U.staplesNote), srows = el('div','comp-rows');
-      D.staples.slice().sort(function(a,b){ return a.rank - b.rank; }).forEach(function(c){
-        var row = el('div','comp-row'); row.appendChild(el('div','cr-rank', String(c.rank)));
-        row.appendChild(el('div','cr-name', c.name));
-        row.appendChild(el('div','cr-bar')).appendChild(el('span','comp-note', U.inTop(c.topArchetypes, c.topTotal)));
-        var meta = el('div','cr-meta'); meta.appendChild(el('span',null, U.inDecks(c.decks))); meta.appendChild(el('span',null, U.avgCopies(cNum(c.avgCopies)))); row.appendChild(meta); srows.appendChild(row);
-      });
-      st.appendChild(srows);
-      cSources(panel, D, U);
-    },
-
-    /* ---- Arquetipos: torneo + partidas registradas, siempre por separado ---- */
-    archetypes: function(panel, D, U){
-      var sorts = el('div','comp-sorts'); sorts.setAttribute('role','group'); sorts.setAttribute('aria-label', U.sortBy);
-      [['share',U.sortShare],['win',U.sortWin],['games',U.sortGames]].forEach(function(o){
-        var b = el('button','comp-chip', o[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(compState.sort === o[0]));
-        b.addEventListener('click', function(){ compState.sort = o[0]; renderComp(); }); sorts.appendChild(b);
-      });
-      panel.appendChild(sorts);
-      var tmap = {}, kmap = {}; D.tournament.forEach(function(r){ tmap[r.archetypeId] = r; }); D.tracked.forEach(function(r){ kmap[r.archetypeId] = r; });
-      var ids = Object.keys(D.archetypes);
-      function key(id){
-        var t0 = tmap[id], k = kmap[id];
-        if(compState.sort === 'win') return k && k.winRate !== null ? k.winRate : -1;
-        if(compState.sort === 'games') return k && k.games !== null ? k.games : -1;
-        return (t0 && t0.share !== null ? t0.share : 0) * 1000 + (k && k.fieldShare ? k.fieldShare : 0);
-      }
-      ids.sort(function(a,b){ return key(b) - key(a); });
-      var list = el('div','comp-rows');
-      ids.forEach(function(id){
-        var a = D.archetypes[id], t0 = tmap[id], k = kmap[id], card = el('article','comp-arch');
-        var head = el('div','comp-arch-head'); head.appendChild(cPips(a)); head.appendChild(el('span','comp-arch-name', a.name)); if(a.family) head.appendChild(el('span','comp-tag', a.family)); card.appendChild(head);
-        var blocks = el('div','comp-blocks');
-        var b1 = el('div','comp-block'); b1.appendChild(el('div','comp-k', U.tournament));
-        if(t0){
-          b1.appendChild(el('div','comp-big', cPct(t0.share)));
-          var m1 = el('div','cr-meta'); m1.appendChild(el('span',null, U.tier+' '+t0.tier)); m1.appendChild(el('span',null, t0.decks+' '+U.decks)); var mv = cPP(t0.movement); if(mv) m1.appendChild(mv); m1.appendChild(cEv(t0.evidence, U)); b1.appendChild(m1);
-        } else b1.appendChild(el('p','comp-note', U.noTournament));
-        blocks.appendChild(b1);
-        var b2 = el('div','comp-block'); b2.appendChild(el('div','comp-k', U.trackedTitle));
-        if(k){
-          if(k.winRate !== null){
-            var big = el('div','comp-big', cPct(k.winRate)); big.appendChild(el('small',null,' '+U.winRate)); b2.appendChild(big);
-            var m2 = el('div','cr-meta'); m2.appendChild(el('span',null, U.interval+': '+cNum(k.wrLow,0)+'–'+cNum(k.wrHigh,0)+' %'));
-            if(k.first !== null) m2.appendChild(el('span',null, U.first+' '+cPct(k.first))); if(k.second !== null) m2.appendChild(el('span',null, U.second+' '+cPct(k.second))); b2.appendChild(m2);
-          } else b2.appendChild(el('p','comp-note', U.noWin));
-          var m3 = el('div','cr-meta'); m3.appendChild(el('span',null, cNum(k.games,0)+' '+U.games)); m3.appendChild(el('span',null, cNum(k.pilots,0)+' '+U.pilots));
-          m3.appendChild(el('span',null, cPct(k.fieldShare)+' '+U.field)); if(k.minutes !== null) m3.appendChild(el('span',null, cNum(k.minutes,0)+' '+U.minutes)); m3.appendChild(cEv(k.evidence, U)); b2.appendChild(m3);
-        } else b2.appendChild(el('p','comp-note', U.noTracked));
-        blocks.appendChild(b2); card.appendChild(blocks);
-        var cores = D.core.filter(function(c){ return c.archetypeId === id; });
-        if(cores.length){
-          var cb = el('div','comp-sec'); cb.appendChild(el('div','comp-k', U.coreTitle)); var cw = el('div','comp-cores');
-          cores.forEach(function(c){
-            var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'comp-core'; btn.setAttribute('aria-label', c.name+' · '+c.card+' · '+U.openCard);
-            var im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.card+'.webp'; btn.appendChild(im);
-            btn.appendChild(el('b',null, c.name+(c.adoption !== null ? ' ('+cNum(c.adoption,0)+' %)' : ''))); btn.appendChild(el('span',null,c.card));
-            btn.addEventListener('click', function(){ cOpenCard(c.card); }); cw.appendChild(btn);
-          });
-          cb.appendChild(cw); card.appendChild(cb);
-        }
-        list.appendChild(card);
-      });
-      panel.appendChild(list);
-      cSources(panel, D, U);
-    },
-
-    /* ---- Cartas: staples y núcleo de cada arquetipo ---- */
-    cards: function(panel, D, U){
-      var st = cSec(panel, U.stapleAll, U.staplesNote), srows = el('div','comp-rows');
-      D.staples.slice().sort(function(a,b){ return a.rank - b.rank; }).forEach(function(c){
-        var row = el('div','comp-row'); row.appendChild(el('div','cr-rank', String(c.rank))); row.appendChild(el('div','cr-name', c.name));
-        row.appendChild(el('div','cr-bar')).appendChild(el('span','comp-note', U.inTop(c.topArchetypes, c.topTotal)));
-        var meta = el('div','cr-meta'); meta.appendChild(el('span',null, U.inDecks(c.decks))); meta.appendChild(el('span',null, U.avgCopies(cNum(c.avgCopies)))); row.appendChild(meta); srows.appendChild(row);
-      });
-      st.appendChild(srows);
-      var sec = cSec(panel, U.coreAll, U.coreNote), seen = {};
-      D.core.forEach(function(c){ (seen[c.archetypeId] = seen[c.archetypeId] || []).push(c); });
-      Object.keys(seen).forEach(function(id){
-        var a = D.archetypes[id], g = el('div','comp-arch'), head = el('div','comp-arch-head'); head.appendChild(cPips(a)); head.appendChild(el('span','comp-arch-name', a.name)); g.appendChild(head);
-        var cw = el('div','comp-cores');
-        seen[id].forEach(function(c){
-          var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'comp-core'; btn.setAttribute('aria-label', c.name+' · '+c.card+' · '+U.openCard);
-          var im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.card+'.webp'; btn.appendChild(im);
-          btn.appendChild(el('b',null, c.name+(c.adoption !== null ? ' ('+cNum(c.adoption,0)+' %)' : ''))); btn.appendChild(el('span',null,c.card));
-          btn.addEventListener('click', function(){ cOpenCard(c.card); }); cw.appendChild(btn);
-        });
-        g.appendChild(cw); sec.appendChild(g);
-      });
-      cSources(panel, D, U);
-    },
-
+    /* ---- Overview, Arquetipos, Cartas y Eventos: datos públicos de data/meta.json y data/decklists.json ---- */
+    overview: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpOverview(panel, M, P, U); }); },
+    archetypes: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpArchetypes(panel, M, P, U); }); },
+    cards: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpCards(panel, M, P, U); }); },
+    events: function(panel, D, U){ loadDecklists(); cpNeed(panel, DL, function(){ cpEvents(panel, U); }); },
     /* ---- Matchups: win rate del arquetipo elegido frente a cada rival ---- */
     matchups: function(panel, D, U){
       var withData = {}; D.matchups.forEach(function(m){ withData[m.a] = true; });
@@ -55844,14 +55969,13 @@ var EFFECT_CONFIG = {
     if(compState.animate){ compState.animate = false; enter(panel, compState.dir || 'forward'); }
     panel.setAttribute('aria-labelledby', 'compTab-'+compState.tab);
     var sec = COMP_SECTIONS.filter(function(x){ return x.id === compState.tab; })[0];
-    var D = compData(), view = (sec.id === 'decklists') ? COMP_VIEWS.decklists : (D ? COMP_VIEWS[sec.id] : null);
+    var D = compData(), view = (sec.id === 'matchups') ? (D ? COMP_VIEWS.matchups : null) : COMP_VIEWS[sec.id];
     panel.classList.toggle('has-data', !!view);
     if(view){
       panel.appendChild(el('h2','comp-q', L.compQ[sec.id]));
       view(panel, D, L.compU);
       return;
     }
-    if(D && sec.id === 'events'){ panel.appendChild(el('h2','comp-q', L.compQ[sec.id])); panel.appendChild(el('p','comp-note', L.compU.noEvents)); return; }
     if(!sec.ready) panel.appendChild(el('span','comp-soon', L.compSoon));
     panel.appendChild(el('h2','comp-q', L.compQ[sec.id]));
     var ul = el('ul','comp-list');

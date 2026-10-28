@@ -75,14 +75,16 @@ def window_text(html):
 
 def profile(slug, html):
     base = bd.parse_archetype(html, slug)              # nombre, colores, estilo (y las listas, que aquí no se usan)
-    pool = pick_current(popular_pools(html))
+    pools = popular_pools(html)
+    pool = pick_current(pools)
+    era_decks = {p["label"]: p["total"] for p in pools if p["label"] and ERA_RE.match(p["label"])}      # listas por ventana de set: sirve para la presencia y su movimiento
     if pool["total"] <= 0 or not pool["cards"]:
         raise ValueError("ventana vacía en " + slug)
     cards = {}
     for c in pool["cards"]:
         cards[c["n"]] = {"adoption": round(c["decks"] / pool["total"], 4), "avgCopies": round(c["copies"] / c["decks"], 2)}
     return {"id": slug, "name": base["name"], "colors": [bd_letter(x) for x in base["colors"]],
-            "style": base["style"], "deckCount": pool["total"], "era": pool["label"], "cutoff": min(v["adoption"] for v in cards.values()),
+            "style": base["style"], "deckCount": pool["total"], "eraDecks": era_decks, "era": pool["label"], "cutoff": min(v["adoption"] for v in cards.values()),
             "sourceUrl": "%s/en/archetypes/%s/" % (bd.BASE, slug), "cards": cards}
 
 
@@ -118,7 +120,7 @@ def build():
             "id": today.strftime("%Y-%m-%d"), "retrievedAt": today.strftime("%Y-%m-%dT%H:%M:%SZ"), "dataDate": today.strftime("%Y-%m-%d"),
             "source": {"id": "side6", "name": "Side-6", "url": bd.BASE + "/en/archetypes/", "sourceType": "tournament_database"},
             "formatLabel": FORMAT_LABEL, "windowLabel": win, "windowFrom": (window_dates(win) or (None, None))[0], "windowTo": (window_dates(win) or (None, None))[1],
-            "era": max(a["era"] for a in archetypes),
+            "era": max(a["era"] for a in archetypes), "eras": sorted({e for a in archetypes for e in a["eraDecks"]}),
         },
         "archetypes": archetypes,
         "unknownCards": sorted(unknown),

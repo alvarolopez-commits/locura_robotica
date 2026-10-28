@@ -56,6 +56,19 @@ class Parser(unittest.TestCase):
         html = '<a href="/en/archetypes/bp-aggro">x</a><a href="/en/archetypes/rg-midrange/">y</a><a href="/en/archetypes/other-page">z</a><a href="/en/archetypes/bp-aggro">dup</a>'
         self.assertEqual(bd.parse_index(html), ["bp-aggro", "rg-midrange"])
 
+    def test_titulo_sin_held_in(self):
+        self.assertEqual(bd.clean_title("Gundam Card Game Serial Card Challenge (Held in October)"), "Gundam Card Game Serial Card Challenge")
+        self.assertEqual(bd.clean_title("Newtype Challenge 2026 MISSION4 (held in September)"), "Newtype Challenge 2026 MISSION4")
+        self.assertEqual(bd.clean_title("BCG Fest Special Tournament in Manila"), "BCG Fest Special Tournament in Manila")
+
+    def test_pais_del_evento_por_su_direccion(self):
+        page = lambda addr: '<div>Location</div><div>%s</div></div>' % addr
+        self.assertEqual(bd.parse_event_country(page("<div>1 Ayala Ave</div><div>1226 Philippines</div>")), "PH")
+        self.assertEqual(bd.parse_event_country(page("<div>Kitazonocho, Osaka</div><div>569-0802 Japan</div>")), "JP")
+        self.assertEqual(bd.parse_event_country(page("<div>400 W Wisconsin Ave</div><div>75202 United States</div>")), "US")
+        self.assertIsNone(bd.parse_event_country("<html></html>"))
+        self.assertIsNone(bd.parse_event_country(page("<div>Calle sin país</div>")))
+
     def test_evento_de_una_lista_concreta(self):
         html = page(None, obj={"placements": deck("a", {"ST01-001": 50}, place=3)["placements"]})
         r = bd.parse_deck_event(html)
@@ -98,6 +111,12 @@ class Datos(unittest.TestCase):
         self.assertEqual(len(hs), len(set(hs)))
         for h in hs:
             self.assertRegex(h, r"^[0-9a-f]{64}$")
+
+    def test_eventos_con_pais_y_titulo_limpio(self):
+        for a, d in self.decks:
+            self.assertNotIn("Held in", d["event"]["title"])
+            self.assertTrue(d["event"].get("country"), d["event"]["title"])
+            self.assertRegex(d["event"]["country"], r"^[A-Z]{2}$")
 
     def test_sin_datos_personales(self):
         txt = open(DATA_PATH, encoding="utf-8").read()

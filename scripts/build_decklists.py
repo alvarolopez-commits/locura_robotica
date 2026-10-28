@@ -24,6 +24,31 @@ PAUSE = 2.5
 CACHE_HOURS = 12
 COLORS = {"BLUE": "Blue", "GREEN": "Green", "RED": "Red", "PURPLE": "Purple", "WHITE": "White"}
 SLUG_RE = re.compile(r"^[a-z]{2}-(aggro|control|midrange)$")
+# Series de tiendas de Bandai Japón (comprobado en las páginas de evento: todas en Japón). El resto de eventos se mira uno a uno.
+SERIES_JP_RE = re.compile(r"^(Gundam Card Game Serial Card Challenge|Newtype Challenge 2026 MISSION)")
+COUNTRIES = {"Japan": "JP", "Philippines": "PH", "Indonesia": "ID", "United States": "US", "Germany": "DE", "France": "FR", "Spain": "ES", "Italy": "IT",
+             "United Kingdom": "GB", "Netherlands": "NL", "Belgium": "BE", "Portugal": "PT", "Poland": "PL", "Sweden": "SE", "Austria": "AT", "Switzerland": "CH",
+             "Singapore": "SG", "Thailand": "TH", "Malaysia": "MY", "Taiwan": "TW", "Hong Kong": "HK", "Korea": "KR", "Canada": "CA", "Mexico": "MX",
+             "Brazil": "BR", "Australia": "AU", "Chile": "CL", "Argentina": "AR", "India": "IN", "Vietnam": "VN"}
+HELD_RE = re.compile(r"\s*\((?:Held in|held in)[^)]*\)\s*$")
+
+
+def clean_title(t):
+    """'Gundam Card Game Serial Card Challenge (Held in October)' -> sin el '(Held in …)', que se repite en casi todos los eventos."""
+    return HELD_RE.sub("", t).strip() if isinstance(t, str) else t
+
+
+def parse_event_country(html):
+    """Bloque 'Location' de la página de un evento: la dirección acaba en el país. -> código ISO o None."""
+    m = re.search(r"Location</div>(.{0,700}?)(?:</div></div>|Timeline)", html, re.S)
+    if not m:
+        return None
+    txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", m.group(1)))
+    for name in sorted(COUNTRIES, key=len, reverse=True):
+        if re.search(r"\b" + re.escape(name) + r"\b", txt):
+            return COUNTRIES[name]
+    return None
+
 # solo las listas de los eventos del formato actual (la ventana de datos de Side-6 empieza el 3 de agosto de 2026)
 FROM_DATE = "2026-08-03"
 
@@ -125,7 +150,7 @@ def parse_deck_event(html):
 
 
 def fetch(url, cache_name, offline):
-    path = os.path.join(RAW, cache_name)
+    path = os.path.normpath(os.path.join(RAW, cache_name))
     if os.path.exists(path) and (offline or time.time() - os.path.getmtime(path) < CACHE_HOURS * 3600):
         return open(path, encoding="utf-8").read()
     if offline:
@@ -134,7 +159,7 @@ def fetch(url, cache_name, offline):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html"})
     with urllib.request.urlopen(req, timeout=60) as r:
         html = r.read().decode("utf-8", "replace")
-    os.makedirs(RAW, exist_ok=True)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w", encoding="utf-8").write(html)
     return html
 
@@ -188,6 +213,20 @@ def build(offline=False, log=print):
         for d in a["decks"]:
             if d["event"]["id"] and not d["event"]["title"]:
                 d["event"]["title"] = titles.get(d["event"]["id"])
+    countries = {}
+    for a in archetypes:
+        for d in a["decks"]:
+            e = d["event"]; eid = e["id"]
+            if eid not in countries:
+                if e["title"] and SERIES_JP_RE.match(e["title"]):
+                    countries[eid] = "JP"
+                else:
+                    try:
+                        countries[eid] = parse_event_country(fetch("%s/en/events/%s" % (BASE, eid), "../ev/%s.html" % eid, offline))
+                    except Exception as ex:
+                        log("  aviso: sin país para el evento %s (%s)" % (eid, ex)); countries[eid] = None
+            e["country"] = countries[eid]
+            e["title"] = clean_title(e["title"])
     dates = sorted(d["event"]["date"] for a in archetypes for d in a["decks"] if d["event"]["date"])
     return {
         "snapshot": {
