@@ -1111,6 +1111,37 @@ html{ touch-action:manipulation; }
 .deck-menu button:hover,.deck-menu button:focus-visible{ background:rgba(139,205,255,.16); outline:none; }
 .deck-menu button.is-danger{ color:#f4a6a6; }
 .deck-menu button.is-armed{ background:#9f2a24; color:#fff; }
+/* ===== COMPETICIÓN · LISTAS ===== */
+.dl-filters{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+.dl-field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.dl-field span{ font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-3); }
+.dl-select{ min-height:44px; padding:0 12px; font:inherit; font-size:15px; font-weight:700; color:var(--fg-1); background:rgba(255,255,255,.09); border:0; max-width:100%; }
+.dl-select option{ color:#221e41; }
+.dl-list{ display:flex; flex-direction:column; gap:10px; }
+.dl-deck{ display:flex; flex-direction:column; gap:10px; padding:14px; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--row-c, var(--sky)); }
+.dl-head{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; }
+.dl-name{ font-family:var(--font-display); font-size:20px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--fg-1); }
+.dl-place{ padding:2px 9px; border-radius:9999px; font-size:12px; font-weight:700; background:var(--sky); color:var(--sky-ink); white-space:nowrap; }
+.dl-meta{ font-size:13px; line-height:1.4; color:var(--fg-3); overflow-wrap:anywhere; }
+.dl-stats{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; font-weight:700; color:var(--fg-2); }
+.dl-actions{ display:flex; flex-wrap:wrap; gap:8px; }
+.dl-actions .dp-btn{ flex:1 1 150px; }
+.dl-msg{ font-size:14px; font-weight:700; color:#8fe3b0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
+.dl-cards{ display:flex; flex-direction:column; gap:12px; }
+.dl-type{ font-family:var(--font-display); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); box-shadow:inset 0 -1px 0 var(--line); padding-bottom:4px; margin-bottom:4px; }
+.dl-card{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:10px; width:100%; min-height:62px; padding:4px 0; text-align:left; color:inherit; }
+.dl-card img{ width:44px; height:61px; object-fit:cover; background:rgba(0,0,0,.25); }
+.dl-card b{ display:block; font-size:14px; line-height:1.25; color:var(--fg-1); }
+.dl-card small{ font-size:12px; color:var(--fg-3); }
+.dl-qty{ font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--sky); }
+.dl-more{ align-self:center; min-width:200px; }
+.dl-deck .comp-link{ display:inline-flex; align-items:center; min-height:44px; font-size:14px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
+/* ===== ELIMINAR MAZO CON CONFIRMACIÓN ===== */
+.dv-delete,.dp-btn-danger{ display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 16px; font:inherit; font-size:14px; font-weight:700; color:#ffb4ae; background:rgba(244,166,166,.12); box-shadow:inset 0 0 0 2px rgba(244,166,166,.55); cursor:pointer; white-space:nowrap; }
+.dv-delete:hover,.dp-btn-danger:hover{ background:rgba(244,166,166,.24); }
+.dv-delete:active,.dp-btn-danger:active{ transform:scale(.97); }
+#confirmOk{ background:#b3261e; color:#fff; box-shadow:none; }
+#confirmOk:hover{ background:#c9332a; }
 </style>
 
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -1384,6 +1415,7 @@ html{ touch-action:manipulation; }
             <span id="lblDpAddCards">Añadir cartas</span>
           </button>
           <button class="dp-btn" id="dpCopy"><span id="lblDpCopy">Copiar lista</span></button>
+          <button class="dp-btn dp-btn-danger" id="dpDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDpDelete">Eliminar mazo</span></button>
         </div>
       </div>
       <div class="dp-rows" id="dpRows"></div>
@@ -1410,6 +1442,7 @@ html{ touch-action:manipulation; }
             <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
             <span id="dvCountTxt">0 / 50</span>
           </button>
+          <button type="button" class="dv-delete" id="dvDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDvDelete">Eliminar mazo</span></button>
         </div>
         <div class="dv-selwrap"><select class="dv-select" id="dvSelect"></select></div>
         <button type="button" class="legalChip cut" id="dvLegal" hidden></button>
@@ -1437,6 +1470,13 @@ html{ touch-action:manipulation; }
 
 <div class="legalScrim" id="legalScrim" hidden></div>
 <div class="legalScrim" id="accountScrim" hidden></div>
+<div class="legalScrim" id="confirmScrim" hidden style="z-index:90"></div>
+<div class="legalModal cut" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText" hidden style="z-index:91">
+  <div class="lg-head"><div><span class="lg-eyebrow" id="confirmEyebrow"></span><h2 id="confirmTitle"></h2></div></div>
+  <div class="lg-body"><p class="acc-msg" id="confirmText"></p>
+    <div class="dl-actions"><button type="button" class="dp-btn" id="confirmCancel"></button><button type="button" class="dp-btn dp-btn-danger" id="confirmOk"></button></div>
+  </div>
+</div>
 <div class="legalModal cut" id="accountModal" role="dialog" aria-modal="true" aria-labelledby="accountTitle" hidden>
   <div class="lg-head">
     <div><span class="lg-eyebrow" id="accountEyebrow"></span><h2 id="accountTitle"></h2></div>
@@ -52657,9 +52697,18 @@ var EFFECT_CONFIG = {
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Refuerzo extra',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
       myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
+      dl:{
+        intro:function(n, m, from, to){ return n+' listas de '+m+' arquetipos de los mejores puestos de los eventos recientes ('+from+' – '+to+').'; },
+        dataFrom:'Datos recogidos el', source:'Fuente', loading:'Cargando listas…', error:'No se pudieron cargar las listas.', retry:'Reintentar',
+        fArch:'Arquetipo', fEvent:'Evento', fSort:'Orden', allArch:'Todos los arquetipos', allEvents:'Todos los eventos', sortRecent:'Más recientes', sortPlace:'Mejor puesto',
+        place:function(n){ return n+'.º puesto'; }, view:'Ver las 50 cartas', hide:'Ocultar cartas', copyDeck:'Copiar como mi mazo', copyText:'Copiar texto', copiedText:'Copiada',
+        created:function(name){ return 'Mazo creado: '+name; }, openDeck:'Abrir mazo', original:'Ver en Side-6', legal:'Legal de torneo',
+        issues:function(n){ return n===1 ? '1 problema de reglas' : n+' problemas de reglas'; }, more:function(n){ return 'Ver más ('+n+')'; },
+        empty:'No hay listas con estos filtros.', cards:'cartas', noEvent:'Evento sin título', descPrefix:'Lista de torneo'
+      },
       compTitle:'Competición', compSub:'Qué se está jugando y funcionando ahora mismo.', compSoon:'Próximamente',
-      compTabs:{overview:'Overview', archetypes:'Arquetipos', cards:'Cartas', events:'Eventos', matchups:'Matchups'},
-      compQ:{overview:'¿Qué se está jugando ahora mismo?', archetypes:'¿Qué arquetipos dominan el meta?', cards:'¿Qué cartas se juegan y cuántas copias?', events:'¿Qué torneos se han jugado y quién ganó?', matchups:'¿Cómo le va a cada arquetipo contra los demás?'},
+      compTabs:{decklists:'Listas', overview:'Overview', archetypes:'Arquetipos', cards:'Cartas', events:'Eventos', matchups:'Matchups'},
+      compQ:{decklists:'¿Qué listas han ganado los últimos eventos?', overview:'¿Qué se está jugando ahora mismo?', archetypes:'¿Qué arquetipos dominan el meta?', cards:'¿Qué cartas se juegan y cuántas copias?', events:'¿Qué torneos se han jugado y quién ganó?', matchups:'¿Cómo le va a cada arquetipo contra los demás?'},
       compU:{
         format:'Formato', upcoming:function(b,d){ return 'Próximo set: '+b+' · sale el '+d+'.'; }, asOf:function(d){ return 'Datos de referencia: '+d+' (seed de desarrollo).'; },
         tournament:'Presencia en torneo', tournamentNote:function(w,n){ return 'Ventana: '+w+' · '+n+' listas registradas. Presencia en torneo, no es win rate.'; },
@@ -52678,7 +52727,7 @@ var EFFECT_CONFIG = {
         noEvents:'Esta fuente no incluye eventos individuales. Aparecerán cuando se añada una base de torneos con eventos.',
         coreAll:'Cartas core por arquetipo', stapleAll:'Staples del meta', openCard:'Ver la carta'
       },
-      compWill:{overview:['Meta share','Tendencias','Resumen del formato'], archetypes:['Meta share','Nº de decklists','Top Cut','Win rate','Tendencias'], cards:['Adopción','Copias medias','Por arquetipo','Tendencias'], events:['Fecha','Región y país','Tipo de evento','Resultados','Decklists'], matchups:['Win rate','Primero / segundo','Muestras y fiabilidad']},
+      compWill:{decklists:[], overview:['Meta share','Tendencias','Resumen del formato'], archetypes:['Meta share','Nº de decklists','Top Cut','Win rate','Tendencias'], cards:['Adopción','Copias medias','Por arquetipo','Tendencias'], events:['Fecha','Región y país','Tipo de evento','Resultados','Decklists'], matchups:['Win rate','Primero / segundo','Muestras y fiabilidad']},
       deckCount:function(n){ return n===1 ? '1 mazo guardado' : n+' mazos guardados'; }, cardsWord:'cartas',
       colorsCount:function(n){ return n===1 ? '1 color' : n+' colores'; }, maxTwoColors:'Máx. 2 colores',
       dpEmptyChip:'Vacío', deleteDeck:'Eliminar mazo', confirmDelete:'Pulsa otra vez para eliminar',
@@ -52719,6 +52768,7 @@ var EFFECT_CONFIG = {
       cloud:{
         saving:'Guardando…', saved:'Guardado', pending:'Guardando…', offline:'Sin conexión · cambios pendientes', error:'No se pudo guardar', retry:'Reintentar',
         conflict:'Este mazo se ha actualizado desde otro dispositivo.', reload:'Recargar última versión', signedout:'Cambios sin guardar en tu cuenta', signin:'Iniciar sesión',
+        delDeck:'Eliminar mazo', confirmEyebrow:'Eliminar mazo', confirmTitle:function(n){ return '¿Eliminar "'+n+'"?'; }, confirmAccount:'Esta acción quitará el mazo de tu cuenta y no se puede deshacer.', confirmLocal:'Esta acción quitará el mazo de este navegador y no se puede deshacer.', cancel:'Cancelar', confirmDel:'Eliminar',
         accountEyebrow:'Mazos en la nube', accountTitle:'Tu cuenta', avatarTitle:'Elige tu avatar', avatarZaku:'Zaku (icono de la app)',
         introOut:'Guarda tus mazos en tu cuenta y úsalos desde cualquier dispositivo. Te enviamos un enlace al correo, sin contraseña.',
         email:'Correo electrónico', emailPh:'tu@correo.com', sendLink:'Enviarme el enlace', sending:'Enviando…',
@@ -52810,9 +52860,18 @@ var EFFECT_CONFIG = {
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
       myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
+      dl:{
+        intro:function(n, m, from, to){ return n+' top-finish lists across '+m+' archetypes from recent events ('+from+' – '+to+').'; },
+        dataFrom:'Data collected on', source:'Source', loading:'Loading lists…', error:'Could not load the lists.', retry:'Retry',
+        fArch:'Archetype', fEvent:'Event', fSort:'Sort', allArch:'All archetypes', allEvents:'All events', sortRecent:'Most recent', sortPlace:'Best finish',
+        place:function(n){ var v = n % 100, sfx = (v >= 11 && v <= 13) ? 'th' : ({1:'st',2:'nd',3:'rd'}[n % 10] || 'th'); return n+sfx+' place'; }, view:'See all 50 cards', hide:'Hide cards',
+        copyDeck:'Copy as my deck', copyText:'Copy text', copiedText:'Copied', created:function(name){ return 'Deck created: '+name; }, openDeck:'Open deck', original:'See on Side-6',
+        legal:'Tournament legal', issues:function(n){ return n===1 ? '1 rule issue' : n+' rule issues'; }, more:function(n){ return 'Show more ('+n+')'; },
+        empty:'No lists match these filters.', cards:'cards', noEvent:'Untitled event', descPrefix:'Tournament list'
+      },
       compTitle:'Competition', compSub:'What is being played and what is working right now.', compSoon:'Coming soon',
-      compTabs:{overview:'Overview', archetypes:'Archetypes', cards:'Cards', events:'Events', matchups:'Matchups'},
-      compQ:{overview:'What is being played right now?', archetypes:'Which archetypes lead the meta?', cards:'Which cards are played, and how many copies?', events:'Which tournaments were played and who won?', matchups:'How does each archetype fare against the others?'},
+      compTabs:{decklists:'Lists', overview:'Overview', archetypes:'Archetypes', cards:'Cards', events:'Events', matchups:'Matchups'},
+      compQ:{decklists:'Which lists won the latest events?', overview:'What is being played right now?', archetypes:'Which archetypes lead the meta?', cards:'Which cards are played, and how many copies?', events:'Which tournaments were played and who won?', matchups:'How does each archetype fare against the others?'},
       compU:{
         format:'Format', upcoming:function(b,d){ return 'Next set: '+b+' · releases '+d+'.'; }, asOf:function(d){ return 'Reference data: '+d+' (development seed).'; },
         tournament:'Tournament presence', tournamentNote:function(w,n){ return 'Window: '+w+' · '+n+' recorded lists. Tournament presence, not win rate.'; },
@@ -52831,7 +52890,7 @@ var EFFECT_CONFIG = {
         noEvents:'This source does not include individual events. They will appear once a tournament database with events is added.',
         coreAll:'Core cards by archetype', stapleAll:'Meta staples', openCard:'View card'
       },
-      compWill:{overview:['Meta share','Trends','Format summary'], archetypes:['Meta share','Decklist count','Top Cut','Win rate','Trends'], cards:['Adoption','Average copies','By archetype','Trends'], events:['Date','Region and country','Event type','Results','Decklists'], matchups:['Win rate','Going first / second','Sample size and reliability']},
+      compWill:{decklists:[], overview:['Meta share','Trends','Format summary'], archetypes:['Meta share','Decklist count','Top Cut','Win rate','Trends'], cards:['Adoption','Average copies','By archetype','Trends'], events:['Date','Region and country','Event type','Results','Decklists'], matchups:['Win rate','Going first / second','Sample size and reliability']},
       deckCount:function(n){ return n===1 ? '1 saved deck' : n+' saved decks'; }, cardsWord:'cards',
       colorsCount:function(n){ return n===1 ? '1 color' : n+' colors'; }, maxTwoColors:'Max. 2 colors',
       dpEmptyChip:'Empty', deleteDeck:'Delete deck', confirmDelete:'Tap again to delete',
@@ -52872,6 +52931,7 @@ var EFFECT_CONFIG = {
       cloud:{
         saving:'Saving…', saved:'Saved', pending:'Saving…', offline:'Offline · changes pending', error:'Could not save', retry:'Retry',
         conflict:'This deck was updated from another device.', reload:'Reload latest version', signedout:'Changes not saved to your account', signin:'Sign in',
+        delDeck:'Delete deck', confirmEyebrow:'Delete deck', confirmTitle:function(n){ return 'Delete "'+n+'"?'; }, confirmAccount:'This will remove the deck from your account and cannot be undone.', confirmLocal:'This will remove the deck from this browser and cannot be undone.', cancel:'Cancel', confirmDel:'Delete',
         accountEyebrow:'Decks in the cloud', accountTitle:'Your account', avatarTitle:'Choose your avatar', avatarZaku:'Zaku (app icon)',
         introOut:'Save your decks to your account and use them on any device. We email you a link, no password needed.',
         email:'Email', emailPh:'you@email.com', sendLink:'Email me the link', sending:'Sending…',
@@ -53769,6 +53829,29 @@ var EFFECT_CONFIG = {
     note.innerHTML = ''; note.appendChild(el('span',null, expired ? C.sessionExpired : C.localNote));
     var b = el('button','dp-btn dp-btn-primary', C.signin); b.type = 'button'; b.addEventListener('click', openAccount); note.appendChild(b);
   }
+  /* ----- confirmación antes de eliminar un mazo ----- */
+  var confirmState = null;
+  function askConfirm(opts){
+    var m = document.getElementById('confirmModal'), sc = document.getElementById('confirmScrim');
+    confirmState = { opener: document.activeElement, ok: opts.onConfirm };
+    document.getElementById('confirmEyebrow').textContent = opts.eyebrow; document.getElementById('confirmTitle').textContent = opts.title;
+    document.getElementById('confirmText').textContent = opts.text;
+    document.getElementById('confirmCancel').textContent = opts.cancel; document.getElementById('confirmOk').textContent = opts.confirm;
+    m.hidden = false; sc.hidden = false; void m.offsetWidth; m.classList.add('open'); sc.classList.add('show');
+    setTimeout(function(){ document.getElementById('confirmCancel').focus(); }, 40);      // el foco empieza en Cancelar: eliminar exige una pulsación deliberada
+  }
+  function closeConfirm(){
+    var m = document.getElementById('confirmModal'), sc = document.getElementById('confirmScrim');
+    if(m.hidden) return; m.classList.remove('open'); sc.classList.remove('show');
+    setTimeout(function(){ m.hidden = true; sc.hidden = true; }, 200);
+    var op = confirmState && confirmState.opener; confirmState = null;
+    if(op && document.contains(op)) try{ op.focus(); }catch(e){}
+  }
+  function confirmDeleteDeck(id, after){
+    var d = DECKS[id]; if(!d) return; var C = t().cloud;
+    askConfirm({ eyebrow:C.confirmEyebrow, title:C.confirmTitle(d.name || t().deckNewName), text: cloud.user ? C.confirmAccount : C.confirmLocal, cancel:C.cancel, confirm:C.confirmDel,
+      onConfirm:function(){ deleteDeck(id); if(after) after(); } });
+  }
   /* ----- avatares: el icono Zaku + los de la carpeta avatars/ (lista en avatars/avatars.json) ----- */
   var AVATARS = [{id:'zaku'}];
   function loadAvatars(){
@@ -53778,6 +53861,7 @@ var EFFECT_CONFIG = {
       paintAvatar(); if(!document.getElementById('accountModal').hidden) renderAccount();
     }).catch(function(){});
   }
+  function paintDeleteLabels(){ var tx = t().cloud.delDeck; ['lblDvDelete','lblDpDelete'].forEach(function(i){ var e = document.getElementById(i); if(e) e.textContent = tx; }); }
   function avatarById(id){ for(var i = 0; i < AVATARS.length; i++) if(AVATARS[i].id === id) return AVATARS[i]; return AVATARS[0]; }
   function avatarName(a){ return a.id === 'zaku' ? t().cloud.avatarZaku : (a.name || a.id); }
   function avatarEl(a){
@@ -53892,6 +53976,16 @@ var EFFECT_CONFIG = {
     if(av){ av.classList.add('is-account'); av.addEventListener('click', openAccount); av.title = t().cloud.accountTitle; paintAvatar(); loadAvatars(); }
     document.getElementById('accountClose').addEventListener('click', closeAccount);
     document.getElementById('accountScrim').addEventListener('click', closeAccount);
+    document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
+    document.getElementById('confirmScrim').addEventListener('click', closeConfirm);
+    document.getElementById('confirmOk').addEventListener('click', function(){ var f = confirmState && confirmState.ok; closeConfirm(); if(f) f(); });
+    document.getElementById('confirmModal').addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ e.stopPropagation(); closeConfirm(); }
+      else if(e.key === 'Tab'){ var b = [document.getElementById('confirmCancel'), document.getElementById('confirmOk')], i = b.indexOf(document.activeElement); e.preventDefault(); b[(i + (e.shiftKey ? 1 : 1)) % 2].focus(); }
+    });
+    document.getElementById('dvDelete').addEventListener('click', function(){ confirmDeleteDeck(activeDeckId, function(){ renderDeckView(); }); });
+    document.getElementById('dpDelete').addEventListener('click', function(){ confirmDeleteDeck(dpDeckId, function(){ showDpView(); }); });
+    paintDeleteLabels();
     if(!cloud.configured) return;
     cloud.sync = DeckSync.create(cloudHost());
     function boot(){
@@ -54687,6 +54781,7 @@ var EFFECT_CONFIG = {
   if(NARROW){ if(NARROW.addEventListener) NARROW.addEventListener('change', paintSearchPh); else if(NARROW.addListener) NARROW.addListener(paintSearchPh); }
   function applyStaticI18n(){
     document.documentElement.lang = LANG;
+    if(typeof paintDeleteLabels === 'function') paintDeleteLabels();
     if(typeof installCard !== 'undefined' && installCard && !installCard.hidden) renderInstall();
     document.getElementById('lblAddDeck').textContent = t().addDeck;
     document.getElementById('lblMyDecks').textContent = t().myDecks;
@@ -55073,6 +55168,7 @@ var EFFECT_CONFIG = {
    * Parte del meta (no de un mazo del usuario). Estructura preparada para los datos que vendrán (Meta Lab):
    * cada sección declara qué filtros admitirá; cuando haya datos se marca `ready` y se pinta su contenido. */
   var COMP_SECTIONS = [
+    {id:'decklists', ready:true,  filters:['archetype','event']},
     {id:'overview',   ready:false, filters:['period','region','format']},
     {id:'archetypes', ready:false, filters:['period','region','country','eventType','colors','set']},
     {id:'cards',      ready:false, filters:['period','region','archetype','colors','set']},
@@ -55080,7 +55176,7 @@ var EFFECT_CONFIG = {
     {id:'matchups',   ready:false, filters:['period','archetype','set']}
   ];
   var compPage = document.getElementById('compPage');
-  var compState = {tab:'overview', filters:{}, sort:'share', mu:null};
+  var compState = {tab:'decklists', filters:{}, sort:'share', mu:null};
   /* ---- datos: solo existen en local (data/meta/competition.js); sin ellos la sección dice "Próximamente" ---- */
   function compData(){ return (typeof COMPETITION_DATA !== 'undefined' && COMPETITION_DATA && COMPETITION_DATA.archetypes) ? COMPETITION_DATA : null; }
   function cNum(n, d){
@@ -55117,7 +55213,146 @@ var EFFECT_CONFIG = {
   }
   function cOpenCard(num){ var c = cardByNumber(num); if(c) openDetail(c); }
 
+  /* ---- listas de los últimos eventos: data/decklists.json (se sube a GitHub; no depende de competition.js) ---- */
+  var DL = { status:'idle', data:null, shown:12, arch:'', event:'', sort:'recent', open:{}, created:{}, copied:{} };
+  function loadDecklists(){
+    if(DL.status === 'loading' || DL.status === 'ok') return;
+    DL.status = 'loading';
+    fetch('data/decklists.json').then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(function(j){
+      DL.data = j; DL.status = 'ok'; if(!compPage.hidden && compState.tab === 'decklists') renderComp();
+    }).catch(function(){ DL.status = 'error'; if(!compPage.hidden && compState.tab === 'decklists') renderComp(); });
+  }
+  function dlFlat(){
+    var out = [];
+    DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){ out.push({a:a, d:d}); }); });
+    return out;
+  }
+  function dlTypeCounts(cards){
+    var c = {UNIT:0, PILOT:0, COMMAND:0, BASE:0};
+    Object.keys(cards).forEach(function(n){ var cd = cardByNumber(n); if(cd && c[cd.type] !== undefined) c[cd.type] += cards[n]; });
+    return c;
+  }
+  function dlCopyAsDeck(a, d){
+    var U = t().dl, cards = {};
+    Object.keys(d.cards).forEach(function(n){ if(cardByNumber(n)) cards[n] = d.cards[n]; });
+    var ev = d.event && d.event.title ? d.event.title : U.noEvent;
+    var nid = createDeck(a.name+(d.place ? ' · '+U.place(d.place) : ''));
+    DECKS[nid].cards = cards;
+    DECKS[nid].description = U.descPrefix+': '+ev+(d.event && d.event.date ? ' ('+d.event.date+')' : '')+' · '+U.source+' Side-6';
+    activeDeckId = nid; saveDecksToStorage(); updateDeckPill(); render();
+    return nid;
+  }
+  function dlText(d){
+    var rows = Object.keys(d.cards).map(function(n){ var c = cardByNumber(n); return d.cards[n]+' '+n+(c ? ' '+c.name : ''); });
+    return rows.join('\n');
+  }
+  function dlDeckEl(a, d, rerender){
+    var U = t().dl, L = t(), box = el('article','dl-deck'), key = d.h;
+    box.style.setProperty('--row-c', a.colors && a.colors[0] ? 'var(--c-'+String(a.colors[0]).toLowerCase()+', var(--sky))' : 'var(--sky)');
+    var head = el('div','dl-head'); var pips = el('span'); (a.colors || []).forEach(function(c){ var p = el('span','dd-pip'); p.dataset.color = c; p.title = L.colors[c] || c; pips.appendChild(p); });
+    head.appendChild(pips); head.appendChild(el('span','dl-name', a.name));
+    if(d.place) head.appendChild(el('span','dl-place', U.place(d.place)));
+    box.appendChild(head);
+    var meta = (d.event && d.event.title ? d.event.title : U.noEvent)+(d.event && d.event.date ? ' · '+fmtDate(d.event.date) : '');
+    box.appendChild(el('div','dl-meta', meta));
+    var tc = dlTypeCounts(d.cards), st = el('div','dl-stats');
+    ['UNIT','PILOT','COMMAND','BASE'].forEach(function(ty){ if(tc[ty]) st.appendChild(el('span',null, tc[ty]+' '+(L.types[ty] || ty))); });
+    if(engineOK()){
+      var cardsOnly = {}; Object.keys(d.cards).forEach(function(n){ cardsOnly[n] = d.cards[n]; });
+      var r = Legality.validateDeck(cardsOnly, ruleset(), cardMap());
+      st.appendChild(el('span', null, r.status === 'legal' ? '✓ '+U.legal : U.issues(r.errors.length)));
+    }
+    box.appendChild(st);
+    var acts = el('div','dl-actions');
+    var bView = el('button','dp-btn', DL.open[key] ? U.hide : U.view); bView.type = 'button'; bView.setAttribute('aria-expanded', String(!!DL.open[key]));
+    bView.addEventListener('click', function(){ DL.open[key] = !DL.open[key]; rerender(); });
+    var bCopy = el('button','dp-btn dp-btn-primary', U.copyDeck); bCopy.type = 'button';
+    bCopy.addEventListener('click', function(){ DL.created[key] = dlCopyAsDeck(a, d); rerender(); });
+    var bTxt = el('button','dp-btn', DL.copied[key] ? U.copiedText : U.copyText); bTxt.type = 'button';
+    bTxt.addEventListener('click', function(){
+      var txt = dlText(d);
+      (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function(){ DL.copied[key] = true; rerender(); setTimeout(function(){ DL.copied[key] = false; if(!compPage.hidden) rerender(); }, 1800); }, function(){});
+    });
+    acts.appendChild(bCopy); acts.appendChild(bView); acts.appendChild(bTxt); box.appendChild(acts);
+    if(DL.created[key] && DECKS[DL.created[key]]){
+      var msg = el('div','dl-msg'); msg.setAttribute('role','status'); msg.appendChild(el('span',null, U.created(DECKS[DL.created[key]].name)));
+      var go = el('button','dp-btn', U.openDeck); go.type = 'button';
+      go.addEventListener('click', function(){ var id = DL.created[key]; closeCompPage(); openDecksPage(); openDeckDetail(id); });
+      msg.appendChild(go); box.appendChild(msg);
+    }
+    if(DL.open[key]){
+      var wrap = el('div','dl-cards');
+      var groups = {UNIT:[], PILOT:[], COMMAND:[], BASE:[], OTHER:[]};
+      Object.keys(d.cards).forEach(function(n){ var cd = cardByNumber(n); (cd && groups[cd.type] ? groups[cd.type] : groups.OTHER).push({n:n, c:cd, q:d.cards[n]}); });
+      ['UNIT','PILOT','COMMAND','BASE','OTHER'].forEach(function(ty){
+        var list = groups[ty]; if(!list.length) return;
+        list.sort(function(x, y){ return ((x.c ? x.c.lv : 0) - (y.c ? y.c.lv : 0)) || x.n.localeCompare(y.n); });
+        var sec = el('div'); sec.appendChild(el('div','dl-type', (L.types[ty] || ty)+' · '+list.reduce(function(sum, x){ return sum + x.q; }, 0)));
+        list.forEach(function(x){
+          var row = el('button','dl-card'); row.type = 'button';
+          var im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+x.n+'.webp'; row.appendChild(im);
+          var tx = el('span'); tx.appendChild(el('b',null, x.c ? x.c.name : x.n)); tx.appendChild(el('small',null, x.n)); row.appendChild(tx);
+          row.appendChild(el('span','dl-qty','×'+x.q));
+          if(x.c) row.addEventListener('click', function(){ openDetail(x.c, im); });
+          sec.appendChild(row);
+        });
+        wrap.appendChild(sec);
+      });
+      box.appendChild(wrap);
+    }
+    var src = document.createElement('a'); src.className = 'comp-link'; src.href = BASE_SIDE6+'/en/decklists/'+d.h+'/'; src.target = '_blank'; src.rel = 'noopener noreferrer'; src.textContent = U.original;
+    box.appendChild(src);
+    return box;
+  }
+  var BASE_SIDE6 = 'https://side-6.com';
+  function dlView(panel){
+    var U = t().dl;
+    loadDecklists();
+    if(DL.status === 'loading' || DL.status === 'idle'){ panel.appendChild(el('p','comp-note', U.loading)); return; }
+    if(DL.status === 'error'){
+      panel.appendChild(el('p','comp-note', U.error));
+      var rb = el('button','dp-btn', U.retry); rb.type = 'button'; rb.addEventListener('click', function(){ DL.status = 'idle'; renderComp(); }); panel.appendChild(rb); return;
+    }
+    var all = dlFlat(), snap = DL.data.snapshot;
+    panel.appendChild(el('p','comp-note', U.intro(all.length, DL.data.archetypes.length, fmtDate(snap.from), fmtDate(snap.to))));
+    function field(label, id, opts, val, onChange){
+      var f = el('label','dl-field'); f.appendChild(el('span',null,label));
+      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
+      opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
+      sel.addEventListener('change', function(){ onChange(sel.value); DL.shown = 12; renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
+      f.appendChild(sel); return f;
+    }
+    var events = {}; all.forEach(function(x){ if(x.d.event && x.d.event.id) events[x.d.event.id] = x.d.event.title || U.noEvent; });
+    var archOpts = [['', U.allArch]].concat(DL.data.archetypes.map(function(a){ return [a.id, a.name+' ('+a.decks.length+')']; }));
+    var evOpts = [['', U.allEvents]].concat(Object.keys(events).sort(function(a, b){ return events[a].localeCompare(events[b]); }).map(function(id){ return [id, events[id]]; }));
+    var fl = el('div','dl-filters');
+    fl.appendChild(field(U.fArch, 'dlArch', archOpts, DL.arch, function(v){ DL.arch = v; }));
+    fl.appendChild(field(U.fEvent, 'dlEvent', evOpts, DL.event, function(v){ DL.event = v; }));
+    fl.appendChild(field(U.fSort, 'dlSort', [['recent', U.sortRecent], ['place', U.sortPlace]], DL.sort, function(v){ DL.sort = v; }));
+    panel.appendChild(fl);
+    var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && x.d.event.id === DL.event)); });
+    rows.sort(function(x, y){
+      if(DL.sort === 'place') return ((x.d.place || 99) - (y.d.place || 99)) || String(y.d.event.date).localeCompare(String(x.d.event.date));
+      return String(y.d.event.date).localeCompare(String(x.d.event.date)) || ((x.d.place || 99) - (y.d.place || 99));
+    });
+    if(!rows.length){ panel.appendChild(el('p','comp-note', U.empty)); return; }
+    var list = el('div','dl-list');
+    function paint(){
+      list.innerHTML = '';
+      rows.slice(0, DL.shown).forEach(function(x){ list.appendChild(dlDeckEl(x.a, x.d, paint)); });
+      var more = panel.querySelector('.dl-more'); if(more) more.remove();
+      if(rows.length > DL.shown){
+        var b = el('button','dp-btn dl-more', U.more(rows.length - DL.shown)); b.type = 'button';
+        b.addEventListener('click', function(){ DL.shown += 12; paint(); });
+        panel.appendChild(b);
+      }
+    }
+    panel.appendChild(list); paint();
+    var foot = el('div','comp-sources'), line = el('div'); var a = document.createElement('a'); a.href = snap.source.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = snap.source.name;
+    line.appendChild(document.createTextNode(U.source+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.dataFrom+' '+fmtDate(snap.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
+  }
   var COMP_VIEWS = {
+    decklists: dlView,
     /* ---- Overview: qué se juega en torneo ---- */
     overview: function(panel, D, U){
       var ctx = el('div','comp-ctx');
@@ -55295,7 +55530,7 @@ var EFFECT_CONFIG = {
     if(compState.animate){ compState.animate = false; enter(panel, compState.dir || 'forward'); }
     panel.setAttribute('aria-labelledby', 'compTab-'+compState.tab);
     var sec = COMP_SECTIONS.filter(function(x){ return x.id === compState.tab; })[0];
-    var D = compData(), view = D ? COMP_VIEWS[sec.id] : null;
+    var D = compData(), view = (sec.id === 'decklists') ? COMP_VIEWS.decklists : (D ? COMP_VIEWS[sec.id] : null);
     panel.classList.toggle('has-data', !!view);
     if(view){
       panel.appendChild(el('h2','comp-q', L.compQ[sec.id]));
