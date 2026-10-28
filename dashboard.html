@@ -1112,10 +1112,12 @@ html{ touch-action:manipulation; }
 .deck-menu button.is-danger{ color:#f4a6a6; }
 .deck-menu button.is-armed{ background:#9f2a24; color:#fff; }
 /* ===== COMPETICIÓN · LISTAS ===== */
-.dl-filters{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+.dl-filters{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; }
 .dl-field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
 .dl-field span{ font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-3); }
-.dl-select{ min-height:44px; padding:0 12px; font:inherit; font-size:15px; font-weight:700; color:var(--fg-1); background:rgba(255,255,255,.09); border:0; max-width:100%; }
+.dl-select{ min-height:44px; padding:0 10px; font:inherit; font-size:14px; font-weight:700; color:var(--fg-1); background:rgba(255,255,255,.09); border:0; max-width:100%; text-overflow:ellipsis; }
+.dl-filters .dl-field:first-child:nth-last-child(3){ grid-column:1 / -1; }   /* con tres filtros, el primero (arquetipo) ocupa la fila y los otros dos van juntos debajo */
+@media (min-width:640px){ .dl-filters .dl-field:first-child:nth-last-child(3){ grid-column:auto; } }
 .dl-select option{ color:#221e41; }
 .dl-list{ display:flex; flex-direction:column; gap:10px; }
 .dl-deck{ display:flex; flex-direction:column; gap:10px; padding:14px; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--row-c, var(--sky)); }
@@ -55406,6 +55408,7 @@ var EFFECT_CONFIG = {
     {id:'matchups',   ready:false, filters:['period','archetype','set']}
   ];
   var compPage = document.getElementById('compPage');
+  var cmpScrim = document.getElementById('cmpScrim'), cmpModal = document.getElementById('cmpModal');   /* antes de openCompPage(): al cargar con #competicion se usa ya en el arranque */
   var compState = {tab:'decklists', filters:{}, sort:'share', mu:null};
   /* ---- datos: solo existen en local (data/meta/competition.js); sin ellos la sección dice "Próximamente" ---- */
   function compData(){ return (typeof COMPETITION_DATA !== 'undefined' && COMPETITION_DATA && COMPETITION_DATA.archetypes) ? COMPETITION_DATA : null; }
@@ -55759,8 +55762,8 @@ var EFFECT_CONFIG = {
     var all = dlFlat(), snap = DL.data.snapshot;
     panel.appendChild(el('p','comp-note', U.intro(all.length, DL.data.archetypes.length, fmtDate(snap.from), fmtDate(snap.to))));
     function field(label, id, opts, val, onChange){
-      var f = el('label','dl-field'); f.appendChild(el('span',null,label));
-      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
+      var f = el('div','dl-field');
+      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id; sel.setAttribute('aria-label', label);
       opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
       sel.addEventListener('change', function(){ onChange(sel.value); DL.shown = 12; renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
       f.appendChild(sel); return f;
@@ -55771,7 +55774,7 @@ var EFFECT_CONFIG = {
     var fl = el('div','dl-filters');
     fl.appendChild(field(U.fArch, 'dlArch', archOpts, DL.arch, function(v){ DL.arch = v; }));
     fl.appendChild(field(U.fEvent, 'dlEvent', evOpts, DL.event, function(v){ DL.event = v; }));
-    fl.appendChild(field(U.fSort, 'dlSort', [['recent', U.sortRecent], ['place', U.sortPlace]], DL.sort, function(v){ DL.sort = v; }));
+    fl.appendChild(field(U.fSort, 'dlSort', [['recent', U.fSort+': '+U.sortRecent], ['place', U.fSort+': '+U.sortPlace]], DL.sort, function(v){ DL.sort = v; }));
     panel.appendChild(fl);
     var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && evKey(x.d.event) === DL.event)); });
     rows.sort(function(x, y){
@@ -55875,15 +55878,15 @@ var EFFECT_CONFIG = {
   function cpArchetypes(panel, M, P, U){
     var T = t().cp; cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.archNote));
     function field(label, id, opts, val, onChange){
-      var f = el('label','dl-field'); f.appendChild(el('span',null,label));
-      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
+      var f = el('div','dl-field');
+      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id; sel.setAttribute('aria-label', label);
       opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
       sel.addEventListener('change', function(){ onChange(sel.value); renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
       f.appendChild(sel); return f;
     }
     var fl = el('div','dl-filters');
     fl.appendChild(field(T.fStyle, 'cpStyle', [['', T.allStyles], ['Aggro', T.styles.Aggro], ['Midrange', T.styles.Midrange], ['Control', T.styles.Control]], CP.archStyle, function(v){ CP.archStyle = v; }));
-    fl.appendChild(field(T.fSort, 'cpSort', [['share', T.sortShare], ['name', T.sortName]], CP.archSort, function(v){ CP.archSort = v; }));
+    fl.appendChild(field(T.fSort, 'cpSort', [['share', T.fSort+': '+T.sortShare], ['name', T.fSort+': '+T.sortName]], CP.archSort, function(v){ CP.archSort = v; }));
     panel.appendChild(fl);
     var list = M.archetypes.filter(function(a){ return (!CP.archStyle || a.style === CP.archStyle) && P.share(a) > 0; });
     list.sort(function(a, b){ return CP.archSort === 'name' ? a.name.localeCompare(b.name) : P.share(b) - P.share(a); });
@@ -55914,11 +55917,11 @@ var EFFECT_CONFIG = {
   function cpCards(panel, M, P, U){
     var T = t().cp, L = t(); cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.cardsNote));
     var fl = el('div','dl-filters');
-    var f1 = el('label','dl-field'); f1.appendChild(el('span',null, T.cardSearch));
-    var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'dl-select'; inp.id = 'cpQ'; inp.value = CP.cardQ; inp.autocomplete = 'off';
+    var f1 = el('div','dl-field');
+    var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'dl-select'; inp.id = 'cpQ'; inp.value = CP.cardQ; inp.autocomplete = 'off'; inp.placeholder = T.cardSearch; inp.setAttribute('aria-label', T.cardSearch);
     inp.addEventListener('input', function(){ CP.cardQ = inp.value; CP.cardsShown = 20; paint(); }); f1.appendChild(inp); fl.appendChild(f1);
-    var f2 = el('label','dl-field'); f2.appendChild(el('span',null, T.cardType));
-    var sel = document.createElement('select'); sel.className = 'dl-select';
+    var f2 = el('div','dl-field');
+    var sel = document.createElement('select'); sel.className = 'dl-select'; sel.setAttribute('aria-label', T.cardType);
     [['', T.allTypes], ['UNIT', L.types.UNIT], ['PILOT', L.types.PILOT], ['COMMAND', L.types.COMMAND], ['BASE', L.types.BASE]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === CP.cardType) op.selected = true; sel.appendChild(op); });
     sel.addEventListener('change', function(){ CP.cardType = sel.value; CP.cardsShown = 20; paint(); }); f2.appendChild(sel); fl.appendChild(f2);
     panel.appendChild(fl);
@@ -56104,7 +56107,6 @@ var EFFECT_CONFIG = {
   document.getElementById('pmMyDecks').addEventListener('click', function(){ closePillMenu(); closeCompPage(); closeDeckView(); openDecksPage(); });
   document.getElementById('pmCompetition').addEventListener('click', function(){ closePillMenu(); openCompPage(); });
 
-  var cmpScrim = document.getElementById('cmpScrim'), cmpModal = document.getElementById('cmpModal');
   function openCompareModal(){
     renderCompare();
     cmpScrim.hidden = false; cmpModal.hidden = false;
