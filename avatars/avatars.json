@@ -18,8 +18,13 @@
     },
     {
       "id": "optimus",
-      "name": "Optimus y Bumblebee",
+      "name": "Optimus",
       "file": "optimus.webp"
+    },
+    {
+      "id": "bumblebee",
+      "name": "Bumblebee",
+      "file": "bumblebee.webp"
     }
   ]
 }
