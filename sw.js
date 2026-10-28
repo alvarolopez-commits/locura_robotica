@@ -3,7 +3,7 @@
  * - Imágenes de cartas: caché primero (no cambian) y se guardan al verlas.
  * - Fuentes de Google: caché primero.
  * Sube SHELL_VERSION si cambias la lista de PRECACHE. */
-const SHELL_VERSION = 'v5';
+const SHELL_VERSION = 'v6';
 const SHELL = 'locura-shell-' + SHELL_VERSION;
 const IMAGES = 'locura-images';
 const FONTS = 'locura-fonts';
@@ -21,7 +21,7 @@ const PRECACHE = [
   '/icons/favicon-32.png',
 ];
 const PAGE_KEY = '/';
-const NETWORK_TIMEOUT = 4000;
+const NETWORK_TIMEOUT = 12000;       // la página pesa ~1,7 MB: con datos móviles lentos 4 s no bastaban y se enseñaba la versión vieja
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
@@ -55,6 +55,20 @@ async function networkFirstPage(request) {
   } catch (e) {
     if (cached) return cached;
     throw e;
+  }
+}
+
+/* Código y datos de la app (js, json, manifest): primero la red, y la copia guardada solo si no hay red o tarda demasiado.
+ * Con «primero la copia» el móvil mezclaba un dashboard nuevo con scripts viejos. */
+async function networkFirst(request, cacheName, ms) {
+  const cache = await caches.open(cacheName);
+  const fresh = fetch(request).then((res) => { store(cacheName, request, res.clone()); return res; });
+  try {
+    return await withTimeout(fresh, ms);
+  } catch (e) {
+    const hit = await cache.match(request);
+    if (hit) return hit;
+    return fresh;
   }
 }
 
@@ -136,5 +150,6 @@ self.addEventListener('fetch', (event) => {
   }
   if (url.pathname.startsWith('/images/')) return event.respondWith(cacheFirst(request, IMAGES));
   if (url.pathname === '/sw.js') return;
+  if (/\.(js|json|webmanifest)$/.test(url.pathname)) return event.respondWith(networkFirst(request, SHELL, 6000));
   event.respondWith(staleWhileRevalidate(request, SHELL));
 });

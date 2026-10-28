@@ -56200,6 +56200,14 @@ var EFFECT_CONFIG = {
         reg.active.postMessage({type:'warm-images', urls:urls});
       });
     }
+    /* Cuando se instala una versión nueva de la app y esta pestaña seguía con la anterior, se recarga una sola vez para pasar a la nueva
+     * (la primera visita nunca recarga). */
+    var hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', function(){
+      if(!hadController) return;
+      try{ if(sessionStorage.getItem('msa_sw_reload')) return; sessionStorage.setItem('msa_sw_reload', '1'); }catch(e){ return; }
+      location.reload();
+    });
     window.addEventListener('load', function(){
       navigator.serviceWorker.register('/sw.js').then(function(){ setTimeout(startWarm, 2500); }).catch(function(){});
     });
