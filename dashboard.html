@@ -1074,6 +1074,7 @@ html{ touch-action:manipulation; }
 .acc-msg{ font-size:14px; line-height:1.45; }
 .acc-msg.is-err{ color:#a3261d; }
 .acc-msg.is-ok{ color:#1b6b3a; }
+.acc-switch{ align-self:flex-start; min-height:44px; padding:0 2px; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:underline; text-underline-offset:4px; }
 .acc-diag{ margin-top:6px; background:var(--tone); }
 .acc-diag summary{ min-height:44px; display:flex; align-items:center; padding:0 14px; font-size:14px; font-weight:700; color:var(--fg-2); cursor:pointer; }
 .acc-diag-txt{ margin:0; padding:2px 14px 10px; font:inherit; font-size:12px; line-height:1.55; color:var(--fg-2); white-space:pre-wrap; overflow-wrap:anywhere; font-variant-numeric:tabular-nums; }
@@ -52891,9 +52892,14 @@ var EFFECT_CONFIG = {
         introOut:'Guarda tus mazos en tu cuenta y úsalos desde cualquier dispositivo. Te enviamos un enlace al correo, sin contraseña.',
         email:'Correo electrónico', emailPh:'tu@correo.com', sendLink:'Enviarme el enlace', sending:'Enviando…',
         linkSent:function(e){ return 'Te hemos enviado un enlace a '+e+'. Ábrelo en este dispositivo para entrar.'; },
+        pwIntro:'Entra con tu correo y tu contraseña. Tus mazos se guardan en tu cuenta y los tienes en cualquier dispositivo.', password:'Contraseña', pwPh:'Mínimo 8 caracteres', signIn:'Iniciar sesión', createAcc:'Crear cuenta', useLink:'Prefiero entrar con un enlace del correo', usePw:'Entrar con contraseña', working:'Un momento…',
+        pwBad:'Correo o contraseña incorrectos. Si antes entrabas con un enlace, entra con el enlace y ponle una contraseña en «Mi cuenta».', pwShort:'La contraseña debe tener al menos 8 caracteres.',
+        pwExists:'Ese correo ya tiene cuenta: inicia sesión, o entra con el enlace del correo.', pwNeedConfirm:'Tu cuenta aún no está confirmada. Abre el correo que te enviamos y vuelve a intentarlo.',
+        pwConfirmSent:function(e){ return 'Cuenta creada. Te hemos enviado un correo a '+e+' para confirmarla; ábrelo una vez y luego inicia sesión.'; },
+        pwSet:'Contraseña para entrar sin correo', pwSave:'Guardar contraseña', pwSaved:'Contraseña guardada. Ya puedes entrar con tu correo y tu contraseña.', pwSaveFail:'No se pudo guardar la contraseña. Prueba con otra de al menos 8 caracteres.',
         codeIntro:'Si el enlace no funciona o se abre en otra ventana, escribe aquí el código de 6 dígitos del correo.', codePh:'Código del correo', codeGo:'Entrar con el código',
         codeBad:'Código incorrecto o caducado. Pide uno nuevo y usa el del correo más reciente.',
-        linkExpired:'El enlace ya se usó o caducó: los enlaces de acceso valen una sola vez y algunos correos de empresa los abren antes que tú. Pide uno nuevo y entra con el código del correo.',
+        linkExpired:'El enlace ya se usó o caducó: los enlaces de acceso valen una sola vez y algunos correos de empresa los abren antes que tú. Pide uno nuevo, o entra con tu correo y tu contraseña.',
         signedAs:'Sesión iniciada como', signOut:'Cerrar sesión', emailInvalid:'Escribe un correo válido.', sendFail:'No se pudo enviar el enlace. Inténtalo de nuevo.', sendRate:'Se han pedido demasiados enlaces en poco tiempo. Espera unos 30–60 minutos y vuelve a intentarlo (un solo enlace cada vez).', sendNet:'Sin conexión con el servidor de cuentas. Revisa tu conexión e inténtalo de nuevo.',
         notReady:'No se pudo cargar el servicio de cuentas. Tus mazos siguen guardándose en este navegador.',
         localNote:'Tus mazos solo están en este navegador. Inicia sesión para guardarlos en tu cuenta.',
@@ -53101,9 +53107,14 @@ var EFFECT_CONFIG = {
         introOut:'Save your decks to your account and use them on any device. We email you a link, no password needed.',
         email:'Email', emailPh:'you@email.com', sendLink:'Email me the link', sending:'Sending…',
         linkSent:function(e){ return 'We sent a link to '+e+'. Open it on this device to sign in.'; },
+        pwIntro:'Sign in with your email and password. Your decks are saved to your account and available on any device.', password:'Password', pwPh:'At least 8 characters', signIn:'Sign in', createAcc:'Create account', useLink:'I prefer an email link', usePw:'Sign in with a password', working:'One moment…',
+        pwBad:'Wrong email or password. If you used to sign in with a link, use the link and set a password in “My account”.', pwShort:'The password must have at least 8 characters.',
+        pwExists:'That email already has an account: sign in, or use the email link.', pwNeedConfirm:'Your account is not confirmed yet. Open the email we sent you and try again.',
+        pwConfirmSent:function(e){ return 'Account created. We sent an email to '+e+' to confirm it; open it once and then sign in.'; },
+        pwSet:'Password to sign in without email', pwSave:'Save password', pwSaved:'Password saved. You can now sign in with your email and password.', pwSaveFail:'Could not save the password. Try another one with at least 8 characters.',
         codeIntro:'If the link does not work or opens in another window, type the 6-digit code from the email here.', codePh:'Code from the email', codeGo:'Sign in with the code',
         codeBad:'Wrong or expired code. Request a new one and use the most recent email.',
-        linkExpired:'The link was already used or has expired: sign-in links work once, and some company mail systems open them before you do. Request a new one and sign in with the code from the email.',
+        linkExpired:'The link was already used or has expired: sign-in links work once, and some company mail systems open them before you do. Request a new one, or sign in with your email and password.',
         signedAs:'Signed in as', signOut:'Sign out', emailInvalid:'Enter a valid email.', sendFail:'Could not send the link. Please try again.', sendRate:'Too many links were requested in a short time. Wait 30–60 minutes and try again (one link at a time).', sendNet:'Cannot reach the accounts server. Check your connection and try again.',
         notReady:'The accounts service could not be loaded. Your decks keep saving in this browser.',
         localNote:'Your decks are only in this browser. Sign in to save them to your account.',
@@ -53859,7 +53870,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.3';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.4';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54046,7 +54057,7 @@ var EFFECT_CONFIG = {
     wrap.appendChild(grid); return wrap;
   }
   /* ----- ventana de cuenta ----- */
-  var accountOpener = null, accountMsg = null, accountBusy = false, accountEmail = '';
+  var accountOpener = null, accountMsg = null, accountBusy = false, accountEmail = '', accountMode = 'password';
   function paintAccountMenu(){
     var b = document.getElementById('lblPmAccount'); if(!b) return;
     var es = LANG === 'es';
@@ -54111,24 +54122,7 @@ var EFFECT_CONFIG = {
     row.appendChild(cp); box.appendChild(row);
     return box;
   }
-  function renderAccount(){
-    var C = t().cloud, body = document.getElementById('accountBody'); body.innerHTML = '';
-    document.getElementById('accountEyebrow').textContent = C.accountEyebrow;
-    document.getElementById('accountTitle').textContent = C.accountTitle;
-    document.getElementById('accountClose').setAttribute('aria-label', t().cloud.accountClose || (LANG === 'es' ? 'Cerrar' : 'Close'));
-    body.appendChild(avatarSection());
-    if(!cloud.configured){ body.appendChild(diagSection()); return; }
-    if(cloud.loadFailed){ body.appendChild(el('p','acc-msg is-err', C.notReady)); body.appendChild(diagSection()); return; }
-    if(cloud.user){
-      body.appendChild(el('p','acc-msg', C.signedAs + ' ' + (cloud.user.email || '')));
-      var chip = el('p','acc-msg', ''); var ph = (cloud.state || {}).phase;
-      chip.textContent = ph === 'saved' ? C.saved : ph === 'conflict' ? C.conflict : ph === 'offline' ? C.offline : ph === 'error' ? C.error : C.saving;
-      body.appendChild(chip);
-      var sync = el('button','dp-btn', C.syncNow); sync.type = 'button'; sync.addEventListener('click', function(){ if(cloud.sync) cloud.sync.retry(); }); body.appendChild(sync);
-      var out = el('button','dp-btn', C.signOut); out.type = 'button'; out.addEventListener('click', cloudSignOut); body.appendChild(out);
-      body.appendChild(diagSection());
-      return;
-    }
+  function renderLinkForm(body, C){
     body.appendChild(el('p','acc-msg', C.introOut));
     var f = el('div','acc-field'); var lb = el('label',null, C.email); lb.htmlFor = 'accEmail';
     var inp = document.createElement('input'); inp.id = 'accEmail'; inp.type = 'email'; inp.className = 'acc-input'; inp.autocomplete = 'email'; inp.inputMode = 'email'; inp.placeholder = C.emailPh;
@@ -54164,6 +54158,92 @@ var EFFECT_CONFIG = {
       cg.addEventListener('click', submitCode);
       ci.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); submitCode(); } });
     }
+    var sw = el('button','acc-switch', C.usePw); sw.type = 'button';
+    sw.addEventListener('click', function(){ accountMode = 'password'; accountMsg = null; renderAccount(); }); body.appendChild(sw);
+  }
+  function renderPasswordForm(body, C){
+    body.appendChild(el('p','acc-msg', C.pwIntro));
+    var f = el('div','acc-field'); var lb = el('label',null, C.email); lb.htmlFor = 'accEmail';
+    var inp = document.createElement('input'); inp.id = 'accEmail'; inp.type = 'email'; inp.className = 'acc-input'; inp.autocomplete = 'username'; inp.inputMode = 'email'; inp.placeholder = C.emailPh; inp.value = accountEmail || '';
+    f.appendChild(lb); f.appendChild(inp); body.appendChild(f);
+    var f2 = el('div','acc-field'); var lb2 = el('label',null, C.password); lb2.htmlFor = 'accPw';
+    var pw = document.createElement('input'); pw.id = 'accPw'; pw.type = 'password'; pw.className = 'acc-input'; pw.autocomplete = 'current-password'; pw.placeholder = C.pwPh;
+    f2.appendChild(lb2); f2.appendChild(pw); body.appendChild(f2);
+    var go = el('button','dp-btn dp-btn-primary', accountBusy ? C.working : C.signIn); go.type = 'button'; go.disabled = accountBusy; body.appendChild(go);
+    var mk = el('button','dp-btn', C.createAcc); mk.type = 'button'; mk.disabled = accountBusy; body.appendChild(mk);
+    var msg = el('p','acc-msg' + (accountMsg ? (accountMsg.err ? ' is-err' : ' is-ok') : ''), accountMsg ? accountMsg.text : ''); msg.setAttribute('role','status'); body.appendChild(msg);
+    var sw = el('button','acc-switch', C.useLink); sw.type = 'button';
+    sw.addEventListener('click', function(){ accountMode = 'link'; accountMsg = null; renderAccount(); }); body.appendChild(sw);
+    function read(){
+      var email = inp.value.trim(), pass = pw.value;
+      accountEmail = email;   // se conserva al repintar tras un error
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ accountMsg = { err:true, text:C.emailInvalid }; renderAccount(); return null; }
+      if(pass.length < 8){ accountMsg = { err:true, text:C.pwShort }; renderAccount(); return null; }
+      return { email:email, password:pass };
+    }
+    function why(er){
+      var m = String(er.code || '') + ' ' + String(er.message || '');
+      if(er.status === 429 || /rate.?limit/i.test(m)) return C.sendRate;
+      if(/invalid.?login|invalid_credentials/i.test(m)) return C.pwBad;
+      if(/not.?confirmed|email_not_confirmed/i.test(m)) return C.pwNeedConfirm;
+      if(/already.?registered|user_already_exists/i.test(m)) return C.pwExists;
+      if(/password.*(short|least|weak)|weak_password/i.test(m)) return C.pwShort;
+      return C.sendFail;
+    }
+    function done(promise, onData){
+      accountBusy = true; accountMsg = null; renderAccount();
+      promise.then(function(r){
+        accountBusy = false;
+        if(r.error) accountMsg = { err:true, text:why(r.error) };
+        else accountMsg = onData ? onData(r.data || {}) : null;   // sin error: onAuthStateChange inicia la sesión y repinta
+        renderAccount();
+      }, function(){ accountBusy = false; accountMsg = { err:true, text:C.sendNet }; renderAccount(); });
+    }
+    function signIn(){ var c = read(); if(c) done(cloud.client.auth.signInWithPassword(c), null); }
+    function signUp(){
+      var c = read(); if(!c) return;
+      done(cloud.client.auth.signUp({ email:c.email, password:c.password, options:{ emailRedirectTo: location.origin + '/' } }), function(d){
+        if(d.session) return null;                                                          // sin confirmación de correo: ya está dentro
+        if(d.user && d.user.identities && d.user.identities.length === 0) return { err:true, text:C.pwExists };   // el correo ya existe
+        return { err:false, text:C.pwConfirmSent(c.email) };                                // el proyecto exige confirmar el correo
+      });
+    }
+    go.addEventListener('click', signIn); mk.addEventListener('click', signUp);
+    [inp, pw].forEach(function(i){ i.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); signIn(); } }); });
+  }
+  function renderAccount(){
+    var C = t().cloud, body = document.getElementById('accountBody'); body.innerHTML = '';
+    document.getElementById('accountEyebrow').textContent = C.accountEyebrow;
+    document.getElementById('accountTitle').textContent = C.accountTitle;
+    document.getElementById('accountClose').setAttribute('aria-label', t().cloud.accountClose || (LANG === 'es' ? 'Cerrar' : 'Close'));
+    body.appendChild(avatarSection());
+    if(!cloud.configured){ body.appendChild(diagSection()); return; }
+    if(cloud.loadFailed){ body.appendChild(el('p','acc-msg is-err', C.notReady)); body.appendChild(diagSection()); return; }
+    if(cloud.user){
+      body.appendChild(el('p','acc-msg', C.signedAs + ' ' + (cloud.user.email || '')));
+      var chip = el('p','acc-msg', ''); var ph = (cloud.state || {}).phase;
+      chip.textContent = ph === 'saved' ? C.saved : ph === 'conflict' ? C.conflict : ph === 'offline' ? C.offline : ph === 'error' ? C.error : C.saving;
+      body.appendChild(chip);
+      var pf = el('div','acc-field'); var pl = el('label', null, C.pwSet); pl.htmlFor = 'accNewPw';
+      var pi = document.createElement('input'); pi.id = 'accNewPw'; pi.type = 'password'; pi.className = 'acc-input'; pi.autocomplete = 'new-password'; pi.placeholder = C.pwPh; pi.minLength = 8;
+      var pb = el('button','dp-btn', C.pwSave); pb.type = 'button'; var pm = el('p','acc-msg',''); pm.setAttribute('role','status');
+      pf.appendChild(pl); pf.appendChild(pi); pf.appendChild(pb); pf.appendChild(pm); body.appendChild(pf);
+      function savePw(){
+        if(pi.value.length < 8){ pm.className = 'acc-msg is-err'; pm.textContent = C.pwShort; return; }
+        pb.disabled = true;
+        cloud.client.auth.updateUser({ password: pi.value }).then(function(r){
+          pb.disabled = false;
+          if(r.error){ pm.className = 'acc-msg is-err'; pm.textContent = C.pwSaveFail; } else { pi.value = ''; pm.className = 'acc-msg is-ok'; pm.textContent = C.pwSaved; }
+        }, function(){ pb.disabled = false; pm.className = 'acc-msg is-err'; pm.textContent = C.sendNet; });
+      }
+      pb.addEventListener('click', savePw);
+      pi.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); savePw(); } });
+      var sync = el('button','dp-btn', C.syncNow); sync.type = 'button'; sync.addEventListener('click', function(){ if(cloud.sync) cloud.sync.retry(); }); body.appendChild(sync);
+      var out = el('button','dp-btn', C.signOut); out.type = 'button'; out.addEventListener('click', cloudSignOut); body.appendChild(out);
+      body.appendChild(diagSection());
+      return;
+    }
+    if(accountMode === 'link') renderLinkForm(body, C); else renderPasswordForm(body, C);
     body.appendChild(diagSection());
   }
   function cloudSignOut(){
