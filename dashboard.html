@@ -1261,6 +1261,10 @@ html{ touch-action:manipulation; }
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 2.5h7v3.8a3.5 3.5 0 0 1-7 0V2.5zM4.5 4H2.7v.9a2 2 0 0 0 2.1 2M11.5 4h1.8v.9a2 2 0 0 1-2.1 2M8 9.8v2.4M5.5 13.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span id="lblPmCompetition">Competición</span>
         </button>
+        <button type="button" class="pm-item" id="pmAccount" role="menuitem">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.5" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M2.8 13.6c.7-2.4 2.7-3.6 5.2-3.6s4.5 1.2 5.2 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span id="lblPmAccount">Iniciar sesión</span>
+        </button>
       </div>
     </div>
   </header>
@@ -53855,7 +53859,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.3';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -53926,7 +53930,7 @@ var EFFECT_CONFIG = {
       b.hidden = !show; b.dataset.state = ph; b.lastChild.textContent = label;
       b.setAttribute('aria-live', 'polite'); b.title = ph === 'conflict' ? C.conflict : (st.message || '');
     });
-    paintCloudNote(); if(!document.getElementById('accountModal').hidden) renderAccount();
+    paintCloudNote(); paintAccountMenu(); if(!document.getElementById('accountModal').hidden) renderAccount();
   }
   function onSaveChipClick(){
     var ph = (cloud.state || {}).phase;
@@ -54043,6 +54047,12 @@ var EFFECT_CONFIG = {
   }
   /* ----- ventana de cuenta ----- */
   var accountOpener = null, accountMsg = null, accountBusy = false, accountEmail = '';
+  function paintAccountMenu(){
+    var b = document.getElementById('lblPmAccount'); if(!b) return;
+    var es = LANG === 'es';
+    b.textContent = cloud.user ? (es ? 'Mi cuenta' : 'My account') : (es ? 'Iniciar sesión' : 'Sign in');
+    var it = document.getElementById('pmAccount'); if(it) it.hidden = !cloud.configured;
+  }
   function openAccount(){
     accountOpener = document.activeElement; renderAccount();
     var m = document.getElementById('accountModal'), sc = document.getElementById('accountScrim');
@@ -54992,6 +55002,7 @@ var EFFECT_CONFIG = {
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
     document.getElementById('lblPmMyDecks').textContent = t().myDecks;
     document.getElementById('lblPmCompetition').textContent = t().pmCompetition;
+    paintAccountMenu();
     document.getElementById('menuBtn').setAttribute('aria-label', t().menuOpen);
     if(!document.getElementById('compPage').hidden) renderComp(); else document.getElementById('lblCompBack').textContent = t().dpBackCatalog;
     document.getElementById('compTitle').textContent = t().compTitle;
@@ -56111,6 +56122,7 @@ var EFFECT_CONFIG = {
   });
   document.getElementById('pmMyDecks').addEventListener('click', function(){ closePillMenu(); closeCompPage(); closeDeckView(); openDecksPage(); });
   document.getElementById('pmCompetition').addEventListener('click', function(){ closePillMenu(); openCompPage(); });
+  document.getElementById('pmAccount').addEventListener('click', function(){ closePillMenu(); openAccount(); });
 
   function openCompareModal(){
     renderCompare();
