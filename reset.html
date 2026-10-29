@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Actualizar la app</title>
+<style>
+  :root{ --bg:#15122a; --fg:#f0f4f8; --muted:#a9b6d3; --ok:#9be3b4; --sky:#8bcdff; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; min-height:100%; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main{ max-width:30rem; margin:0 auto; padding:max(32px, env(safe-area-inset-top)) 20px 40px; display:flex; flex-direction:column; gap:14px; }
+  h1{ margin:0; font-size:1.5rem; line-height:1.2; }
+  p{ margin:0; color:var(--muted); }
+  #estado{ color:var(--fg); font-weight:600; }
+  #estado.ok{ color:var(--ok); }
+  a.btn{ display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 20px; background:var(--sky); color:#0e2338; font-weight:700; text-decoration:none; border-radius:6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Actualizando la app…</h1>
+  <p>Esto borra la copia guardada del programa (para que cargue la versión nueva). <strong>Tus mazos y tu sesión no se tocan.</strong></p>
+  <p id="estado" role="status">Un momento…</p>
+  <a class="btn" id="seguir" href="/" hidden>Abrir la app</a>
+</main>
+<script>
+(async function(){
+  var el = document.getElementById('estado'), n = 0, c = 0;
+  try{
+    if('serviceWorker' in navigator){
+      var regs = await navigator.serviceWorker.getRegistrations();
+      for(var i = 0; i < regs.length; i++){ if(await regs[i].unregister()) n++; }
+    }
+    if(window.caches){
+      var keys = await caches.keys();
+      for(var j = 0; j < keys.length; j++){ if(await caches.delete(keys[j])) c++; }
+    }
+    el.className = 'ok';
+    el.textContent = 'Listo: ' + n + ' programa(s) y ' + c + ' copia(s) borrados. Abriendo la app…';
+  }catch(e){
+    el.textContent = 'No se pudo limpiar del todo (' + (e && e.message || e) + '). Prueba a abrir la app igualmente.';
+  }
+  var go = document.getElementById('seguir'); go.hidden = false;
+  setTimeout(function(){ location.replace('/?r=' + Date.now()); }, 1500);
+})();
+</script>
+</body>
+</html>
