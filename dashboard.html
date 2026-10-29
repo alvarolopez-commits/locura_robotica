@@ -318,6 +318,8 @@ body.menu-open .db-top{ z-index:46; }
 @media (min-width:1200px){ .collPage{ --cc-min:190px; --cc-gap:20px; } }
 .coll-head{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px 20px; }
 .coll-head .dp-head{ flex:1 1 300px; min-width:0; }
+.coll-titlerow{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.coll-titlerow .dp-title{ margin:0; }
 .coll-head-actions{ display:flex; align-items:center; gap:8px; }
 .coll-head-actions[hidden]{ display:none; }
 .coll-head-actions .dp-btn{ flex:none; min-height:44px; }
@@ -336,11 +338,6 @@ body.menu-open .db-top{ z-index:46; }
 .coll-sclear[hidden]{ display:none; }
 .coll-sclear:hover{ color:var(--fg-1); background:rgba(255,255,255,.1); }
 .coll-sclear:focus-visible{ outline:2px solid var(--sky); }
-.coll-sort{ position:relative; flex:1 1 150px; min-width:0; max-width:260px; }
-.coll-sort select{ appearance:none; -webkit-appearance:none; width:100%; min-height:48px; padding:0 40px 0 16px; font-family:var(--font-sans); font-size:var(--text-button-size); font-weight:600; color:var(--fg-1); background:rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238bcdff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 14px center / 12px 8px no-repeat; border:1px solid transparent; border-radius:12px; cursor:pointer; outline:0; text-overflow:ellipsis; transition:background-color .15s var(--ease), border-color .15s var(--ease); }
-.coll-sort select:hover{ background-color:rgba(255,255,255,.13); }
-.coll-sort select:focus-visible{ border-color:var(--sky); box-shadow:0 0 0 3px rgba(139,205,255,.28); }
-.coll-sort option{ color:#221e41; background:#fff; }
 .coll-fbadge{ min-width:20px; height:20px; padding:0 6px; display:inline-grid; place-items:center; border-radius:10px; background:var(--sky); color:var(--sky-ink); font-size:12px; font-weight:700; line-height:1; }
 .coll-fbadge[hidden]{ display:none; }
 @media (min-width:900px){ .coll-bar .coll-filterbtn{ display:none; } }
@@ -1794,12 +1791,14 @@ html{ touch-action:manipulation; }
     </button>
     <div class="coll-head">
       <div class="dp-head">
-        <h1 class="dp-title" id="collTitle">Mi colección</h1>
+        <div class="coll-titlerow">
+          <h1 class="dp-title" id="collTitle">Mi colección</h1>
+          <button type="button" class="coll-copy" id="collCopy" hidden></button>
+        </div>
         <p class="comp-sub" id="collSub"></p>
       </div>
       <div class="coll-head-actions" id="collStartersBtnWrap">
         <button type="button" class="dp-btn dp-btn-primary" id="collStarters"></button>
-        <button type="button" class="coll-copy" id="collCopy" hidden></button>
       </div>
     </div>
     <div class="coll-bar" id="collBar">
@@ -1808,7 +1807,6 @@ html{ touch-action:manipulation; }
         <input type="search" id="collSearch" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
         <button type="button" class="coll-sclear" id="collSClear" hidden><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
-      <label class="coll-sort"><span class="sr-only" id="lblCollSort">Ordenar por</span><select id="collSort"></select></label>
       <button type="button" class="dp-btn coll-filterbtn" id="collFilterBtn" aria-controls="collFilters">
         <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M6 10h8M8.5 14.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span id="lblCollFilters">Filtros</span><span class="coll-fbadge" id="collFBadge" hidden></span>
@@ -53095,11 +53093,10 @@ var EFFECT_CONFIG = {
       resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros',
       tengo:'Tengo', enColeccion:'En tu colección', collAdd:'Añadir a mi colección', collHave:'En mi colección', collRemove:'Quitar de mi colección', collTag:'TENGO', collMiss:'No la tengo', collBanner:function(n){ return n === 1 ? 'Te falta 1 carta de este mazo' : 'Te faltan '+n+' cartas de este mazo'; }, collTitle:'Mi colección', collBack:'Catálogo', collOpen:'Mi colección', collCopy:'Copiar mi colección', collCopied:'Copiado',
       collCopyHead:function(n, u){ return 'Mi colección de Gundam Card Game ('+n+(n === 1 ? ' carta distinta' : ' cartas distintas')+', '+u+(u === 1 ? ' unidad' : ' unidades')+'):'; },
-      collSub:function(n, u){ return n === 0 ? 'Aún no tienes ninguna carta. Empieza añadiendo un mazo inicial o las cartas que tengas.' : n+(n === 1 ? ' carta distinta' : ' cartas distintas')+' · '+u+(u === 1 ? ' unidad' : ' unidades'); },
+      collSub:function(n){ return n === 0 ? 'Aún no tienes ninguna carta. Empieza añadiendo un mazo inicial o las cartas que tengas.' : n+(n === 1 ? ' carta distinta' : ' cartas distintas'); },
       collStarters:'Mazos iniciales', collMore:function(n){ return 'Mostrar más ('+n+')'; },
       collStartersIntro:'Marca los mazos iniciales que tengas: se añaden todas sus cartas de golpe. Volver a pulsarlo las quita.',
-      collSearchPh:'Buscar en mi colección…', collSearchAria:'Buscar en mi colección', collSearchClear:'Borrar la búsqueda', collSortLbl:'Ordenar por',
-      collSortNumber:'Código', collSortName:'Nombre A–Z', collSortSet:'Set', collSortRarity:'Rareza', collSortRecent:'Añadidas recientemente',
+      collSearchPh:'Buscar en mi colección…', collSearchAria:'Buscar en mi colección', collSearchClear:'Borrar la búsqueda',
       collFiltersBtn:'Filtros', collFiltersTitle:'Filtros', collClear:'Limpiar filtros', collShowN:function(n){ return n === 1 ? 'Ver 1 carta' : 'Ver '+n+' cartas'; },
       collAddCards:'Añadir cartas',
       collShowing:function(shown, n, total){ return 'Mostrando '+shown+' de '+n+(n === 1 ? ' carta' : ' cartas')+(n !== total ? ' · '+total+' en tu colección' : ''); },
@@ -53330,11 +53327,10 @@ var EFFECT_CONFIG = {
       resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters',
       tengo:'Owned', enColeccion:'In your collection', collAdd:'Add to my collection', collHave:'In my collection', collRemove:'Remove from my collection', collTag:'OWNED', collMiss:'Not owned', collBanner:function(n){ return n === 1 ? 'You are missing 1 card from this deck' : 'You are missing '+n+' cards from this deck'; }, collTitle:'My collection', collBack:'Catalog', collOpen:'My collection', collCopy:'Copy my collection', collCopied:'Copied',
       collCopyHead:function(n, u){ return 'My Gundam Card Game collection ('+n+(n === 1 ? ' distinct card' : ' distinct cards')+', '+u+(u === 1 ? ' copy' : ' copies')+'):'; },
-      collSub:function(n, u){ return n === 0 ? 'You have no cards yet. Start by adding a starter deck or the cards you own.' : n+(n === 1 ? ' distinct card' : ' distinct cards')+' · '+u+(u === 1 ? ' copy' : ' copies'); },
+      collSub:function(n){ return n === 0 ? 'You have no cards yet. Start by adding a starter deck or the cards you own.' : n+(n === 1 ? ' distinct card' : ' distinct cards'); },
       collStarters:'Starter decks', collMore:function(n){ return 'Show more ('+n+')'; },
       collStartersIntro:'Mark the starter decks you own: all their cards are added at once. Press again to remove them.',
-      collSearchPh:'Search my collection…', collSearchAria:'Search my collection', collSearchClear:'Clear search', collSortLbl:'Sort by',
-      collSortNumber:'Code', collSortName:'Name A–Z', collSortSet:'Set', collSortRarity:'Rarity', collSortRecent:'Recently added',
+      collSearchPh:'Search my collection…', collSearchAria:'Search my collection', collSearchClear:'Clear search',
       collFiltersBtn:'Filters', collFiltersTitle:'Filters', collClear:'Clear filters', collShowN:function(n){ return n === 1 ? 'Show 1 card' : 'Show '+n+' cards'; },
       collAddCards:'Add cards',
       collShowing:function(shown, n, total){ return 'Showing '+shown+' of '+n+(n === 1 ? ' card' : ' cards')+(n !== total ? ' · '+total+' in your collection' : ''); },
@@ -53703,7 +53699,11 @@ var EFFECT_CONFIG = {
   /* ===== DECK BUILDER ===== */
   var DECKS = {};
   var activeDeckId = null;
-  function cardByNumber(num){ for(var i=0;i<ALL.length;i++){ if(ALL[i].number===num) return ALL[i]; } return null; }
+  var CARD_IDX = null, CARD_IDX_N = -1;   /* índice número → carta (ALL se carga una vez); antes cada consulta recorría todo el catálogo */
+  function cardByNumber(num){
+    if(CARD_IDX_N !== ALL.length){ CARD_IDX = new Map(); for(var i=0;i<ALL.length;i++){ if(!CARD_IDX.has(ALL[i].number)) CARD_IDX.set(ALL[i].number, ALL[i]); } CARD_IDX_N = ALL.length; }
+    return CARD_IDX.get(num) || null;
+  }
   var ARCHIVED = {};
   var deckHash = {};
   /* fecha de última edición local: se actualiza solo en los mazos cuyo contenido cambió */
@@ -54240,7 +54240,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.15';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.16';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54281,7 +54281,7 @@ var EFFECT_CONFIG = {
     document.querySelectorAll('.coll-row').forEach(paintCollectionRow);
     document.querySelectorAll('.dz-inner').forEach(function(inner){ var w = inner.querySelector('.card-imgwrap'); if(w) paintOwnedTag(inner, w.dataset.number); });
     if(typeof addDrawer !== 'undefined' && addDrawer && !addDrawer.hidden) paintAddRows();
-    if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) renderColl();
+    if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) collRepaint();
     if(typeof deckView !== 'undefined' && deckView && !deckView.hidden) renderDeckView();
     var dpd = document.getElementById('dpDetail'), dpg = document.getElementById('decksPage');
     if(dpd && !dpd.hidden && dpg && !dpg.hidden && dpDeckId) renderDeckDetail();
@@ -56617,8 +56617,8 @@ var EFFECT_CONFIG = {
   var collPage = document.getElementById('collPage'), collView = 'cards', collShown = 48;
   var COLL_CHUNK = 48;
   var collState = { search:"", sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
-  var collSort = 'number', collPoolKey = null, collObserver = null, collFilterOpener = null, collFlash = null, collSortSig = null;
-  var RARITY_RANK = { LR:0, R:1, U:2, C:3 }, COLL_MAX = (window.Collection && Collection.MAX_QTY) || 99;
+  var collPoolKey = null, collObserver = null, collFilterOpener = null, collFlash = null;
+  var COLL_MAX = (window.Collection && Collection.MAX_QTY) || 99;
   var COPY_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="3.5" width="9" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7v8.2c0 .9.7 1.6 1.6 1.6H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   var CHECK_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10.5l3.6 3.6 7.4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var CC_PLUS = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -56665,30 +56665,7 @@ var EFFECT_CONFIG = {
   };
   function collFilterCount(){ var s = collState; return s.sets.size + s.colors.size + s.types.size + s.kws.size + s.fxs.size + s.traits.size; }
   function byNumber(a, b){ return a.number.localeCompare(b.number, undefined, { numeric:true }); }
-  function setRank(c){ return ['ST', 'GD', 'EB'].indexOf(c.set.slice(0, 2)); }
-  function rarityRank(c){ return RARITY_RANK[c.rarity] != null ? RARITY_RANK[c.rarity] : 9; }
-  function collComparator(mode){
-    if(mode === 'name') return function(a, b){ return a.name.localeCompare(b.name, LANG, { sensitivity:'base', numeric:true }) || byNumber(a, b); };
-    if(mode === 'set') return function(a, b){ return (setRank(a) - setRank(b)) || a.set.localeCompare(b.set) || byNumber(a, b); };
-    if(mode === 'rarity') return function(a, b){ return (rarityRank(a) - rarityRank(b)) || byNumber(a, b); };
-    if(mode === 'recent') return function(a, b){ return (COLL.addedAt(b.number) - COLL.addedAt(a.number)) || byNumber(a, b); };
-    return byNumber;
-  }
-  function collFiltered(){ return ownedCards().filter(function(c){ return matchesWith(c, collState); }).sort(collComparator(collSort)); }
-  function collSortOptions(){
-    var C = t(), o = [['number', C.collSortNumber], ['name', C.collSortName], ['set', C.collSortSet], ['rarity', C.collSortRarity]];
-    if(COLL.hasDates()) o.push(['recent', C.collSortRecent]);   /* solo si hay fechas de alta con las que ordenar */
-    return o;
-  }
-  function paintCollSort(){
-    var sel = document.getElementById('collSort'), opts = collSortOptions(), sig = LANG + opts.map(function(o){ return o[0]; }).join();
-    if(!opts.some(function(o){ return o[0] === collSort; })) collSort = 'number';
-    if(sig !== collSortSig){
-      collSortSig = sig; sel.innerHTML = '';
-      opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op); });
-    }
-    sel.value = collSort;
-  }
+  function collFiltered(){ return ownedCards().filter(function(c){ return matchesWith(c, collState); }).sort(byNumber); }
   /* quita de la selección lo que ya no existe entre tus cartas (p. ej. tras quitar la última carta roja) */
   function pruneCollState(pool){
     var m = { sets:{}, colors:{}, types:{}, kws:{}, fxs:{}, traits:{} };
@@ -56782,12 +56759,43 @@ var EFFECT_CONFIG = {
     var target = k.id ? document.getElementById(k.id) : root.querySelector('.cc[data-number="' + k.n + '"] [data-role="' + k.role + '"]');
     if(target && !target.disabled) target.focus({ preventScroll:true });
   }
+  /* carga progresiva: la tanda nueva se AÑADE a la cuadrícula (antes se repintaba entera cada vez: coste cuadrático con cientos de cartas) */
+  function armCollMore(more){
+    if(collObserver){ collObserver.disconnect(); collObserver = null; }
+    if(more && 'IntersectionObserver' in window){
+      collObserver = new IntersectionObserver(function(es){ if(es.some(function(x){ return x.isIntersecting; })) collLoadMore(); }, { root:collPage, rootMargin:'900px 0px' });
+      collObserver.observe(more);
+    }
+  }
+  function collLoadMore(){
+    var grid = document.getElementById('collGrid'), more = document.getElementById('collMore'); if(!grid || !more) return;
+    var items = collFiltered(), frag = document.createDocumentFragment();
+    items.slice(grid.children.length, grid.children.length + COLL_CHUNK).forEach(function(c){ frag.appendChild(collCardEl(c)); });
+    grid.appendChild(frag); collShown = grid.children.length;
+    var left = items.length - collShown;
+    if(left > 0){ more.textContent = t().collMore(left); armCollMore(more); } else { more.remove(); armCollMore(null); }
+    document.getElementById('collCount').textContent = t().collShowing(collShown, items.length, ownedCards().length);
+  }
+  /* cambio de copias sin cambiar qué cartas tienes: solo se rehace el selector de las cartas afectadas (no la cuadrícula entera) */
+  var collOwnedKey = null;
+  function patchCollQty(){
+    var panel = document.getElementById('collPanel'), fk = collFocusKey(panel);
+    panel.querySelectorAll('#collGrid .cc').forEach(function(cc){
+      var n = cc.dataset.number, q = COLL.qty(n), cur = cc.querySelector('.cc-n');
+      if(cur && Number(cur.textContent) === q) return;
+      cc.querySelector('.cc-qty').replaceWith(stepperEl(cardByNumber(n), 'cc-qty'));
+    });
+    collFlash = null; collRestoreFocus(panel, fk);
+  }
+  function collRepaint(){
+    if(collView === 'cards' && COLL.list().join('|') === collOwnedKey) patchCollQty(); else renderColl();
+  }
   function renderCollGrid(){
     var C = t(), panel = document.getElementById('collPanel'), all = ownedCards(), items = collFiltered(), top = collPage.scrollTop, fk = collFocusKey(panel);
     if(collObserver){ collObserver.disconnect(); collObserver = null; }
     panel.innerHTML = '';
     var units = COLL.units();
-    document.getElementById('collSub').textContent = C.collSub(all.length, units);
+    document.getElementById('collSub').textContent = C.collSub(all.length);
     document.getElementById('collStatus').hidden = !all.length;
     var act = document.getElementById('collActive'); act.innerHTML = '';
     activeFilterItems(collState).forEach(function(it){ act.appendChild(removableTag(it.label, function(){ it.drop(); collShown = COLL_CHUNK; renderCollFilters(true); renderCollGrid(); })); });
@@ -56809,12 +56817,8 @@ var EFFECT_CONFIG = {
       panel.appendChild(grid);
       if(items.length > collShown){
         var more = el('button', 'dp-btn coll-more', C.collMore(items.length - collShown)); more.type = 'button'; more.id = 'collMore';
-        more.addEventListener('click', function(){ collShown += COLL_CHUNK; renderCollGrid(); });
-        panel.appendChild(more);
-        if('IntersectionObserver' in window){
-          collObserver = new IntersectionObserver(function(es){ if(es.some(function(x){ return x.isIntersecting; })){ collObserver.disconnect(); collShown += COLL_CHUNK; renderCollGrid(); } }, { root:collPage, rootMargin:'900px 0px' });
-          collObserver.observe(more);
-        }
+        more.addEventListener('click', collLoadMore);
+        panel.appendChild(more); armCollMore(more);
       }
     }
     collFlash = null;
@@ -56824,7 +56828,7 @@ var EFFECT_CONFIG = {
   }
   function renderCollStarters(){
     var C = t(), panel = document.getElementById('collPanel'); panel.innerHTML = '';
-    document.getElementById('collSub').textContent = C.collSub(ownedKnown().length, COLL.units());
+    document.getElementById('collSub').textContent = C.collSub(ownedKnown().length);
     var back = el('button', 'dp-back', ''); back.type = 'button'; back.id = 'collBackCards';
     back.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     back.appendChild(el('span', null, C.collTitle));
@@ -56843,10 +56847,11 @@ var EFFECT_CONFIG = {
   }
   function renderColl(){
     var C = t(), starters = collView === 'starters', top = collPage.scrollTop;
+    collOwnedKey = COLL.list().join('|');
     document.getElementById('lblCollBack').textContent = C.collBack;
     document.getElementById('collTitle').textContent = C.collTitle;
     document.getElementById('collStarters').textContent = C.collStarters;
-    document.getElementById('collCopy').hidden = ownedKnown().length === 0; if(!collCopyTimer) paintCopyBtn(false);
+    document.getElementById('collCopy').hidden = starters || ownedKnown().length === 0; if(!collCopyTimer) paintCopyBtn(false);
     document.getElementById('collBar').hidden = starters;
     document.getElementById('collLayout').classList.toggle('is-starters', starters);
     document.getElementById('collStartersBtnWrap').hidden = starters;
@@ -56854,7 +56859,6 @@ var EFFECT_CONFIG = {
     var inp = document.getElementById('collSearch');
     inp.placeholder = C.collSearchPh; inp.setAttribute('aria-label', C.collSearchAria);
     document.getElementById('collSClear').setAttribute('aria-label', C.collSearchClear);
-    document.getElementById('lblCollSort').textContent = C.collSortLbl;
     document.getElementById('collAdd').lastElementChild.textContent = C.collAddCards;
     document.getElementById('lblCollFilters').textContent = C.collFiltersBtn;
     document.getElementById('cfTitle').textContent = C.collFiltersTitle;
@@ -56862,7 +56866,7 @@ var EFFECT_CONFIG = {
     document.getElementById('collFilters').setAttribute('aria-label', C.collFiltersTitle);
     document.getElementById('cfClose').setAttribute('aria-label', C.collClose);
     [['Set', C.fSet], ['Color', C.fColor], ['Type', C.fType], ['Kw', C.fAbility], ['Fx', C.fFx], ['Trait', C.rasgos]].forEach(function(p){ document.getElementById('lblCf' + p[0]).textContent = p[1]; });
-    paintCollSort(); renderCollFilters(); renderCollGrid();
+    renderCollFilters(); renderCollGrid();
   }
   function openCollPage(){
     closeSidebar(); closeDeckView(); closeCompPage(); closeAccount();
@@ -56897,7 +56901,6 @@ var EFFECT_CONFIG = {
   document.getElementById('collSClear').addEventListener('click', function(){
     collSearchEl.value = ''; this.hidden = true; collState.search = ''; collShown = COLL_CHUNK; renderCollGrid(); paintCollBadges(); collSearchEl.focus();
   });
-  document.getElementById('collSort').addEventListener('change', function(){ collSort = this.value; collShown = COLL_CHUNK; renderCollGrid(); });
   document.getElementById('collFilterBtn').addEventListener('click', openCollFilters);
   document.getElementById('cfClose').addEventListener('click', closeCollFilters);
   document.getElementById('collApply').addEventListener('click', closeCollFilters);
@@ -56971,7 +56974,7 @@ var EFFECT_CONFIG = {
     paintAddCount();
   }
   function addResults(){ return document.getElementById('addResults'); }
-  function paintAddCount(){ document.getElementById('addTotals').textContent = t().collSub(COLL.size(), COLL.units()); }
+  function paintAddCount(){ document.getElementById('addTotals').textContent = t().collSub(COLL.size()); }
   function renderAddResults(){
     var C = t(), box = addResults(), q = addInput.value.trim(), list = addMatches(q);
     box.innerHTML = ''; addQ = q;

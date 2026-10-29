@@ -50,7 +50,8 @@ for (const W of [1440, 390, 820]) {
   // ---- cabecera
   const head = await ev(`(function(){ var h=document.getElementById('collTitle'), cs=getComputedStyle(h); return { txt:h.textContent, up:cs.textTransform, fam:cs.fontFamily, sub:document.getElementById('collSub').textContent } })()`);
   check('el título es "Mi colección" en mayúsculas con la tipografía Display', head.txt === 'Mi colección' && head.up === 'uppercase' && /Big Shoulders/.test(head.fam), head);
-  check('la cabecera cuenta cartas distintas y unidades', head.sub === `${OWNED.length} cartas distintas · ${UNITS} unidades`, head.sub);
+  check('la cabecera cuenta solo las cartas distintas (sin unidades)', head.sub === `${OWNED.length} cartas distintas`, head.sub);
+  check('el botón de copiar está junto al título y "Mazos iniciales" sigue en la cabecera', await ev(`(function(){ var t=document.getElementById('collTitle').getBoundingClientRect(), c=document.getElementById('collCopy').getBoundingClientRect(); return c.width>0 && Math.abs((c.top+c.height/2)-(t.top+t.height/2)) < 40 && c.left>=t.right-1 })()`), null);
   check('"Mazos iniciales" sigue en la cabecera', (await text('#collStarters')) === 'Mazos iniciales' && (await vis('#collStarters')));
 
   // ---- aprovechamiento del ancho
@@ -81,9 +82,7 @@ for (const W of [1440, 390, 820]) {
   check('el orden por defecto es por código', eq(await cards(), [...OWNED].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
 
   // ---- barra de búsqueda / orden / añadir
-  check('hay buscador, selector de orden y botón "Añadir cartas"', (await vis('#collSearch')) && (await vis('#collSort')) && (await vis('#collAdd')) && /Añadir cartas/.test(await text('#collAdd')), null);
-  const sortOpts = await ev(`Array.from(document.querySelectorAll('#collSort option')).map(function(o){ return o.value })`);
-  check('el orden ofrece código, nombre, set, rareza y recientes (hay fechas)', eq(sortOpts, ['number', 'name', 'set', 'rarity', 'recent']), sortOpts);
+  check('hay buscador y botón "Añadir cartas"', (await vis('#collSearch')) && !(await ev(`!!document.getElementById('collSort')`)) && (await vis('#collAdd')) && /Añadir cartas/.test(await text('#collAdd')), null);
   const count0 = await text('#collCount');
   check('el contador dice "Mostrando 35 de 35 cartas"', count0 === `Mostrando ${OWNED.length} de ${OWNED.length} cartas`, count0);
 
@@ -127,25 +126,16 @@ for (const W of [1440, 390, 820]) {
   check('sin coincidencias se muestra un mensaje y un botón para limpiar', (await vis('#collNoMatch')) && (await vis('#collEmptyClear')), null);
   await click('#collEmptyClear'); await sleep(250);
   check('limpiar desde el mensaje devuelve las cartas y vacía el buscador', (await cards()).length === OWNED.length && (await ev(`document.getElementById('collSearch').value`)) === '', null);
-  await ev(`(function(){ var s=document.getElementById('collSort'); s.value='name'; s.dispatchEvent(new Event('change',{bubbles:true})) })()`); await sleep(250);
-  const byName = [...OWNED].sort((a, b) => cat[a].name.localeCompare(cat[b].name, 'es', { sensitivity: 'base', numeric: true }) || a.localeCompare(b, undefined, { numeric: true }));
-  check('ordenar por nombre A–Z', eq(await cards(), byName), (await cards()).slice(0, 4));
-  await ev(`(function(){ var s=document.getElementById('collSort'); s.value='recent'; s.dispatchEvent(new Event('change',{bubbles:true})) })()`); await sleep(250);
-  check('ordenar por añadidas recientemente (la última del guardado va primero)', (await cards())[0] === OWNED[OWNED.length - 1], (await cards()).slice(0, 3));
-  await ev(`(function(){ var s=document.getElementById('collSort'); s.value='rarity'; s.dispatchEvent(new Event('change',{bubbles:true})) })()`); await sleep(250);
-  const rk = { LR: 0, R: 1, U: 2, C: 3 };
-  const rr = (await cards()).map((n) => rk[cat[n].rarity]);
-  check('ordenar por rareza (de más rara a más común)', rr.every((v, i) => i === 0 || rr[i - 1] <= v), rr);
-  await ev(`(function(){ var s=document.getElementById('collSort'); s.value='number'; s.dispatchEvent(new Event('change',{bubbles:true})) })()`); await sleep(200);
-
   // ---- cantidades
+  await ev(`window.__otra = document.querySelectorAll('#collGrid .cc')[3]; 1`);
   const target = OWNED.find((n, i) => QTY(i) === 1);          // una carta con 1 copia
   const tIdx = OWNED.indexOf(target);
   await ev(`(function(){ var b=document.querySelector('#collGrid .cc[data-number="${target}"] .cc-plus'); b.focus(); b.click() })()`); await sleep(250);
   let st = await stored();
   check('+ suma una copia y se guarda', st[target].q === 2, st[target]);
+  check('cambiar copias solo rehace esa carta (el resto de la cuadrícula no se repinta)', await ev(`window.__otra === document.querySelectorAll('#collGrid .cc')[3] && document.contains(window.__otra)`));
   check('el foco se queda en el botón + de esa carta', await ev(`(function(){ var a=document.activeElement; return a.dataset.role==='plus' && a.closest('.cc').dataset.number==='${target}' })()`), await ev(`document.activeElement.outerHTML.slice(0,80)`));
-  check('la cabecera suma la unidad nueva', (await text('#collSub')) === `${OWNED.length} cartas distintas · ${UNITS + 1} unidades`, await text('#collSub'));
+  check('la cabecera no cambia al sumar una copia', (await text('#collSub')) === `${OWNED.length} cartas distintas`, await text('#collSub'));
   await ev(`document.querySelector('#collGrid .cc[data-number="${target}"] .cc-minus').click()`); await sleep(250);
   st = await stored();
   check('− resta una copia', st[target].q === 1 && (await vis('#confirmModal')) === false, st[target]);
@@ -188,11 +178,11 @@ for (const W of [1440, 390, 820]) {
   st = await stored();
   check('+ en el panel suma otra copia sin duplicar la entrada', st[newCard].q === 2 && Object.keys(st).filter((k) => k === newCard).length === 1, st[newCard]);
   check('el toast confirma la acción', /Añadida/.test(await text('#caddToast')), await text('#caddToast'));
-  check('el panel actualiza el total', (await text('#addTotals')) === `${OWNED.length} cartas distintas · ${UNITS - QTY(tIdx) + 2} unidades`, await text('#addTotals'));
+  check('el panel actualiza el total', (await text('#addTotals')) === `${OWNED.length} cartas distintas`, await text('#addTotals'));
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await sleep(500);
   check('Escape cierra el panel y devuelve el foco al botón', !(await vis('#addDrawer')) && (await ev(`document.activeElement.id`)) === 'collAdd', await ev(`document.activeElement.id`));
   check('el grid de detrás ya tiene la carta nueva con 2 copias', (await cards()).includes(newCard) && (await text(`#collGrid .cc[data-number="${newCard}"] .cc-n`)) === '2', null);
-  check('la cabecera cuenta la carta nueva', (await text('#collSub')) === `${OWNED.length} cartas distintas · ${UNITS - QTY(tIdx) + 2} unidades`, await text('#collSub'));
+  check('la cabecera cuenta la carta nueva', (await text('#collSub')) === `${OWNED.length} cartas distintas`, await text('#collSub'));
   await click('#collAdd'); await sleep(450); await setInput('#addSearch', 'zzzzqq');
   check('buscar algo inexistente muestra un mensaje', /No hay cartas/.test(await text('#addHint')) && (await vis('#addHint')), await text('#addHint'));
   await click('#addClose'); await sleep(450);
@@ -217,11 +207,9 @@ for (const W of [1440, 390, 820]) {
   check('el botón del estado vacío abre el panel de añadir', await vis('#addDrawer'), null);
   await click('#addClose'); await sleep(400);
 
-  // ---- formato antiguo (lista) y orden sin fechas
+  // ---- formato antiguo (lista): cada carta cuenta como 1 copia
   await abrir(JSON.stringify(OWNED.slice(0, 5)));
-  const opts2 = await ev(`Array.from(document.querySelectorAll('#collSort option')).map(function(o){ return o.value })`);
-  check('con colección antigua (lista, sin fechas) no se ofrece ordenar por recientes', eq(opts2, ['number', 'name', 'set', 'rarity']), opts2);
-  check('las cartas antiguas cuentan como 1 copia', (await text('#collSub')) === '5 cartas distintas · 5 unidades', await text('#collSub'));
+  check('una colección guardada con el formato antiguo se lee bien', (await text('#collSub')) === '5 cartas distintas' && (await cards()).length === 5, await text('#collSub'));
 }
 check('sin errores de consola', errs.length === 0, errs);
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');

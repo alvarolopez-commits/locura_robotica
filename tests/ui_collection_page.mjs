@@ -22,14 +22,14 @@ async function load(collection) {
 const stored = () => ev(`Object.keys(JSON.parse(localStorage.getItem('msa_collection') || '{}'))`);
 const openFromAccount = async () => { await ev(`document.getElementById('avatarBtn').click(); 1`); await sleep(400); await ev(`[].filter.call(document.querySelectorAll('#accountBody button'),function(b){return /Mi colección/.test(b.textContent)})[0].click(); 1`); await sleep(800); };
 const vista = () => ev(`(function(){ var p=document.getElementById('collPage'); var g=document.getElementById('collGrid'); var rows=[].slice.call(p.querySelectorAll('.cs-row'));
-  var cp=document.getElementById('collCopy'), st=document.getElementById('collStarters'); var rc=cp&&cp.getBoundingClientRect(), rs=st&&st.getBoundingClientRect();
+  var cp=document.getElementById('collCopy'), st=document.getElementById('collStarters'); var rc=cp&&cp.getBoundingClientRect(), rs=st&&st.getBoundingClientRect(), rt=document.getElementById('collTitle').getBoundingClientRect();
   return { abierta:!p.hidden, titulo:document.getElementById('collTitle').textContent, sub:document.getElementById('collSub').textContent,
     tabs:!!document.getElementById('collTabs'), cuadricula:!!g, tarjetas:g?g.querySelectorAll('.cc').length:0,
     vacio:(p.querySelector('.coll-empty')||{}).textContent||null, masBoton:!!p.querySelector('.coll-more'),
     mazos:rows.map(function(r){ return { set:r.dataset.set, texto:r.textContent.replace(/\\s+/g,' ').trim(), boton:(r.querySelector('button')||{}).textContent } }),
     atras:!!document.getElementById('collBackCards'),
     iniciales: st ? { visible:!st.hidden && rs.width>0, texto:st.textContent.trim() } : null,
-    copiar: cp ? { visible:!cp.hidden && rc.width>0, ancho:Math.round(rc.width), alto:Math.round(rc.height), aria:cp.getAttribute('aria-label'), alLado: !!rs && rc.width>0 && Math.abs(rc.top - rs.top) < 30 && rc.left >= rs.right - 1 } : null,
+    copiar: cp ? { visible:!cp.hidden && rc.width>0, ancho:Math.round(rc.width), alto:Math.round(rc.height), aria:cp.getAttribute('aria-label'), alLado: rc.width>0 && Math.abs((rc.top+rc.height/2) - (rt.top+rt.height/2)) < 40 && rc.left >= rt.right - 1 } : null,
     hScroll:document.documentElement.scrollWidth-document.documentElement.clientWidth } })()`);
 
 for (const W of [390, 1280]) {
@@ -54,14 +54,14 @@ for (const W of [390, 1280]) {
   await ev(`document.querySelector('#collPage .cs-row[data-set="ST01"] button').click(); 1`); await sleep(500);
   let s = await stored(); v = await vista();
   check('"Añadir mazo" añade las 16 cartas de ST01', s.length === 16 && s.every((n) => n.startsWith('ST01-')), s.length);
-  check('el botón pasa a "Tengo el mazo" y el total se actualiza', v.mazos[0].boton === 'Tengo el mazo' && /16 cartas distintas/.test(v.sub), [v.mazos[0].boton, v.sub]);
+  check('el botón pasa a "Tengo el mazo" y el total se actualiza', v.mazos[0].boton === 'Tengo el mazo' && /^16 cartas distintas$/.test(v.sub), [v.mazos[0].boton, v.sub]);
 
   // volver: las cartas salen en la cuadrícula de la colección
   await ev(`document.getElementById('collBackCards').click(); 1`); await sleep(700);
   v = await vista();
   check('al volver se ven las 16 cartas como en el catálogo', v.cuadricula && v.tarjetas === 16, [v.tarjetas]);
   check('las cartas ocupan una cuadrícula (2 columnas en móvil, más en escritorio)', await ev(`(function(){ var g=document.getElementById('collGrid'); return getComputedStyle(g).display==='grid' && getComputedStyle(g).gridTemplateColumns.split(' ').length >= ${W < 900 ? 2 : 3} })()`));
-  check('"copiar" es un botón cuadrado y pequeño, al lado de "Mazos iniciales"', v.copiar && v.copiar.visible && v.copiar.ancho === v.copiar.alto && v.copiar.ancho <= 56 && v.copiar.alLado === true, v.copiar);
+  check('"copiar" es un botón cuadrado y pequeño, junto al título', v.copiar && v.copiar.visible && v.copiar.ancho === v.copiar.alto && v.copiar.ancho <= 56 && v.copiar.alLado === true, v.copiar);
   check('cada carta lleva TENGO y no hay fila "En mi colección"', await ev(`document.querySelectorAll('#collGrid .cc').length === document.querySelectorAll('#collGrid .coll-tag').length && !document.querySelector('#collGrid .coll-row')`));
   check('el botón de copiar tiene nombre accesible', v.copiar && /Copiar mi colección/.test(v.copiar.aria), v.copiar);
 
@@ -87,15 +87,17 @@ for (const W of [390, 1280]) {
   await openFromAccount();
   v = await vista();
   check('con muchas cartas se pinta por tandas (48) y hay "mostrar más"', v.tarjetas === 48 && v.masBoton === true, [v.tarjetas, v.masBoton]);
+  await ev(`window.__primera = document.querySelector('#collGrid .cc'); 1`);
   await ev(`document.querySelector('#collPage .coll-more').click(); 1`); await sleep(700);
   v = await vista();
+  check('"mostrar más" añade la tanda sin repintar las cartas ya pintadas', await ev(`window.__primera === document.querySelector('#collGrid .cc')`));
   check('"mostrar más" completa las 60', v.tarjetas === 60 && v.masBoton === false, [v.tarjetas, v.masBoton]);
 
   // copiar la colección
   await load(['XX99-999', 'ST01-001']);
   await openFromAccount();
   v = await vista();
-  check('una carta desconocida guardada no rompe la pantalla ni se cuenta', v.abierta && /^1 carta distinta/.test(v.sub) && v.tarjetas === 1, [v.sub, v.tarjetas]);
+  check('una carta desconocida guardada no rompe la pantalla ni se cuenta', v.abierta && /^1 carta distinta$/.test(v.sub) && v.tarjetas === 1, [v.sub, v.tarjetas]);
   await ev(`window.__copiado = null; navigator.clipboard.writeText = function(t){ window.__copiado = t; return Promise.resolve(); }; document.getElementById('collCopy').click(); 1`); await sleep(400);
   const copia = await ev(`({ texto:window.__copiado, aria:document.getElementById('collCopy').getAttribute('aria-label'), copiado:document.getElementById('collCopy').dataset.copied })`);
   check('copiar da el número y el nombre de cada carta, por set', copia.texto && /^Mi colección de Gundam Card Game/.test(copia.texto) && /\nST01\nST01-001 · Gundam/.test(copia.texto), copia);
