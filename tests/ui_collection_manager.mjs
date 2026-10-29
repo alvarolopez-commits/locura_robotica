@@ -72,10 +72,11 @@ for (const W of [1440, 390, 820]) {
   check('no hay scroll horizontal', lay.sw <= lay.cw + 1, lay);
 
   // ---- tarjeta: nombre, código, copias y control
-  const first = await ev(`(function(){ var c=document.querySelector('#collGrid .cc'); return { n:c.dataset.number, name:c.querySelector('.cc-name').textContent, meta:c.querySelector('.cc-meta').textContent, q:c.querySelector('.cc-n').textContent, plus:!!c.querySelector('.cc-plus'), minus:!!c.querySelector('.cc-minus'), tengo:c.textContent.indexOf('TENGO')>-1 || c.textContent.indexOf('En mi colecci')>-1 } })()`);
+  const first = await ev(`(function(){ var c=document.querySelector('#collGrid .cc'); return { n:c.dataset.number, name:c.querySelector('.cc-name').textContent, meta:c.querySelector('.cc-meta').textContent, q:c.querySelector('.cc-n').textContent, plus:!!c.querySelector('.cc-plus'), minus:!!c.querySelector('.cc-minus'), tengo:false } })()`);
   const firstNum = (await cards())[0];
   check('cada carta muestra nombre, código y número de copias', first.name === cat[first.n].name && first.meta.startsWith(first.n) && Number(first.q) === SEED_OBJ[first.n].q, first);
-  check('no se repiten "TENGO" ni "En mi colección" en cada carta', first.tengo === false, first);
+  const tg = await ev(`(function(){ var c=document.querySelector('#collGrid .cc'), g=c.querySelector('.coll-tag'), r=g.getBoundingClientRect(), i=c.querySelector('.card-imgwrap').getBoundingClientRect(); return { txt:g.textContent.trim(), dentro:r.top>=i.top && r.right<=i.right+1 && r.width>0, fila:!!c.querySelector('.coll-row'), todas:document.querySelectorAll('#collGrid .cc').length===document.querySelectorAll('#collGrid .coll-tag').length } })()`);
+  check('cada carta lleva la etiqueta TENGO sobre la imagen, sin fila "En mi colección"', tg.txt === 'TENGO' && tg.dentro && !tg.fila && tg.todas, tg);
   check('hay controles − y + por carta', first.plus && first.minus, first);
   check('el orden por defecto es por código', eq(await cards(), [...OWNED].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
 

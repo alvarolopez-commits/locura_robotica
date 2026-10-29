@@ -24,38 +24,15 @@ for (const W of [390, 1280]) {
              fila:(function(){ var r=d.querySelector('.coll-row'); return !!r && r.getBoundingClientRect().height>0 })(), papelera:vis(x), papeleraFondo:x&&getComputedStyle(x).backgroundColor, etiqueta:vis(g), etiquetaTexto:g&&g.textContent.trim(),
              etiquetasVisibles:[].filter.call(document.querySelectorAll('.coll-tag'),vis).length, guardado:localStorage.getItem('msa_collection'), nombre:(d.getAttribute('aria-label')||'').split(' · ')[0] } })()`);
 
-  let s = await st();
-  check('sin colección no hay etiqueta TENGO en ninguna carta', s.etiquetasVisibles === 0, s);
-  check('el botón se llama "Añadir a mi colección"', s.texto === 'Añadir a mi colección', s);
-  check('el botón es #221e41', s.fondo === 'rgb(34, 30, 65)', s);
-  check('el botón mide al menos 44 px de alto', s.alto >= 44, s);
-  check('el botón tiene nombre accesible con la carta', !!s.aria && s.aria.indexOf('Añadir a mi colección') === 0 && s.aria.indexOf(s.nombre) !== -1, s);
-  check('sin añadir no se ve la papelera', s.papelera === false, s);
-
-  await ev(`${tile}.querySelector('.coll-add').click(); 1`); await sleep(300);
-  s = await st();
-  check('tras añadir, la carta ya no muestra la fila "En mi colección" + papelera (basta con TENGO)', s.fila === false && s.papelera === false, s);
-  check('aparece la etiqueta TENGO solo en esa carta', s.etiqueta === true && s.etiquetaTexto === 'TENGO' && s.etiquetasVisibles === 1, s);
-  check('se guarda en el dispositivo', !!s.guardado && Object.keys(JSON.parse(s.guardado)).length === 1, s);
-
-  // idioma inglés con colección creada
-  await ev(`document.querySelector('#langToggle [data-lang="en"]').click(); 1`); await sleep(900);
-  s = await st();
-  check('en inglés los textos cambian', s.texto === 'In my collection' && s.etiquetaTexto === 'OWNED', s);
-  await ev(`document.querySelector('#langToggle [data-lang="es"]').click(); 1`); await sleep(900);
-
-  await ev(`${tile}.querySelector('.coll-del').click(); 1`); await sleep(300);
-  s = await st();
-  check('al quitar la última, desaparecen etiquetas en todas las cartas', s.etiquetasVisibles === 0 && s.papelera === false, s);
-  check('al quitar la última, vuelve la fila con el botón #221e41', s.fila === true && s.fondo === 'rgb(34, 30, 65)' && s.texto === 'Añadir a mi colección', s);
-  // colección ya guardada al cargar la página: las cartas salen marcadas desde el principio, sin tocar nada
-  const primera = await ev(`(function(){ return document.querySelector('.dz-inner .coll-row').dataset.number })()`);
+  const tags = () => ev(`[].filter.call(document.querySelectorAll('.coll-tag'),function(g){ return !g.hidden && g.getBoundingClientRect().width>0 }).length`);
+  check('las cartas del catálogo no llevan botón de colección ni papelera', await ev(`document.querySelectorAll('.dz-inner .coll-row, .dz-inner .coll-add, .dz-inner .coll-del').length`) === 0);
+  check('sin colección no hay etiqueta TENGO en ninguna carta', (await tags()) === 0);
+  // colección ya guardada al cargar la página: la carta sale marcada con TENGO desde el principio
+  const primera = await ev(`document.querySelector('.dz-inner .card-imgwrap').dataset.number`);
   await ev(`localStorage.setItem('msa_collection', JSON.stringify({${JSON.stringify(primera)}:{q:1,t:5}})); 1`);
   await send('Page.reload'); await sleep(3200);
-  const marcada = await ev(`(function(){ var d=document.querySelector('.dz-inner'), b=d.querySelector('.coll-add'), g=d.querySelector('.coll-tag'), x=d.querySelector('.coll-del');
-    return { texto:b.textContent.trim(), fondo:getComputedStyle(b).backgroundColor, etiqueta:!g.hidden && g.getBoundingClientRect().width>0, papelera:!x.hidden, otras:[].filter.call(document.querySelectorAll('.coll-tag'),function(t){return !t.hidden}).length } })()`);
-  check('con la colección ya guardada, la carta sale marcada desde el principio (botón azul en el DOM)', marcada.texto === 'En mi colección' && marcada.fondo === 'rgb(26, 77, 122)', marcada);
-  check('con su etiqueta TENGO, solo en esa carta', marcada.etiqueta === true && marcada.otras === 1, marcada);
+  const marcada = await ev(`(function(){ var d=document.querySelector('.dz-inner'), g=d.querySelector('.coll-tag'); return { etiqueta:!g.hidden && g.getBoundingClientRect().width>0, texto:g.textContent.trim(), otras:[].filter.call(document.querySelectorAll('.coll-tag'),function(t){return !t.hidden}).length } })()`);
+  check('con la colección guardada, la carta sale con su etiqueta TENGO, solo en esa carta', marcada.etiqueta === true && marcada.texto === 'TENGO' && marcada.otras === 1, marcada);
   // ficha de la carta: botón "Añadir a mi colección" y columna +, cantidad, −, papelera sin verde
   await ev(`localStorage.removeItem('msa_collection'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:{}}})); localStorage.setItem('msa_active_deck','d1'); 1`);
   await send('Page.reload'); await sleep(3200);

@@ -62,7 +62,7 @@ for (const W of [390, 1280]) {
   check('al volver se ven las 16 cartas como en el catálogo', v.cuadricula && v.tarjetas === 16, [v.tarjetas]);
   check('las cartas ocupan una cuadrícula (2 columnas en móvil, más en escritorio)', await ev(`(function(){ var g=document.getElementById('collGrid'); return getComputedStyle(g).display==='grid' && getComputedStyle(g).gridTemplateColumns.split(' ').length >= ${W < 900 ? 2 : 3} })()`));
   check('"copiar" es un botón cuadrado y pequeño, al lado de "Mazos iniciales"', v.copiar && v.copiar.visible && v.copiar.ancho === v.copiar.alto && v.copiar.ancho <= 56 && v.copiar.alLado === true, v.copiar);
-  check('las cartas no repiten "TENGO" ni la fila "En mi colección"', await ev(`document.querySelector('#collGrid').textContent.indexOf('TENGO') === -1 && !document.querySelector('#collGrid .coll-row')`));
+  check('cada carta lleva TENGO y no hay fila "En mi colección"', await ev(`document.querySelectorAll('#collGrid .cc').length === document.querySelectorAll('#collGrid .coll-tag').length && !document.querySelector('#collGrid .coll-row')`));
   check('el botón de copiar tiene nombre accesible', v.copiar && /Copiar mi colección/.test(v.copiar.aria), v.copiar);
 
   // quitar una carta con su papelera: desaparece de la cuadrícula

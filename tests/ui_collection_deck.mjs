@@ -24,6 +24,13 @@ const banner = (root) => ev(`(function(){ var b=document.querySelector('${root} 
   return { texto:b.querySelector('summary').textContent.replace(/\\s+/g,' ').trim(), items:[].map.call(b.querySelectorAll('li'),function(l){return l.textContent.replace(/\\s+/g,' ').trim()}), color:cs.color, primero:b===b.parentNode.firstElementChild } })()`);
 const legal = () => ev(`(function(){ var b=document.getElementById('dvLegal'); return b.hidden + '|' + b.textContent.trim() })()`);
 
+
+// añadir/quitar de la colección con el botón de la ficha (el catálogo ya no tiene ese botón): abre la ficha desde una fila del mazo, pulsa y la cierra
+async function viaFicha(container, num, boton) {
+  await ev(`(function(){ var b=[].filter.call(document.querySelectorAll(${JSON.stringify(container)} + ' button'), function(x){ return (x.getAttribute('aria-label')||'').indexOf(${JSON.stringify(num)}) !== -1 })[0]; b.click() })()`); await sleep(1300);
+  await ev(`document.querySelector('.detail ${boton}').click(); 1`); await sleep(400);
+  await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await sleep(1100);
+}
 for (const W of [390, 1280]) {
   console.log('\n== ancho ' + W + ' ==');
   await send('Emulation.setDeviceMetricsOverride', { width: W, height: 900, deviceScaleFactor: 1, mobile: W < 900 });
@@ -50,7 +57,7 @@ for (const W of [390, 1280]) {
   check('tener o no tener cartas no cambia la legalidad del mazo', (await legal()) === legalSin, [legalSin, await legal()]);
 
   // añadir a la colección desde el catálogo repinta el mazo abierto, sin recargar
-  await ev(`document.querySelector('.coll-row[data-number="ST01-005"] .coll-add').click(); 1`); await sleep(500);
+  await viaFicha('#deckView', 'ST01-005', '.coll-add');
   r = await rows('#deckView');
   check('al añadir una carta a la colección, su fila deja de estar atenuada sin recargar', r.filter((x) => x.falta).length === 1, r);
   bn = await banner('#deckView');
@@ -66,7 +73,7 @@ for (const W of [390, 1280]) {
   check('el detalle de Mis mazos también avisa', r.length === 3 && r.filter((x) => x.falta).length === 1 && r.find((x) => x.falta).aviso === 'No la tengo', r);
 
   // quitar la última carta de la colección: desaparecen avisos
-  await ev(`['ST01-001','ST01-005'].forEach(function(n){ document.querySelector('.coll-row[data-number="'+n+'"] .coll-del').click(); }); 1`); await sleep(600);
+  await viaFicha('#dpRows', 'ST01-001', '.coll-del'); await viaFicha('#dpRows', 'ST01-005', '.coll-del');
   r = await rows('#dpRows');
   check('al vaciar la colección desaparece también el aviso superior', (await banner('#dpRows')) === null);
   check('al vaciar la colección desaparecen los avisos en el detalle', r.every((x) => !x.falta && !x.aviso), r);

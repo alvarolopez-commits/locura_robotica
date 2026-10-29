@@ -396,7 +396,9 @@ body.menu-open .db-top{ z-index:46; }
 .cc{ min-width:0; display:flex; flex-direction:column; gap:8px; }
 .cc-open{ display:block; width:100%; padding:0; border:0; border-radius:12px; background:none; color:inherit; text-align:left; cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .cc-img.card-imgwrap{ margin:0; border-radius:10px; background:var(--tone); box-shadow:0 8px 20px -10px rgba(0,0,0,.7); transition:transform .22s var(--ease-out), box-shadow .22s var(--ease-out); }
+.cc-img{ position:relative; }
 .cc-img img{ object-fit:contain; }
+.cc-img .coll-tag{ position:absolute; top:10px; right:0; z-index:2; }
 @media (hover:hover){
   .cc-open:hover .cc-img{ transform:translateY(-4px) scale(1.015); box-shadow:0 18px 32px -12px rgba(139,205,255,.45), 0 0 0 1px rgba(139,205,255,.55); }
 }
@@ -461,7 +463,6 @@ body.menu-open .db-top{ z-index:46; }
 @media (prefers-reduced-motion:reduce){ .cadd-drawer,.coll-filters,.cc-img.card-imgwrap{ transition:none; } .cc-n.bump{ animation:none; } }
 /* tarjeta dentro de Mi colección: sin la fila "En mi colección" + papelera; papelera pequeña bajo la etiqueta TENGO */
 /* en el catálogo, una carta que ya tienes se marca solo con la etiqueta TENGO: sin la fila "En mi colección" + papelera (para quitarla: la ficha o Mi colección) */
-.dz-inner.is-owned .coll-row{ display:none; }
 .coll-add:focus-visible,.coll-del:focus-visible{ outline:2px solid var(--sky-ink); outline-offset:2px; }
 .dz-inner .coll-tag{ position:absolute; top:12px; right:0; z-index:2; }
 .dz-inner .colorbit{ position:absolute; top:24px; left:0; width:4px; height:34px; z-index:2; }
@@ -54239,7 +54240,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.14';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.15';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54260,7 +54261,12 @@ var EFFECT_CONFIG = {
     var inner = row.closest('.dz-inner');
     if(inner){ inner.classList.toggle('is-owned', owned); var tg = inner.querySelector('.coll-tag'); if(tg){ tg.hidden = !owned; tg.textContent = C.collTag; } }
   }
-  /* Fila "Añadir a mi colección" + papelera de una carta del catálogo */
+  /* etiqueta TENGO de una carta del catálogo (el botón para añadir/quitar está en la ficha y en Mi colección) */
+  function paintOwnedTag(inner, num){
+    var owned = COLL.has(num), tg = inner.querySelector('.coll-tag');
+    inner.classList.toggle('is-owned', owned); if(tg){ tg.hidden = !owned; tg.textContent = t().collTag; }
+  }
+  /* Fila "Añadir a mi colección" + papelera (ficha de la carta) */
   function collectionEl(card){
     var row = el('div', 'coll-row'); row.dataset.number = card.number;
     row.addEventListener('click', function(e){ e.stopPropagation(); });      // no abrir la ficha al pulsar
@@ -54273,6 +54279,7 @@ var EFFECT_CONFIG = {
   }
   function repaintCollection(){
     document.querySelectorAll('.coll-row').forEach(paintCollectionRow);
+    document.querySelectorAll('.dz-inner').forEach(function(inner){ var w = inner.querySelector('.card-imgwrap'); if(w) paintOwnedTag(inner, w.dataset.number); });
     if(typeof addDrawer !== 'undefined' && addDrawer && !addDrawer.hidden) paintAddRows();
     if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) renderColl();
     if(typeof deckView !== 'undefined' && deckView && !deckView.hidden) renderDeckView();
@@ -55135,7 +55142,6 @@ var EFFECT_CONFIG = {
     var ctag = el('div','delta delta-up coll-tag', t().collTag); ctag.hidden = true; inner.appendChild(ctag);
     var body = el('div','card-body');
     body.appendChild(adderEl(card.number));   /* el selector va primero: misma altura en todas las tarjetas de la fila */
-    body.appendChild(collectionEl(card));
     var rb = ruleBadgesEl(card.number); if(rb) body.appendChild(rb);
     var fxRow = el('div','card-fxrow'), fxs = fxSummary(card);
     fxs.slice(0,2).forEach(function(e){ fxRow.appendChild(fxBox(e)); });
@@ -55143,7 +55149,7 @@ var EFFECT_CONFIG = {
     body.appendChild(fxRow);
     inner.appendChild(body);
     dz.appendChild(inner);
-    paintCollectionRow(body.querySelector('.coll-row'));   // ya montada: marca la carta (botón azul, TENGO, papelera) si está en la colección
+    paintOwnedTag(inner, card.number);   // ya montada: marca la carta con TENGO si está en la colección
     return {dz:dz, inner:inner};
   }
 
@@ -56759,6 +56765,7 @@ var EFFECT_CONFIG = {
     var open = el('button', 'cc-open'); open.type = 'button'; open.dataset.role = 'open'; open.setAttribute('aria-label', card.name + ' · ' + n);
     var wrap = el('div', 'card-imgwrap cc-img'); wrap.dataset.number = n;
     var img = document.createElement('img'); img.loading = 'lazy'; img.decoding = 'async'; img.src = 'images/' + n + '.webp'; img.alt = ''; wrap.appendChild(img);
+    wrap.appendChild(el('div', 'delta delta-up coll-tag', t().collTag));   // TENGO: toda carta de esta pantalla la tienes
     open.appendChild(wrap); open.addEventListener('click', function(){ openDetail(card, wrap); });
     cc.appendChild(open);
     var info = el('div', 'cc-info'); info.appendChild(el('div', 'cc-name', card.name)); info.appendChild(el('div', 'cc-meta', n + ' · ' + card.rarity));
