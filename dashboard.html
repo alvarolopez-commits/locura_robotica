@@ -253,6 +253,32 @@ body.menu-open .db-top{ z-index:46; }
 .dz-inner:active{ transform:scale(.985); }
 .dz-qty{ position:absolute; top:44px; right:14px; z-index:3; min-width:28px; height:28px; padding:0 7px; border-radius:9999px; display:grid; place-items:center; background:#2fa85f; color:#fff; font-family:var(--font-display); font-size:17px; font-weight:700; line-height:1; box-shadow:0 0 0 2px #fff, 0 3px 8px rgba(0,0,0,.28); pointer-events:none; }
 .dz-qty[hidden]{ display:none; }
+/* Mi colección: botón en la carta, etiqueta TENGO y papelera */
+.coll-row{ display:flex; gap:6px; margin-top:6px; }
+.coll-add{ flex:1; min-width:0; min-height:44px; padding:0 8px; border:0; cursor:pointer; background:#221e41; color:#fff; font:inherit; font-size:13px; font-weight:700; line-height:1.15; text-align:center; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); transition:background .15s var(--ease), transform .12s var(--ease); }
+.coll-add:active{ transform:scale(.98); }
+.dz-inner.is-owned .coll-add{ background:#1a4d7a; }
+.coll-del{ flex:none; width:44px; min-height:44px; display:grid; place-items:center; border:0; cursor:pointer; background:#dce5ed; color:#221e41; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.coll-del[hidden],.coll-tag[hidden]{ display:none; }
+.coll-del:hover{ background:#cfdae5; }
+.collPage .coll-add{ box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); }
+.cs-row{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--panel); margin-bottom:6px; }
+.cs-row b{ font-family:var(--font-display); font-size:20px; letter-spacing:.06em; color:var(--fg-1); min-width:54px; }
+.cs-n{ flex:1; min-width:0; color:var(--fg-3); font-size:13px; }
+.cs-btn{ flex:none; min-height:44px; padding:0 14px; border:0; cursor:pointer; background:#221e41; color:#fff; font:inherit; font-size:13px; font-weight:700; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.cs-btn.on{ background:#1a4d7a; }
+.cs-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+.cc-row{ display:grid; grid-template-columns:40px minmax(0,1fr); gap:6px 10px; align-items:center; padding:8px 4px; box-shadow:inset 0 -1px 0 var(--line); }
+.cc-row img{ width:40px; height:56px; object-fit:cover; background:var(--tone); display:block; }
+.cc-name{ font-size:14px; font-weight:700; color:var(--fg-1); line-height:1.25; }
+.cc-name small{ display:block; margin-top:2px; font-size:12px; font-weight:500; color:var(--fg-3); }
+.cc-row .coll-row{ grid-column:1 / -1; margin:0; }
+@media (min-width:640px){ .cc-row{ grid-template-columns:40px minmax(0,1fr) 270px; } .cc-row .coll-row{ grid-column:auto; } }
+.cl-group h3{ margin:16px 0 4px; font-family:var(--font-display); font-size:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-1); }
+.cl-empty{ margin:6px 0 0; color:var(--fg-2); }
+.cs-sets{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
+.coll-add:focus-visible,.coll-del:focus-visible{ outline:2px solid var(--sky-ink); outline-offset:2px; }
+.dz-inner .coll-tag{ position:absolute; top:12px; right:0; z-index:2; }
 .dz-inner .colorbit{ position:absolute; top:24px; left:0; width:4px; height:34px; z-index:2; }
 .dz-inner .colorbit[data-color="Blue"]{ background:var(--c-blue); } .dz-inner .colorbit[data-color="Green"]{ background:var(--c-green); }
 .dz-inner .colorbit[data-color="Red"]{ background:var(--c-red); } .dz-inner .colorbit[data-color="Purple"]{ background:var(--c-purple); }
@@ -346,13 +372,17 @@ body.is-building .adder{ display:grid; gap:8px; }
 /* ===== BARRA INFERIOR ===== */
 .tabbar{
   position:fixed; z-index:38; left:0; right:0; bottom:0; height:var(--tab-total); padding:0 6px env(safe-area-inset-bottom,0px);
-  display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:var(--navy); box-shadow:inset 0 2px 0 rgba(139,205,255,.28);
+  display:grid; grid-template-columns:repeat(5,1fr); gap:2px; background:var(--navy); box-shadow:inset 0 2px 0 rgba(139,205,255,.28);
 }
 .tb-item{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:var(--on-navy-2); font-size:12px; font-weight:700; letter-spacing:.02em; transition:color .2s var(--ease), background .2s var(--ease), transform .15s var(--ease); }
 .tb-item:active{ transform:scale(.94); }
 .tb-item.is-active{ color:var(--sky); background:rgba(139,205,255,.1); }
 .tb-item.is-active::before{ content:""; position:absolute; top:0; left:22%; right:22%; height:3px; background:var(--sky); }
 .tb-ico{ position:relative; display:flex; }
+/* icono de Mi colección: el PNG blanco del usuario como máscara, para que tome el color de cada estado */
+.coll-ico{ flex:none; width:20px; height:20px; background:currentColor; -webkit-mask:url(icons/tab-coleccion.png) center / contain no-repeat; mask:url(icons/tab-coleccion.png) center / contain no-repeat; }
+.pm-item .coll-ico{ width:16px; height:16px; }
+@media (max-width:359px){ .tabbar{ padding-left:2px; padding-right:2px; gap:0; } .tb-item{ font-size:11.5px; letter-spacing:0; } }
 .tb-badge{ position:absolute; top:-7px; right:-12px; min-width:18px; height:18px; padding:0 5px; background:var(--rose); color:var(--rose-ink); font-family:var(--font-display); font-size:13px; font-style:normal; font-weight:700; display:flex; align-items:center; justify-content:center; clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%); }
 .tb-new{ color:var(--on-navy); }
 .tb-plus{ width:42px; height:30px; display:flex; align-items:center; justify-content:center; background:var(--sky); color:var(--sky-ink); clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%); }
@@ -455,7 +485,14 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-row{ display:grid; grid-template-columns:auto auto minmax(0,1fr) auto; align-items:center; gap:8px; min-height:62px; padding:0 6px; background:transparent; box-shadow:inset 0 -1px 0 var(--line); color:var(--fg-1); transition:background .15s var(--ease); }
 .dv-row:hover{ background:rgba(255,255,255,.06); }
 .dv-color{ width:100%; max-width:920px; }   /* en pantallas anchas el nombre y sus botones quedaban a 800 px de distancia */
-.dv-row.is-zero{ opacity:.5; }   /* detalle de Mis mazos: carta quitada en esta visita, se queda para poder volver a añadirla */
+.dv-row.is-zero{ opacity:.5; }
+.dv-row.is-missing .dv-thumb,.dv-row.is-missing .dv-qty,.dv-row.is-missing .dv-cbit{ opacity:.5; }   /* carta que no tengo: se atenúa y lleva el aviso */
+.dv-row.is-missing .dv-name{ color:var(--fg-3); }
+.coll-banner{ margin:0 0 4px; padding:0 12px 10px; background:rgba(216,101,101,.12); border-left:3px solid #d86565; max-width:920px; }
+.coll-banner summary{ min-height:44px; display:flex; align-items:center; cursor:pointer; font-size:15px; font-weight:700; color:#d86565; }
+.coll-banner summary:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+.coll-banner-list{ margin:0; padding-left:18px; color:var(--fg-2); font-size:14px; line-height:1.6; }
+.coll-miss{ display:block; margin-top:2px; font-size:12px; font-weight:700; color:#d86565; }   /* detalle de Mis mazos: carta quitada en esta visita, se queda para poder volver a añadirla */
 .dv-cname{ margin:0; }
 .dv-open{ display:grid; grid-template-columns:44px minmax(0,1fr); align-items:center; gap:10px; min-width:0; min-height:62px; padding:4px 4px 4px 4px; text-align:left; color:inherit; background:transparent; }
 .dv-open:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
@@ -1092,6 +1129,10 @@ html{ touch-action:manipulation; }
 .deck-menu button.is-danger{ color:#f4a6a6; }
 .deck-menu button.is-armed{ background:#9f2a24; color:#fff; }
 /* ===== COMPETICIÓN · LISTAS ===== */
+.dl-evchip{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 0 14px; min-height:44px; background:rgba(139,205,255,.14); color:var(--fg-1); font-size:14px; font-weight:700; }
+.dl-evchip span{ min-width:0; overflow-wrap:anywhere; }
+.dl-evchip button{ flex:none; width:44px; height:44px; display:grid; place-items:center; color:var(--sky); }
+.dl-evchip button:focus-visible{ outline:2px solid #fff; outline-offset:-2px; }
 .dl-filters{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; }
 .dl-field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
 .dl-field span{ font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-3); }
@@ -1258,13 +1299,13 @@ html{ touch-action:manipulation; }
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
           <span id="lblPmMyDecks">Ver mis mazos</span>
         </button>
+        <button type="button" class="pm-item" id="pmCollection" role="menuitem">
+          <span class="coll-ico" aria-hidden="true"></span>
+          <span id="lblPmCollection">Mi colección</span>
+        </button>
         <button type="button" class="pm-item" id="pmCompetition" role="menuitem">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 2.5h7v3.8a3.5 3.5 0 0 1-7 0V2.5zM4.5 4H2.7v.9a2 2 0 0 0 2.1 2M11.5 4h1.8v.9a2 2 0 0 1-2.1 2M8 9.8v2.4M5.5 13.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span id="lblPmCompetition">Competición</span>
-        </button>
-        <button type="button" class="pm-item" id="pmAccount" role="menuitem">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.5" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M2.8 13.6c.7-2.4 2.7-3.6 5.2-3.6s4.5 1.2 5.2 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <span id="lblPmAccount">Iniciar sesión</span>
         </button>
       </div>
     </div>
@@ -1432,6 +1473,10 @@ html{ touch-action:manipulation; }
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
     <span id="lblTbDecks">Mazos</span>
   </button>
+  <button type="button" class="tb-item" id="tbCollection">
+    <span class="coll-ico" aria-hidden="true"></span>
+    <span id="lblTbCollection">Colección</span>
+  </button>
 </nav>
 
 <section class="decksPage" id="decksPage" hidden>
@@ -1533,6 +1578,22 @@ html{ touch-action:manipulation; }
   </div>
 </section>
 
+<section class="decksPage collPage" id="collPage" hidden aria-labelledby="collTitle">
+  <div class="dp-inner">
+    <button type="button" class="dp-back" id="collBack">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="lblCollBack">Catálogo</span>
+    </button>
+    <div class="dp-head">
+      <h1 class="dp-title" id="collTitle">Mi colección</h1>
+      <p class="comp-sub" id="collSub"></p>
+      <button type="button" class="dp-btn" id="collCopy" hidden></button>
+    </div>
+    <div class="comp-tabs" id="collTabs" role="tablist"></div>
+    <div class="comp-panel" id="collPanel" role="tabpanel" tabindex="0"></div>
+  </div>
+</section>
+
 <div class="legalScrim" id="legalScrim" hidden></div>
 <div class="legalScrim" id="accountScrim" hidden></div>
 <div class="legalScrim" id="nameScrim" hidden style="z-index:90"></div>
@@ -1589,6 +1650,7 @@ html{ touch-action:manipulation; }
 <script src="config.js"></script>
 <script src="decks_sync.js"></script>
 <script src="meta.js"></script>
+<script src="collection.js"></script>
 <script src="data/meta/competition.js" onerror="void 0"></script>
 <script>
 var CARDS_DATA = [
@@ -52763,7 +52825,13 @@ var EFFECT_CONFIG = {
       fSet:'Set', fColor:'Color', fType:'Tipo', fAbility:'Habilidad', fAct:'Activación', fFx:'Efecto', secAbility:'Habilidad', secEffects:'Efectos', fxMoreAria:function(n){ return n+' efectos más'; },
       showCat:'mostrar categorías', hideCat:'ocultar categorías',
       resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros',
-      tengo:'Tengo', enColeccion:'En tu colección',
+      tengo:'Tengo', enColeccion:'En tu colección', collAdd:'Añadir a mi colección', collHave:'En mi colección', collRemove:'Quitar de mi colección', collTag:'TENGO', collMiss:'No la tengo', collBanner:function(n){ return n === 1 ? 'Te falta 1 carta de este mazo' : 'Te faltan '+n+' cartas de este mazo'; }, collTitle:'Mi colección', collBack:'Catálogo', collOpen:'Mi colección', collCopy:'Copiar mi colección', collCopied:'Copiado',
+      collCopyHead:function(n){ return 'Mi colección de Gundam Card Game ('+n+(n === 1 ? ' carta distinta' : ' cartas distintas')+', sin cantidades):'; },
+      collSub:function(n){ return n === 0 ? 'Aún no tienes ninguna carta. Empieza añadiendo un mazo inicial o las cartas que tengas.' : n+(n === 1 ? ' carta distinta' : ' cartas distintas'); },
+      collTabs:{ starters:'Mazos iniciales', expansions:'Expansiones', all:'Todas' },
+      collStartersIntro:'Marca los mazos iniciales que tengas: se añaden todas sus cartas de golpe. Volver a pulsarlo las quita.', collExpIntro:'Añade carta a carta lo que tengas de cada expansión.',
+      collAddDeck:'Añadir mazo', collHaveDeck:'Tengo el mazo', collNCards:function(n){ return n+' cartas'; }, collPartial:function(h, n){ return h+' de '+n+' cartas'; },
+      collAllEmpty:'Todavía no hay nada aquí. Añade un mazo inicial, o cartas desde las expansiones o el catálogo.',
       noResults:'Ninguna carta coincide con estos filtros.', loading:'Cargando…',
       color:'Color', nivel:'Nivel', coste:'Coste', tipo:'Tipo', rasgos:'Rasgos', link:'Link', zona:'Zona',
       efecto:'Efecto', vainillaTxt:'Sin efecto. Carta vainilla.', origen:'Origen:', disponibleEn:'Disponible en:',
@@ -52855,7 +52923,7 @@ var EFFECT_CONFIG = {
       linkPilots:'Pilotos con los que linkea', linkUnits:'Unidades con las que linkea',
       linkNonePilot:'Ningún piloto de estos sets cumple su link.', linkNoneUnit:'Ninguna unidad de estos sets linkea con este piloto.',
       linkByName:'Link directo', linkByTrait:function(tr){ return 'Rasgo · '+tr; },
-      tbCatalog:'Catálogo', tbFilters:'Filtros', tbNew:'Nuevo', tbDecks:'Mazos', closeFilters:'Cerrar filtros',
+      tbCatalog:'Catálogo', tbFilters:'Filtros', tbNew:'Nuevo', tbDecks:'Mazos', tbCollection:'Colección', closeFilters:'Cerrar filtros',
       installTitle:'Instala la app', installBodyPrompt:'Ábrela a pantalla completa y úsala sin conexión.',
       installBodyIOS:'Toca Compartir y elige «Añadir a pantalla de inicio».',
       installBodyMenu:'En el menú del navegador elige «Instalar app» o «Añadir a pantalla de inicio».',
@@ -52978,7 +53046,13 @@ var EFFECT_CONFIG = {
       fSet:'Set', fColor:'Color', fType:'Type', fAbility:'Ability', fAct:'Activation', fFx:'Effect', secAbility:'Ability', secEffects:'Effects', fxMoreAria:function(n){ return n+' more effects'; },
       showCat:'show categories', hideCat:'hide categories',
       resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters',
-      tengo:'Owned', enColeccion:'In your collection',
+      tengo:'Owned', enColeccion:'In your collection', collAdd:'Add to my collection', collHave:'In my collection', collRemove:'Remove from my collection', collTag:'OWNED', collMiss:'Not owned', collBanner:function(n){ return n === 1 ? 'You are missing 1 card from this deck' : 'You are missing '+n+' cards from this deck'; }, collTitle:'My collection', collBack:'Catalog', collOpen:'My collection', collCopy:'Copy my collection', collCopied:'Copied',
+      collCopyHead:function(n){ return 'My Gundam Card Game collection ('+n+(n === 1 ? ' distinct card' : ' distinct cards')+', no quantities):'; },
+      collSub:function(n){ return n === 0 ? 'You have no cards yet. Start by adding a starter deck or the cards you own.' : n+(n === 1 ? ' distinct card' : ' distinct cards'); },
+      collTabs:{ starters:'Starter decks', expansions:'Expansions', all:'All' },
+      collStartersIntro:'Mark the starter decks you own: all their cards are added at once. Press again to remove them.', collExpIntro:'Add the cards you own from each expansion, one by one.',
+      collAddDeck:'Add deck', collHaveDeck:'I have the deck', collNCards:function(n){ return n+' cards'; }, collPartial:function(h, n){ return h+' of '+n+' cards'; },
+      collAllEmpty:'Nothing here yet. Add a starter deck, or cards from the expansions or the catalog.',
       noResults:'No card matches these filters.', loading:'Loading…',
       color:'Color', nivel:'Level', coste:'Cost', tipo:'Type', rasgos:'Traits', link:'Link', zona:'Zone',
       efecto:'Effect', vainillaTxt:'No effect. Vanilla card.', origen:'Source:', disponibleEn:'Available in:',
@@ -53070,7 +53144,7 @@ var EFFECT_CONFIG = {
       linkPilots:'Pilots it links with', linkUnits:'Units it links with',
       linkNonePilot:'No pilot in these sets meets its link.', linkNoneUnit:'No unit in these sets links with this pilot.',
       linkByName:'Direct link', linkByTrait:function(tr){ return 'Trait · '+tr; },
-      tbCatalog:'Catalog', tbFilters:'Filters', tbNew:'New', tbDecks:'Decks', closeFilters:'Close filters',
+      tbCatalog:'Catalog', tbFilters:'Filters', tbNew:'New', tbDecks:'Decks', tbCollection:'Collection', closeFilters:'Close filters',
       installTitle:'Install the app', installBodyPrompt:'Open it full-screen and use it offline.',
       installBodyIOS:'Tap Share, then “Add to Home Screen”.',
       installBodyMenu:'In the browser menu choose “Install app” or “Add to Home screen”.',
@@ -53870,12 +53944,44 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.4';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.8';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
   function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   function lsSet(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+  /* Mi colección: cartas que la persona tiene (sin cantidades). Si el módulo no cargara, queda una colección inerte y la app sigue como siempre. */
+  var COLL = window.Collection ? Collection.create({ load:function(){ return lsGet(Collection.KEY); }, save:function(t){ lsSet(Collection.KEY, t); } })
+    : { has:function(){ return false; }, exists:function(){ return false; }, isMissing:function(){ return false; }, hasAll:function(){ return false; }, size:function(){ return 0; }, list:function(){ return []; },
+        add:function(){}, remove:function(){}, addMany:function(){}, removeMany:function(){}, onChange:function(){} };
+  function paintCollectionRow(row){
+    var num = row.dataset.number, owned = COLL.has(num), C = t(), name = (cardByNumber(num) || {}).name || num;
+    var add = row.querySelector('.coll-add'), del = row.querySelector('.coll-del');
+    add.textContent = owned ? C.collHave : C.collAdd;
+    add.setAttribute('aria-label', (owned ? C.collHave : C.collAdd) + ' · ' + name); add.setAttribute('aria-pressed', String(owned));
+    del.hidden = !owned; del.setAttribute('aria-label', C.collRemove + ' · ' + name); del.title = C.collRemove;
+    var inner = row.closest('.dz-inner');
+    if(inner){ inner.classList.toggle('is-owned', owned); var tg = inner.querySelector('.coll-tag'); if(tg){ tg.hidden = !owned; tg.textContent = C.collTag; } }
+  }
+  /* Fila "Añadir a mi colección" + papelera de una carta del catálogo */
+  function collectionEl(card){
+    var row = el('div', 'coll-row'); row.dataset.number = card.number;
+    row.addEventListener('click', function(e){ e.stopPropagation(); });      // no abrir la ficha al pulsar
+    var add = document.createElement('button'); add.type = 'button'; add.className = 'coll-add';
+    var del = document.createElement('button'); del.type = 'button'; del.className = 'coll-del'; del.innerHTML = TRASH_SVG;
+    add.addEventListener('click', function(){ if(!COLL.has(card.number)) COLL.add(card.number); });
+    del.addEventListener('click', function(){ COLL.remove(card.number); });
+    row.appendChild(add); row.appendChild(del); paintCollectionRow(row);
+    return row;
+  }
+  function repaintCollection(){
+    document.querySelectorAll('.coll-row').forEach(paintCollectionRow);
+    if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) renderColl();
+    if(typeof deckView !== 'undefined' && deckView && !deckView.hidden) renderDeckView();
+    var dpd = document.getElementById('dpDetail'), dpg = document.getElementById('decksPage');
+    if(dpd && !dpd.hidden && dpg && !dpg.hidden && dpDeckId) renderDeckDetail();
+  }
+  COLL.onChange(function(){ repaintCollection(); });
   function cloudHost(){
     return {
       client: function(){ return cloud.client; },
@@ -53941,7 +54047,7 @@ var EFFECT_CONFIG = {
       b.hidden = !show; b.dataset.state = ph; b.lastChild.textContent = label;
       b.setAttribute('aria-live', 'polite'); b.title = ph === 'conflict' ? C.conflict : (st.message || '');
     });
-    paintCloudNote(); paintAccountMenu(); if(!document.getElementById('accountModal').hidden) renderAccount();
+    paintCloudNote(); if(!document.getElementById('accountModal').hidden) renderAccount();
   }
   function onSaveChipClick(){
     var ph = (cloud.state || {}).phase;
@@ -54058,12 +54164,6 @@ var EFFECT_CONFIG = {
   }
   /* ----- ventana de cuenta ----- */
   var accountOpener = null, accountMsg = null, accountBusy = false, accountEmail = '', accountMode = 'password';
-  function paintAccountMenu(){
-    var b = document.getElementById('lblPmAccount'); if(!b) return;
-    var es = LANG === 'es';
-    b.textContent = cloud.user ? (es ? 'Mi cuenta' : 'My account') : (es ? 'Iniciar sesión' : 'Sign in');
-    var it = document.getElementById('pmAccount'); if(it) it.hidden = !cloud.configured;
-  }
   function openAccount(){
     accountOpener = document.activeElement; renderAccount();
     var m = document.getElementById('accountModal'), sc = document.getElementById('accountScrim');
@@ -54217,6 +54317,7 @@ var EFFECT_CONFIG = {
     document.getElementById('accountTitle').textContent = C.accountTitle;
     document.getElementById('accountClose').setAttribute('aria-label', t().cloud.accountClose || (LANG === 'es' ? 'Cerrar' : 'Close'));
     body.appendChild(avatarSection());
+    var cb = el('button', 'dp-btn', t().collOpen + (ownedKnown().length ? ' · ' + ownedKnown().length : '')); cb.type = 'button'; cb.addEventListener('click', openCollPage); body.appendChild(cb);
     if(!cloud.configured){ body.appendChild(diagSection()); return; }
     if(cloud.loadFailed){ body.appendChild(el('p','acc-msg is-err', C.notReady)); body.appendChild(diagSection()); return; }
     if(cloud.user){
@@ -54724,8 +54825,10 @@ var EFFECT_CONFIG = {
     var img = document.createElement('img'); img.loading='lazy'; img.src='images/'+card.number+'.webp'; img.alt=card.name;
     imgwrap.appendChild(img); inner.appendChild(imgwrap);
     var qty = el('span','dz-qty'); qty.dataset.number = card.number; inner.appendChild(qty); paintTileQty(qty);
+    var ctag = el('div','delta delta-up coll-tag', t().collTag); ctag.hidden = true; inner.appendChild(ctag);
     var body = el('div','card-body');
     body.appendChild(adderEl(card.number));   /* el selector va primero: misma altura en todas las tarjetas de la fila */
+    body.appendChild(collectionEl(card));
     var rb = ruleBadgesEl(card.number); if(rb) body.appendChild(rb);
     var fxRow = el('div','card-fxrow'), fxs = fxSummary(card);
     fxs.slice(0,2).forEach(function(e){ fxRow.appendChild(fxBox(e)); });
@@ -55082,7 +55185,6 @@ var EFFECT_CONFIG = {
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
     document.getElementById('lblPmMyDecks').textContent = t().myDecks;
     document.getElementById('lblPmCompetition').textContent = t().pmCompetition;
-    paintAccountMenu();
     document.getElementById('menuBtn').setAttribute('aria-label', t().menuOpen);
     if(!document.getElementById('compPage').hidden) renderComp(); else document.getElementById('lblCompBack').textContent = t().dpBackCatalog;
     document.getElementById('compTitle').textContent = t().compTitle;
@@ -55092,6 +55194,8 @@ var EFFECT_CONFIG = {
     document.getElementById('lblTbFilters').textContent = t().tbFilters;
     document.getElementById('lblTbNew').textContent = t().tbNew;
     document.getElementById('lblTbDecks').textContent = t().tbDecks;
+    document.getElementById('lblTbCollection').textContent = t().tbCollection;
+    document.getElementById('lblPmCollection').textContent = t().collOpen;
     document.getElementById('lblSheetTitle').textContent = t().tbFilters;
     document.getElementById('sbClose').setAttribute('aria-label', t().closeFilters);
     document.getElementById('lblCompareTitle').textContent = t().compareTitle;
@@ -55179,9 +55283,9 @@ var EFFECT_CONFIG = {
   });
 
   function updateTabbar(){
-    var comp = document.getElementById('compPage'), dvw = document.getElementById('deckView');
-    var active = (comp && !comp.hidden) || (dvw && !dvw.hidden) ? null : !document.getElementById('decksPage').hidden ? 'tbDecks' : sidebar.classList.contains('open') ? 'tbFilters' : 'tbCatalog';
-    ['tbCatalog','tbFilters','tbDecks'].forEach(function(id){
+    var comp = document.getElementById('compPage'), dvw = document.getElementById('deckView'), col = document.getElementById('collPage');
+    var active = col && !col.hidden ? 'tbCollection' : (comp && !comp.hidden) || (dvw && !dvw.hidden) ? null : !document.getElementById('decksPage').hidden ? 'tbDecks' : sidebar.classList.contains('open') ? 'tbFilters' : 'tbCatalog';
+    ['tbCatalog','tbFilters','tbDecks','tbCollection'].forEach(function(id){
       var b = document.getElementById(id);
       b.classList.toggle('is-active', id===active);
       if(id===active) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
@@ -55215,6 +55319,7 @@ var EFFECT_CONFIG = {
     scrollTopSmart();
     openAddDeckPanel();
   });
+  document.getElementById('tbCollection').addEventListener('click', function(){ if(collPage.hidden) openCollPage(); else collPage.scrollTop = 0; });
   document.getElementById('tbDecks').addEventListener('click', function(){ closeSidebar(); closeCompPage(); closeDeckView(); openDecksPage(); });
 
   /* Acordeón Añadir mazo / Ver mis mazos: solo uno seleccionado */
@@ -55307,6 +55412,15 @@ var EFFECT_CONFIG = {
      Fila: copias · color · carta · − + papelera. edit(number, kind, fn) aplica el cambio y repinta. */
   function deckSegments(target, entries, edit){
     var L = t(), V = L.deckView;
+    /* Aviso superior: qué cartas del mazo no tengo (solo con colección creada; las que están a 0 no cuentan) */
+    var lacking = entries.filter(function(e){ return e.qty > 0 && COLL.isMissing(e.card.number); }).sort(function(a, b){ return a.card.number.localeCompare(b.card.number); });
+    if(lacking.length){
+      var bn = document.createElement('details'); bn.className = 'coll-banner'; bn.open = lacking.length <= 6;
+      var sm = document.createElement('summary'); sm.textContent = L.collBanner(lacking.length); bn.appendChild(sm);
+      var ul = el('ul', 'coll-banner-list');
+      lacking.forEach(function(e){ ul.appendChild(el('li', null, e.card.name + ' (' + e.card.number + ')')); });
+      bn.appendChild(ul); target.appendChild(bn);
+    }
     function stat(c, k){ var n = parseInt(c[k], 10); return isNaN(n) ? 0 : n; }
     ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
       var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
@@ -55324,12 +55438,13 @@ var EFFECT_CONFIG = {
       sec.appendChild(head);
       var rows = el('div','dv-rows');
       sorted.forEach(function(e){
-        var c = e.card, row = el('div','dv-row'+(e.qty === 0 ? ' is-zero' : ''));
+        var c = e.card, missing = COLL.isMissing(c.number), row = el('div','dv-row'+(e.qty === 0 ? ' is-zero' : '')+(missing ? ' is-missing' : ''));
         var cbit = el('span','dd-pip dv-cbit'); cbit.dataset.color = c.color; cbit.setAttribute('aria-hidden','true');
         var open = document.createElement('button'); open.type = 'button'; open.className = 'dv-open';
         open.setAttribute('aria-label', c.name+' · '+c.number+' ×'+e.qty+' · '+V.openCard);
         var th2 = el('span','dv-thumb'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+c.number+'.webp'; th2.appendChild(im);
         var nm = el('span','dv-name', c.name); nm.appendChild(el('span','dv-meta', c.number+' · '+V.lv+' '+c.lv+' · '+V.cost+' '+c.cost));
+        if(missing) nm.appendChild(el('span','coll-miss', L.collMiss));
         open.appendChild(th2); open.appendChild(nm);
         open.addEventListener('click', function(){ openDetail(c, im); });
         var step = el('div','dv-step');
@@ -55866,15 +55981,17 @@ var EFFECT_CONFIG = {
     }
     var events = {}, evDate = {}; all.forEach(function(x){ var e = x.d.event; if(e && e.id){ var k = evKey(e); events[k] = (e.title || U.noEvent)+(e.date ? ' · '+fmtDate(e.date) : ''); evDate[k] = e.date || ''; } });
     var archOpts = [['', U.allArch]].concat(DL.data.archetypes.map(function(a){ return [a.id, a.name+' ('+a.decks.length+')']; }));
-    var evOpts = [['', U.allEvents]].concat(Object.keys(events).sort(function(a, b){ return String(evDate[b]).localeCompare(String(evDate[a])) || events[a].localeCompare(events[b]); }).map(function(k){ return [k, events[k]]; }));
     var fl = el('div','dl-filters');
     fl.appendChild(field(U.fArch, 'dlArch', archOpts, DL.arch, function(v){ DL.arch = v; }));
-    fl.appendChild(field(U.fEvent, 'dlEvent', evOpts, DL.event, function(v){ DL.event = v; }));
-    fl.appendChild(field(U.fSort, 'dlSort', [['recent', U.fSort+': '+U.sortRecent], ['place', U.fSort+': '+U.sortPlace]], DL.sort, function(v){ DL.sort = v; }));
     panel.appendChild(fl);
+    if(DL.event && events[DL.event]){   // viene de la pestaña Eventos: se enseña el evento filtrado y se puede quitar
+      var chip = el('div','dl-evchip'); chip.appendChild(el('span', null, U.fEvent+': '+events[DL.event]));
+      var cx = document.createElement('button'); cx.type = 'button'; cx.innerHTML = ICON_X; cx.setAttribute('aria-label', U.allEvents); cx.title = U.allEvents;
+      cx.addEventListener('click', function(){ DL.event = ''; DL.shown = 12; renderComp(); });
+      chip.appendChild(cx); panel.appendChild(chip);
+    }
     var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && evKey(x.d.event) === DL.event)); });
-    rows.sort(function(x, y){
-      if(DL.sort === 'place') return ((x.d.place || 99) - (y.d.place || 99)) || String(y.d.event.date).localeCompare(String(x.d.event.date));
+    rows.sort(function(x, y){   // siempre lo más reciente primero; a igual fecha, mejor puesto
       return String(y.d.event.date).localeCompare(String(x.d.event.date)) || ((x.d.place || 99) - (y.d.place || 99));
     });
     if(!rows.length){ panel.appendChild(el('p','comp-note', U.empty)); return; }
@@ -56150,6 +56267,7 @@ var EFFECT_CONFIG = {
     updateTabbar();
   }
   function closeCompPage(fromHistory){
+    if(typeof closeCollPage === 'function') closeCollPage(fromHistory ? true : 'sibling');   // pantallas hermanas: abrir una cierra la otra (si viene del historial, no se toca la dirección)
     if(compPage.hidden) return;
     compPage.hidden = true; backToCatalog();
     try{ if(!fromHistory && location.hash === '#competicion') history.back(); }catch(e){}
@@ -56160,6 +56278,112 @@ var EFFECT_CONFIG = {
     if(location.hash === '#competicion'){ if(compPage.hidden) openCompPage(); } else closeCompPage(true);
   });
   if(location.hash === '#competicion') openCompPage();
+
+  /* ===== MI COLECCIÓN (pantalla) ===== */
+  var collPage = document.getElementById('collPage'), collTab = 'starters', collExpSet = 'GD01';
+  function starterCards(setId){ return ALL.filter(function(c){ return c.set === setId; }).map(function(c){ return c.number; }).sort(); }
+  function setsMatching(re){   /* ST…, luego GD…, luego EB…; dentro de cada tipo, por número */
+    var seen = {}, order = ['ST', 'GD', 'EB']; ALL.forEach(function(c){ if(re.test(c.set)) seen[c.set] = 1; });
+    return Object.keys(seen).sort(function(x, y){ return (order.indexOf(x.slice(0, 2)) - order.indexOf(y.slice(0, 2))) || x.localeCompare(y); });
+  }
+  function ownedKnown(){ return COLL.list().filter(function(n){ return !!cardByNumber(n); }); }
+  function collCardRow(card){
+    var r = el('div', 'cc-row');
+    var img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = 'images/' + card.number + '.webp'; r.appendChild(img);
+    var nm = el('div', 'cc-name', card.name); nm.appendChild(el('small', null, card.number)); r.appendChild(nm);
+    r.appendChild(collectionEl(card));
+    return r;
+  }
+  /* Texto para pegar en un chat: "ST01-001 · Gundam", agrupado por set (ST, luego GD, luego EB), solo cartas que existen en el catálogo */
+  function collectionText(){
+    var C = t(), bySet = {}, order = ['ST', 'GD', 'EB'];
+    ownedKnown().forEach(function(n){ var c = cardByNumber(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
+    var sets = Object.keys(bySet).sort(function(x, y){ return (order.indexOf(x.slice(0, 2)) - order.indexOf(y.slice(0, 2))) || x.localeCompare(y); });
+    var out = [C.collCopyHead(ownedKnown().length), ''];
+    sets.forEach(function(sid){
+      out.push(sid);
+      bySet[sid].sort(function(a, b){ return a.number.localeCompare(b.number); }).forEach(function(c){ out.push(c.number + ' · ' + c.name); });
+      out.push('');
+    });
+    return out.join('\n').replace(/\n+$/, '\n');
+  }
+  var collCopyTimer = null;
+  document.getElementById('collCopy').addEventListener('click', function(){
+    var txt = collectionText(), b = this;
+    function done(){ b.textContent = t().collCopied; clearTimeout(collCopyTimer); collCopyTimer = setTimeout(function(){ b.textContent = t().collCopy; }, 1400); }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
+    else { fallbackCopy(txt); done(); }
+  });
+  function renderColl(){
+    var C = t(), top = collPage.scrollTop;
+    var cp = document.getElementById('collCopy'); cp.textContent = C.collCopy; cp.hidden = ownedKnown().length === 0;
+    document.getElementById('lblCollBack').textContent = C.collBack;
+    document.getElementById('collTitle').textContent = C.collTitle;
+    document.getElementById('collSub').textContent = C.collSub(ownedKnown().length);
+    var tabs = document.getElementById('collTabs'); tabs.innerHTML = '';
+    ['starters', 'expansions', 'all'].forEach(function(id){
+      var b = el('button', 'comp-tab', C.collTabs[id]); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(collTab === id));
+      b.addEventListener('click', function(){ if(collTab === id) return; collTab = id; renderColl(); collPage.scrollTop = 0; });
+      tabs.appendChild(b);
+    });
+    var panel = document.getElementById('collPanel'); panel.innerHTML = '';
+    if(collTab === 'starters'){
+      panel.appendChild(el('p', 'comp-note', C.collStartersIntro));
+      setsMatching(/^ST\d+$/).forEach(function(setId){
+        var nums = starterCards(setId), have = nums.filter(function(n){ return COLL.has(n); }).length, all = COLL.hasAll(nums);
+        var row = el('div', 'cs-row'); row.dataset.set = setId;
+        row.appendChild(el('b', null, setId)); row.appendChild(el('span', 'cs-n', all || have === 0 ? C.collNCards(nums.length) : C.collPartial(have, nums.length)));
+        var b = el('button', 'cs-btn' + (all ? ' on' : ''), all ? C.collHaveDeck : C.collAddDeck); b.type = 'button';
+        b.setAttribute('aria-pressed', String(all)); b.setAttribute('aria-label', (all ? C.collHaveDeck : C.collAddDeck) + ' · ' + setId);
+        b.addEventListener('click', function(){ if(all) COLL.removeMany(nums); else COLL.addMany(nums); });
+        row.appendChild(b); panel.appendChild(row);
+      });
+    } else if(collTab === 'expansions'){
+      panel.appendChild(el('p', 'comp-note', C.collExpIntro));
+      var chips = el('div', 'cs-sets');
+      var sets = setsMatching(/^(GD|EB)\d+$/); if(sets.indexOf(collExpSet) === -1) collExpSet = sets[0];
+      sets.forEach(function(sid){
+        var c = el('button', 'tag chip' + (sid === collExpSet ? ' active' : ''), sid); c.type = 'button'; c.setAttribute('aria-pressed', String(sid === collExpSet));
+        c.addEventListener('click', function(){ collExpSet = sid; renderColl(); });
+        chips.appendChild(c);
+      });
+      panel.appendChild(chips);
+      starterCards(collExpSet).forEach(function(n){ panel.appendChild(collCardRow(cardByNumber(n))); });
+    } else {
+      var owned = ownedKnown();
+      if(!owned.length){ panel.appendChild(el('p', 'cl-empty', C.collAllEmpty)); }
+      else {
+        var bySet = {}; owned.forEach(function(n){ var c = cardByNumber(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
+        Object.keys(bySet).sort().forEach(function(sid){
+          var g = el('section', 'cl-group'); g.appendChild(el('h3', null, sid + ' · ' + C.collNCards(bySet[sid].length)));
+          bySet[sid].forEach(function(c){ g.appendChild(collCardRow(c)); });
+          panel.appendChild(g);
+        });
+      }
+    }
+    collPage.scrollTop = top;
+  }
+  function openCollPage(){
+    closeSidebar(); closeDeckView(); closeCompPage(); closeAccount();
+    if(!document.getElementById('decksPage').hidden) closeDecksPage();
+    if(!cmpModal.hidden) closeCompareModal();
+    renderColl();
+    collPage.hidden = false; collPage.scrollTop = 0; enter(collPage, 'forward');
+    try{ if(location.hash !== '#coleccion') history.pushState(null, '', '#coleccion'); }catch(e){}
+    updateTabbar();
+  }
+  function closeCollPage(mode){   // mode: undefined = botón Volver (history.back) · true = vino del historial · 'sibling' = se abre otra pantalla
+    if(collPage.hidden) return;
+    collPage.hidden = true; backToCatalog();
+    try{
+      if(mode === 'sibling'){ if(location.hash === '#coleccion') history.replaceState(null, '', location.pathname + location.search); }
+      else if(!mode && location.hash === '#coleccion') history.back();
+    }catch(e){}
+    updateTabbar();
+  }
+  document.getElementById('collBack').addEventListener('click', function(){ closeCollPage(); });
+  window.addEventListener('popstate', function(){ if(location.hash === '#coleccion' && collPage.hidden) openCollPage(); });
+  /* la apertura directa por #coleccion se hace al final del arranque, cuando el catálogo (ALL) ya está cargado */
 
   /* Menú del pill */
   var pillMenu = document.getElementById('pillMenu');
@@ -56202,7 +56426,7 @@ var EFFECT_CONFIG = {
   });
   document.getElementById('pmMyDecks').addEventListener('click', function(){ closePillMenu(); closeCompPage(); closeDeckView(); openDecksPage(); });
   document.getElementById('pmCompetition').addEventListener('click', function(){ closePillMenu(); openCompPage(); });
-  document.getElementById('pmAccount').addEventListener('click', function(){ closePillMenu(); openAccount(); });
+  document.getElementById('pmCollection').addEventListener('click', function(){ closePillMenu(); openCollPage(); });
 
   function openCompareModal(){
     renderCompare();
@@ -56231,6 +56455,7 @@ var EFFECT_CONFIG = {
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
     if(!deckView.hidden){ closeDeckView(); document.getElementById('deckCount').focus(); return; }
     if(!compPage.hidden){ closeCompPage(); return; }
+    if(!collPage.hidden){ closeCollPage(); return; }
     if(!decksPage.hidden) document.getElementById('dpBack').click();
   });
 
@@ -56321,6 +56546,7 @@ var EFFECT_CONFIG = {
     render();
     updateDeckPill();
     cloudInit();
+    if(location.hash === '#coleccion') openCollPage();
     if(new URLSearchParams(location.search).get('view') === 'decks') openDecksPage();
   }catch(err){
     document.getElementById('grid').innerHTML = '<div class="empty">'+(LANG==='es'?'No se pudieron cargar los datos: ':'Could not load data: ')+err+'</div>';

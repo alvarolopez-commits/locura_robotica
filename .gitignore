@@ -6,3 +6,6 @@ Thumbs.db
 
 # datos de meta y torneos: solo en local
 data/meta/
+
+# Maquetas de la lluvia de ideas (locales)
+.superpowers/
