@@ -1074,6 +1074,10 @@ html{ touch-action:manipulation; }
 .acc-msg{ font-size:14px; line-height:1.45; }
 .acc-msg.is-err{ color:#a3261d; }
 .acc-msg.is-ok{ color:#1b6b3a; }
+.acc-diag{ margin-top:6px; background:var(--tone); }
+.acc-diag summary{ min-height:44px; display:flex; align-items:center; padding:0 14px; font-size:14px; font-weight:700; color:var(--fg-2); cursor:pointer; }
+.acc-diag-txt{ margin:0; padding:2px 14px 10px; font:inherit; font-size:12px; line-height:1.55; color:var(--fg-2); white-space:pre-wrap; overflow-wrap:anywhere; font-variant-numeric:tabular-nums; }
+.acc-diag-row{ display:flex; flex-wrap:wrap; gap:8px; padding:0 14px 14px; }
 .dp-filters{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
 .dp-filters .tag.chip{ background:rgba(255,255,255,.08); color:var(--fg-2); }
 .dp-filters .tag.chip.active{ background:var(--sky); color:var(--sky-ink); }
@@ -53845,6 +53849,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
+  var APP_BUILD = '2026-10-29.1';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54045,14 +54050,59 @@ var EFFECT_CONFIG = {
     if(accountOpener && document.contains(accountOpener)) try{ accountOpener.focus(); }catch(e){}
     accountOpener = null; accountMsg = null;
   }
+  /* Diagnóstico: qué ve este dispositivo (versión, sesión, mazos locales y de la nube) para poder copiarlo y compartirlo */
+  function diagSection(){
+    var es = LANG === 'es', box = document.createElement('details'); box.className = 'acc-diag';
+    var sum = document.createElement('summary'); sum.textContent = es ? 'Diagnóstico' : 'Diagnostics'; box.appendChild(sum);
+    var pre = el('pre', 'acc-diag-txt', ''); box.appendChild(pre);
+    var extra = [];
+    function lines(){
+      var st = cloud.state || {}, ids = Object.keys(DECKS), withRemote = ids.filter(function(i){ return DECKS[i] && DECKS[i].remote; }).length;
+      var out = [
+        (es ? 'Versión: ' : 'Build: ') + APP_BUILD,
+        (es ? 'Dirección: ' : 'Address: ') + location.origin,
+        (es ? 'Conexión: ' : 'Online: ') + (navigator.onLine ? 'sí' : 'no'),
+        (es ? 'Servicio de cuentas: ' : 'Accounts service: ') + (!cloud.configured ? 'sin configurar' : cloud.loadFailed ? 'no cargó' : 'listo'),
+        (es ? 'Sesión: ' : 'Session: ') + (cloud.user ? (cloud.user.email || '?') + ' · ' + String(cloud.user.id || '').slice(0, 8) : (es ? 'no iniciada' : 'signed out')),
+        (es ? 'Estado de guardado: ' : 'Save state: ') + (st.phase || '—') + (st.message ? ' · ' + st.message : '') + (st.dirty ? ' · ' + st.dirty + (es ? ' pendiente(s)' : ' pending') : ''),
+        (es ? 'Mazos en este dispositivo: ' : 'Decks on this device: ') + ids.length + (es ? ' (con copia en la nube: ' : ' (with a cloud copy: ') + withRemote + ')'
+      ];
+      return out.concat(extra).join('\n');
+    }
+    function paint(){ pre.textContent = lines(); }
+    paint();
+    if(window.caches && caches.keys) caches.keys().then(function(k){ extra.push((es ? 'Cachés: ' : 'Caches: ') + k.join(', ')); paint(); });
+    var row = el('div', 'acc-diag-row');
+    if(cloud.user && cloud.client){
+      var chk = el('button', 'dp-btn', es ? 'Consultar la nube' : 'Check the cloud'); chk.type = 'button';
+      chk.addEventListener('click', function(){
+        chk.disabled = true; extra = extra.filter(function(x){ return x.indexOf('Nube') !== 0 && x.indexOf('Cloud') !== 0; });
+        extra.push((es ? 'Nube: consultando…' : 'Cloud: checking…')); paint();
+        cloud.client.from('decks').select('id,name,revision,updated_at').is('deleted_at', null).then(function(r){
+          extra = extra.filter(function(x){ return x.indexOf('Nube') !== 0 && x.indexOf('Cloud') !== 0; });
+          if(r.error) extra.push((es ? 'Nube: error · ' : 'Cloud: error · ') + (r.error.code || '') + ' ' + (r.error.message || ''));
+          else extra.push((es ? 'Nube: ' : 'Cloud: ') + r.data.length + (es ? ' mazo(s)' : ' deck(s)') + (r.data.length ? ' → ' + r.data.map(function(d){ return d.name; }).join(', ') : ''));
+          chk.disabled = false; paint();
+        }, function(e){ extra.push((es ? 'Nube: sin respuesta · ' : 'Cloud: no response · ') + (e && e.message || e)); chk.disabled = false; paint(); });
+      });
+      row.appendChild(chk);
+    }
+    var cp = el('button', 'dp-btn', es ? 'Copiar' : 'Copy'); cp.type = 'button';
+    cp.addEventListener('click', function(){
+      var txt = lines(), done = function(){ cp.textContent = es ? 'Copiado' : 'Copied'; setTimeout(function(){ cp.textContent = es ? 'Copiar' : 'Copy'; }, 1400); };
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); }); else { fallbackCopy(txt); done(); }
+    });
+    row.appendChild(cp); box.appendChild(row);
+    return box;
+  }
   function renderAccount(){
     var C = t().cloud, body = document.getElementById('accountBody'); body.innerHTML = '';
     document.getElementById('accountEyebrow').textContent = C.accountEyebrow;
     document.getElementById('accountTitle').textContent = C.accountTitle;
     document.getElementById('accountClose').setAttribute('aria-label', t().cloud.accountClose || (LANG === 'es' ? 'Cerrar' : 'Close'));
     body.appendChild(avatarSection());
-    if(!cloud.configured) return;
-    if(cloud.loadFailed){ body.appendChild(el('p','acc-msg is-err', C.notReady)); return; }
+    if(!cloud.configured){ body.appendChild(diagSection()); return; }
+    if(cloud.loadFailed){ body.appendChild(el('p','acc-msg is-err', C.notReady)); body.appendChild(diagSection()); return; }
     if(cloud.user){
       body.appendChild(el('p','acc-msg', C.signedAs + ' ' + (cloud.user.email || '')));
       var chip = el('p','acc-msg', ''); var ph = (cloud.state || {}).phase;
@@ -54060,6 +54110,7 @@ var EFFECT_CONFIG = {
       body.appendChild(chip);
       var sync = el('button','dp-btn', C.syncNow); sync.type = 'button'; sync.addEventListener('click', function(){ if(cloud.sync) cloud.sync.retry(); }); body.appendChild(sync);
       var out = el('button','dp-btn', C.signOut); out.type = 'button'; out.addEventListener('click', cloudSignOut); body.appendChild(out);
+      body.appendChild(diagSection());
       return;
     }
     body.appendChild(el('p','acc-msg', C.introOut));
@@ -54079,6 +54130,7 @@ var EFFECT_CONFIG = {
     }
     go.addEventListener('click', submit);
     inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); submit(); } });
+    body.appendChild(diagSection());
   }
   function cloudSignOut(){
     cloud.explicitSignOut = true;
@@ -54970,6 +55022,12 @@ var EFFECT_CONFIG = {
   });
 
   var sidebar = document.getElementById('sidebar'), scrim = document.getElementById('scrim');
+  /* Volver arriba en el catálogo: suave si estás cerca; de golpe si estás lejos (un scroll suave de miles de píxeles lo corta el dedo con inercia o el catálogo al crecer, y no llega arriba) */
+  function scrollTopSmart(){
+    var far = window.scrollY > window.innerHeight * 2.5, reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: far || reduced ? 'auto' : 'smooth' });
+    if(!far && !reduced) setTimeout(function(){ if(window.scrollY > 2) window.scrollTo({ top: 0, behavior: 'auto' }); }, 700);   // si el suave se queda a medias, termina de golpe
+  }
   /* Si la ventana es baja el panel de filtros hace scroll por dentro: se avisa con un degradado al pie mientras quede contenido debajo */
   function updateSbMore(){ sidebar.classList.toggle('has-more', sidebar.scrollHeight - sidebar.clientHeight - sidebar.scrollTop > 6); }
   function revealInSidebar(group){
@@ -54994,7 +55052,7 @@ var EFFECT_CONFIG = {
   document.getElementById('sbClose').addEventListener('click', closeSidebar);
   document.getElementById('sbApply').addEventListener('click', function(){
     closeSidebar();
-    window.scrollTo({top:0, behavior:'smooth'});
+    scrollTopSmart();
   });
 
   function updateTabbar(){
@@ -55014,13 +55072,13 @@ var EFFECT_CONFIG = {
     closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     selectDeckAction(null);
-    window.scrollTo({top:0, behavior:'smooth'});
+    scrollTopSmart();
   });
   document.getElementById('tbCatalog').addEventListener('click', function(){
     var wasHome = document.getElementById('decksPage').hidden && compPage.hidden && !sidebar.classList.contains('open');
     closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
-    if(wasHome) window.scrollTo({top:0, behavior:'smooth'});
+    if(wasHome) scrollTopSmart();
   });
   document.getElementById('tbFilters').addEventListener('click', function(){
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
@@ -55031,7 +55089,7 @@ var EFFECT_CONFIG = {
   document.getElementById('tbNew').addEventListener('click', function(){
     closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
-    window.scrollTo({top:0, behavior:'smooth'});
+    scrollTopSmart();
     openAddDeckPanel();
   });
   document.getElementById('tbDecks').addEventListener('click', function(){ closeSidebar(); closeCompPage(); closeDeckView(); openDecksPage(); });
@@ -56015,7 +56073,7 @@ var EFFECT_CONFIG = {
       openDeckDetail(id);
       var ni = document.getElementById('dpName'); ni.focus(); ni.select();
     } else {
-      window.scrollTo({top:0, behavior:'smooth'});
+      scrollTopSmart();
       openAddDeckPanel();
     }
   });
