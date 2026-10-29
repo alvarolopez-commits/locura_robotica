@@ -52887,6 +52887,9 @@ var EFFECT_CONFIG = {
         introOut:'Guarda tus mazos en tu cuenta y úsalos desde cualquier dispositivo. Te enviamos un enlace al correo, sin contraseña.',
         email:'Correo electrónico', emailPh:'tu@correo.com', sendLink:'Enviarme el enlace', sending:'Enviando…',
         linkSent:function(e){ return 'Te hemos enviado un enlace a '+e+'. Ábrelo en este dispositivo para entrar.'; },
+        codeIntro:'Si el enlace no funciona o se abre en otra ventana, escribe aquí el código de 6 dígitos del correo.', codePh:'Código del correo', codeGo:'Entrar con el código',
+        codeBad:'Código incorrecto o caducado. Pide uno nuevo y usa el del correo más reciente.',
+        linkExpired:'El enlace ya se usó o caducó: los enlaces de acceso valen una sola vez y algunos correos de empresa los abren antes que tú. Pide uno nuevo y entra con el código del correo.',
         signedAs:'Sesión iniciada como', signOut:'Cerrar sesión', emailInvalid:'Escribe un correo válido.', sendFail:'No se pudo enviar el enlace. Inténtalo de nuevo.', sendRate:'Se han pedido demasiados enlaces en poco tiempo. Espera unos 30–60 minutos y vuelve a intentarlo (un solo enlace cada vez).', sendNet:'Sin conexión con el servidor de cuentas. Revisa tu conexión e inténtalo de nuevo.',
         notReady:'No se pudo cargar el servicio de cuentas. Tus mazos siguen guardándose en este navegador.',
         localNote:'Tus mazos solo están en este navegador. Inicia sesión para guardarlos en tu cuenta.',
@@ -53094,6 +53097,9 @@ var EFFECT_CONFIG = {
         introOut:'Save your decks to your account and use them on any device. We email you a link, no password needed.',
         email:'Email', emailPh:'you@email.com', sendLink:'Email me the link', sending:'Sending…',
         linkSent:function(e){ return 'We sent a link to '+e+'. Open it on this device to sign in.'; },
+        codeIntro:'If the link does not work or opens in another window, type the 6-digit code from the email here.', codePh:'Code from the email', codeGo:'Sign in with the code',
+        codeBad:'Wrong or expired code. Request a new one and use the most recent email.',
+        linkExpired:'The link was already used or has expired: sign-in links work once, and some company mail systems open them before you do. Request a new one and sign in with the code from the email.',
         signedAs:'Signed in as', signOut:'Sign out', emailInvalid:'Enter a valid email.', sendFail:'Could not send the link. Please try again.', sendRate:'Too many links were requested in a short time. Wait 30–60 minutes and try again (one link at a time).', sendNet:'Cannot reach the accounts server. Check your connection and try again.',
         notReady:'The accounts service could not be loaded. Your decks keep saving in this browser.',
         localNote:'Your decks are only in this browser. Sign in to save them to your account.',
@@ -53849,7 +53855,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.1';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54036,7 +54042,7 @@ var EFFECT_CONFIG = {
     wrap.appendChild(grid); return wrap;
   }
   /* ----- ventana de cuenta ----- */
-  var accountOpener = null, accountMsg = null, accountBusy = false;
+  var accountOpener = null, accountMsg = null, accountBusy = false, accountEmail = '';
   function openAccount(){
     accountOpener = document.activeElement; renderAccount();
     var m = document.getElementById('accountModal'), sc = document.getElementById('accountScrim');
@@ -54125,11 +54131,29 @@ var EFFECT_CONFIG = {
       accountBusy = true; accountMsg = null; renderAccount();
       cloud.client.auth.signInWithOtp({ email:email, options:{ emailRedirectTo: location.origin + '/' } }).then(function(r){
         var er = r.error, why = er && (er.status === 429 || /rate.?limit/i.test(String(er.code || '')+' '+String(er.message || ''))) ? C.sendRate : C.sendFail;
-        accountBusy = false; accountMsg = er ? { err:true, text:why } : { err:false, text:C.linkSent(email) }; renderAccount();
+        accountBusy = false; accountMsg = er ? { err:true, text:why } : { err:false, text:C.linkSent(email) }; if(!er) accountEmail = email; renderAccount();
       }, function(){ accountBusy = false; accountMsg = { err:true, text:C.sendNet }; renderAccount(); });
     }
     go.addEventListener('click', submit);
     inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); submit(); } });
+    if(accountEmail){   /* se queda visible tras un código erróneo para reintentarlo sin pedir otro correo (hay límite de envíos) */
+      /* entrar con el código del correo: no se gasta por abrirlo otro programa y la sesión queda en esta misma app instalada */
+      var cf = el('div','acc-field acc-code'); cf.appendChild(el('p','acc-msg', C.codeIntro));
+      var ci = document.createElement('input'); ci.id = 'accCode'; ci.type = 'text'; ci.className = 'acc-input'; ci.inputMode = 'numeric'; ci.autocomplete = 'one-time-code'; ci.maxLength = 10; ci.placeholder = C.codePh; ci.setAttribute('aria-label', C.codePh);
+      cf.appendChild(ci);
+      var cg = el('button','dp-btn dp-btn-primary', C.codeGo); cg.type = 'button'; cf.appendChild(cg); body.appendChild(cf);
+      function submitCode(){
+        var code = ci.value.replace(/\D/g, '');
+        if(code.length < 6){ accountMsg = { err:true, text:C.codeBad }; renderAccount(); return; }
+        cg.disabled = true;
+        cloud.client.auth.verifyOtp({ email:accountEmail, token:code, type:'email' }).then(function(r){
+          if(r.error){ accountMsg = { err:true, text:C.codeBad }; renderAccount(); }
+          else { accountMsg = null; accountEmail = ''; renderAccount(); }          // onAuthStateChange inicia la sesión y repinta
+        }, function(){ accountMsg = { err:true, text:C.sendNet }; renderAccount(); });
+      }
+      cg.addEventListener('click', submitCode);
+      ci.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); submitCode(); } });
+    }
     body.appendChild(diagSection());
   }
   function cloudSignOut(){
@@ -54187,6 +54211,14 @@ var EFFECT_CONFIG = {
     document.getElementById('dpStar').addEventListener('click', function(){ toggleFavFrom(dpDeckId); });
     document.getElementById('dpDelete').addEventListener('click', function(){ confirmDeleteDeck(dpDeckId, function(){ showDpView(); }); });
     paintDeleteLabels();
+    (function(){
+      var h = location.hash || '';
+      if(/[#&]error_code=/.test(h) && /error=access_denied|error_code=otp_expired/.test(h)){
+        accountMsg = { err:true, text:t().cloud.linkExpired };
+        try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+        setTimeout(function(){ if(typeof openAccount === 'function') openAccount(document.getElementById('avatarBtn')); }, 500);
+      }
+    })();
     if(!cloud.configured) return;
     cloud.sync = DeckSync.create(cloudHost());
     function boot(){
