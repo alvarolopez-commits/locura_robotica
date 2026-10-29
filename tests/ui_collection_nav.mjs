@@ -40,10 +40,15 @@ for (const W of [320, 390, 1280]) {
     check('cada pestaña mide al menos 44 px de alto', tabs.every((x) => x.alto >= 44), tabs);
     const ico = await ev(`(function(){ var i=document.querySelector('#tbCollection .coll-ico'); if(!i) return null; var cs=getComputedStyle(i); return { mascara:(cs.webkitMaskImage||cs.maskImage||''), fondo:cs.backgroundColor, ancho:Math.round(i.getBoundingClientRect().width) } })()`);
     check('el icono es el PNG del usuario aplicado como máscara', ico && /tab-coleccion\.png/.test(ico.mascara) && ico.ancho >= 18, ico);
+    const colorIco = () => ev(`(function(){ var i=document.querySelector('#tbCollection .coll-ico'); return getComputedStyle(i).backgroundColor })()`);
+    
     const act = await active();
     check('con Mi colección abierta, la pestaña activa es Colección', act.join(',') === 'tbCollection', act);
+    check('y sigue azul cuando está activa', (await colorIco()) === 'rgb(139, 205, 255)', await colorIco());
     await ev(`document.getElementById('tbCatalog').click(); 1`); await sleep(800);
     check('pulsar Catálogo cierra Mi colección y activa Catálogo', (await collOpen()) === false && (await active()).join(',') === 'tbCatalog', [await collOpen(), await active()]);
+    check('con la pestaña Colección sin activar, su icono sigue siendo azul (#8bcdff)', (await ev(`getComputedStyle(document.querySelector('#tbCollection .coll-ico')).backgroundColor`)) === 'rgb(139, 205, 255)', await ev(`getComputedStyle(document.querySelector('#tbCollection .coll-ico')).backgroundColor`));
+    check('y las otras pestañas inactivas no son azules (se distingue la de Colección)', (await ev(`getComputedStyle(document.querySelector('#tbDecks')).color`)) !== 'rgb(139, 205, 255)');
     check('al cerrar, la dirección ya no queda en #coleccion', (await ev(`location.hash`)) === '', await ev(`location.hash`));
     await ev(`document.getElementById('tbCollection').click(); 1`); await sleep(800);
     check('la pestaña Colección abre la pantalla', (await collOpen()) === true);

@@ -21,7 +21,7 @@ for (const W of [390, 1280]) {
   const st = () => ev(`(function(){ var d=${tile}; var b=d.querySelector('.coll-add'), x=d.querySelector('.coll-del'), g=d.querySelector('.coll-tag');
     var vis=function(e){ return !!e && !e.hidden && e.getBoundingClientRect().width>0 };
     return { texto:b&&b.textContent.trim(), fondo:b&&getComputedStyle(b).backgroundColor, alto:b&&Math.round(b.getBoundingClientRect().height), aria:b&&b.getAttribute('aria-label'),
-             papelera:vis(x), papeleraFondo:x&&getComputedStyle(x).backgroundColor, etiqueta:vis(g), etiquetaTexto:g&&g.textContent.trim(),
+             fila:(function(){ var r=d.querySelector('.coll-row'); return !!r && r.getBoundingClientRect().height>0 })(), papelera:vis(x), papeleraFondo:x&&getComputedStyle(x).backgroundColor, etiqueta:vis(g), etiquetaTexto:g&&g.textContent.trim(),
              etiquetasVisibles:[].filter.call(document.querySelectorAll('.coll-tag'),vis).length, guardado:localStorage.getItem('msa_collection'), nombre:(d.getAttribute('aria-label')||'').split(' · ')[0] } })()`);
 
   let s = await st();
@@ -34,11 +34,9 @@ for (const W of [390, 1280]) {
 
   await ev(`${tile}.querySelector('.coll-add').click(); 1`); await sleep(300);
   s = await st();
-  check('tras añadir, el botón dice "En mi colección"', s.texto === 'En mi colección', s);
-  check('tras añadir, el botón es #1a4d7a', s.fondo === 'rgb(26, 77, 122)', s);
+  check('tras añadir, la carta ya no muestra la fila "En mi colección" + papelera (basta con TENGO)', s.fila === false && s.papelera === false, s);
   check('aparece la etiqueta TENGO solo en esa carta', s.etiqueta === true && s.etiquetaTexto === 'TENGO' && s.etiquetasVisibles === 1, s);
-  check('aparece la papelera #dce5ed', s.papelera === true && s.papeleraFondo === 'rgb(220, 229, 237)', s);
-  check('se guarda en el dispositivo', !!s.guardado && JSON.parse(s.guardado).length === 1, s);
+  check('se guarda en el dispositivo', !!s.guardado && Object.keys(JSON.parse(s.guardado)).length === 1, s);
 
   // idioma inglés con colección creada
   await ev(`document.querySelector('#langToggle [data-lang="en"]').click(); 1`); await sleep(900);
@@ -49,15 +47,36 @@ for (const W of [390, 1280]) {
   await ev(`${tile}.querySelector('.coll-del').click(); 1`); await sleep(300);
   s = await st();
   check('al quitar la última, desaparecen etiquetas en todas las cartas', s.etiquetasVisibles === 0 && s.papelera === false, s);
-  check('al quitar la última, el botón vuelve a #221e41', s.fondo === 'rgb(34, 30, 65)' && s.texto === 'Añadir a mi colección', s);
+  check('al quitar la última, vuelve la fila con el botón #221e41', s.fila === true && s.fondo === 'rgb(34, 30, 65)' && s.texto === 'Añadir a mi colección', s);
   // colección ya guardada al cargar la página: las cartas salen marcadas desde el principio, sin tocar nada
   const primera = await ev(`(function(){ return document.querySelector('.dz-inner .coll-row').dataset.number })()`);
-  await ev(`localStorage.setItem('msa_collection', JSON.stringify([${JSON.stringify(primera)}])); 1`);
+  await ev(`localStorage.setItem('msa_collection', JSON.stringify({${JSON.stringify(primera)}:{q:1,t:5}})); 1`);
   await send('Page.reload'); await sleep(3200);
   const marcada = await ev(`(function(){ var d=document.querySelector('.dz-inner'), b=d.querySelector('.coll-add'), g=d.querySelector('.coll-tag'), x=d.querySelector('.coll-del');
     return { texto:b.textContent.trim(), fondo:getComputedStyle(b).backgroundColor, etiqueta:!g.hidden && g.getBoundingClientRect().width>0, papelera:!x.hidden, otras:[].filter.call(document.querySelectorAll('.coll-tag'),function(t){return !t.hidden}).length } })()`);
-  check('con la colección ya guardada, la carta sale como "En mi colección" desde el principio', marcada.texto === 'En mi colección' && marcada.fondo === 'rgb(26, 77, 122)', marcada);
-  check('y con su etiqueta TENGO y su papelera, solo en esa carta', marcada.etiqueta === true && marcada.papelera === true && marcada.otras === 1, marcada);
+  check('con la colección ya guardada, la carta sale marcada desde el principio (botón azul en el DOM)', marcada.texto === 'En mi colección' && marcada.fondo === 'rgb(26, 77, 122)', marcada);
+  check('con su etiqueta TENGO, solo en esa carta', marcada.etiqueta === true && marcada.otras === 1, marcada);
+  // ficha de la carta: botón "Añadir a mi colección" y columna +, cantidad, −, papelera sin verde
+  await ev(`localStorage.removeItem('msa_collection'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:{}}})); localStorage.setItem('msa_active_deck','d1'); 1`);
+  await send('Page.reload'); await sleep(3200);
+  await ev(`document.querySelector('.dz-inner').click(); 1`); await sleep(1200);
+  const F = () => ev(`(function(){ var d=document.querySelector('.detail'); var bg=function(e){ return e ? getComputedStyle(e).backgroundColor : null };
+    var btns=[].slice.call(d.querySelectorAll('.d-ctl .dc-btn')), del=d.querySelector('.d-ctl .dc-del'), add=d.querySelector('.coll-add'), cdel=d.querySelector('.coll-del');
+    var todos=[].slice.call(d.querySelectorAll('.d-ctl button, .coll-row button')); var verdes=todos.filter(function(b){ return /47, 168, 95|20, 104, 58/.test(getComputedStyle(b).backgroundColor + getComputedStyle(b).color + getComputedStyle(b).borderColor) }).length;
+    return { mas:bg(btns[0]), menos:bg(btns[1]), papelera:bg(del), colTexto:add&&add.textContent.trim(), colFondo:bg(add), colPapelera: cdel&&!cdel.hidden ? bg(cdel) : null, verdes:verdes, aria:add&&add.getAttribute('aria-label') } })()`);
+  let f = await F();
+  check('en la ficha existe el botón "Añadir a mi colección" en #221e41', f.colTexto === 'Añadir a mi colección' && f.colFondo === 'rgb(34, 30, 65)', f);
+  check('en la ficha, el + del mazo es #221e41 y el − y la papelera son #dce5ed', f.mas === 'rgb(34, 30, 65)' && f.menos === 'rgb(220, 229, 237)' && f.papelera === 'rgb(220, 229, 237)', f);
+  await ev(`document.querySelector('.detail .d-ctl .dc-btn').click(); 1`); await sleep(500);
+  f = await F();
+  check('al añadir la carta al mazo, el + pasa a #1a4d7a', f.mas === 'rgb(26, 77, 122)', f);
+  await ev(`document.querySelector('.detail .coll-add').click(); 1`); await sleep(500);
+  f = await F();
+  check('al añadirla a la colección, el botón dice "En mi colección" en #1a4d7a y aparece la papelera #dce5ed', f.colTexto === 'En mi colección' && f.colFondo === 'rgb(26, 77, 122)' && f.colPapelera === 'rgb(220, 229, 237)', f);
+  check('ya no queda nada en verde en la ficha', f.verdes === 0, f);
+  await ev(`document.querySelector('.detail .coll-del').click(); 1`); await sleep(500);
+  f = await F();
+  check('la papelera de la ficha la quita de la colección', f.colTexto === 'Añadir a mi colección' && f.colPapelera === null, f);
   check('sin errores de consola', errs.length === 0, errs);
 }
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');

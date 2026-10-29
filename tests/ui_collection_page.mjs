@@ -19,13 +19,13 @@ async function load(collection) {
     ${collection ? `localStorage.setItem('msa_collection', ${JSON.stringify(JSON.stringify(collection))});` : `localStorage.removeItem('msa_collection');`} 1`);
   await send('Page.reload'); await sleep(3200);
 }
-const stored = () => ev(`JSON.parse(localStorage.getItem('msa_collection') || '[]')`);
+const stored = () => ev(`Object.keys(JSON.parse(localStorage.getItem('msa_collection') || '{}'))`);
 const openFromAccount = async () => { await ev(`document.getElementById('avatarBtn').click(); 1`); await sleep(400); await ev(`[].filter.call(document.querySelectorAll('#accountBody button'),function(b){return /Mi colección/.test(b.textContent)})[0].click(); 1`); await sleep(800); };
 const vista = () => ev(`(function(){ var p=document.getElementById('collPage'); var g=document.getElementById('collGrid'); var rows=[].slice.call(p.querySelectorAll('.cs-row'));
   var cp=document.getElementById('collCopy'), st=document.getElementById('collStarters'); var rc=cp&&cp.getBoundingClientRect(), rs=st&&st.getBoundingClientRect();
   return { abierta:!p.hidden, titulo:document.getElementById('collTitle').textContent, sub:document.getElementById('collSub').textContent,
-    tabs:!!document.getElementById('collTabs'), cuadricula:!!g, tarjetas:g?g.querySelectorAll('.dz').length:0, etiquetas:g?[].filter.call(g.querySelectorAll('.coll-tag'),function(x){return !x.hidden}).length:0,
-    vacio:(p.querySelector('.cl-empty')||{}).textContent||null, masBoton:!!p.querySelector('.coll-more'),
+    tabs:!!document.getElementById('collTabs'), cuadricula:!!g, tarjetas:g?g.querySelectorAll('.cc').length:0,
+    vacio:(p.querySelector('.coll-empty')||{}).textContent||null, masBoton:!!p.querySelector('.coll-more'),
     mazos:rows.map(function(r){ return { set:r.dataset.set, texto:r.textContent.replace(/\\s+/g,' ').trim(), boton:(r.querySelector('button')||{}).textContent } }),
     atras:!!document.getElementById('collBackCards'),
     iniciales: st ? { visible:!st.hidden && rs.width>0, texto:st.textContent.trim() } : null,
@@ -56,18 +56,19 @@ for (const W of [390, 1280]) {
   check('"Añadir mazo" añade las 16 cartas de ST01', s.length === 16 && s.every((n) => n.startsWith('ST01-')), s.length);
   check('el botón pasa a "Tengo el mazo" y el total se actualiza', v.mazos[0].boton === 'Tengo el mazo' && /16 cartas distintas/.test(v.sub), [v.mazos[0].boton, v.sub]);
 
-  // volver: las cartas salen como catálogo, con su etiqueta TENGO
+  // volver: las cartas salen en la cuadrícula de la colección
   await ev(`document.getElementById('collBackCards').click(); 1`); await sleep(700);
   v = await vista();
-  check('al volver se ven las 16 cartas como en el catálogo', v.cuadricula && v.tarjetas === 16 && v.etiquetas === 16, [v.tarjetas, v.etiquetas]);
+  check('al volver se ven las 16 cartas como en el catálogo', v.cuadricula && v.tarjetas === 16, [v.tarjetas]);
   check('las cartas ocupan una cuadrícula (2 columnas en móvil, más en escritorio)', await ev(`(function(){ var g=document.getElementById('collGrid'); return getComputedStyle(g).display==='grid' && getComputedStyle(g).gridTemplateColumns.split(' ').length >= ${W < 900 ? 2 : 3} })()`));
   check('"copiar" es un botón cuadrado y pequeño, al lado de "Mazos iniciales"', v.copiar && v.copiar.visible && v.copiar.ancho === v.copiar.alto && v.copiar.ancho <= 56 && v.copiar.alLado === true, v.copiar);
+  check('las cartas no repiten "TENGO" ni la fila "En mi colección"', await ev(`document.querySelector('#collGrid').textContent.indexOf('TENGO') === -1 && !document.querySelector('#collGrid .coll-row')`));
   check('el botón de copiar tiene nombre accesible', v.copiar && /Copiar mi colección/.test(v.copiar.aria), v.copiar);
 
   // quitar una carta con su papelera: desaparece de la cuadrícula
-  await ev(`document.querySelector('#collGrid .coll-del:not([hidden])').click(); 1`); await sleep(600);
+  await ev(`document.querySelector('#collGrid .cc .cc-minus').click(); 1`); await sleep(500); await ev(`document.getElementById('confirmOk').click(); 1`); await sleep(500);
   s = await stored(); v = await vista();
-  check('quitar una carta con la papelera la saca de la cuadrícula', s.length === 15 && v.tarjetas === 15, [s.length, v.tarjetas]);
+  check('quitar una carta (− y confirmar) la saca de la cuadrícula', s.length === 15 && v.tarjetas === 15, [s.length, v.tarjetas]);
 
   // mazo inicial a medias
   await ev(`document.getElementById('collStarters').click(); 1`); await sleep(500);

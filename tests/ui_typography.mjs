@@ -52,7 +52,8 @@ for (const W of [390, 1280]) {
   const dv = await fam('.dv-name'), dk = await fam('#dvName');
   check('los nombres de carta en la lista del mazo usan Inter', esInter(dv), dv);
   check('el nombre del mazo (campo editable) usa Inter en negrita', esInter(dk) && +dk.peso >= 600, dk);
-  check('el título "UNIDADES" de cada segmento sigue como título', esTitulo(await fam('.dv-cname')), await fam('.dv-cname'));
+  const cn = await fam('.dv-cname');
+  check('el título "Unidades" de cada segmento es un título de sección en Inter 700 (sistema tipográfico)', esInter(cn) && +cn.peso === 700 && cn.px >= 20 && cn.px <= 24, cn);
 
   // Mis mazos
   await ev(`document.getElementById('dvBack').click(); 1`); await sleep(400);
