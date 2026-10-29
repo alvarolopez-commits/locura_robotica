@@ -50,6 +50,14 @@ for (const W of [390, 1280]) {
   s = await st();
   check('al quitar la última, desaparecen etiquetas en todas las cartas', s.etiquetasVisibles === 0 && s.papelera === false, s);
   check('al quitar la última, el botón vuelve a #221e41', s.fondo === 'rgb(34, 30, 65)' && s.texto === 'Añadir a mi colección', s);
+  // colección ya guardada al cargar la página: las cartas salen marcadas desde el principio, sin tocar nada
+  const primera = await ev(`(function(){ return document.querySelector('.dz-inner .coll-row').dataset.number })()`);
+  await ev(`localStorage.setItem('msa_collection', JSON.stringify([${JSON.stringify(primera)}])); 1`);
+  await send('Page.reload'); await sleep(3200);
+  const marcada = await ev(`(function(){ var d=document.querySelector('.dz-inner'), b=d.querySelector('.coll-add'), g=d.querySelector('.coll-tag'), x=d.querySelector('.coll-del');
+    return { texto:b.textContent.trim(), fondo:getComputedStyle(b).backgroundColor, etiqueta:!g.hidden && g.getBoundingClientRect().width>0, papelera:!x.hidden, otras:[].filter.call(document.querySelectorAll('.coll-tag'),function(t){return !t.hidden}).length } })()`);
+  check('con la colección ya guardada, la carta sale como "En mi colección" desde el principio', marcada.texto === 'En mi colección' && marcada.fondo === 'rgb(26, 77, 122)', marcada);
+  check('y con su etiqueta TENGO y su papelera, solo en esa carta', marcada.etiqueta === true && marcada.papelera === true && marcada.otras === 1, marcada);
   check('sin errores de consola', errs.length === 0, errs);
 }
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');

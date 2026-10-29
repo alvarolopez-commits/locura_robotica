@@ -13,10 +13,18 @@
 <meta name="description" content="Catálogo personal de Gundam Card Game (ST01–ST14, GD01–GD06 y EB01) con ficha completa, categorías de habilidad y constructor de mazos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Big+Shoulders+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Inter solo para las cifras (subconjunto 0-9 con unicode-range): todos los números de la app salen en Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&text=0123456789&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* ===== TIPOGRAFÍA · jerarquía =====
+ * Títulos de sección y etiquetas pequeñas en mayúsculas: Big Shoulders Display (--font-display), con las cifras en Inter.
+ * Cuerpo, nombres de mazos y de cartas, botones y datos: Inter (--font-sans), 400 en texto, 600-700 en nombres.
+ * Inter variable alojada en assets/fonts (latín; latín extendido y griego solo se descargan si un nombre los usa). */
+@font-face{ font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap; src:url(assets/fonts/inter-latin.woff2) format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face{ font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap; src:url(assets/fonts/inter-latin-ext.woff2) format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face{ font-family:'Inter'; font-style:normal; font-weight:100 900; font-display:swap; src:url(assets/fonts/inter-greek.woff2) format('woff2'); unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF; }
+/* misma Inter pero solo para las cifras 0-9: los títulos en Big Shoulders muestran sus números en Inter */
+@font-face{ font-family:'Inter Digits'; font-style:normal; font-weight:100 900; font-display:swap; src:url(assets/fonts/inter-latin.woff2) format('woff2'); unicode-range:U+0030-0039; }
 /* ===== TOKENS · HUD técnico, mobile-first ===== */
 :root{
   --navy:#221e41; --navy-2:#2c2757; --paper:#eef2f5; --panel:#ffffff; --tone:#e3eaef; --tone-2:#d3dde5; --line:#c6d3dc;
@@ -24,8 +32,8 @@
   --on-navy:#e6eef6; --on-navy-2:#a9bdd2;
   --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
   --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2;
-  --font-sans:'Inter','Zen Kaku Gothic New','Noto Sans JP',system-ui,-apple-system,sans-serif;   /* 'Inter' solo trae 0-9 */
-  --font-display:'Inter','Big Shoulders Display',var(--font-sans);
+  --font-sans:'Inter','Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-display:'Inter Digits','Big Shoulders Display',var(--font-sans);
   --ease:cubic-bezier(0.32,0.72,0,1); --ease-out:cubic-bezier(0.16,1,0.3,1);
   --cut:10px; --cut-l:18px;
   --top-h:calc(54px + env(safe-area-inset-top,0px));
@@ -207,7 +215,7 @@ body.menu-open .db-top{ z-index:46; }
 .bb-main{ min-width:0; flex:1 1 180px; }
 .bb-eyebrow{ display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
 .bb-dot{ width:8px; height:8px; background:var(--sky); }
-.bb-name{ font-family:var(--font-display); font-size:clamp(24px,7vw,32px); font-weight:700; line-height:1.05; letter-spacing:.01em; text-transform:uppercase; color:#fff; margin-top:2px; overflow-wrap:anywhere; }
+.bb-name{ font-family:var(--font-sans); font-size:clamp(22px,6.4vw,30px); font-weight:700; line-height:1.15; letter-spacing:-.015em; text-transform:none; color:#fff; margin-top:2px; overflow-wrap:anywhere; }
 .bb-namebtn{ touch-action:manipulation; display:block; max-width:100%; padding:6px 0; margin:-6px 0; font:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; text-align:left; line-height:inherit; overflow-wrap:anywhere; cursor:pointer; text-decoration:underline dotted transparent; text-underline-offset:6px; transition:text-decoration-color .15s var(--ease); }
 .bb-namebtn:hover{ text-decoration-color:rgba(255,255,255,.55); }
 .bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
@@ -268,15 +276,14 @@ body.menu-open .db-top{ z-index:46; }
 .cs-btn{ flex:none; min-height:44px; padding:0 14px; border:0; cursor:pointer; background:#221e41; color:#fff; font:inherit; font-size:13px; font-weight:700; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
 .cs-btn.on{ background:#1a4d7a; }
 .cs-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-.cc-row{ display:grid; grid-template-columns:40px minmax(0,1fr); gap:6px 10px; align-items:center; padding:8px 4px; box-shadow:inset 0 -1px 0 var(--line); }
-.cc-row img{ width:40px; height:56px; object-fit:cover; background:var(--tone); display:block; }
-.cc-name{ font-size:14px; font-weight:700; color:var(--fg-1); line-height:1.25; }
-.cc-name small{ display:block; margin-top:2px; font-size:12px; font-weight:500; color:var(--fg-3); }
-.cc-row .coll-row{ grid-column:1 / -1; margin:0; }
-@media (min-width:640px){ .cc-row{ grid-template-columns:40px minmax(0,1fr) 270px; } .cc-row .coll-row{ grid-column:auto; } }
-.cl-group h3{ margin:16px 0 4px; font-family:var(--font-display); font-size:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-1); }
+.coll-bar{ display:flex; align-items:center; gap:8px; }
+.coll-copy{ flex:none; width:44px; height:44px; display:grid; place-items:center; border:0; cursor:pointer; color:var(--fg-1); background:rgba(255,255,255,.1); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); transition:background .15s var(--ease); }
+.coll-copy[hidden]{ display:none; }
+.coll-copy:hover{ background:rgba(255,255,255,.18); }
+.coll-copy[data-copied="true"]{ background:#1a4d7a; }
+.coll-copy:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 .cl-empty{ margin:6px 0 0; color:var(--fg-2); }
-.cs-sets{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
+.coll-more{ margin:14px 0 0; }
 .coll-add:focus-visible,.coll-del:focus-visible{ outline:2px solid var(--sky-ink); outline-offset:2px; }
 .dz-inner .coll-tag{ position:absolute; top:12px; right:0; z-index:2; }
 .dz-inner .colorbit{ position:absolute; top:24px; left:0; width:4px; height:34px; z-index:2; }
@@ -416,7 +423,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .d-img img{ width:100%; height:100%; object-fit:cover; display:block; }
 .d-titlewrap{ min-width:0; }
 .d-eye{ display:flex; align-items:center; gap:8px; margin:6px 0 0; flex-wrap:wrap; }
-.d-name{ font-family:var(--font-display); font-size:32px; font-weight:700; letter-spacing:.01em; text-transform:uppercase; color:var(--fg-1); line-height:.98; }
+.d-name{ font-family:var(--font-sans); font-size:28px; font-weight:700; letter-spacing:-.02em; text-transform:none; color:var(--fg-1); line-height:1.12; }
 .d-kpirow{ display:grid; grid-template-columns:repeat(2,1fr); gap:4px; padding:0 var(--pad); }
 @media (min-width:360px){ .d-kpirow{ grid-template-columns:repeat(4,1fr); } }
 .d-kpi{ background:var(--panel); padding:8px 12px 10px; border-radius:12px; }
@@ -445,7 +452,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-side:empty{ display:none; }
 .dv-sidebox{ display:flex; flex-direction:column; gap:6px; }
 .dv-titlerow{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; }
-.dv-title{ margin:0; min-width:0; max-width:100%; }
+.dp-title.dv-title{ margin:0; min-width:0; max-width:100%; font-family:var(--font-sans); font-size:clamp(26px,7.4vw,38px); font-weight:700; letter-spacing:-.02em; text-transform:none; line-height:1.15; }
 .dv-nameline{ display:flex; align-items:center; gap:2px; min-width:0; max-width:100%; }
 .dv-namewrap{ display:inline-grid; max-width:100%; box-shadow:inset 0 -2px 0 rgba(139,205,255,.28); transition:box-shadow .15s var(--ease); }
 .dv-namewrap::after{ content:attr(data-value) " "; visibility:hidden; white-space:pre; grid-area:1 / 1; min-width:2ch; pointer-events:none; }
@@ -646,7 +653,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .comp-chip:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
 .comp-arch{ display:flex; flex-direction:column; gap:10px; padding:14px; background:rgba(255,255,255,.05); }
 .comp-arch-head{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; }
-.comp-arch-name{ font-family:var(--font-display); font-size:24px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--fg-1); line-height:1; }
+.comp-arch-name{ font-family:var(--font-sans); font-size:20px; font-weight:700; letter-spacing:-.01em; text-transform:none; color:var(--fg-1); line-height:1.15; }
 .comp-blocks{ display:grid; grid-template-columns:1fr; gap:8px; }
 .comp-block{ display:flex; flex-direction:column; gap:6px; padding:10px 0 0; border-top:1px solid var(--line); }
 .comp-big{ font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1; color:var(--fg-1); font-variant-numeric:tabular-nums; }
@@ -692,7 +699,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 }
 .dp-deck:hover,.dp-deck:focus-visible{ transform:translateY(-3px); background:color-mix(in srgb, var(--accent) 34%, #1d1a38); }
 .dp-deck:focus-visible{ outline:3px solid var(--sky); outline-offset:-3px; }
-.dp-deck-name{ font-family:var(--font-display); font-size:20px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-1); padding-right:40px; overflow-wrap:anywhere; line-height:1.1; }
+.dp-deck-name{ font-family:var(--font-sans); font-size:18px; font-weight:700; letter-spacing:-.01em; text-transform:none; color:var(--fg-1); padding-right:40px; overflow-wrap:anywhere; line-height:1.2; }
 .dp-deck-chips{ display:flex; flex-wrap:wrap; gap:6px; }
 .dp-chip{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-display); font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding:5px 12px; background:rgba(255,255,255,.08); color:var(--fg-2); border-radius:9999px; }
 .dp-deck-count{ display:flex; align-items:baseline; gap:6px; margin-top:auto; }
@@ -705,7 +712,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dp-new:hover,.dp-new:focus-visible{ color:var(--sky); background:rgba(139,205,255,.08); }
 .dp-dhead{ flex-direction:column; gap:14px; }
 .dp-dtitle{ display:flex; flex-direction:column; gap:4px; min-width:0; }
-.dp-name{ width:100%; min-height:48px; border:0; outline:0; background:transparent; font-family:var(--font-display); font-size:clamp(32px,9vw,46px); font-weight:700; letter-spacing:.01em; text-transform:uppercase; color:var(--fg-1); line-height:1; box-shadow:inset 0 -2px 0 var(--line); transition:box-shadow .15s var(--ease); }
+.dp-name{ width:100%; min-height:48px; border:0; outline:0; background:transparent; font-family:var(--font-sans); font-size:clamp(26px,7.4vw,38px); font-weight:700; letter-spacing:-.02em; text-transform:none; color:var(--fg-1); line-height:1; box-shadow:inset 0 -2px 0 var(--line); transition:box-shadow .15s var(--ease); }
 .dp-name:focus{ box-shadow:inset 0 -3px 0 var(--sky); }
 .dp-actions{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,136px),1fr)); gap:8px; }   /* móvil: 2×2 en vez de 4 botones cortados en una fila */
 .dp-actions .dp-btn{ padding:0 10px; white-space:normal; text-align:center; line-height:1.15; }
@@ -742,7 +749,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .cmp-body{ flex:1; overflow:auto; padding:16px var(--pad) calc(16px + env(safe-area-inset-bottom,0px)); display:flex; gap:10px; align-items:flex-start; scroll-snap-type:x proximity; }
 .cmp-empty{ text-align:center; color:var(--fg-3); font-size:14px; padding:60px 20px; width:100%; }
 .cmp-col{ flex:0 0 min(78vw,280px); scroll-snap-align:start; background:var(--panel); padding:14px; display:flex; flex-direction:column; gap:10px; clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
-.cmp-col h3{ font-family:var(--font-display); font-size:22px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--fg-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cmp-col h3{ font-family:var(--font-sans); font-size:18px; font-weight:700; text-transform:none; letter-spacing:-.01em; color:var(--fg-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .cmp-stats{ display:flex; flex-wrap:wrap; gap:5px; }
 .cmp-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:13px; padding:6px 0; box-shadow:inset 0 -1px 0 var(--tone); }
 .cmp-row .n{ color:var(--fg-1); font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -1144,7 +1151,7 @@ html{ touch-action:manipulation; }
 .dl-list{ display:flex; flex-direction:column; gap:10px; }
 .dl-deck{ display:flex; flex-direction:column; gap:10px; padding:14px; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--row-c, var(--sky)); }
 .dl-head{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; }
-.dl-name{ font-family:var(--font-display); font-size:20px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--fg-1); }
+.dl-name{ font-family:var(--font-sans); font-size:18px; font-weight:700; letter-spacing:-.01em; text-transform:none; color:var(--fg-1); }
 .dl-place{ padding:2px 9px; border-radius:9999px; font-size:12px; font-weight:700; background:var(--sky); color:var(--sky-ink); white-space:nowrap; }
 .dl-meta{ font-size:13px; line-height:1.4; color:var(--fg-3); overflow-wrap:anywhere; }
 .dl-stats{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; font-weight:700; color:var(--fg-2); }
@@ -1180,7 +1187,7 @@ html{ touch-action:manipulation; }
 .ml-modes .tag.chip.active{ background:var(--sky); color:var(--sky-ink); }
 .ml-head{ display:flex; flex-direction:column; gap:10px; padding:16px; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--sky); }
 .ml-eyebrow{ font-family:var(--font-display); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--sky); }
-.ml-arch{ font-family:var(--font-display); font-size:28px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-1); display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.ml-arch{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:-.015em; text-transform:none; line-height:1.15; color:var(--fg-1); display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
 .ml-big{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .ml-big b{ font-family:var(--font-display); font-size:44px; font-weight:700; color:var(--fg-1); line-height:1; }
 .ml-big span{ font-size:14px; color:var(--fg-3); }
@@ -1588,10 +1595,12 @@ html{ touch-action:manipulation; }
     <div class="dp-head">
       <h1 class="dp-title" id="collTitle">Mi colección</h1>
       <p class="comp-sub" id="collSub"></p>
-      <button type="button" class="dp-btn" id="collCopy" hidden></button>
     </div>
-    <div class="comp-tabs" id="collTabs" role="tablist"></div>
-    <div class="comp-panel" id="collPanel" role="tabpanel" tabindex="0"></div>
+    <div class="coll-bar" id="collBar">
+      <button type="button" class="dp-btn dp-btn-primary" id="collStarters"></button>
+      <button type="button" class="coll-copy" id="collCopy" hidden></button>
+    </div>
+    <div class="comp-panel" id="collPanel" tabindex="-1"></div>
   </div>
 </section>
 
@@ -52829,10 +52838,10 @@ var EFFECT_CONFIG = {
       tengo:'Tengo', enColeccion:'En tu colección', collAdd:'Añadir a mi colección', collHave:'En mi colección', collRemove:'Quitar de mi colección', collTag:'TENGO', collMiss:'No la tengo', collBanner:function(n){ return n === 1 ? 'Te falta 1 carta de este mazo' : 'Te faltan '+n+' cartas de este mazo'; }, collTitle:'Mi colección', collBack:'Catálogo', collOpen:'Mi colección', collCopy:'Copiar mi colección', collCopied:'Copiado',
       collCopyHead:function(n){ return 'Mi colección de Gundam Card Game ('+n+(n === 1 ? ' carta distinta' : ' cartas distintas')+', sin cantidades):'; },
       collSub:function(n){ return n === 0 ? 'Aún no tienes ninguna carta. Empieza añadiendo un mazo inicial o las cartas que tengas.' : n+(n === 1 ? ' carta distinta' : ' cartas distintas'); },
-      collTabs:{ starters:'Mazos iniciales', expansions:'Expansiones', all:'Todas' },
-      collStartersIntro:'Marca los mazos iniciales que tengas: se añaden todas sus cartas de golpe. Volver a pulsarlo las quita.', collExpIntro:'Añade carta a carta lo que tengas de cada expansión.',
+      collStarters:'Mazos iniciales', collMore:function(n){ return 'Mostrar más ('+n+')'; },
+      collStartersIntro:'Marca los mazos iniciales que tengas: se añaden todas sus cartas de golpe. Volver a pulsarlo las quita.',
       collAddDeck:'Añadir mazo', collHaveDeck:'Tengo el mazo', collNCards:function(n){ return n+' cartas'; }, collPartial:function(h, n){ return h+' de '+n+' cartas'; },
-      collAllEmpty:'Todavía no hay nada aquí. Añade un mazo inicial, o cartas desde las expansiones o el catálogo.',
+      collAllEmpty:'Todavía no hay cartas. Pulsa «Mazos iniciales» o añade cartas desde el catálogo con «Añadir a mi colección».',
       noResults:'Ninguna carta coincide con estos filtros.', loading:'Cargando…',
       color:'Color', nivel:'Nivel', coste:'Coste', tipo:'Tipo', rasgos:'Rasgos', link:'Link', zona:'Zona',
       efecto:'Efecto', vainillaTxt:'Sin efecto. Carta vainilla.', origen:'Origen:', disponibleEn:'Disponible en:',
@@ -53050,10 +53059,10 @@ var EFFECT_CONFIG = {
       tengo:'Owned', enColeccion:'In your collection', collAdd:'Add to my collection', collHave:'In my collection', collRemove:'Remove from my collection', collTag:'OWNED', collMiss:'Not owned', collBanner:function(n){ return n === 1 ? 'You are missing 1 card from this deck' : 'You are missing '+n+' cards from this deck'; }, collTitle:'My collection', collBack:'Catalog', collOpen:'My collection', collCopy:'Copy my collection', collCopied:'Copied',
       collCopyHead:function(n){ return 'My Gundam Card Game collection ('+n+(n === 1 ? ' distinct card' : ' distinct cards')+', no quantities):'; },
       collSub:function(n){ return n === 0 ? 'You have no cards yet. Start by adding a starter deck or the cards you own.' : n+(n === 1 ? ' distinct card' : ' distinct cards'); },
-      collTabs:{ starters:'Starter decks', expansions:'Expansions', all:'All' },
-      collStartersIntro:'Mark the starter decks you own: all their cards are added at once. Press again to remove them.', collExpIntro:'Add the cards you own from each expansion, one by one.',
+      collStarters:'Starter decks', collMore:function(n){ return 'Show more ('+n+')'; },
+      collStartersIntro:'Mark the starter decks you own: all their cards are added at once. Press again to remove them.',
       collAddDeck:'Add deck', collHaveDeck:'I have the deck', collNCards:function(n){ return n+' cards'; }, collPartial:function(h, n){ return h+' of '+n+' cards'; },
-      collAllEmpty:'Nothing here yet. Add a starter deck, or cards from the expansions or the catalog.',
+      collAllEmpty:'No cards yet. Press “Starter decks” or add cards from the catalog with “Add to my collection”.',
       noResults:'No card matches these filters.', loading:'Loading…',
       color:'Color', nivel:'Level', coste:'Cost', tipo:'Type', rasgos:'Traits', link:'Link', zona:'Zone',
       efecto:'Effect', vainillaTxt:'No effect. Vanilla card.', origen:'Source:', disponibleEn:'Available in:',
@@ -53945,7 +53954,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.9';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.10';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54837,6 +54846,7 @@ var EFFECT_CONFIG = {
     body.appendChild(fxRow);
     inner.appendChild(body);
     dz.appendChild(inner);
+    paintCollectionRow(body.querySelector('.coll-row'));   // ya montada: marca la carta (botón azul, TENGO, papelera) si está en la colección
     return {dz:dz, inner:inner};
   }
 
@@ -56289,22 +56299,20 @@ var EFFECT_CONFIG = {
   });
   if(location.hash === '#competicion') openCompPage();
 
-  /* ===== MI COLECCIÓN (pantalla) ===== */
-  var collPage = document.getElementById('collPage'), collTab = 'starters', collExpSet = 'GD01';
+  /* ===== MI COLECCIÓN (pantalla) =====
+   * Vista por defecto: tus cartas como en el catálogo (cuadrícula con el botón de colección y la etiqueta TENGO).
+   * "Mazos iniciales" abre la vista de ST01–ST14; copiar es el botón cuadrado de la barra. */
+  var collPage = document.getElementById('collPage'), collView = 'cards', collShown = 48;
+  var COLL_CHUNK = 48;
+  var COPY_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="3.5" width="9" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7v8.2c0 .9.7 1.6 1.6 1.6H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  var CHECK_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10.5l3.6 3.6 7.4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function starterCards(setId){ return ALL.filter(function(c){ return c.set === setId; }).map(function(c){ return c.number; }).sort(); }
   function setsMatching(re){   /* ST…, luego GD…, luego EB…; dentro de cada tipo, por número */
     var seen = {}, order = ['ST', 'GD', 'EB']; ALL.forEach(function(c){ if(re.test(c.set)) seen[c.set] = 1; });
     return Object.keys(seen).sort(function(x, y){ return (order.indexOf(x.slice(0, 2)) - order.indexOf(y.slice(0, 2))) || x.localeCompare(y); });
   }
   function ownedKnown(){ return COLL.list().filter(function(n){ return !!cardByNumber(n); }); }
-  function collCardRow(card){
-    var r = el('div', 'cc-row');
-    var img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = 'images/' + card.number + '.webp'; r.appendChild(img);
-    var nm = el('div', 'cc-name', card.name); nm.appendChild(el('small', null, card.number)); r.appendChild(nm);
-    r.appendChild(collectionEl(card));
-    return r;
-  }
-  /* Texto para pegar en un chat: "ST01-001 · Gundam", agrupado por set (ST, luego GD, luego EB), solo cartas que existen en el catálogo */
+  /* Texto para pegar en un chat: "ST01-001 · Gundam", agrupado por set, solo cartas que existen en el catálogo */
   function collectionText(){
     var C = t(), bySet = {}, order = ['ST', 'GD', 'EB'];
     ownedKnown().forEach(function(n){ var c = cardByNumber(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
@@ -56318,26 +56326,33 @@ var EFFECT_CONFIG = {
     return out.join('\n').replace(/\n+$/, '\n');
   }
   var collCopyTimer = null;
+  function paintCopyBtn(copied){
+    var b = document.getElementById('collCopy'), C = t();
+    b.innerHTML = copied ? CHECK_ICON : COPY_ICON; b.dataset.copied = String(!!copied);
+    b.setAttribute('aria-label', copied ? C.collCopied : C.collCopy); b.title = copied ? C.collCopied : C.collCopy;
+  }
   document.getElementById('collCopy').addEventListener('click', function(){
-    var txt = collectionText(), b = this;
-    function done(){ b.textContent = t().collCopied; clearTimeout(collCopyTimer); collCopyTimer = setTimeout(function(){ b.textContent = t().collCopy; }, 1400); }
+    var txt = collectionText();
+    function done(){ paintCopyBtn(true); clearTimeout(collCopyTimer); collCopyTimer = setTimeout(function(){ paintCopyBtn(false); }, 1400); }
     if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
     else { fallbackCopy(txt); done(); }
   });
+  document.getElementById('collStarters').addEventListener('click', function(){ collView = 'starters'; renderColl(); collPage.scrollTop = 0; });
   function renderColl(){
-    var C = t(), top = collPage.scrollTop;
-    var cp = document.getElementById('collCopy'); cp.textContent = C.collCopy; cp.hidden = ownedKnown().length === 0;
+    var C = t(), top = collPage.scrollTop, owned = ownedKnown(), starters = collView === 'starters';
     document.getElementById('lblCollBack').textContent = C.collBack;
     document.getElementById('collTitle').textContent = C.collTitle;
-    document.getElementById('collSub').textContent = C.collSub(ownedKnown().length);
-    var tabs = document.getElementById('collTabs'); tabs.innerHTML = '';
-    ['starters', 'expansions', 'all'].forEach(function(id){
-      var b = el('button', 'comp-tab', C.collTabs[id]); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(collTab === id));
-      b.addEventListener('click', function(){ if(collTab === id) return; collTab = id; renderColl(); collPage.scrollTop = 0; });
-      tabs.appendChild(b);
-    });
+    document.getElementById('collSub').textContent = C.collSub(owned.length);
+    document.getElementById('collBar').hidden = starters;
+    document.getElementById('collStarters').textContent = C.collStarters;
+    document.getElementById('collCopy').hidden = owned.length === 0; if(!collCopyTimer) paintCopyBtn(false);
     var panel = document.getElementById('collPanel'); panel.innerHTML = '';
-    if(collTab === 'starters'){
+    if(starters){
+      var back = el('button', 'dp-back', ''); back.type = 'button'; back.id = 'collBackCards';
+      back.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      back.appendChild(el('span', null, C.collTitle));
+      back.addEventListener('click', function(){ collView = 'cards'; renderColl(); collPage.scrollTop = 0; });
+      panel.appendChild(back);
       panel.appendChild(el('p', 'comp-note', C.collStartersIntro));
       setsMatching(/^ST\d+$/).forEach(function(setId){
         var nums = starterCards(setId), have = nums.filter(function(n){ return COLL.has(n); }).length, all = COLL.hasAll(nums);
@@ -56348,27 +56363,16 @@ var EFFECT_CONFIG = {
         b.addEventListener('click', function(){ if(all) COLL.removeMany(nums); else COLL.addMany(nums); });
         row.appendChild(b); panel.appendChild(row);
       });
-    } else if(collTab === 'expansions'){
-      panel.appendChild(el('p', 'comp-note', C.collExpIntro));
-      var chips = el('div', 'cs-sets');
-      var sets = setsMatching(/^(GD|EB)\d+$/); if(sets.indexOf(collExpSet) === -1) collExpSet = sets[0];
-      sets.forEach(function(sid){
-        var c = el('button', 'tag chip' + (sid === collExpSet ? ' active' : ''), sid); c.type = 'button'; c.setAttribute('aria-pressed', String(sid === collExpSet));
-        c.addEventListener('click', function(){ collExpSet = sid; renderColl(); });
-        chips.appendChild(c);
-      });
-      panel.appendChild(chips);
-      starterCards(collExpSet).forEach(function(n){ panel.appendChild(collCardRow(cardByNumber(n))); });
+    } else if(!owned.length){
+      panel.appendChild(el('p', 'cl-empty', C.collAllEmpty));
     } else {
-      var owned = ownedKnown();
-      if(!owned.length){ panel.appendChild(el('p', 'cl-empty', C.collAllEmpty)); }
-      else {
-        var bySet = {}; owned.forEach(function(n){ var c = cardByNumber(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
-        Object.keys(bySet).sort().forEach(function(sid){
-          var g = el('section', 'cl-group'); g.appendChild(el('h3', null, sid + ' · ' + C.collNCards(bySet[sid].length)));
-          bySet[sid].forEach(function(c){ g.appendChild(collCardRow(c)); });
-          panel.appendChild(g);
-        });
+      var grid = el('div', 'grid'); grid.id = 'collGrid';
+      owned.slice(0, collShown).forEach(function(n){ grid.appendChild(tile(cardByNumber(n)).dz); });
+      panel.appendChild(grid);
+      if(owned.length > collShown){
+        var more = el('button', 'dp-btn coll-more', C.collMore(owned.length - collShown)); more.type = 'button';
+        more.addEventListener('click', function(){ collShown += COLL_CHUNK; renderColl(); });
+        panel.appendChild(more);
       }
     }
     collPage.scrollTop = top;
@@ -56377,7 +56381,7 @@ var EFFECT_CONFIG = {
     closeSidebar(); closeDeckView(); closeCompPage(); closeAccount();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
-    renderColl();
+    collView = 'cards'; collShown = COLL_CHUNK; renderColl();
     collPage.hidden = false; collPage.scrollTop = 0; enter(collPage, 'forward');
     try{ if(location.hash !== '#coleccion') history.pushState(null, '', '#coleccion'); }catch(e){}
     updateTabbar();
