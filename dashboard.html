@@ -1129,6 +1129,7 @@ html{ touch-action:manipulation; }
 .deck-menu button.is-danger{ color:#f4a6a6; }
 .deck-menu button.is-armed{ background:#9f2a24; color:#fff; }
 /* ===== COMPETICIÓN · LISTAS ===== */
+.cp-types{ display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 6px; }
 .dl-evchip{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 0 14px; min-height:44px; background:rgba(139,205,255,.14); color:var(--fg-1); font-size:14px; font-weight:700; }
 .dl-evchip span{ min-width:0; overflow-wrap:anywhere; }
 .dl-evchip button{ flex:none; width:44px; height:44px; display:grid; place-items:center; color:var(--sky); }
@@ -53944,7 +53945,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.8';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-29.9';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -56011,7 +56012,7 @@ var EFFECT_CONFIG = {
     line.appendChild(document.createTextNode(U.source+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.dataFrom+' '+fmtDate(snap.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
   }
   /* ===== Competición con datos públicos ===== */
-  var CP = { cardsShown:20, cardQ:'', cardType:'', archStyle:'', archSort:'share', archOpen:{}, eventsShown:15 };
+  var CP = { cardsShown:20, cardQ:'', cardTypes:{}, archStyle:'', archSort:'share', archOpen:{}, eventsShown:15 };
   function cpNeed(panel, holder, ready){
     var U = t().cp;
     if(holder.status === 'idle' || holder.status === 'loading'){ panel.appendChild(el('p','comp-note', U.loading)); return; }
@@ -56049,7 +56050,7 @@ var EFFECT_CONFIG = {
     line.appendChild(document.createTextNode(U.sources+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(snapDate.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
   }
   function cpCardRow(num, line1, line2){
-    var cd = cardByNumber(num), row = el('div','ml-row'), im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+num+'.webp';
+    var cd = cardByNumber(num), row = el('div','ml-row'), im = document.createElement('img'); row.dataset.number = num; im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+num+'.webp';
     if(cd) im.addEventListener('click', function(){ openDetail(cd, im); }); row.appendChild(im);
     row.appendChild(el('b',null, cd ? cd.name : num)); row.appendChild(el('small',null, line1)); if(line2) row.appendChild(el('small',null, line2)); return row;
   }
@@ -56133,11 +56134,19 @@ var EFFECT_CONFIG = {
     var f1 = el('div','dl-field');
     var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'dl-select'; inp.id = 'cpQ'; inp.value = CP.cardQ; inp.autocomplete = 'off'; inp.placeholder = T.cardSearch; inp.setAttribute('aria-label', T.cardSearch);
     inp.addEventListener('input', function(){ CP.cardQ = inp.value; CP.cardsShown = 20; paint(); }); f1.appendChild(inp); fl.appendChild(f1);
-    var f2 = el('div','dl-field');
-    var sel = document.createElement('select'); sel.className = 'dl-select'; sel.setAttribute('aria-label', T.cardType);
-    [['', T.allTypes], ['UNIT', L.types.UNIT], ['PILOT', L.types.PILOT], ['COMMAND', L.types.COMMAND], ['BASE', L.types.BASE]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === CP.cardType) op.selected = true; sel.appendChild(op); });
-    sel.addEventListener('change', function(){ CP.cardType = sel.value; CP.cardsShown = 20; paint(); }); f2.appendChild(sel); fl.appendChild(f2);
     panel.appendChild(fl);
+    /* tipo: 4 botones que se pulsan o despulsan (varios a la vez); ninguno pulsado = todos los tipos */
+    var tbox = el('div','cp-types'); tbox.setAttribute('role','group'); tbox.setAttribute('aria-label', T.cardType);
+    ['UNIT','PILOT','COMMAND','BASE'].forEach(function(ty){
+      var on = !!CP.cardTypes[ty], b = el('button','tag chip'+(on ? ' active' : ''), L.types[ty]); b.type = 'button'; b.setAttribute('aria-pressed', String(on));
+      b.addEventListener('click', function(){
+        if(CP.cardTypes[ty]) delete CP.cardTypes[ty]; else CP.cardTypes[ty] = true;
+        var now = !!CP.cardTypes[ty]; b.classList.toggle('active', now); b.setAttribute('aria-pressed', String(now));
+        CP.cardsShown = 20; paint();
+      });
+      tbox.appendChild(b);
+    });
+    panel.appendChild(tbox);
     var users = {};     // carta -> arquetipos que la juegan en >= 20 % de sus listas
     M.archetypes.forEach(function(a){ Object.keys(a.cards).forEach(function(n){ if(a.cards[n].adoption >= 0.2) (users[n] = users[n] || []).push(a); }); });
     var all = Object.keys(P.merged.cards).map(function(n){ return {n:n, c:P.merged.cards[n], cd:cardByNumber(n)}; }).sort(function(a, b){ return b.c.adoption - a.c.adoption; });
@@ -56145,7 +56154,8 @@ var EFFECT_CONFIG = {
     function paint(){
       box.innerHTML = '';
       var q = CP.cardQ.trim().toLowerCase();
-      var rows = all.filter(function(x){ return (!CP.cardType || (x.cd && x.cd.type === CP.cardType)) && (!q || x.n.toLowerCase().indexOf(q) !== -1 || (x.cd && x.cd.name.toLowerCase().indexOf(q) !== -1)); });
+      var anyType = Object.keys(CP.cardTypes).length > 0;
+      var rows = all.filter(function(x){ return (!anyType || (x.cd && CP.cardTypes[x.cd.type])) && (!q || x.n.toLowerCase().indexOf(q) !== -1 || (x.cd && x.cd.name.toLowerCase().indexOf(q) !== -1)); });
       if(!rows.length) box.appendChild(el('p','comp-note', T.noResults));
       rows.slice(0, CP.cardsShown).forEach(function(x){
         var us = (users[x.n] || []).slice().sort(function(a, b){ return P.share(b) - P.share(a); });
