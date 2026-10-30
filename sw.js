@@ -3,7 +3,7 @@
  * - Imágenes de cartas: caché primero (no cambian) y se guardan al verlas.
  * - Fuentes de Google: caché primero.
  * Sube SHELL_VERSION si cambias la lista de PRECACHE. */
-const SHELL_VERSION = 'v10';
+const SHELL_VERSION = 'v11';
 const SHELL = 'locura-shell-' + SHELL_VERSION;
 const IMAGES = 'locura-images';
 const FONTS = 'locura-fonts';
@@ -15,6 +15,7 @@ const PRECACHE = [
   '/decks_sync.js',
   '/meta.js',
   '/collection.js',
+  '/collection_sync.js',
   '/icons/tab-coleccion.png',
   '/assets/fonts/inter-latin.woff2',
   '/manifest.webmanifest',

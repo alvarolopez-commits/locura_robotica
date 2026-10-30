@@ -34,7 +34,7 @@ for (const W of [390, 1280]) {
   check('el título de la página principal sigue en Big Shoulders con cifras Inter', esTitulo(await fam('.pageTitle h1')), await fam('.pageTitle h1'));
   const bb = await fam('#bbName');
   check('el nombre del mazo en construcción usa Inter, en negrita y tal como se escribe', esInter(bb) && +bb.peso >= 600, bb);
-  const fuentes = await ev(`Promise.all([document.fonts.load('400 16px Inter', 'Guncannon áéíóú ñ ¿'), document.fonts.load('700 16px Inter', 'Zakus')]).then(function(){ return { texto:document.fonts.check('400 16px Inter','Guncannon áéíóú'), negrita:document.fonts.check('700 16px Inter','Zakus'), cifras:document.fonts.check('700 16px "Inter Digits"','0123456789') } })`);
+  const fuentes = await ev(`Promise.all([document.fonts.load('400 16px Inter', 'Guncannon áéíóú ñ ¿'), document.fonts.load('700 16px Inter', 'Zakus'), document.fonts.load('700 16px "Inter Digits"', '0123456789')]).then(function(){ return { texto:document.fonts.check('400 16px Inter','Guncannon áéíóú'), negrita:document.fonts.check('700 16px Inter','Zakus'), cifras:document.fonts.check('700 16px "Inter Digits"','0123456789') } })`);
   check('Inter carga (texto, negrita y cifras)', fuentes.texto && fuentes.negrita && fuentes.cifras, fuentes);
   const enlaces = await ev(`[].map.call(document.querySelectorAll('link[href*="fonts.googleapis"]'),function(l){return l.href}).join(' ')`);
   check('ya no se pide Zen Kaku Gothic New', enlaces.indexOf('Zen+Kaku') === -1, enlaces);

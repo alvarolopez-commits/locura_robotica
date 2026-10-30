@@ -150,5 +150,20 @@ test('inc, dec y setQty avisan una vez por cambio y persisten', () => {
   c.setQty('A', 4); eq(n(), 4, 'mismo valor: sin aviso');
 });
 
+
+test('snapshot devuelve copias y fecha de cada carta y no deja tocar el estado interno', () => {
+  const c = C.create(memHost(), { now: () => 7 }); c.inc('A'); c.inc('A'); c.add('B');
+  const s = c.snapshot(); eq(JSON.stringify(s), JSON.stringify({ A: { q: 2, t: 7 }, B: { q: 1, t: 7 } }), 'foto');
+  s.A.q = 99; eq(c.qty('A'), 2, 'la copia no afecta');
+});
+
+test('replaceAll sustituye toda la colección, avisa una vez y guarda; sin cambios no avisa', () => {
+  const h = memHost(); const c = C.create(h); c.add('OLD'); const n = counter(c);
+  c.replaceAll({ A: { q: 3, t: 5 }, B: { q: 1, t: 0 }, MAL: { q: 0 } });
+  eq(c.list().join(','), 'A,B', 'cartas'); eq(c.qty('A'), 3, 'copias'); eq(c.addedAt('A'), 5, 'fecha'); eq(n(), 1, 'avisos');
+  eq(JSON.parse(h.text).A.q, 3, 'guardado');
+  c.replaceAll(c.snapshot()); eq(n(), 1, 'sin cambios: sin aviso');
+});
+
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');
 process.exit(failed ? 1 : 0);

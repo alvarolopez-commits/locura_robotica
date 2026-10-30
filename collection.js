@@ -63,6 +63,12 @@
       nums.forEach(function (n) { if (map.delete(n)) changed = true; });
       commit(changed);
     }
+    function snapshot() { var out = {}; list().forEach(function (k) { out[k] = { q: map.get(k).q, t: map.get(k).t }; }); return out; }
+    function replaceAll(obj) {   // sustituye toda la colección (lo usa la sincronización); solo avisa si algo cambió
+      var next = parse(JSON.stringify(obj || {})), before = JSON.stringify(snapshot());
+      map = next;
+      commit(JSON.stringify(snapshot()) !== before);
+    }
     function qty(n) { var e = map.get(n); return e ? e.q : 0; }
     function setQty(n, q) { commit(put(n, typeof q === 'number' ? q : 0)); }
     return {
@@ -72,6 +78,8 @@
       addMany: addMany,
       removeMany: removeMany,
       qty: qty,
+      snapshot: snapshot,
+      replaceAll: replaceAll,
       setQty: setQty,
       inc: function (n, by) { setQty(n, qty(n) + (by || 1)); },
       dec: function (n) { if (map.has(n)) setQty(n, qty(n) - 1); },

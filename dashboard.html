@@ -1433,6 +1433,7 @@ html{ touch-action:manipulation; }
 .dv-trash{ position:absolute; top:0; right:0; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; color:#ffb4ae; background:rgba(244,166,166,.12); box-shadow:inset 0 0 0 2px rgba(244,166,166,.55); cursor:pointer; }
 .dv-trash:hover{ background:rgba(244,166,166,.26); } .dv-trash:active{ transform:scale(.94); } .dv-trash:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 .dv-clear{ flex:none; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; color:var(--fg-2); background:rgba(255,255,255,.1); cursor:pointer; }
+.dv-copy[data-copied="true"]{ background:#1a4d7a; color:#fff; }
 .dv-clear:hover:not(:disabled){ background:rgba(255,255,255,.2); } .dv-clear:active:not(:disabled){ transform:scale(.94); } .dv-clear:disabled{ opacity:.3; cursor:not-allowed; } .dv-clear:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 /* ===== Favorito: estrella en la ventana del mazo y en el detalle ===== */
 .fav-star{ flex:none; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; color:var(--fg-3); cursor:pointer; transition:color .15s var(--ease), background .15s var(--ease), transform .12s var(--ease); }
@@ -1745,6 +1746,7 @@ html{ touch-action:manipulation; }
             <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
             <span id="dvCountTxt">0 / 50</span>
           </button>
+          <button type="button" class="dv-clear dv-copy" id="dvCopy" data-copied="false"></button>
           <button type="button" class="dv-clear" id="dvClear" aria-label="Vaciar el mazo (quitar todas las cartas)" title="Vaciar el mazo (quitar todas las cartas)"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button type="button" class="dv-delete ml-btn" id="dvCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
         </div>
@@ -1917,6 +1919,7 @@ html{ touch-action:manipulation; }
 <script src="decks_sync.js"></script>
 <script src="meta.js"></script>
 <script src="collection.js"></script>
+<script src="collection_sync.js"></script>
 <script src="data/meta/competition.js" onerror="void 0"></script>
 <script>
 var CARDS_DATA = [
@@ -53117,6 +53120,7 @@ var EFFECT_CONFIG = {
       efecto:'Efecto', vainillaTxt:'Sin efecto. Carta vainilla.', origen:'Origen:', disponibleEn:'Disponible en:',
       deckTotal:'Total',
       deckCopy:'Copiar lista', deckCopied:'¡Copiado!', deckNewName:'Mazo',
+      filterOwned:'Mi colección', filterOwnedHint:'Solo las que tengo',
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Cabezones feos',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
       myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
@@ -53351,6 +53355,7 @@ var EFFECT_CONFIG = {
       efecto:'Effect', vainillaTxt:'No effect. Vanilla card.', origen:'Source:', disponibleEn:'Available in:',
       deckTotal:'Total',
       deckCopy:'Copy list', deckCopied:'Copied!', deckNewName:'Deck',
+      filterOwned:'My collection', filterOwnedHint:'Only the ones I own',
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
       myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
@@ -53561,7 +53566,7 @@ var EFFECT_CONFIG = {
   function locLinkEs(text){ return text.replace(/((?:\([^)]+\)\s*\/?\s*)+)\s*Trait\b/g, function(_, tr){ return 'Rasgo '+tr.trim(); }); }
   function locZoneEs(text){ return text.split(/\s+/).map(function(z){ return z==='Space' ? 'Espacio' : z==='Earth' ? 'Tierra' : z; }).join(' · '); }
 
-  var state = { search:"", sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
+  var state = { search:"", owned:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
   var ALL = [];
   function traitList(c){
     if(!c.trait) return [];
@@ -54135,6 +54140,8 @@ var EFFECT_CONFIG = {
   var ICON_UP = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3.5M3.8 7.4L8 3.2l4.2 4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_DOWN = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v9.5M3.8 8.6L8 12.8l4.2-4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_STAR = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2l1.9 3.9 4.1.6-3 2.9.7 4.1L8 11.5 4.3 13.5l.7-4.1-3-2.9 4.1-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  var COPY_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="3.5" width="9" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7v8.2c0 .9.7 1.6 1.6 1.6H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  var CHECK_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10.5l3.6 3.6 7.4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_X = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   /* Selector de copias del mazo en construcción (catálogo y ficha): el + añade al instante, el − quita una; el número son las copias en el mazo (máx. 4) */
   function adderEl(number, big){
@@ -54240,7 +54247,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-29.16';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-10-30.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54249,7 +54256,7 @@ var EFFECT_CONFIG = {
   /* Mi colección: cartas que la persona tiene (sin cantidades). Si el módulo no cargara, queda una colección inerte y la app sigue como siempre. */
   var COLL = window.Collection ? Collection.create({ load:function(){ return lsGet(Collection.KEY); }, save:function(t){ lsSet(Collection.KEY, t); } })
     : { has:function(){ return false; }, exists:function(){ return false; }, isMissing:function(){ return false; }, hasAll:function(){ return false; }, size:function(){ return 0; }, list:function(){ return []; },
-        qty:function(){ return 0; }, setQty:function(){}, inc:function(){}, dec:function(){}, units:function(){ return 0; }, addedAt:function(){ return 0; }, hasDates:function(){ return false; },
+        qty:function(){ return 0; }, snapshot:function(){ return {}; }, replaceAll:function(){}, setQty:function(){}, inc:function(){}, dec:function(){}, units:function(){ return 0; }, addedAt:function(){ return 0; }, hasDates:function(){ return false; },
         add:function(){}, remove:function(){}, addMany:function(){}, removeMany:function(){}, onChange:function(){} };
   function paintCollectionRow(row){
     var num = row.dataset.number, owned = COLL.has(num), C = t(), name = (cardByNumber(num) || {}).name || num;
@@ -54279,6 +54286,7 @@ var EFFECT_CONFIG = {
   }
   function repaintCollection(){
     document.querySelectorAll('.coll-row').forEach(paintCollectionRow);
+    if(state.owned && typeof render === 'function') render(); else
     document.querySelectorAll('.dz-inner').forEach(function(inner){ var w = inner.querySelector('.card-imgwrap'); if(w) paintOwnedTag(inner, w.dataset.number); });
     if(typeof addDrawer !== 'undefined' && addDrawer && !addDrawer.hidden) paintAddRows();
     if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) collRepaint();
@@ -54286,7 +54294,7 @@ var EFFECT_CONFIG = {
     var dpd = document.getElementById('dpDetail'), dpg = document.getElementById('decksPage');
     if(dpd && !dpd.hidden && dpg && !dpg.hidden && dpDeckId) renderDeckDetail();
   }
-  COLL.onChange(function(){ repaintCollection(); });
+  COLL.onChange(function(){ repaintCollection(); if(typeof cloud !== 'undefined' && cloud.csync) cloud.csync.touch(); });   // cada cambio de la colección se envía a la cuenta (con espera)
   function cloudHost(){
     return {
       client: function(){ return cloud.client; },
@@ -54433,6 +54441,7 @@ var EFFECT_CONFIG = {
     var C = t().cloud; ['lblDvDelete','lblDpDelete'].forEach(function(i){ var e = document.getElementById(i); if(e) e.textContent = C.delDeck; });
     var d = document.getElementById('dvDelete'); if(d){ d.setAttribute('aria-label', C.delDeck); d.title = C.delDeck; }
     var c = document.getElementById('dvClear'); if(c){ c.setAttribute('aria-label', C.clearDeck); c.title = C.clearDeck; }
+    paintDvCopy(false);
   }
   function avatarById(id){ for(var i = 0; i < AVATARS.length; i++) if(AVATARS[i].id === id) return AVATARS[i]; return AVATARS[0]; }
   function avatarName(a){ return a.id === 'zaku' ? t().cloud.avatarZaku : (a.name || a.id); }
@@ -54497,6 +54506,7 @@ var EFFECT_CONFIG = {
         (es ? 'Servicio de cuentas: ' : 'Accounts service: ') + (!cloud.configured ? 'sin configurar' : cloud.loadFailed ? 'no cargó' : 'listo'),
         (es ? 'Sesión: ' : 'Session: ') + (cloud.user ? (cloud.user.email || '?') + ' · ' + String(cloud.user.id || '').slice(0, 8) : (es ? 'no iniciada' : 'signed out')),
         (es ? 'Estado de guardado: ' : 'Save state: ') + (st.phase || '—') + (st.message ? ' · ' + st.message : '') + (st.dirty ? ' · ' + st.dirty + (es ? ' pendiente(s)' : ' pending') : ''),
+        (es ? 'Colección: ' : 'Collection: ') + (cloud.csync ? cloud.csync.state().phase : '—') + ' · ' + COLL.size() + (es ? ' cartas distintas' : ' distinct cards') + (cloud.csync && cloud.csync.state().phase === 'unavailable' ? (es ? ' (falta crear la tabla en Supabase)' : ' (the Supabase table is missing)') : ''),
         (es ? 'Mazos en este dispositivo: ' : 'Decks on this device: ') + ids.length + (es ? ' (con copia en la nube: ' : ' (with a cloud copy: ') + withRemote + ')'
       ];
       return out.concat(extra).join('\n');
@@ -54661,10 +54671,14 @@ var EFFECT_CONFIG = {
       var remoteAv = session.user.user_metadata && session.user.user_metadata.avatar;
       if(remoteAv && remoteAv !== currentAvatarId()){ lsSet('msa_avatar', remoteAv); paintAvatar(); }
       cloud.sync.start(cloud.user).then(function(){ cloudRefreshUI(); paintSaveState(); });
+      if(cloud.csync) cloud.csync.start(cloud.user);   // une la colección de este dispositivo con la de la cuenta
       paintSaveState();
     } else if(cloud.user){
       var pending = cloud.sync.state().dirty > 0;
       cloud.user = null; cloud.sync.stop();
+      var collSaved = cloud.csync && cloud.csync.state().phase === 'saved';
+      if(cloud.csync) cloud.csync.stop();
+      if(cloud.explicitSignOut && collSaved) COLL.replaceAll({});   // cierre voluntario con la colección ya en la nube: no se la queda otra cuenta que inicie sesión aquí
       if(cloud.explicitSignOut || !pending){
         // cierre voluntario (o sin nada pendiente): los mazos de la cuenta salen de este navegador; los locales se conservan
         Object.keys(DECKS).forEach(function(id){ if(DECKS[id].remote) { delete DECKS[id]; delete deckHash[id]; } });
@@ -54714,6 +54728,10 @@ var EFFECT_CONFIG = {
     })();
     if(!cloud.configured) return;
     cloud.sync = DeckSync.create(cloudHost());
+    if(typeof CollectionSync !== 'undefined') cloud.csync = CollectionSync.create({
+      client: function(){ return cloud.client; }, snapshot: function(){ return COLL.snapshot(); }, replaceAll: function(m){ COLL.replaceAll(m); },
+      storage: { get: lsGet, set: lsSet }, onState: function(st){ cloud.collState = st; }
+    });
     function boot(){
       cloud.client = window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
       cloud.client.auth.onAuthStateChange(function(ev, session){ setTimeout(function(){ onSession(session); }, 0); });   // sin llamadas a Supabase dentro del callback
@@ -54725,8 +54743,8 @@ var EFFECT_CONFIG = {
       sc.onerror = function(){ cloud.loadFailed = true; paintSaveState(); };      // sin conexión o bloqueado: los mazos siguen en local
       document.head.appendChild(sc);
     }
-    window.addEventListener('online', function(){ if(cloud.sync && cloud.user) cloud.sync.retry(); });
-    document.addEventListener('visibilitychange', function(){ if(!document.hidden && cloud.sync && cloud.user) cloud.sync.retry(); });   // al volver a la pestaña se pone al día
+    window.addEventListener('online', function(){ if(cloud.sync && cloud.user) cloud.sync.retry(); if(cloud.csync && cloud.user) cloud.csync.retry(); });
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden && cloud.sync && cloud.user){ cloud.sync.retry(); if(cloud.csync) cloud.csync.retry(); } });   // al volver a la pestaña se pone al día
   }
   /* ===== MIS MAZOS (página) ===== */
   var dpDeckId = null, dpSeen = {}, dpDelArmed = {};
@@ -55016,6 +55034,12 @@ var EFFECT_CONFIG = {
     var st = cfg.st(), pool = cfg.pool(), ids = cfg.ids, change = cfg.onChange;
     function has(fn){ return !cfg.onlyPool || pool.some(fn); }
     var setBox = document.getElementById(ids.set); setBox.innerHTML = '';
+    if(cfg.ownedChip){   /* "Mi colección": deja solo las cartas que tienes */
+      var oc = chip(t().filterOwned, function(btn){ st.owned = !st.owned; btn.classList.toggle('active', st.owned); }, null, change);
+      oc.id = 'f-owned'; oc.classList.add('owned-chip'); oc.title = t().filterOwnedHint; oc.setAttribute('aria-pressed', String(!!st.owned)); oc.classList.toggle('active', !!st.owned);
+      oc.addEventListener('click', function(){ oc.setAttribute('aria-pressed', String(!!st.owned)); });
+      var orow = el('div','sb-chips'); orow.appendChild(oc); setBox.appendChild(orow);
+    }
     function buildSetGroup(keys, label){
       keys = keys.filter(function(s){ return has(function(c){ return c.set === s; }); });
       if(!keys.length) return;
@@ -55085,7 +55109,7 @@ var EFFECT_CONFIG = {
       traitBox.appendChild(b);
     });
   }
-  var CAT_FILTERS = { st:function(){ return state; }, pool:function(){ return ALL; }, ids:{ set:'f-set', color:'f-color', type:'f-type', kw:'f-kw', fx:'f-fx', trait:'f-trait' }, onChange:function(){ render(); } };
+  var CAT_FILTERS = { ownedChip:true, st:function(){ return state; }, pool:function(){ return ALL; }, ids:{ set:'f-set', color:'f-color', type:'f-type', kw:'f-kw', fx:'f-fx', trait:'f-trait' }, onChange:function(){ render(); } };
   function buildFilters(){ buildFiltersFor(CAT_FILTERS); }
 
   function buildQuick(){
@@ -55107,6 +55131,7 @@ var EFFECT_CONFIG = {
 
   /* ¿cumple la carta los filtros de este estado? (catálogo y colección usan la misma lógica: OR dentro de un grupo, AND entre grupos) */
   function matchesWith(c, st){
+    if(st.owned && !COLL.has(c.number)) return false;
     if(st.sets.size && !st.sets.has(c.set)) return false;
     if(st.colors.size && !st.colors.has(c.color)) return false;
     if(st.types.size && !st.types.has(c.type)) return false;
@@ -55158,7 +55183,7 @@ var EFFECT_CONFIG = {
    * las tandas ya pintadas para no perder la posición del scroll. */
   var GRID_CHUNK = 48, gridList = [], gridShown = 0, gridKey = null, gridObserver = null;
   function filterKey(){
-    return JSON.stringify([state.search, [].concat(Array.from(state.sets), Array.from(state.colors), Array.from(state.types), Array.from(state.kws), Array.from(state.fxs), Array.from(state.traits))]);
+    return JSON.stringify([state.search, state.owned, [].concat(Array.from(state.sets), Array.from(state.colors), Array.from(state.types), Array.from(state.kws), Array.from(state.fxs), Array.from(state.traits))]);
   }
   function appendTiles(from, to){
     var grid = document.getElementById('grid'), frag = document.createDocumentFragment();
@@ -55204,6 +55229,7 @@ var EFFECT_CONFIG = {
   /* filtros activos de un estado: [{label, drop()}] (el catálogo y Mi colección los muestran como etiquetas que se quitan) */
   function activeFilterItems(st){
     var out = [];
+    if(st.owned) out.push({ label:t().filterOwned, drop:function(){ st.owned = false; } });
     st.sets.forEach(function(s){ out.push({ label:s, drop:function(){ st.sets.delete(s); } }); });
     st.colors.forEach(function(c){ out.push({ label:t().colors[c]||c, drop:function(){ st.colors.delete(c); } }); });
     st.types.forEach(function(ty){ out.push({ label:t().types[ty]||ty, drop:function(){ st.types.delete(ty); } }); });
@@ -55550,7 +55576,7 @@ var EFFECT_CONFIG = {
   document.getElementById('searchMain').addEventListener('input', runSearch);
   document.getElementById('searchBtn').addEventListener('click', runSearch);
   document.getElementById('clearFilters').addEventListener('click', function(){
-    state = { search:"", sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
+    state = { search:"", owned:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
     document.getElementById('searchMain').value = '';
     buildFilters();
     render();
@@ -55714,6 +55740,21 @@ var EFFECT_CONFIG = {
     DECKS[dpDeckId].name = e.target.value; saveDecksToStorage();
   });
   document.getElementById('dpAddCards').addEventListener('click', goAddCards);
+  /* copiar el mazo desde su ventana: botón cuadrado como el de Mi colección (mismo texto que "Copiar lista" de Mis mazos) */
+  var dvCopyTimer = null;
+  function paintDvCopy(copied){
+    var b = document.getElementById('dvCopy'); if(!b) return;
+    b.innerHTML = copied ? CHECK_ICON : COPY_ICON; b.dataset.copied = String(!!copied);
+    var txt = copied ? t().deckCopied : t().deckCopy; b.setAttribute('aria-label', txt); b.title = txt;
+  }
+  document.getElementById('dvCopy').addEventListener('click', function(){
+    var d = DECKS[activeDeckId]; if(!d || !deckTotal(d)) return;
+    var text = deckAsText(d);
+    function done(){ paintDvCopy(true); clearTimeout(dvCopyTimer); dvCopyTimer = setTimeout(function(){ paintDvCopy(false); }, 1400); }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text); done(); });
+    else { fallbackCopy(text); done(); }
+  });
+  paintDvCopy(false);
   document.getElementById('dpCopy').addEventListener('click', function(){
     if(!DECKS[dpDeckId]) return;
     var text = deckAsText(DECKS[dpDeckId]);
@@ -55798,6 +55839,7 @@ var EFFECT_CONFIG = {
     cnt.setAttribute('aria-label', V.goSummary+' · '+total+' / 50');
     cnt.classList.toggle('is-over', total > 50);
     var clr = document.getElementById('dvClear'); if(clr) clr.disabled = total === 0;
+    var cpy = document.getElementById('dvCopy'); if(cpy) cpy.disabled = total === 0;
     paintFavStars();
     cnt.classList.toggle('is-complete', total === 50 && (!engineOK() || legalOf(deck).status === 'legal'));
     var dsel = document.getElementById('dvSelect'); dsel.innerHTML = '';
@@ -56619,8 +56661,6 @@ var EFFECT_CONFIG = {
   var collState = { search:"", sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
   var collPoolKey = null, collObserver = null, collFilterOpener = null, collFlash = null;
   var COLL_MAX = (window.Collection && Collection.MAX_QTY) || 99;
-  var COPY_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="3.5" width="9" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7v8.2c0 .9.7 1.6 1.6 1.6H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
-  var CHECK_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10.5l3.6 3.6 7.4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var CC_PLUS = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   var CC_MINUS = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   function starterCards(setId){ return ALL.filter(function(c){ return c.set === setId; }).map(function(c){ return c.number; }).sort(); }
