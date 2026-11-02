@@ -1,12 +1,9 @@
 // Prueba de interfaz: Competición > Cartas con 4 botones de tipo (selección múltiple) en lugar del desplegable.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_comp_cards.mjs
 import fs from 'node:fs';
-const html = fs.readFileSync(new URL('../dashboard.html', import.meta.url), 'utf8');
+// el tipo de cada carta sale del catálogo (data/all_cards.json; la página lo carga desde data/cards.js)
 const tipoDe = {};
-for (const ch of html.split('"number": "').slice(1)) {
-  const n = ch.slice(0, ch.indexOf('"')); const m = /"type": "(\w+)"/.exec(ch.slice(0, 2500));
-  if (m && !tipoDe[n]) tipoDe[n] = m[1];
-}
+for (const c of JSON.parse(fs.readFileSync(new URL('../data/all_cards.json', import.meta.url), 'utf8'))) if (!tipoDe[c.number]) tipoDe[c.number] = c.type;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));

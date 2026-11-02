@@ -3,7 +3,7 @@
  * - Imágenes de cartas: caché primero (no cambian) y se guardan al verlas.
  * - Fuentes de Google: caché primero.
  * Sube SHELL_VERSION si cambias la lista de PRECACHE. */
-const SHELL_VERSION = 'v12';
+const SHELL_VERSION = 'v13';
 const SHELL = 'locura-shell-' + SHELL_VERSION;
 const IMAGES = 'locura-images';
 const FONTS = 'locura-fonts';
@@ -17,6 +17,7 @@ const PRECACHE = [
   '/collection.js',
   '/collection_sync.js',
   '/data/tokens.js',
+  '/data/cards.js',
   '/icons/tab-coleccion.png',
   '/assets/fonts/inter-latin.woff2',
   '/manifest.webmanifest',
@@ -26,7 +27,7 @@ const PRECACHE = [
   '/icons/favicon-32.png',
 ];
 const PAGE_KEY = '/';
-const NETWORK_TIMEOUT = 12000;       // la página pesa ~1,7 MB: con datos móviles lentos 4 s no bastaban y se enseñaba la versión vieja
+const NETWORK_TIMEOUT = 12000;       // margen para datos móviles lentos (la página ya no lleva el catálogo dentro: ~0,5 MB)
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
@@ -155,6 +156,8 @@ self.addEventListener('fetch', (event) => {
   }
   if (url.pathname.startsWith('/images/')) return event.respondWith(cacheFirst(request, IMAGES));
   if (url.pathname === '/sw.js') return;
+  /* el catálogo (1,2 MB) cambia muy poco: se sirve al instante desde la caché y se actualiza por detrás para la próxima vez */
+  if (url.pathname === '/data/cards.js') return event.respondWith(staleWhileRevalidate(request, SHELL));
   if (/\.(js|json|webmanifest)$/.test(url.pathname)) return event.respondWith(networkFirst(request, SHELL, 6000));
   event.respondWith(staleWhileRevalidate(request, SHELL));
 });
