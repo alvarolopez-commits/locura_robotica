@@ -3753,7 +3753,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-02.6';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-02.7';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
