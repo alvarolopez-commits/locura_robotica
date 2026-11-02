@@ -268,7 +268,11 @@ body.menu-open .db-top{ z-index:46; }
 
 .resultbar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .resultbar .count{ font-size:13px; color:var(--fg-3); font-weight:700; }
-.resultbar .clearbtn{ margin-left:auto; min-height:40px; display:inline-flex; align-items:center; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; }
+.catsort{ order:1; margin-left:auto; position:relative; display:inline-block; }   /* a la derecha de la barra de resultados, junto a "Limpiar filtros" */
+.catsort select{ appearance:none; -webkit-appearance:none; min-height:40px; max-width:100%; padding:0 34px 0 14px; font-family:var(--font-sans); font-size:var(--text-nav-size); font-weight:600; color:var(--fg-1); background:var(--tone) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%232e4a62' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 12px center / 12px 8px no-repeat; border:0; border-radius:9999px; cursor:pointer; outline:0; text-overflow:ellipsis; }
+.catsort select:hover{ background-color:var(--tone-2); }
+.catsort select:focus-visible{ box-shadow:0 0 0 3px rgba(62,112,124,.45); }
+.resultbar .clearbtn{ order:2; margin-left:12px; min-height:40px; display:inline-flex; align-items:center; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; }
 #activeFilters{ display:flex; gap:6px; flex-wrap:wrap; width:100%; order:3; }
 #activeFilters:empty{ display:none; }
 
@@ -1242,7 +1246,7 @@ html{ touch-action:manipulation; }
 /* si también está la tarjeta de instalar, el aviso de descarga se coloca encima de ella */
 @media (max-width:899px){ body:has(#installCard:not([hidden])) .warmToast{ bottom:calc(var(--tab-total) + 160px); } }
 @media (pointer:coarse){
-  .tag.chip,.resultbar .clearbtn{ min-height:44px; }
+  .tag.chip,.resultbar .clearbtn,.catsort select{ min-height:44px; }
   .tag.removable{ min-height:44px; }
   .tag.removable button{ width:36px; height:36px; }
 }
@@ -1324,6 +1328,19 @@ html{ touch-action:manipulation; }
 .dp-filters .tag.chip{ background:rgba(255,255,255,.08); color:var(--fg-2); }
 .dp-filters .tag.chip.active{ background:var(--sky); color:var(--sky-ink); }
 .dp-deck-star{ color:#f4c542; margin-right:6px; }
+.dp-copybar{ display:flex; align-items:center; flex-wrap:wrap; gap:6px 14px; }
+.dp-copybar[hidden]{ display:none; }
+.dp-copybar .dp-btn{ flex:none; min-height:44px; padding:0 18px; }
+.dp-copybar .dp-btn:disabled{ opacity:.45; cursor:not-allowed; }
+.dp-copylink{ min-height:44px; padding:0 6px; font-size:var(--text-nav-size); font-weight:600; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
+.dp-copylink:hover{ color:#fff; }
+.dp-copylink:focus-visible,.dp-copysel:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+.dp-copysel{ position:relative; align-self:flex-start; display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:0 14px 0 10px; border-radius:9999px; font-size:13px; font-weight:600; color:var(--fg-2); background:rgba(255,255,255,.06); box-shadow:inset 0 0 0 1.5px rgba(139,205,255,.4); transition:background .15s var(--ease), color .15s var(--ease); }
+.dp-copysel:not(.is-on){ padding-left:14px; }
+.dp-copysel svg{ width:16px; height:16px; }
+.dp-copysel::after{ content:""; position:absolute; inset:-4px -2px; }   /* se ve de 36 px y se pulsa en 44 */
+.dp-copysel.is-on{ color:var(--sky-ink); background:var(--sky); box-shadow:none; }
+.dp-copysel:hover:not(.is-on){ background:rgba(139,205,255,.18); }
 .dp-deck-sub{ font-size:12px; font-weight:700; color:var(--fg-3); display:flex; flex-wrap:wrap; gap:4px 10px; }
 .dp-deck-tag{ padding:1px 7px; border-radius:9999px; background:rgba(255,255,255,.1); font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
 .dp-deck.is-archived{ opacity:.72; cursor:default; }
@@ -1637,6 +1654,7 @@ html{ touch-action:manipulation; }
       </div>
       <div class="resultbar">
         <span class="count" id="resultcount">Cargando…</span>
+        <label class="catsort"><span class="sr-only" id="lblCatSort">Ordenar</span><select id="catSort"></select></label>
         <div id="activeFilters"></div>
         <button class="clearbtn" id="clearFilters">Limpiar filtros</button>
       </div>
@@ -1698,6 +1716,11 @@ html{ touch-action:manipulation; }
         <span class="dp-meta" id="dpCount"></span>
       </div>
       <div class="cloud-note" id="dpCloudNote" hidden></div>
+      <div class="dp-copybar" id="dpCopyBar">
+        <button type="button" class="dp-btn dp-btn-primary" id="dpCopySel"><span id="lblDpCopySel">Copiar mazos</span></button>
+        <button type="button" class="dp-copylink" id="dpSelAll">Todos</button>
+        <button type="button" class="dp-copylink" id="dpSelNone">Ninguno</button>
+      </div>
       <div class="dp-filters" id="dpFilters" role="group"></div>
       <div class="dp-grid" id="dpGrid"></div>
     </div>
@@ -1920,6 +1943,7 @@ html{ touch-action:manipulation; }
 <script src="meta.js"></script>
 <script src="collection.js"></script>
 <script src="collection_sync.js"></script>
+<script src="data/tokens.js" onerror="void 0"></script>
 <script src="data/meta/competition.js" onerror="void 0"></script>
 <script>
 var CARDS_DATA = [
@@ -53119,8 +53143,11 @@ var EFFECT_CONFIG = {
       color:'Color', nivel:'Nivel', coste:'Coste', tipo:'Tipo', rasgos:'Rasgos', link:'Link', zona:'Zona',
       efecto:'Efecto', vainillaTxt:'Sin efecto. Carta vainilla.', origen:'Origen:', disponibleEn:'Disponible en:',
       deckTotal:'Total',
-      deckCopy:'Copiar lista', deckCopied:'¡Copiado!', deckNewName:'Mazo',
+      deckCopy:'Copiar lista', deckCopied:'¡Copiado!',
+      copySel:'Para copiar', copySelAria:'Incluir este mazo al copiar la lista', copyDecks:function(n){ return n ? 'Copiar mazos ('+n+')' : 'Copiar mazos'; }, copyAll:'Todos', copyNone:'Ninguno', copyNoneHint:'Marca al menos un mazo para copiar', deckNewName:'Mazo',
       filterOwned:'Mi colección', filterOwnedHint:'Solo las que tengo',
+      sortLbl:'Ordenar las cartas', sortDefault:'Orden normal', sortLvAsc:'Nivel: de menor a mayor', sortLvDesc:'Nivel: de mayor a menor',
+      setTokenLbl:'Tokens',
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Cabezones feos',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
       myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
@@ -53354,8 +53381,11 @@ var EFFECT_CONFIG = {
       color:'Color', nivel:'Level', coste:'Cost', tipo:'Type', rasgos:'Traits', link:'Link', zona:'Zone',
       efecto:'Effect', vainillaTxt:'No effect. Vanilla card.', origen:'Source:', disponibleEn:'Available in:',
       deckTotal:'Total',
-      deckCopy:'Copy list', deckCopied:'Copied!', deckNewName:'Deck',
+      deckCopy:'Copy list', deckCopied:'Copied!',
+      copySel:'To copy', copySelAria:'Include this deck when copying the list', copyDecks:function(n){ return n ? 'Copy decks ('+n+')' : 'Copy decks'; }, copyAll:'All', copyNone:'None', copyNoneHint:'Mark at least one deck to copy', deckNewName:'Deck',
       filterOwned:'My collection', filterOwnedHint:'Only the ones I own',
+      sortLbl:'Sort cards', sortDefault:'Default order', sortLvAsc:'Level: low to high', sortLvDesc:'Level: high to low',
+      setTokenLbl:'Tokens',
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
       myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
@@ -53704,10 +53734,12 @@ var EFFECT_CONFIG = {
   /* ===== DECK BUILDER ===== */
   var DECKS = {};
   var activeDeckId = null;
+  var TOKENS = [], TOKEN_IDX = new Map();   /* cartas TOKEN: fuera del catálogo y de los mazos; solo existen para Mi colección y no suman como carta */
+  function isToken(c){ return !!(c && c.token); }
   var CARD_IDX = null, CARD_IDX_N = -1;   /* índice número → carta (ALL se carga una vez); antes cada consulta recorría todo el catálogo */
   function cardByNumber(num){
     if(CARD_IDX_N !== ALL.length){ CARD_IDX = new Map(); for(var i=0;i<ALL.length;i++){ if(!CARD_IDX.has(ALL[i].number)) CARD_IDX.set(ALL[i].number, ALL[i]); } CARD_IDX_N = ALL.length; }
-    return CARD_IDX.get(num) || null;
+    return CARD_IDX.get(num) || TOKEN_IDX.get(num) || null;
   }
   var ARCHIVED = {};
   var deckHash = {};
@@ -54243,11 +54275,11 @@ var EFFECT_CONFIG = {
   function deckEntries(deck){
     var order = {UNIT:0,PILOT:1,COMMAND:2,BASE:3};
     var out = Object.keys(deck.cards).map(function(num){ return {card:cardByNumber(num), qty:deck.cards[num]}; }).filter(function(e){ return !!e.card; });
-    out.sort(function(a,b){ if(order[a.card.type]!==order[b.card.type]) return order[a.card.type]-order[b.card.type]; return a.card.name.localeCompare(b.card.name); });
+    out.sort(function(a,b){ if(order[a.card.type]!==order[b.card.type]) return order[a.card.type]-order[b.card.type]; return byLevelThenAp(a.card, b.card) || a.card.name.localeCompare(b.card.name); });   // dentro de cada tipo: por nivel y después por ataque
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-10-30.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-02.6';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -54855,16 +54887,32 @@ var EFFECT_CONFIG = {
       box.appendChild(b);
     });
   }
+  /* Mazos marcados "para copiar": una lista de EXCLUIDOS guardada solo en este dispositivo (los mazos nuevos entran marcados).
+   * No toca los mazos ni su sincronización: solo decide qué mazos salen al pulsar "Copiar mazos". */
+  var copyExcl = (function(){ try{ var a = JSON.parse(localStorage.getItem('msa_copy_excl') || '[]'); return new Set(Array.isArray(a) ? a : []); }catch(e){ return new Set(); } })();
+  function saveCopyExcl(){ try{ localStorage.setItem('msa_copy_excl', JSON.stringify(Array.from(copyExcl))); }catch(e){} }
+  function copySelectedIds(){ return Object.keys(DECKS).filter(function(id){ return !copyExcl.has(id); }); }
+  function copySelectedText(){
+    var ids = copySelectedIds().sort(function(a, b){ var A = DECKS[a], B = DECKS[b]; if(!!A.favorite !== !!B.favorite) return A.favorite ? -1 : 1; return (B.updatedAt||0) - (A.updatedAt||0); });
+    return ids.map(function(id){ return deckAsText(DECKS[id]); }).join('\n\n----------------\n\n');
+  }
+  function paintCopyBar(){
+    var n = copySelectedIds().length, b = document.getElementById('dpCopySel');
+    document.getElementById('lblDpCopySel').textContent = t().copyDecks(n);
+    b.disabled = n === 0; b.title = n === 0 ? t().copyNoneHint : '';
+    document.getElementById('dpSelAll').textContent = t().copyAll; document.getElementById('dpSelNone').textContent = t().copyNone;
+    document.getElementById('dpCopyBar').hidden = !Object.keys(DECKS).length;
+  }
   function renderDecksGrid(){
     var grid = document.getElementById('dpGrid'); grid.innerHTML = '';
     var map = DECKS, ids = libraryIds(), C = t().cloud;
-    renderLibraryFilters(); paintCloudNote();
+    renderLibraryFilters(); paintCloudNote(); paintCopyBar();
     document.getElementById('dpCount').textContent = t().deckCount(Object.keys(DECKS).length);
     ids.forEach(function(id){
       var deck = map[id], total = deckTotal(deck), colors = deckColorCounts(deck);
       var tile = el('div','dp-deck'+(id===activeDeckId?' is-active':''));
       tile.tabIndex = 0; tile.setAttribute('role','button');
-      tile.addEventListener('click', function(e){ if(e.target.closest('.dd-iconbtn')) return; openDeckDetail(id); });
+      tile.addEventListener('click', function(e){ if(e.target.closest('.dd-iconbtn, .dp-copysel')) return; openDeckDetail(id); });
       tile.addEventListener('keydown', function(e){ if((e.key==='Enter'||e.key===' ') && e.target===tile){ e.preventDefault(); openDeckDetail(id); } });
       var nm = el('div','dp-deck-name'); if(deck.favorite){ var star = el('span','dp-deck-star','★'); star.setAttribute('aria-label', C.fav); nm.appendChild(star); }
       nm.appendChild(document.createTextNode(deck.name || t().deckNewName)); tile.appendChild(nm);
@@ -54884,6 +54932,11 @@ var EFFECT_CONFIG = {
       sub.appendChild(el('span','dp-deck-tag', deckStatusOf(deck) === 'complete' ? C.complete : C.draft));
       var up = updatedLabel(deck.updatedAt || (deck.remote && Date.parse(deck.remote.updatedAt))); if(up) sub.appendChild(el('span',null,up));
       tile.appendChild(sub);
+      var sel = document.createElement('button'); sel.type = 'button'; sel.className = 'dp-copysel';
+      function paintSel(){ var on = !copyExcl.has(id); sel.classList.toggle('is-on', on); sel.setAttribute('aria-pressed', String(on)); sel.innerHTML = (on ? CHECK_ICON : '') + '<span></span>'; sel.lastChild.textContent = t().copySel; }
+      sel.setAttribute('aria-label', t().copySelAria + ' · ' + (deck.name || t().deckNewName)); paintSel();
+      sel.addEventListener('click', function(e){ e.stopPropagation(); if(copyExcl.has(id)) copyExcl.delete(id); else copyExcl.add(id); saveCopyExcl(); paintSel(); paintCopyBar(); });
+      tile.appendChild(sel);
       var menuBtn = document.createElement('button');
       menuBtn.type = 'button'; menuBtn.className = 'dd-iconbtn dp-del dp-menu';
       menuBtn.setAttribute('aria-label', C.menuAria+' · '+(deck.name || t().deckNewName)); menuBtn.setAttribute('aria-haspopup','menu');
@@ -55055,6 +55108,7 @@ var EFFECT_CONFIG = {
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('ST')===0;}), t().setStarterLbl);
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('GD')===0;}), t().setExpansionLbl);
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('EB')===0;}), t().setExtraLbl);
+    if(cfg.onlyPool) buildSetGroup(['TOKEN'], t().setTokenLbl);
     var colorBox = document.getElementById(ids.color); colorBox.innerHTML = '';
     COLOR_ORDER.forEach(function(c){
       if(!pool.some(function(x){return x.color===c;})) return;
@@ -55148,6 +55202,24 @@ var EFFECT_CONFIG = {
     return true;
   }
   function matches(c){ return matchesWith(c, state); }
+  /* Orden al filtrar: de menor a mayor nivel y, a igual nivel, de menor a mayor ataque (AP). Lo demás conserva su orden de siempre (el sort es estable).
+   * El AP viene como "3", "+1", "-" o con cifras de ancho completo ("３"): "-" y lo que no es número van primero. */
+  function digitsOf(v){
+    var m = String(v == null ? '' : v).replace(/[０-９]/g, function(d){ return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); }).match(/\d+/);
+    return m ? parseInt(m[0], 10) : -1;
+  }
+  function byLevelThenAp(a, b){ return (digitsOf(a.lv) - digitsOf(b.lv)) || (digitsOf(a.ap) - digitsOf(b.ap)); }
+  /* Orden elegido por la persona: por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por nivel y después por ataque,
+   * de menor a mayor ('lvAsc') o de mayor a menor ('lvDesc'). 'auto' = el de siempre (por número; con filtros, por nivel y ataque). */
+  var TYPE_RANK_SORT = { UNIT:0, PILOT:1, COMMAND:2, BASE:3 };
+  var catSort = (function(){ var v = null; try{ v = localStorage.getItem('msa_cat_sort'); }catch(e){} return v === 'lvAsc' || v === 'lvDesc' ? v : 'auto'; })();
+  function byTypeLevel(dir){
+    return function(a, b){
+      return ((TYPE_RANK_SORT[a.type] != null ? TYPE_RANK_SORT[a.type] : 9) - (TYPE_RANK_SORT[b.type] != null ? TYPE_RANK_SORT[b.type] : 9))
+        || dir * (digitsOf(a.lv) - digitsOf(b.lv)) || dir * (digitsOf(a.ap) - digitsOf(b.ap));
+    };
+  }
+  function filtersOn(st){ return !!(st.search || st.owned || st.sets.size || st.colors.size || st.types.size || st.kws.size || st.fxs.size || st.traits.size); }
 
   function tile(card){
     var dz = el('div','dz');
@@ -55183,7 +55255,7 @@ var EFFECT_CONFIG = {
    * las tandas ya pintadas para no perder la posición del scroll. */
   var GRID_CHUNK = 48, gridList = [], gridShown = 0, gridKey = null, gridObserver = null;
   function filterKey(){
-    return JSON.stringify([state.search, state.owned, [].concat(Array.from(state.sets), Array.from(state.colors), Array.from(state.types), Array.from(state.kws), Array.from(state.fxs), Array.from(state.traits))]);
+    return JSON.stringify([state.search, state.owned, catSort, [].concat(Array.from(state.sets), Array.from(state.colors), Array.from(state.types), Array.from(state.kws), Array.from(state.fxs), Array.from(state.traits))]);
   }
   function appendTiles(from, to){
     var grid = document.getElementById('grid'), frag = document.createDocumentFragment();
@@ -55200,6 +55272,8 @@ var EFFECT_CONFIG = {
   function moreTiles(){ if(gridShown < gridList.length) appendTiles(gridShown, Math.min(gridList.length, gridShown + GRID_CHUNK)); }
   function render(){
     var filtered = ALL.filter(matches), key = filterKey();
+    if(catSort === 'lvAsc' || catSort === 'lvDesc') filtered.sort(byTypeLevel(catSort === 'lvAsc' ? 1 : -1));   // orden elegido
+    else if(filtersOn(state)) filtered.sort(byLevelThenAp);   // con filtros o búsqueda: por nivel y después por ataque
     var grid = document.getElementById('grid');
     var keep = key === gridKey ? Math.max(gridShown, GRID_CHUNK) : GRID_CHUNK;
     gridKey = key; gridList = filtered; gridShown = 0;
@@ -55324,8 +55398,8 @@ var EFFECT_CONFIG = {
     var dname = el('h2','d-name', card.name); dname.id = 'dName';
     tw.appendChild(dname);
     tw.appendChild(eye);
-    var rbd = ruleBadgesEl(card.number); if(rbd) tw.appendChild(rbd);
-    var dctl = deckCtlEl(card.number);
+    var rbd = isToken(card) ? null : ruleBadgesEl(card.number); if(rbd) tw.appendChild(rbd);
+    var dctl = isToken(card) ? { line:document.createDocumentFragment(), ctl:document.createDocumentFragment() } : deckCtlEl(card.number);   // un token no se añade a mazos
     tw.appendChild(dctl.line);
     tw.appendChild(collectionEl(card));   // "Añadir a mi colección" también en la ficha
     head.appendChild(tw);
@@ -55336,8 +55410,8 @@ var EFFECT_CONFIG = {
     wrap.appendChild(head);
 
     var kpiRow = el('div','d-kpirow');
-    var kpis = [[t().color,t().colors[card.color]||card.color],[t().nivel,card.lv],[t().coste,card.cost]];
-    if(card.type==='UNIT') kpis.push(['AP · HP', card.ap+' · '+card.hp]);
+    var kpis = [[t().color,t().colors[card.color]||card.color||'—'],[t().nivel,card.lv||'—'],[t().coste,card.cost||'—']];
+    if(card.type==='UNIT' || isToken(card)) kpis.push(['AP · HP', (card.ap||'0')+' · '+(card.hp||'0')]);
     kpis.forEach(function(p){
       var k = el('div','d-kpi'); k.appendChild(el('div','kl',p[0])); var v=el('div','kv num',p[1]); k.appendChild(v); kpiRow.appendChild(k);
     });
@@ -55530,6 +55604,12 @@ var EFFECT_CONFIG = {
     document.getElementById('lblFilterFx').textContent = t().fFx;
     document.getElementById('lblFilterTrait').textContent = t().rasgos;
     document.getElementById('clearFilters').textContent = t().clearFilters;
+    (function(){   /* selector de orden del catálogo */
+      var sel = document.getElementById('catSort'), L = t();
+      document.getElementById('lblCatSort').textContent = L.sortLbl; sel.setAttribute('aria-label', L.sortLbl);
+      sel.innerHTML = ''; [['auto', L.sortDefault], ['lvAsc', L.sortLvAsc], ['lvDesc', L.sortLvDesc]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op); });
+      sel.value = catSort;
+    })();
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
     document.getElementById('lblPmMyDecks').textContent = t().myDecks;
     document.getElementById('lblPmCompetition').textContent = t().pmCompetition;
@@ -55575,6 +55655,10 @@ var EFFECT_CONFIG = {
   function runSearch(){ state.search = document.getElementById('searchMain').value.trim(); render(); }
   document.getElementById('searchMain').addEventListener('input', runSearch);
   document.getElementById('searchBtn').addEventListener('click', runSearch);
+  document.getElementById('catSort').addEventListener('change', function(){
+    catSort = this.value; try{ localStorage.setItem('msa_cat_sort', catSort); }catch(e){}
+    render();
+  });
   document.getElementById('clearFilters').addEventListener('click', function(){
     state = { search:"", owned:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
     document.getElementById('searchMain').value = '';
@@ -55755,6 +55839,15 @@ var EFFECT_CONFIG = {
     else { fallbackCopy(text); done(); }
   });
   paintDvCopy(false);
+  document.getElementById('dpCopySel').addEventListener('click', function(){
+    var text = copySelectedText(); if(!text) return;
+    var label = document.getElementById('lblDpCopySel'), n = copySelectedIds().length;
+    function done(){ label.textContent = t().deckCopied; setTimeout(function(){ label.textContent = t().copyDecks(n); }, 1400); }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text); done(); });
+    else { fallbackCopy(text); done(); }
+  });
+  document.getElementById('dpSelAll').addEventListener('click', function(){ copyExcl.clear(); saveCopyExcl(); renderDecksGrid(); });
+  document.getElementById('dpSelNone').addEventListener('click', function(){ Object.keys(DECKS).forEach(function(id){ copyExcl.add(id); }); saveCopyExcl(); renderDecksGrid(); });
   document.getElementById('dpCopy').addEventListener('click', function(){
     if(!DECKS[dpDeckId]) return;
     var text = deckAsText(DECKS[dpDeckId]);
@@ -55787,12 +55880,8 @@ var EFFECT_CONFIG = {
     function stat(c, k){ var n = parseInt(c[k], 10); return isNaN(n) ? 0 : n; }
     ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
       var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
-        /* unidades: mayor AP+HP primero y, si empatan, mayor AP; el resto (y los empates finales) por color */
-        if(type === 'UNIT'){
-          var d = (stat(b.card,'ap') + stat(b.card,'hp')) - (stat(a.card,'ap') + stat(a.card,'hp')) || stat(b.card,'ap') - stat(a.card,'ap');
-          if(d) return d;
-        }
-        return colorRank(a.card.color) - colorRank(b.card.color) || a.card.name.localeCompare(b.card.name);
+        /* de menor a mayor nivel y, a igual nivel, de menor a mayor ataque; los empates por color y nombre */
+        return byLevelThenAp(a.card, b.card) || colorRank(a.card.color) - colorRank(b.card.color) || a.card.name.localeCompare(b.card.name);
       });
       if(!sorted.length) return;
       var sec = el('section','dv-color');
@@ -56670,12 +56759,13 @@ var EFFECT_CONFIG = {
   }
   function ownedKnown(){ return COLL.list().filter(function(n){ return !!cardByNumber(n); }); }
   function ownedCards(){ return ownedKnown().map(cardByNumber); }
+  function distinctCount(){ return ownedCards().filter(function(c){ return !isToken(c); }).length; }   // los tokens se tienen, pero no cuentan como carta
   /* Texto para pegar en un chat: "ST01-001 · Gundam" (o "2x ST01-001 · Gundam" con varias copias), agrupado por set, solo cartas que existen en el catálogo */
   function collectionText(){
-    var C = t(), bySet = {}, order = ['ST', 'GD', 'EB'], known = ownedKnown(), units = 0;
-    known.forEach(function(n){ var c = cardByNumber(n); units += COLL.qty(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
+    var C = t(), bySet = {}, order = ['ST', 'GD', 'EB', 'TO'], known = ownedKnown(), units = 0;
+    known.forEach(function(n){ var c = cardByNumber(n); if(!isToken(c)) units += COLL.qty(n); (bySet[c.set] = bySet[c.set] || []).push(c); });
     var sets = Object.keys(bySet).sort(function(x, y){ return (order.indexOf(x.slice(0, 2)) - order.indexOf(y.slice(0, 2))) || x.localeCompare(y); });
-    var out = [C.collCopyHead(known.length, units), ''];
+    var out = [C.collCopyHead(distinctCount(), units), ''];
     sets.forEach(function(sid){
       out.push(sid);
       bySet[sid].sort(function(a, b){ return a.number.localeCompare(b.number); }).forEach(function(c){ var q = COLL.qty(c.number); out.push((q > 1 ? q + 'x ' : '') + c.number + ' · ' + c.name); });
@@ -56705,7 +56795,7 @@ var EFFECT_CONFIG = {
   };
   function collFilterCount(){ var s = collState; return s.sets.size + s.colors.size + s.types.size + s.kws.size + s.fxs.size + s.traits.size; }
   function byNumber(a, b){ return a.number.localeCompare(b.number, undefined, { numeric:true }); }
-  function collFiltered(){ return ownedCards().filter(function(c){ return matchesWith(c, collState); }).sort(byNumber); }
+  function collFiltered(){ var out = ownedCards().filter(function(c){ return matchesWith(c, collState); }); return out.sort(filtersOn(collState) ? function(a, b){ return (isToken(a) - isToken(b)) || byLevelThenAp(a, b) || byNumber(a, b); } : byNumber); }
   /* quita de la selección lo que ya no existe entre tus cartas (p. ej. tras quitar la última carta roja) */
   function pruneCollState(pool){
     var m = { sets:{}, colors:{}, types:{}, kws:{}, fxs:{}, traits:{} };
@@ -56785,7 +56875,7 @@ var EFFECT_CONFIG = {
     wrap.appendChild(el('div', 'delta delta-up coll-tag', t().collTag));   // TENGO: toda carta de esta pantalla la tienes
     open.appendChild(wrap); open.addEventListener('click', function(){ openDetail(card, wrap); });
     cc.appendChild(open);
-    var info = el('div', 'cc-info'); info.appendChild(el('div', 'cc-name', card.name)); info.appendChild(el('div', 'cc-meta', n + ' · ' + card.rarity));
+    var info = el('div', 'cc-info'); info.appendChild(el('div', 'cc-name', card.name)); info.appendChild(el('div', 'cc-meta', n + ' · ' + (isToken(card) ? 'Token' : card.rarity)));
     cc.appendChild(info);
     cc.appendChild(stepperEl(card, 'cc-qty'));
     return cc;
@@ -56835,7 +56925,7 @@ var EFFECT_CONFIG = {
     if(collObserver){ collObserver.disconnect(); collObserver = null; }
     panel.innerHTML = '';
     var units = COLL.units();
-    document.getElementById('collSub').textContent = C.collSub(all.length);
+    document.getElementById('collSub').textContent = C.collSub(distinctCount());
     document.getElementById('collStatus').hidden = !all.length;
     var act = document.getElementById('collActive'); act.innerHTML = '';
     activeFilterItems(collState).forEach(function(it){ act.appendChild(removableTag(it.label, function(){ it.drop(); collShown = COLL_CHUNK; renderCollFilters(true); renderCollGrid(); })); });
@@ -56868,7 +56958,7 @@ var EFFECT_CONFIG = {
   }
   function renderCollStarters(){
     var C = t(), panel = document.getElementById('collPanel'); panel.innerHTML = '';
-    document.getElementById('collSub').textContent = C.collSub(ownedKnown().length);
+    document.getElementById('collSub').textContent = C.collSub(distinctCount());
     var back = el('button', 'dp-back', ''); back.type = 'button'; back.id = 'collBackCards';
     back.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     back.appendChild(el('span', null, C.collTitle));
@@ -56962,7 +57052,7 @@ var EFFECT_CONFIG = {
     var nq = normTxt(q).trim(), toks = nq.split(/\s+/).filter(Boolean), flat = nq.replace(/[\s-]/g, '');
     if(!toks.length) return [];
     var out = [];
-    ALL.forEach(function(c){
+    ALL.concat(TOKENS).forEach(function(c){
       var nm = normTxt(c.name), num = normTxt(c.number), numFlat = num.replace(/-/g, ''), hay = nm + ' ' + num + ' ' + numFlat;
       for(var i = 0; i < toks.length; i++) if(hay.indexOf(toks[i].replace(/-/g, '')) === -1 && hay.indexOf(toks[i]) === -1) return;
       var s = 3;
@@ -56976,7 +57066,7 @@ var EFFECT_CONFIG = {
     var C = t(), n = card.number, row = el('div', 'cadd-row'); row.dataset.number = n; row.setAttribute('role', 'listitem');
     var th = el('div', 'cadd-thumb'), im = document.createElement('img'); im.loading = 'lazy'; im.decoding = 'async'; im.src = 'images/' + n + '.webp'; im.alt = ''; th.appendChild(im);
     var info = el('div', 'cadd-info'); info.appendChild(el('div', 'cadd-name', card.name));
-    info.appendChild(el('div', 'cadd-meta', n + ' · ' + (t().types[card.type] || card.type) + ' · ' + card.rarity));
+    info.appendChild(el('div', 'cadd-meta', n + ' · ' + (isToken(card) ? 'Token' : (t().types[card.type] || card.type) + ' · ' + card.rarity)));
     var have = el('div', 'cadd-have'); have.dataset.role = 'have'; info.appendChild(have);
     var ctl = el('div', 'cadd-ctl'); ctl.dataset.role = 'ctl';
     row.appendChild(th); row.appendChild(info); row.appendChild(ctl);
@@ -57014,7 +57104,7 @@ var EFFECT_CONFIG = {
     paintAddCount();
   }
   function addResults(){ return document.getElementById('addResults'); }
-  function paintAddCount(){ document.getElementById('addTotals').textContent = t().collSub(COLL.size()); }
+  function paintAddCount(){ document.getElementById('addTotals').textContent = t().collSub(distinctCount()); }
   function renderAddResults(){
     var C = t(), box = addResults(), q = addInput.value.trim(), list = addMatches(q);
     box.innerHTML = ''; addQ = q;
@@ -57217,6 +57307,10 @@ var EFFECT_CONFIG = {
 
   try{
     ALL = CARDS_DATA;
+    /* los números romanos de una sola pieza (Ⅱ, Ⅲ…) no existen en Inter y el navegador los dibuja con una fuente con serifas: se escriben con letras (II, III…) */
+    var ROMAN = { 'Ⅰ':'I','Ⅱ':'II','Ⅲ':'III','Ⅳ':'IV','Ⅴ':'V','Ⅵ':'VI','Ⅶ':'VII','Ⅷ':'VIII','Ⅸ':'IX','Ⅹ':'X' };
+    TOKENS = (window.TOKEN_CARDS || []).slice(); TOKEN_IDX = new Map(); TOKENS.forEach(function(c){ TOKEN_IDX.set(c.number, c); });
+    ALL.concat(TOKENS).forEach(function(c){ ['name','effect','effect_es','trait','source_title','where_to_get'].forEach(function(k){ if(typeof c[k] === 'string') c[k] = c[k].replace(/[Ⅰ-Ⅹ]/g, function(ch){ return ROMAN[ch]; }); }); });
     loadDecksFromStorage();
     stampUpdated(DECKS); stampUpdated(ARCHIVED);
     applyStaticI18n();
