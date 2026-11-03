@@ -60,6 +60,7 @@ check('cada carta sigue en una sola fila con su cantidad real', (await ev(`[].ma
 const totalAntes = await ev(`document.getElementById('dvCountTxt').textContent`);
 await ev(`${btn('ST03-005', 'm')}.click(); ${btn('ST01-008', 'p')}.click(); 1`); await sleep(500);
 f = await filas();
+check('los tipos van en este orden: Unidades, Pilotos, Comandos, Bases', JSON.stringify(Object.keys(f)) === JSON.stringify(['Unidades', 'Pilotos', 'Comandos', 'Bases']), Object.keys(f));
 check('tras sumar y quitar copias el orden se conserva en todos los tipos', Object.entries(TIPO).every(([rot, tipo]) => JSON.stringify(f[rot]) === JSON.stringify(esperado(tipo))), f);
 await ev(`${btn('GD05-107', 'm')}.click(); 1`); await sleep(500);
 f = await filas();

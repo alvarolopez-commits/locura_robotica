@@ -3889,7 +3889,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.3';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.4';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -4856,6 +4856,7 @@ var EFFECT_CONFIG = {
         || dir * (digitsOf(a.lv) - digitsOf(b.lv)) || dir * (digitsOf(a.ap) - digitsOf(b.ap));
     };
   }
+  function typeRank(c){ return TYPE_RANK_SORT[c.type] != null ? TYPE_RANK_SORT[c.type] : 9; }
   function filtersOn(st){ return !!(st.search || st.owned || st.sets.size || st.colors.size || st.types.size || st.kws.size || st.fxs.size || st.traits.size); }
 
   function tile(card){
@@ -5547,7 +5548,7 @@ var EFFECT_CONFIG = {
       bn.appendChild(ul); target.appendChild(bn);
     }
     function stat(c, k){ var n = parseInt(c[k], 10); return isNaN(n) ? 0 : n; }
-    ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
+    TYPE_ORDER.forEach(function(type){   /* Unidades, Pilotos, Comandos y Bases */
       var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
         /* de menor a mayor nivel y, a igual nivel, de menor a mayor ataque; los empates por color y nombre */
         return byDeckRow(a.card, b.card);
@@ -6465,7 +6466,7 @@ var EFFECT_CONFIG = {
   };
   function collFilterCount(){ var s = collState; return s.sets.size + s.colors.size + s.types.size + s.kws.size + s.fxs.size + s.traits.size; }
   function byNumber(a, b){ return a.number.localeCompare(b.number, undefined, { numeric:true }); }
-  function collFiltered(){ var out = ownedCards().filter(function(c){ return matchesWith(c, collState); }); return out.sort(filtersOn(collState) ? function(a, b){ return (isToken(a) - isToken(b)) || byLevelThenAp(a, b) || byNumber(a, b); } : byNumber); }
+  function collFiltered(){ var out = ownedCards().filter(function(c){ return matchesWith(c, collState); }); return out.sort(function(a, b){ return (isToken(a) - isToken(b)) || (typeRank(a) - typeRank(b)) || (filtersOn(collState) ? byLevelThenAp(a, b) : 0) || byNumber(a, b); }); }   /* por tipo: Unidades, Pilotos, Comandos, Bases (tokens al final); dentro de cada tipo, por número o, con filtros, por nivel y ataque */
   /* quita de la selección lo que ya no existe entre tus cartas (p. ej. tras quitar la última carta roja) */
   function pruneCollState(pool){
     var m = { sets:{}, colors:{}, types:{}, kws:{}, fxs:{}, traits:{} };

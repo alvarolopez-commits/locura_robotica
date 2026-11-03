@@ -53,10 +53,11 @@ check('al quitar los filtros vuelve el orden de siempre', (await nums())[0] === 
 // Mi colección
 await send('Page.navigate', { url: 'http://localhost:8766/#coleccion' }); await sleep(300); await send('Page.reload'); await sleep(4000);
 const c0 = await ev(`Array.from(document.querySelectorAll('#collGrid .cc')).map(function(c){ return c.dataset.number })`);
-check('Mi colección sin filtros va por número', c0[0] === 'GD06-001', c0.slice(0, 3));
+const RT = { UNIT: 0, PILOT: 1, COMMAND: 2, BASE: 3 }, rk = (n) => (RT[cat[n].type] != null ? RT[cat[n].type] : 9);
+check('Mi colección sin filtros va por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por número', c0.length > 3 && c0.every((n, i) => i === 0 || rk(c0[i - 1]) < rk(n) || (rk(c0[i - 1]) === rk(n) && c0[i - 1].localeCompare(n, undefined, { numeric: true }) <= 0)), c0.slice(0, 6));
 await ev(`document.querySelector('#cf-color .tag.chip[data-color="Blue"]').click(); 1`); await sleep(600);
 const c1 = await ev(`Array.from(document.querySelectorAll('#collGrid .cc')).map(function(c){ return c.dataset.number })`);
-check('Mi colección con un filtro va por nivel y ataque', c1.length > 3 && nonDecreasing(c1), c1.slice(0, 6));
+check('Mi colección con un filtro va por tipo y, dentro de cada tipo, por nivel y ataque', c1.length > 3 && c1.every((n, i) => i === 0 || rk(c1[i - 1]) < rk(n) || (rk(c1[i - 1]) === rk(n) && nonDecreasing([c1[i - 1], n]))), c1.slice(0, 6));
 
 // ventana del mazo y detalle en Mis mazos: dentro de cada tipo, por nivel y después por ataque
 const decklists = JSON.parse(fs.readFileSync(new URL('../data/decklists.json', import.meta.url), 'utf8'));
@@ -69,7 +70,7 @@ const rows = await ev(`Array.from(document.querySelectorAll('#deckView .dv-open'
 const dn = rows.map((l) => l.match(/[A-Z]{2}\d+-\d+/)[0]);
 const ordenOK = (list) => list.every((n, i) => i === 0 || cat[list[i - 1]].type !== cat[n].type || dig(cat[list[i - 1]].lv) < dig(cat[n].lv) || (dig(cat[list[i - 1]].lv) === dig(cat[n].lv) && dig(cat[list[i - 1]].ap) <= dig(cat[n].ap)));
 check('la ventana del mazo lista cada tipo por nivel y después por ataque', dn.length > 10 && ordenOK(dn), dn.map((n) => `${n}:${cat[n].type[0]}L${cat[n].lv}/${cat[n].ap}`).slice(0, 14));
-check('los tipos siguen agrupados (Unidades, Pilotos, Bases, Comandos)', dn.every((n, i) => i === 0 || ['UNIT', 'PILOT', 'BASE', 'COMMAND'].indexOf(cat[dn[i - 1]].type) <= ['UNIT', 'PILOT', 'BASE', 'COMMAND'].indexOf(cat[n].type)));
+check('los tipos siguen agrupados (Unidades, Pilotos, Comandos, Bases)', dn.every((n, i) => i === 0 || ['UNIT', 'PILOT', 'COMMAND', 'BASE'].indexOf(cat[dn[i - 1]].type) <= ['UNIT', 'PILOT', 'COMMAND', 'BASE'].indexOf(cat[n].type)));
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await sleep(700);
 await click('#btnMyDecks'); await sleep(900); await click('#dpGrid .dp-deck'); await sleep(1000);
 const dp = (await ev(`Array.from(document.querySelectorAll('#dpRows button')).map(function(b){ return b.getAttribute('aria-label') || '' })`)).map((l) => (l.match(/[A-Z]{2}\d+-\d+/) || [])[0]).filter(Boolean);
