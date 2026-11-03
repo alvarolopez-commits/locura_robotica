@@ -179,7 +179,7 @@ input,textarea{ caret-color:var(--accent); }
 .deck-count:active{ transform:scale(.97); }
 .deck-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
 .deck-count[aria-expanded="true"]{ filter:brightness(1.12); }
-.deck-count.is-complete{ background:#9be3b4; color:#10341f; }
+.deck-count.is-complete{ background:var(--full); color:var(--full-ink); }
 .deck-count.is-over{ background:var(--rose); color:#5a1111; }
 /* Navegación: menú de tres rayas */
 .hamburger{
@@ -653,7 +653,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-count:hover{ filter:brightness(1.07); }
 .dv-count:active{ transform:scale(.97); }
 .dv-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
-.dv-count.is-complete{ background:#9be3b4; color:#10341f; }
+.dv-count.is-complete{ background:var(--full); color:var(--full-ink); }
 .dv-count.is-over{ background:var(--rose); color:#5a1111; }
 .dv-selwrap{ position:relative; align-self:stretch; max-width:340px; margin:2px 0 4px; }
 .dv-selwrap::after{ content:""; position:absolute; right:15px; top:50%; width:8px; height:8px; margin-top:-6px; pointer-events:none; border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg); }
@@ -910,8 +910,6 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dp-rows{ display:flex; flex-direction:column; gap:14px; }
 /* − n + y papelera en una sola fila; si no caben junto al nombre bajan enteros, alineados a la derecha */
 /* + en verde cuando la carta ya está en el mazo, igual que en la ficha */
-.dv-sbtn.has-qty{ color:#8fe3b0; background:rgba(47,168,95,.2); border-color:#2fa85f; }
-.dv-sbtn.has-qty:hover:not(:disabled){ background:rgba(47,168,95,.34); }
 .dp-empty{ text-align:center; padding:48px 20px; color:var(--fg-3); font-size:14px; display:flex; flex-direction:column; align-items:center; gap:16px; background:rgba(255,255,255,.04); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
 .dd-iconbtn{ width:44px; height:44px; display:grid; place-items:center; color:var(--fg-2); background:rgba(255,255,255,.08); font-size:15px; border-radius:50%; transition:background .15s var(--ease), color .15s var(--ease); }
 .dd-iconbtn:hover{ background:var(--accent); color:var(--white); }
@@ -1265,11 +1263,6 @@ html{ touch-action:manipulation; }
   .dv-step{ gap:3px; }
   .dv-del{ margin-left:2px; }
 }
-@media (max-width:339px){
-  /* pantallas muy estrechas: los botones − + papelera bajan a su propia línea, a la derecha */
-  .dv-row{ grid-template-columns:auto auto minmax(0,1fr); }
-  .dv-step{ grid-column:1 / -1; justify-self:end; padding-bottom:8px; }
-}
 @media (max-width:359px){
   .dp-btn{ padding:0 10px; font-size:14px; }
 }
@@ -1472,15 +1465,57 @@ html{ touch-action:manipulation; }
   background:linear-gradient(to right, var(--sky) calc(var(--fill, 1) * 100%), color-mix(in srgb, var(--sky) 45%, var(--white)) 0);
 }
 /* Iconos de la marca para acciones y estados del constructor: máscaras que toman el color del texto (blanco o azul del sistema) */
-:root{ --ico-copy:url("data:image/png;base64,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"); --ico-full:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAAB8CAQAAABN0dOIAAAU+klEQVR42uWdeZwU1bXHv1VdPTOALLLKIhpwiaAobqgQcY2oCM8Fg0siT1xB3/O5RKOY5xpjoiBojEskRtzQqFFReFGJ4vIQFXBHUQFRWRRZdICZqur7/ri3bld319YzPTPd83r+mU9vVffX557fufd3zrnQUg8TGM4MZjGBGsDETPxZI+dbWtnDKOrdKWAMdQgEgkWMVs8aCa5jAicyndsZCphFXrmsH9KaTKyEgzIx6cp3CGxcXASCZxgMEPsdFnCb+gEEV7Umu5TDqNK2Fm9XFjAVga3gkGDWMZXttL2Gf/IiBDY2Ni6C6VRHfqKiYDyY5/mYZxlHdz3gcDhTwB7U4ZLRliVwEAi+ZgJWqMe0gNFksNUnM9gI/sV26rUKfqQw2E/7OsFaHmAkNXrgZgiQszV02b+MstC3OCbQY6aAPdlERjkD+WcjWMo+lQ5lCngSwVZcHA3NUm7hQAWDkQdIChgdAKMHpnz+cQbmTXIT6MHniBwYPVveyPEJ/CsYWCE/b4szdS9+IKMnaQZHD3Qhkxig4TM159awJM+qcv+kx9zMH+iqowEDkyrmhfwA8rsu15we9bOXZdhkARN8pJEdmOfF6nmR8YpCvKH8OtQe8z3mMs7HxMDAAv4WcKWsJbsI7sKKIJ4U0JOzmMju5UZPJvBqKCyuHvZaHmZ/NfV6sT6PZsKg2YJgBiYmaWBSBIxZD/sC3QK9pUEKGMkqBIKtnFtOPtUEBmL7Jnawz5PDHwakgekxgPhJZDZgkAbGIrSVR39mCXsWgCSD9v/EVYGTQHBc+UBpAdcmgMVGMEXBOEQH4PFT+2M6q08dwJZEViyvtZ5RBVPaZJp2ANILb2TP8pjgBgZpPg5g0ULqWENXte55NYF/lN/4PT9VMG7PV7FXyf0JXC6mRtGUBXTmuTyLdhB8To9yoJ0UMDzBAG0E5wPVwGmJYMzg4PBzII1BWxYk+lT2rx6BYJBatMIA3g+YNw6Cl6lq+bV6Crg7dmI7CBZhkSJFe5ZHhj1+6M8D0ljA4wl9qv/TKzkIMEkBR6k1ffA7/5Yo+mziCLIDqxAxnstBcLhaiV+fyLLqEdyqYbypATDOZ0cduU7AibiqjWBSy5KOhcHJscA4CP6upmh/fkxAGDaCpwCLNHBmIq7OXRXNpJ3eQrnVRzDhIdPYloTSBP6hV8fhQXItO6kA5vGEYfgi2qtPHIqdkKuzq5sb9U5UJ55G4MR8PoPLFg5oKf42gD78GDOxHTWwKuDQBDC6CFbxE8XVO7O2SK6u499Bhe+7sCihU3ARfMX2LcPfFnBhzI26ZPiSDphYWCyMBTKDy1Z+phxBB94vgqttBKsYDlhYwOGsKcK3OggW0Baj+UnHxOCNmIE6CE5T9nheAhhtBL8E0qQwmVUkjG+zE5DGBM6mvsiAyUbwePPztwkMivE+DoLXMLAw6cqa2LDHRnCd5uppOhpMRjBP0F4TzO9jCCb8+jc1N+lYwI2xE9tliBrc1Fj7sBE8pLn6wsTTUlLRzZpg2vNEAoIJv4fxzQmlgUEVn0YSgYPgr4o0CkWFoHe/QY2iiWPJJITCQWBzLmBSBfTjrSKjzsLtlUObj79TwOGRMGZwWU9vFcTMjrFHF8FyemnYNyScmDaCtRwOpEkDw/mmETB6d/ItOzcXf6eAv0TesoPg12qyjY6BUcaa+yoYu7E0IU3YCBazK1BFChjH1iIJJuzO36dDzD57ySLITqyJiCBdMiyhDSlS1PBxgpXFiYqr08xNvKkheJqOmmBu8IXkjYfyOcxEqQqNXhqeEjlcB8FoNcQ4UcFWtiu5+r5EU1P628kY6hrteKTBBBN2T9OannRMYFbE0tBBMEcB3jtGVLAR3Ku5+opEMMotiImaYPoyv5GeMfi+/qNpoTSAHdgcOrEzuNSxh09UiLbcF0mRIg2MSQSHjeA7RugVzFC+LDmMnusY2ZRQWsB/Rdy6Ny2qtKiQiWDIT+iqIN+P2gQShI3gAwYqjwqns6UEBBPmPjawR9OFQgYGb0aohhlWJxIV5I0OVDD25stYqpBW8jydNcFcUzKCCZsvS+nWNKGQCQyOsDJHiQpVwKkRMMokgqPV2rgN/xtrV9Jabyelvr0NMzTtiCaE8l9UNQV/W2olazdSVLARTNQTdGYiuSLDRVqa7cPrTeAZg+9zeum3Mgygms9Cp1NSUcFGMFVz9fWxkNgIvleu3wIOYFmzwOhd+zfKAZU07+zISBg9UaFfhKhgI3gGQ3H1GYlgXMIgbb+/oLbZYPQWDCeXlr9TwP0hg8gVFR4LtUcHwbt0UO87mPpIPyeH8U+6aYK5qkkJJsw717J/6fjbADrzbUgE6SC4IVZUcBGspZ+aKv1ZEwmKJJi7sdT3VjO9yQkm7K5X0qdU/G0Bp4cm1XmiQipCVMjgUM8havq3Z3FsuC64FDCoAnrxSlGKYqn5ez5tS5NKYALPhywNHQSnq1yKc0NhtBGMU77O4JnY/aMNHA/Kl+7LZ83oGYM99cxS8LcJ7MiWwIntFxW6sDpkhVKvFEW5dzglEhYbwWcM1gRzAj+0KIzePd3YeNKxgEtDBuPgcoDyY7eF2GP2F02HpKbm/jBz2Q6owlA7SM1LMOFQntlYKA1M3g4EyS8q7M7WQDLI+pg0MAI3dNNLBvH3UaV+mDT3tAjBhN1bvZJ8GzGx9wkcjqtFBQt4PhBqF8GX9FFgD+T70DWPfPYKLWX14KUWI5iw+1tD/4aHQhbwx8Dp6IkK1cBxgTBmcNnMEAVjZz6JjDF/4GRNMHvxSYt7xuA4uGPDpAgDaMOyAD8VLypkVwZpUli8EAqjjWCZ0m4sYBQbyg5G7z5nFZS8JF4aHh3o7v2iwqWBENkIrtTg3BMKjY1gHn00wVzsiyXLEcrbGrL+TgEzQjJe56jwOlhUsBURSa6+LGJ5KXiAavWTpPiTXteIsoXygmJJxwS6sq4ggsyKClVKtnICLvcyacXVJ4QIVBKuSZpgujKnrAgmbD81w9HFQWkB4wJgctRmWBWwP04BSNkd5jSwT8h+kIOgllOBFFXAQD4sS88YtCheX1zZkwn8s2BwLq5PVCgsbHPJsFGLYD1ZHupBv+RA7UOPYV3ZesYgE/iUrkm3MkygP1sLJraj0uWrA0UFafojlZRQw2uhML5BX6AKE7gQt2JgzK7A0sn42wIuL7BHB8FCVWXanmUFYY+nC0s7eyhgskop62Ha6J3GqQ1Kxmt50rk3mac0SLGowE78osJ1BTDZCG7XXH1NYMmnUNmQ8js682xJcyWaF8or4qFMAUMKKg2jRQUbwfNaSjg9gIEdBFs5Q2d778Z7FUEw4SLxSXFQWsDkvEFKUaG/Egtm5lmrzObqpF4dGlBBaCP4ioO1lHUUaysWxiwe+8QtDduyPG9NY0eICtn8wjSwI6sK1kM2ggX00wRzXmQ5UWX8uQi+oHd03tnIPChcMqygvRIV3skBQUoJh6lJv02B5OCVE22jCWZyBRJMGH8/GO0hH86bdv5KhXxRwcvBlrvaT+V9Uk7xmzTBdOSpCiWY4Om9IiqC7Mb6nAjSQfCqFhVW5ViTjeD3OuS5JeAHqGe8JpidWVzRnjHfIjMsjCKa8QVTN1upMCXnNa9ORXL1eXkg2Qi+4VBNMEewuhXBKOfa2CiLfClnuI7KhJFrYr+o4CB4i3bK2o7MW3nXI1jkKyc6C7viCSa/zP6sKBh3oc4XQ7q4bNCVCn5RwUXwNX0VV+/GOt+UlwTzpC/b++ZWQjD+yoqjwjcvLJUeYgdWKvhFBVldeqCCcVs+yoE4g6y99sqJHm81BOPB+B67RYXjBinezYPkkwBRQUoJpyiuTqm9RH+293maYPrxdivyjHKuzaJzFIwp4MACvg4SFWwEV2uu/rMPKBvBGn6uCeZgvmp1BDMNI3pH0iurtAMqFXrxvZYBsj0h0kpnsXOMfldNMGeUpJyovAjmgrgurAbQjpV6TZNbqZAVFRwE86hWE3eU9n7S6J9l2yYoJyoXGNdxbHz/VQuD0b6BO0o180QFadZyhdldwTuYTep5yfNTNcG05eFWRzAf6TKC2M2zmTrvLLdSYZ7O6M6wib3U1/XgC/181ujTwA5NUE7U0gQzJ6T7WkAEuR0bNdX4RYVTNFwe+aQxqfbB67JRGX0KOKhJyolalmDuxEwmeVnAOTl+cKFqjpCtVKhHcLHm6mwzQgfB2bpedTi1rYxgvMqKxHLXyxoAF8FheaKCjeBOzdW/1U0TMgjWsy0mJiYpFrQia8y2rkuYqmICP6VeUYajtiL8ooKNYI6uIDzVJyXIZjNt1S/WkQ2R7RArDUZZWWEVkw7wW/XRXFHhMZVSKviQbRXJHJQnJbgq5dTCIB3T/rVyCEa29+xeXF6FgcUHuluE4PocUcElw3e6GWFfvsmLDh0Er5NWPfJ+1QqmtjSFeyIbzoYEPsMUOC4ZlmtR4W0FpMux2uJeC0msuk91IS8UzipRjRFclpxg/BP7T2rwnqhQrVncQfCKDm2GR2SL/0YLDk9XMJQ2gk2ckJxg/EvD9nyt40RPVOjMKlzVePgOUmoTYkxIqYh8dozKdGwfkF5QOTAuZe+GZIxbGDr5LkhUkA05vG2IHagLWT9ndNGZ7MWzuuLW2d7BBT0blnifAp5QbVmlqJDOExUy1LKnhvKc0K0ImX7fW0E5LLaBUjkSzHSV9NqgyoVebIqsVHARrFCnIqSAk9gUWnsjmE8bteKuJP52G3u4iwWcr0nFExVGBuRSbOREIIUF7MPSiP61j+r1z3UVAqWNYDNjiyeYXKqZh6CeDEuoUaLCR/oQitxiy8v0NllPXg5JVc4WzVkBqQblCuNytaRoRC32AGwF2ygF0iWhlTO55b9/DazOypZxVmFSE9tvshwI5nW2b1yRnNfjfiuyrb8FdOXbkEWeV5DeXe+BTwokngwOdRys3tWLFWXL39KAHqBNYwvcvR73DvUMVgM/OnLY+S0SxrI5JKV0tco+g335sSzLPuQd/Xfjj2fxViqyxap30sbwGK8mm3Ycp3XCA1kesmhcTAdVvn5SGZZ+OAi2qMoKo/FFxHepif2G6qBrUsNCBPVEt9sUvjYy2we2kZHtQLy8oMvLjHRkZcXQUrT/yPa4d8nwIzvqkPsnvKyzrZI1NmrLgwHEkz09xALuLSMoZR/9vqXpouLvce8ieJEO+pwDOJMvIusCM6rjYrbV1rUBxGMjmKBLO18qC/6Wd/4I7UrVQUXu0mR84sLHjAFtl524jk2RqU82gg/ZXRPPaWwOyNZ1GKHA7hJRbNy8BHNDac//6p3T415eYg5DQG2jwa48GjnJ/e0I08AwVgZk7K5ngIJyQET5e3MRTB3jSkEw/sfEgoWgrMG6k14+MI/gDQVaJjKNQ/JzoaKdbXQogyu3xdIGZOLrIaXvejYvpGhTsIZLqNEBjsm5rAz1mJJipmAqqLYpaNlq57TenNhCpGMjeId+pW+zuRd1IZYh4VrMv6mVtcwrv5nakHpqL+unkyaeG/OIx0Zwd8KmNU1HMH+nQ1N0K701lpMFT7GXb5LvzpOhHtNG8G5OW+u6gmzzyxK2UWqaXImbY475bfBjQYzb904ankx37QFhJG+HeEyZGXmEjhsPyWm0Ltfpx+vGXu81G3/Lyoqzmu5E7v9JcMCEHOpKzsfSAFlcyDeBHjO/9X9/3smBMsMP7K2mf/9mkiJsBKs5oilPCDlS5ZDZkcPxJvkCRiiPaQA9maa0GzfyMIoOOYdRuAiW0VO9Ftf8sFQwLmLnpu4uPprFGgAn5tRNgeBRdvN5zL2ZFeAxC49H+aMvqJepBF6S6rgm3cqQd/IPOjU1jDJNbRhT1WJQBHSoyLe1Wm6mi566cLz6KeyCkuN3VJGnlMuyB/bYCGboAP6GJiMdr48+zXEqiHeBdoziQb7TMLiRHnM54zH0srCaS1hT4DHlEVKHaL96hK+o2FZ7gPKVR5oESikjT4jL9i5lI+KUhrMnZ/OSGlQmBE4vOeB1Dtd+ELbnLrXCcfMWY2fqHN5ddRWi/I7TVYTahvkl5+/swjXVvEdQ+eHcnd/GeE5XDXsGO/k85v7MyfOYcnL9znfM3jPqdXlc2lD1fJ8SSxE2gvcZ0HJnHmb7fpkM47ZIzylB2si1dPR5zLF8pIeSdfeP6UptQ1dqy/K7HbQUUVsi/pbW/hxdWv7oZ1PfQDtG8VCE55R2uZTT1NZbCmjHFap7lZPTOyC7aTxR+S+ZXL2N2mMfUxL+9sqJzHI5191QaQBxntPzmHP5mW+S78h03fE0281imN4CGcE6fWz4k0UexhJfTnRR8cl4zes5rw7xnJ7HvI++PjCH8ZIvLHIQbOZXmngG8oGG8g+av//SKChltvfI5ieYUnpO+d86rmQbLXbBL/nMZykCf8efLsxGYFOP4JwiD6wKLyca1PKesVjPua7Ac0oAPuIXCqwU0JFr2KDoRXrNh2iroDS5XS1QHbXRUcwRamF99MscxiDPeU6B5/QIZjb7+yb5zszQHjObHJLGAC5SE/87dtEdCtYXKUXId/+52Gzv8vKcA7iaRTmeMytW9PGBeRivKvutR7BClcungJHKYj+gk9qoOybxMZPZreNLy49gGuI5hzIlx3N6YsXFVGtOhvEsRyCoQ1CrEujSwCCWKDs21TMXJCYdG8FGRpcvwTTEcx6X4znrEAjezRErunATP2q/erUmnm68gEBwhw6QpiY+UO1TBleKZyzGc/biHObq6tqtCARP54gVA5ipcyjvp0ZBaXEXAq9lYgqDWTFQSoKZW2w5UaV5zknac9oItjKFHj6xYgRvqldfoZfeKr4UF8Gxiog6Rh5XLgnm3oZme1eW5zyIKSqOFAhWMEHJFJJdJyh591NfB/LRbGAzA7UUsSYi5V/W9FQowRTvOdvmeM75HOUTK3owmVoEGzleZ8btxTK+0RWPh2IHbGXIPvonVj7BNMRznsuLymM+xi4aNhik5N2b9MEY3ZjPh3RUWxlnBu69f85+rc0zFrdav4qFCAST6eHLejuWmcxlT/1Mmju4GFPZ9e98SmdGdTjv+f8NxiDPOYRprGUxAzEwA3RmQzG8oSp2ZZlzvd4ouZ/q1kowxXvOFN2p8elGqRxADR9MJiZteEWTzJWlTcZrHZ4zudLZgVt4k9lJOu60xOP/AB8RHO54kA1AAAAAAElFTkSuQmCC"); --ico-build:url("data:image/png;base64,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"); }
+:root{ --ico-select:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAFiklEQVR42u2cTYhVZRjHf+/HNYORqJzAPlBqXJRhUpRuIgJLDM1yFbQpDKJMQaJNRCDYNqi0FkW5KFoYRH5UoEbMStCGnJyI0hiVoiRqkZXjvB8t7vF65p5zxvN9rnXeA7MY5s79/9/n432e//vcK8iyFBa4n0e5m2E0dS/H73zNXvZgAywZ4cNyDuAbfw6zBpDZ4T+DweMwWFwjj8Vg8XheARQiC/ynAvDNW8Bg8GwLcKWCL7id8z32zT+OaTyr0u6/BPbhmR4Q+F0rOI4yR6SC77iNcUTWsKk8J0ke1ikJrEJhZhDwuNohyxlB6/GsT5vLl0Z+I9IGUGVLIFiahoAHroUQe4/gLKM1w3XcwzC+h0MAV6dNoXvxoQRq8Yw3sOe7Z6BweCZ1AX+UgMDX5v8+rnjRhbJAnQTAxb3XYCXGXIZpCbQEWgItgZbAf4iASN8kFj+Jy14KsIDKUqrrAYJvgQ4OG/Qgl5ULKSz3sotjfMO7LMGViSy+nD7Wq8mLLw08G+p3/2R1ZHMv9OV95bTsBY/sa9jqWxrDJnbgMDgc0wzxITfi01hBBs2hx+HwWaSiUuG/jkWgkUg6THMVT6YjoBF4LENcj+c05xqDH7a/xHNX0Mym6HOGeJXvmGCCCV5GZc/FheBvjsDv6g1Taf/JXA7OEIw+iIRPVUGsgU2BRDVTtDqPZ0Nfkk8IYtiCZ6onnU7hWd2nOWYlIFDoS/qvBjbHwp/GM8aVfZ6QmIUew6ERiCATOdYX2lmFx2Jws7pi1/dfizgPGDQneIR/0vXbmuuQoT8USBakC5+EmLLMZznz+JbxxBO16/tx8C2a4zzIqfRn8WRgjAuSqWdfXxSkdyEJbOHX4G92c0OsAJ7s+wbPDyyMfVViDJRHQAEv9fR7h+d7FkXAJPu+wXM85hWpTuIyCnPLrWzF4lAoBNMs5gCLsCFAs/m+4gQrmcx2+1UmAViHDJ2fHSy3sD9EIf7Yuhi6meGXXY0u6At+hWUksIKeBX43dHPAL5vAj5HEqTCBFUzCqQsWlRd+mQQc8DF/o/rSn8YywkFu4umExKk4zgOczAO/XAKKUzyHwEccyXEzX/EWPjZ0c+9+2S5kUbzHJlRER5Y4hoPTPur7uXe//BiwaLYnUPCR073w7lfR1Bs024E3It4uYsgW3P1qVIlkCnGZpyD8alQJk+hIJWWe6nWh2a1Q2u5XqQslW8GUt/vVKnPxVjBB0VAS/GqlxYsUPAYBODrlwq9aWuxS2IhHo1B0GC/PeeoRdw2KNxljAyOc40t2cBZZHvw61GmL5BCHZpQVXE4EunM9XdgSW/aQjq5pSMD1Sm7aO7KWQEugJdASaAkMxkEmSrtmLTCEUISAD/2sfvn4d/rfuJCJ0B4JbgjqW56FkS23OqWvn4k4yxUsoZmBnPAA9G9pLTCWIOc2OU3kgSM6pe78OVPMCQ1eD0L8CGCXTKk7T7ILUWYrWEqnN8qoTBk+ghf5Az0wFBzgeB4nUzeFp3kci8LUOO6dnBMFio0cQekM2v9nrGMn84Ok2sxskQc0mnNs5u2uPHPpe2JC98AL2clfjX9+6ROWXbhN1hlvYE7yBFtZyZ0saOSzlGc4yhdM9IYEyWKBbupUDEINLfMWc673ct9Y7nfhI1QXUHnahqYl0BIY0IZG1Db+KoKp1ZIJmJpLtkIfptN9KVECK9g7YxCwypL4J/bwaTESY8EMXHPP+3TyD54rVnBH35i1j4zjVfnZeMsyphhF5bXB2oYtYDGcYm7+An0ORxv9sgWHx7A4b0qXnOeFmCmry+g8UsC23pdNNOFCll8YyutCClAcpMN9yAbqTI9B8w57IsOCmQ34EIcbioL9zMufRkVoRFWxhrUs45raKiTLz3zEDkz+g+xfXkmFUdBuRi0AAAAASUVORK5CYII="); --full:#9be3b4; --full-ink:#10341f; --ico-copy:url("data:image/png;base64,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"); --ico-full:url("data:image/png;base64,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"); --ico-build:url("data:image/png;base64,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"); }
 .ico{ display:inline-block; flex:none; background:currentColor; -webkit-mask:var(--ico-mask) center / contain no-repeat; mask:var(--ico-mask) center / contain no-repeat; }
 .ico-copy{ --ico-mask:var(--ico-copy); width:20px; height:20px; }
+.ico-select{ --ico-mask:var(--ico-select); width:20px; height:20px; }
 .ico-full{ --ico-mask:var(--ico-full); width:22px; height:17px; }
 .ico-build{ --ico-mask:var(--ico-build); width:28px; height:8px; }
 .dp-btn .ico-copy{ width:18px; height:18px; }
 /* aviso de mazo lleno: icono + texto corto, en lugar de la frase larga */
 .full-chip{ display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:4px 8px; background:var(--navy); color:var(--white); font-size:var(--text-caption-size); font-weight:800; letter-spacing:.03em; text-transform:uppercase; line-height:1; white-space:nowrap; }
 .full-chip .ico-full{ width:15px; height:11px; }
+/* Colores del mazo: solo cuadrados de color junto al título (el nombre y la cantidad van en la etiqueta y el tooltip) */
+.dv-colors,.dp-colors{ display:inline-flex; align-items:center; flex:none; gap:5px; padding:0 4px; }
+.dv-colors[hidden],.dp-colors[hidden]{ display:none; }
+.dv-colors .dd-pip,.dp-colors .dd-pip{ width:16px; height:16px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); }
+.dv-nameline{ flex-wrap:wrap; row-gap:0; }   /* el nombre va primero: la estrella, el lápiz y los colores bajan a la línea siguiente antes de recortarlo */
+.dv-nameline .dv-title{ flex:0 1 auto; min-width:0; max-width:100%; }
+.dv-nameline .dv-deckname{ width:0; min-width:100%; }
+.dv-tools{ display:inline-flex; align-items:center; flex:none; }
+.dp-namerow{ flex-wrap:wrap; }
+.dp-namerow .dp-name{ flex:1 1 55%; min-width:55%; }   /* el nombre no se recorta por los colores: si no caben, bajan */   /* el campo no aporta su ancho por defecto: el título mide lo que mide su texto y los colores quedan a su lado */
+/* Detalle del mazo: Añadir cartas y Comparar →, y copiar / eliminar solo con el icono */
+.dp-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.dp-actions .dp-btn{ flex:1 1 150px; }
+.dp-actions .dp-btn-icon{ flex:none; width:50px; min-height:50px; padding:0; }
+.dp-actions #dpCopy{ margin-left:auto; }
+/* Mis mazos · filas: selección para "Copiar lista", + en el azul de acento y "lleno" con el color de mazo completo */
+.dv-ctl{ display:flex; align-items:center; gap:12px; }
+.dv-step{ justify-content:space-between; }
+.dv-plus:not(:disabled){ background:var(--sky); color:var(--sky-ink); border-color:var(--sky); }
+.dv-plus:not(:disabled):hover{ background:color-mix(in srgb, var(--sky) 80%, var(--white)); }
+.dv-plus.is-full:disabled{ opacity:1; background:transparent; color:var(--full); border-color:var(--full); }
+.dv-plus .ico-full{ width:15px; height:11px; }
+.dv-pick{ position:relative; flex:none; display:grid; place-items:center; width:32px; height:32px; padding:0; border-radius:50%; border:1.5px dashed rgba(139,205,255,.6); background:transparent; color:var(--on-navy-2); cursor:pointer; transition:background .16s var(--ease), color .16s var(--ease); }
+.dv-pick::after{ content:""; position:absolute; inset:-6px; }   /* se ve de 32 px y se pulsa en 44 */
+.dv-pick.is-on{ background:var(--sky); border:1.5px solid var(--sky); color:var(--sky-ink); }
+.dv-pick:focus-visible{ outline:2px solid var(--white); outline-offset:2px; }
+.dv-pick .ico-select{ width:18px; height:18px; }
+.dv-pick:not(.is-on) .ico-select{ opacity:.6; }
+.dv-copynote{ font-size:13px; font-weight:700; color:var(--sky); }
+.dv-copynote[hidden]{ display:none; }
+/* Comparar →: un solo botón claro para la barra del mazo, la ventana del mazo y el detalle de Mis mazos */
+.cmp-btn{ flex:none; justify-content:center; padding:0 14px 0 16px; background:var(--white); color:var(--navy); font-family:var(--font-sans); font-size:var(--text-button-size); font-weight:700; line-height:1; cursor:pointer; clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); transition:background .16s var(--ease), transform .12s var(--ease); }
+.cmp-btn:hover{ background:var(--soft); }
+.cmp-btn:active{ transform:scale(.97); }
+.cmp-btn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+.dp-btn.cmp-btn{ flex:1; background:var(--white); color:var(--navy); }
+.cmp-btn svg{ flex:none; }
+@media (max-width:599px){
+  .dv-row{ grid-template-columns:auto auto minmax(0,1fr); }
+  .dv-step{ grid-column:1 / -1; padding-bottom:8px; }   /* dos niveles: carta arriba; incluir en la lista y − + papelera debajo, sin reducir los 44 px */
+}
 /* Fase 2 · el botón del buscador: lupa sin texto, × (borrar búsqueda) con texto; el borrar es tonal, no compite con la acción */
 .sb-ico-clear{ display:none; }
 .sb-btn.is-clear{ background:var(--tone); color:var(--fg-1); }
@@ -1685,7 +1720,7 @@ html{ touch-action:manipulation; }
         </div>
         <div class="bb-side">
           <span class="bb-count"><b id="bbCount">0</b>/50</span>
-          <button type="button" class="bb-link ml-btn" id="bbCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
+          <button type="button" class="cmp-btn ml-btn" id="bbCompare" hidden><span class="lblCompare">Comparar</span><svg class="cmp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button type="button" class="dd-close" id="bbClose" aria-label="Terminar mazo" title="Terminar">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </button>
@@ -1788,6 +1823,7 @@ html{ touch-action:manipulation; }
       <div class="dp-head dp-dhead">
         <div class="dp-dtitle">
           <div class="dp-namerow"><input class="dp-name" id="dpName" type="text" maxlength="40" aria-label="Nombre del mazo">
+          <span class="dp-colors" id="dpColors" role="group" hidden></span>
           <button type="button" class="fav-star" id="dpStar" aria-pressed="false" aria-label="Marcar como favorito" title="Marcar como favorito"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button></div>
           <span class="dp-meta" id="dpDeckMeta"></span>
           <button type="button" class="legalChip cut" id="dpLegal" hidden></button>
@@ -1797,11 +1833,12 @@ html{ touch-action:manipulation; }
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             <span id="lblDpAddCards">Añadir cartas</span>
           </button>
-          <button class="dp-btn" id="dpCopy"><span class="ico ico-copy" aria-hidden="true"></span><span id="lblDpCopy">Copiar lista</span></button>
-          <button class="dp-btn dp-btn-primary ml-btn" id="dpCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
-          <button class="dp-btn dp-btn-danger" id="dpDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDpDelete">Eliminar mazo</span></button>
+          <button class="dp-btn cmp-btn ml-btn" id="dpCompare" hidden><span class="lblCompare">Comparar</span><svg class="cmp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="dp-btn dp-btn-icon" id="dpCopy" aria-label="Copiar lista" title="Copiar lista"><span class="ico ico-copy" aria-hidden="true"></span></button>
+          <button class="dp-btn dp-btn-danger dp-btn-icon" id="dpDelete" aria-label="Eliminar mazo" title="Eliminar mazo"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </div>
+      <p class="dv-copynote" id="dpCopyNote" role="status" hidden></p>
       <div class="dp-rows" id="dpRows"></div>
     </div>
   </div>
@@ -1819,18 +1856,20 @@ html{ touch-action:manipulation; }
         <div class="dv-titlerow">
           <div class="dv-nameline">
           <h1 class="dp-title dv-title" id="dvTitle"><span class="dv-namewrap" id="dvNameWrap" data-value=""><input class="dv-deckname" id="dvName" type="text" maxlength="40" autocomplete="off" spellcheck="false" aria-label="Nombre del mazo"></span></h1>
-          <button type="button" class="fav-star" id="dvStar" aria-pressed="false" aria-label="Marcar como favorito" title="Marcar como favorito"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <span class="dv-colors" id="dvColors" role="group" hidden></span>
+          <span class="dv-tools"><button type="button" class="fav-star" id="dvStar" aria-pressed="false" aria-label="Marcar como favorito" title="Marcar como favorito"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
           <button type="button" class="dv-pencil" id="dvPencil" aria-label="Renombrar mazo">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 16.5l.8-3.6L13.6 3.6a1.8 1.8 0 0 1 2.6 0l.2.2a1.8 1.8 0 0 1 0 2.6L7.1 15.7l-3.6.8zM12 5.2l2.8 2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          </button></span>
           </div>
           <button type="button" class="dv-count" id="dvCount">
             <span class="ico ico-build" id="dvStateIco" aria-hidden="true"></span>
             <span id="dvCountTxt">0 / 50</span>
           </button>
           <button type="button" class="dv-clear dv-copy" id="dvCopy" data-copied="false"></button>
+          <span class="dv-copynote" id="dvCopyNote" role="status" hidden></span>
           <button type="button" class="dv-clear" id="dvClear" aria-label="Vaciar el mazo (quitar todas las cartas)" title="Vaciar el mazo (quitar todas las cartas)"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button type="button" class="dv-delete ml-btn" id="dvCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
+          <button type="button" class="cmp-btn ml-btn" id="dvCompare" hidden><span class="lblCompare">Comparar</span><svg class="cmp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
         <div class="dv-selwrap"><select class="dv-select" id="dvSelect"></select></div>
         <button type="button" class="legalChip cut" id="dvLegal" hidden></button>
@@ -2773,7 +2812,7 @@ var EFFECT_CONFIG = {
       warmProgress:function(d,n){ return 'Guardando las cartas para usarlas sin conexión · '+d+'/'+n; },
       warmDone:'Listo: ya puedes usar la app sin conexión',
       deckView:{
-        goSummary:'Ver el resumen', dpRenameLabel:'Renombrar mazo', changeDeck:'Cambiar de mazo', openCard:'Ver la carta', back:'Volver', summary:'Resumen', eyebrow:function(n){ return n+' / 50 cartas'; },
+        goSummary:'Ver el resumen', pickOn:'En la lista', pickOff:'Fuera de la lista', pickAria:function(n){ return 'Incluir '+n+' en la lista copiada'; }, pickNone:'Selecciona al menos una carta', dpRenameLabel:'Renombrar mazo', changeDeck:'Cambiar de mazo', openCard:'Ver la carta', back:'Volver', summary:'Resumen', eyebrow:function(n){ return n+' / 50 cartas'; },
         total:'Total', avgCost:'Coste medio', colors:'Colores', byType:'Por tipo', curve:'Curva de coste',
         empty:'Todavía no has añadido cartas a este mazo.', add:'Añadir cartas', lv:'Nv.', cost:'Coste', costMax:'7+'
       },
@@ -3010,7 +3049,7 @@ var EFFECT_CONFIG = {
       warmProgress:function(d,n){ return 'Saving the cards for offline use · '+d+'/'+n; },
       warmDone:'Done: you can now use the app offline',
       deckView:{
-        goSummary:'See the summary', dpRenameLabel:'Rename deck', changeDeck:'Change deck', openCard:'View card', back:'Back', summary:'Summary', eyebrow:function(n){ return n+' / 50 cards'; },
+        goSummary:'See the summary', pickOn:'In list', pickOff:'Not in list', pickAria:function(n){ return 'Include '+n+' in the copied list'; }, pickNone:'Select at least one card', dpRenameLabel:'Rename deck', changeDeck:'Change deck', openCard:'View card', back:'Back', summary:'Summary', eyebrow:function(n){ return n+' / 50 cards'; },
         total:'Total', avgCost:'Average cost', colors:'Colors', byType:'By type', curve:'Cost curve',
         empty:'You have not added any cards to this deck yet.', add:'Add cards', lv:'Lv.', cost:'Cost', costMax:'7+'
       },
@@ -3743,7 +3782,7 @@ var EFFECT_CONFIG = {
       plus.title = room <= 0 ? (lim.blockedBy ? blockWhy(lim.blockedBy, number) : '') || t().deckBlock.limit : '';
       whyEl.textContent = '';
       var why = lim.blockedBy ? blockWhy(lim.blockedBy, number) : '';
-      if(why && lim.blockedBy.ruleType === 'deck_size' && room <= 0) whyEl.appendChild(fullChipEl(t().deckBlock.fullTxt()));
+      if(why && lim.blockedBy.ruleType === 'deck_size'){ /* mazo lleno: las tarjetas del catálogo no escriben nada (el + queda deshabilitado); el aviso "Mazo lleno" solo sale al abrir la carta */ }
       else if(why){
         if(room <= 0 && /^(banned_pair|exclusive_group|color_limit)$/.test(lim.blockedBy.ruleType)) whyEl.appendChild(el('span','rule-badge incompatible', t().legal.incompatible));
         whyEl.appendChild(el('span', null, why));
@@ -3832,11 +3871,11 @@ var EFFECT_CONFIG = {
   function deckEntries(deck){
     var order = {UNIT:0,PILOT:1,COMMAND:2,BASE:3};
     var out = Object.keys(deck.cards).map(function(num){ return {card:cardByNumber(num), qty:deck.cards[num]}; }).filter(function(e){ return !!e.card; });
-    out.sort(function(a,b){ if(order[a.card.type]!==order[b.card.type]) return order[a.card.type]-order[b.card.type]; return byLevelThenAp(a.card, b.card) || a.card.name.localeCompare(b.card.name); });   // dentro de cada tipo: por nivel y después por ataque
+    out.sort(function(a,b){ if(order[a.card.type]!==order[b.card.type]) return order[a.card.type]-order[b.card.type]; return byDeckRow(a.card, b.card); });   // dentro de cada tipo: por nivel y ataque (ver byDeckRow)
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.1';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -3946,7 +3985,7 @@ var EFFECT_CONFIG = {
     if(ph === 'error' || ph === 'offline') label += ' · ' + C.retry;
     if(ph === 'conflict') label = C.reload;
     SAVE_SLOTS.forEach(function(b){
-      b.hidden = !show; b.dataset.state = ph; b.lastChild.textContent = label;
+      b.hidden = !show || ph === 'saved' || ph === 'saving' || ph === 'pending'; b.dataset.state = ph;   // "Guardado" / "Guardando" no se enseñan en ninguna página; sí los avisos (error, sin conexión, conflicto) b.lastChild.textContent = label;
       b.setAttribute('aria-live', 'polite'); b.title = ph === 'conflict' ? C.conflict : (st.message || '');
     });
     paintCloudNote(); if(!document.getElementById('accountModal').hidden) renderAccount();
@@ -4339,6 +4378,17 @@ var EFFECT_CONFIG = {
   var dpDeckId = null, dpSeen = {}, dpDelArmed = {};
   var TRASH_SVG = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function colorRank(c){ var i = COLOR_ORDER.indexOf(c); return i===-1 ? 99 : i; }
+  /* cuadrados con los colores de las cartas del mazo, junto al título: sin texto; nombre y cantidad en la etiqueta accesible y el tooltip */
+  function colorSquares(deck, host){
+    if(!host) return;
+    var counts = deckColorCounts(deck), L = t();
+    host.innerHTML = '';
+    Object.keys(counts).sort(function(a, b){ return colorRank(a) - colorRank(b); }).forEach(function(color){
+      var p = el('span', 'dd-pip'), lbl = (L.colors[color] || color) + ' · ' + counts[color];
+      p.dataset.color = color; p.setAttribute('role', 'img'); p.setAttribute('aria-label', lbl); p.title = lbl; host.appendChild(p);
+    });
+    host.setAttribute('aria-label', L.deckView.colors); host.hidden = !host.children.length;
+  }
   function deckColorCounts(deck){
     var out = {};
     deckEntries(deck).forEach(function(en){ out[en.card.color] = (out[en.card.color]||0) + en.qty; });
@@ -4521,8 +4571,9 @@ var EFFECT_CONFIG = {
     document.getElementById('dpName').value = deck.name;
     var total = deckTotal(deck), colors = deckColorCounts(deck), nColors = Object.keys(colors).length;
     var meta = document.getElementById('dpDeckMeta'); meta.innerHTML = '';
-    meta.appendChild(document.createTextNode(total+'/50 '+t().cardsWord+' · '+t().colorsCount(nColors)));
+    meta.appendChild(document.createTextNode(total+'/50 '+t().cardsWord));
     if(nColors>2){ meta.appendChild(document.createTextNode(' · ')); meta.appendChild(el('span','warn', t().maxTwoColors)); }
+    colorSquares(deck, document.getElementById('dpColors'));
     paintLegalChip(document.getElementById('dpLegal'), deck);
     if(typeof updateCompareButtons === 'function') updateCompareButtons();
     paintFavStars();
@@ -4546,7 +4597,7 @@ var EFFECT_CONFIG = {
       fn(); syncSteppers(number); renderDeckDetail();
       var f = rowsEl.querySelector('[data-key="'+number+'|'+kind+'"]');
       if(f && !f.disabled) f.focus({preventScroll:true});
-    });
+    }, dpDeckId);
   }
   function showDpView(){
     var inDetail = !!dpDeckId && !!DECKS[dpDeckId];
@@ -4616,10 +4667,14 @@ var EFFECT_CONFIG = {
       body.appendChild(col);
     });
   }
-  function deckAsText(deck){
-    var lines = [deck.name, ''];
-    deckEntries(deck).forEach(function(en){ lines.push(en.qty+'x '+en.card.name+' ('+en.card.number+')'+''); });
-    lines.push('', (t().deckTotal)+': '+deckTotal(deck)+'/50');
+  /* Cartas que se dejan fuera de "Copiar lista", por mazo: solo en memoria (no forma parte del mazo, no se guarda ni se sincroniza). Por defecto, todas dentro. */
+  var cardCopyExcl = {};
+  function copyExclOf(id){ return cardCopyExcl[id] || (cardCopyExcl[id] = new Set()); }
+  function copyIncluded(deck, ex){ return deckEntries(deck).filter(function(en){ return en.qty > 0 && !(ex && ex.has(en.card.number)); }); }
+  function deckAsText(deck, ex){
+    var lines = [deck.name, ''], n = 0;
+    deckEntries(deck).forEach(function(en){ if(ex && ex.has(en.card.number)) return; n += en.qty; lines.push(en.qty+'x '+en.card.name+' ('+en.card.number+')'+''); });
+    lines.push('', (t().deckTotal)+': '+(ex && ex.size ? n : deckTotal(deck))+'/50');
     return lines.join('\n');
   }
   function fallbackCopy(text){
@@ -4763,6 +4818,16 @@ var EFFECT_CONFIG = {
   function digitsOf(v){
     var m = String(v == null ? '' : v).replace(/[０-９]/g, function(d){ return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); }).match(/\d+/);
     return m ? parseInt(m[0], 10) : -1;
+  }
+  /* Orden de las filas del mazo (Mis mazos y lista copiada): nivel de menor a mayor y después ataque de menor a mayor, como números;
+     una carta sin nivel o sin ataque ("-") va detrás de las que lo tienen; a igualdad, por número de carta y, si hiciera falta, por id. */
+  function numAsc(x, y){
+    var a = digitsOf(x), b = digitsOf(y);
+    if(a < 0 || b < 0) return a < 0 && b < 0 ? 0 : (a < 0 ? 1 : -1);
+    return a - b;
+  }
+  function byDeckRow(a, b){
+    return numAsc(a.lv, b.lv) || numAsc(a.ap, b.ap) || String(a.number).localeCompare(String(b.number), undefined, { numeric:true }) || String(a.id || '').localeCompare(String(b.id || ''));
   }
   function byLevelThenAp(a, b){ return (digitsOf(a.lv) - digitsOf(b.lv)) || (digitsOf(a.ap) - digitsOf(b.ap)); }
   /* Orden elegido por la persona: por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por nivel y después por ataque,
@@ -5187,7 +5252,8 @@ var EFFECT_CONFIG = {
     document.getElementById('lblCompareTitle').textContent = t().compareTitle;
     document.getElementById('lblDpTitle').textContent = t().myDecksTitle;
     document.getElementById('lblDpAddCards').textContent = t().dpAddCards;
-    document.getElementById('lblDpCopy').textContent = t().deckCopy;
+    paintDpCopy(false);
+    var dpDel = document.getElementById('dpDelete'); if(dpDel){ dpDel.setAttribute('aria-label', t().cloud.delDeck); dpDel.title = t().cloud.delDeck; }
     document.querySelectorAll('.lt-opt').forEach(function(o){ o.classList.toggle('active', o.dataset.lang===LANG); });
     if(DECKS && !document.getElementById('decksPage').hidden) showDpView();
     document.getElementById('legalClose').setAttribute('aria-label', t().legal.close);
@@ -5406,12 +5472,20 @@ var EFFECT_CONFIG = {
   }
   document.getElementById('dvCopy').addEventListener('click', function(){
     var d = DECKS[activeDeckId]; if(!d || !deckTotal(d)) return;
-    var text = deckAsText(d);
+    var ex = copyExclOf(activeDeckId);
+    if(!copyIncluded(d, ex).length){ copyNoneNote(document.getElementById('dvCopyNote')); return; }   // ninguna carta incluida: no se copia una lista vacía
+    var text = deckAsText(d, ex);
     function done(){ paintDvCopy(true); clearTimeout(dvCopyTimer); dvCopyTimer = setTimeout(function(){ paintDvCopy(false); }, 1400); }
     if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text); done(); });
     else { fallbackCopy(text); done(); }
   });
   paintDvCopy(false);
+  var copyNoteTimer = null;
+  function copyNoneNote(note){
+    var msg = t().deckView.pickNone, live = document.getElementById('deckLive');
+    if(live) live.textContent = msg;
+    if(note){ note.textContent = msg; note.hidden = false; clearTimeout(copyNoteTimer); copyNoteTimer = setTimeout(function(){ note.hidden = true; }, 2800); }
+  }
   document.getElementById('dpCopySel').addEventListener('click', function(){
     var text = copySelectedText(); if(!text) return;
     var label = document.getElementById('lblDpCopySel'), n = copySelectedIds().length;
@@ -5421,11 +5495,17 @@ var EFFECT_CONFIG = {
   });
   document.getElementById('dpSelAll').addEventListener('click', function(){ copyExcl.clear(); saveCopyExcl(); renderDecksGrid(); });
   document.getElementById('dpSelNone').addEventListener('click', function(){ Object.keys(DECKS).forEach(function(id){ copyExcl.add(id); }); saveCopyExcl(); renderDecksGrid(); });
+  function paintDpCopy(copied){
+    var b = document.getElementById('dpCopy'); if(!b) return;
+    b.innerHTML = copied ? CHECK_ICON : COPYLIST_ICON; b.dataset.copied = String(!!copied);
+    var txt = copied ? t().deckCopied : t().deckCopy; b.setAttribute('aria-label', txt); b.title = txt;
+  }
   document.getElementById('dpCopy').addEventListener('click', function(){
     if(!DECKS[dpDeckId]) return;
-    var text = deckAsText(DECKS[dpDeckId]);
-    var label = document.getElementById('lblDpCopy');
-    function done(){ label.textContent = t().deckCopied; setTimeout(function(){ label.textContent = t().deckCopy; }, 1400); }
+    var ex = copyExclOf(dpDeckId);
+    if(!copyIncluded(DECKS[dpDeckId], ex).length){ copyNoneNote(document.getElementById('dpCopyNote')); return; }   // ninguna carta incluida: no se copia una lista vacía
+    var text = deckAsText(DECKS[dpDeckId], ex);
+    function done(){ paintDpCopy(true); setTimeout(function(){ paintDpCopy(false); }, 1400); }
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackCopy(text); done(); });
     } else { fallbackCopy(text); done(); }
@@ -5439,8 +5519,10 @@ var EFFECT_CONFIG = {
   }
   /* Lista de un mazo por tipos (Unidades, Pilotos, Bases, Comandos), común a la ventana del mazo y al detalle de Mis mazos.
      Fila: copias · color · carta · − + papelera. edit(number, kind, fn) aplica el cambio y repinta. */
-  function deckSegments(target, entries, edit){
-    var L = t(), V = L.deckView;
+  function deckSegments(target, entries, edit, deckId){
+    var L = t(), V = L.deckView, copyEx = copyExclOf(deckId), present = {};
+    entries.forEach(function(e){ if(e.qty > 0) present[e.card.number] = 1; });
+    Array.from(copyEx).forEach(function(n){ if(!present[n]) copyEx.delete(n); });   // una carta quitada del mazo deja de figurar; si vuelve, vuelve seleccionada
     /* Aviso superior: qué cartas del mazo no tengo (solo con colección creada; las que están a 0 no cuentan) */
     var lacking = entries.filter(function(e){ return e.qty > 0 && COLL.isMissing(e.card.number); }).sort(function(a, b){ return a.card.number.localeCompare(b.card.number); });
     if(lacking.length){
@@ -5454,7 +5536,7 @@ var EFFECT_CONFIG = {
     ['UNIT','PILOT','BASE','COMMAND'].forEach(function(type){
       var sorted = entries.filter(function(e){ return e.card.type === type; }).sort(function(a, b){
         /* de menor a mayor nivel y, a igual nivel, de menor a mayor ataque; los empates por color y nombre */
-        return byLevelThenAp(a.card, b.card) || colorRank(a.card.color) - colorRank(b.card.color) || a.card.name.localeCompare(b.card.name);
+        return byDeckRow(a.card, b.card);
       });
       if(!sorted.length) return;
       var sec = el('section','dv-color');
@@ -5474,17 +5556,27 @@ var EFFECT_CONFIG = {
         open.addEventListener('click', function(){ openDetail(c, im); });
         var step = el('div','dv-step');
         var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'dv-sbtn'; minus.innerHTML = ICON_MINUS; minus.dataset.key = c.number+'|m';
-        minus.setAttribute('aria-label', L.adderLess+' · '+c.name); minus.disabled = e.qty <= 0;
+        minus.setAttribute('aria-label', (LANG === 'es' ? 'Quitar una copia de ' : 'Remove one copy of ') + c.name); minus.disabled = e.qty <= 0;
         var q = el('span','dv-qty', String(e.qty)); q.setAttribute('aria-label', '×'+e.qty);
-        var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dv-sbtn'+(e.qty > 0 ? ' has-qty' : ''); plus.innerHTML = ICON_PLUS; plus.dataset.key = c.number+'|p';
-        plus.setAttribute('aria-label', L.adderMore+' · '+c.name);
-        plus.disabled = !!addBlocker(c.number);
+        var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dv-sbtn dv-plus'; plus.dataset.key = c.number+'|p';
+        var blk = addBlocker(c.number), isFull = !!blk && (blk.reason === 'copy_limit' || blk.reason === 'deck_full'), binfo = blk && !isFull ? blockerText(blk) : null;
+        var why = !blk ? '' : blk.reason === 'deck_full' ? L.deckBlock.fullTxt() : blk.reason === 'copy_limit' ? L.deckBlock.limit : (binfo ? binfo.txt : '');
+        plus.innerHTML = isFull ? '<span class="ico ico-full" aria-hidden="true"></span>' : ICON_PLUS; plus.classList.toggle('is-full', isFull);   // 4 copias o mazo lleno: "+" bloqueado con el icono y el color de "lleno"
+        plus.setAttribute('aria-label', (LANG === 'es' ? 'Añadir una copia de ' : 'Add one copy of ') + c.name + (why ? ' · ' + why : '')); if(why) plus.title = why;
+        plus.disabled = !!blk;
         minus.addEventListener('click', function(){ edit(c.number, 'm', function(){ removeFromDeck(c.number); }); announceDeck(c.number); });
         plus.addEventListener('click', function(){ var ok; edit(c.number, 'p', function(){ ok = addToDeck(c.number); }); announceDeck(c.number, !ok); });
         var del = document.createElement('button'); del.type = 'button'; del.className = 'dv-sbtn dv-del'; del.innerHTML = TRASH_SVG; del.dataset.key = c.number+'|d';
         del.setAttribute('aria-label', L.deckBlock.removeAll+' · '+c.name); del.title = L.deckBlock.removeAll; del.disabled = e.qty <= 0;
         del.addEventListener('click', function(){ edit(c.number, 'd', function(){ var d = activeDeck(); while(d && (d.cards[c.number] || 0) > 0) removeFromDeck(c.number); }); announceDeck(c.number); });
-        step.appendChild(minus); step.appendChild(plus); step.appendChild(del);
+        var pick = document.createElement('button'); pick.type = 'button'; pick.className = 'dv-pick'; pick.dataset.key = c.number+'|s';
+        pick.innerHTML = '<span class="ico ico-select" aria-hidden="true"></span>';
+        pick.setAttribute('aria-label', V.pickAria(c.name));
+        function paintPick(){ var on = !copyEx.has(c.number); pick.classList.toggle('is-on', on); pick.setAttribute('aria-pressed', String(on)); pick.title = on ? V.pickOn : V.pickOff; }
+        paintPick();
+        pick.addEventListener('click', function(){ if(copyEx.has(c.number)) copyEx.delete(c.number); else copyEx.add(c.number); paintPick(); });   // solo cambia lo que se copia: no toca el mazo
+        var ctl = el('div', 'dv-ctl'); ctl.appendChild(minus); ctl.appendChild(plus); ctl.appendChild(del);
+        step.appendChild(pick); step.appendChild(ctl);
         row.appendChild(q); row.appendChild(cbit); row.appendChild(open); row.appendChild(step);
         rows.appendChild(row);
       });
@@ -5518,6 +5610,7 @@ var EFFECT_CONFIG = {
     dvWrap.dataset.value = dvName.value || L.deckNewName;
     document.getElementById('dvPencil').setAttribute('aria-label', V.dpRenameLabel || 'Renombrar mazo');
     paintLegalChip(document.getElementById('dvLegal'), deck);
+    colorSquares(deck, document.getElementById('dvColors'));
     var side = document.getElementById('dvSide'); side.innerHTML = '';
     var body = document.getElementById('dvBody'); body.innerHTML = '';
     if(!entries.length){
@@ -5527,7 +5620,7 @@ var EFFECT_CONFIG = {
       go.addEventListener('click', function(){ closeDeckView(); setBuilding(true); render(); updateDeckPill(); });
       empty.appendChild(go); body.appendChild(empty); return;
     }
-    deckSegments(body, entries, function(number, kind, fn){ dvEdit(number, kind, fn); });
+    deckSegments(body, entries, function(number, kind, fn){ dvEdit(number, kind, fn); }, activeDeckId);
 
     /* resumen */
     var sum = el('section','dv-summary'); sum.appendChild(el('h2','dv-stitle', V.summary));
@@ -5552,17 +5645,6 @@ var EFFECT_CONFIG = {
     if(avg !== null) stat(V.avgCost, avg.toFixed(1).replace('.', LANG === 'es' ? ',' : '.'));
     sum.appendChild(stats);
 
-    /* colores, junto al nombre del mazo */
-    var cb = el('div','dv-sidebox'); cb.appendChild(el('div','dv-sub', V.colors));
-    var split = el('div','dv-split');
-    var byColor = {};
-    entries.forEach(function(en){ (byColor[en.card.color] = byColor[en.card.color] || []).push(en); });
-    Object.keys(byColor).sort(function(a,b){ return colorRank(a)-colorRank(b); }).forEach(function(color){
-      var n = byColor[color].reduce(function(a,e){ return a+e.qty; }, 0);
-      var ch = el('span','dp-chip'), pip = el('span','dd-pip'); pip.dataset.color = color;
-      ch.appendChild(pip); ch.appendChild(document.createTextNode((L.colors[color] || color)+' · '+n)); split.appendChild(ch);
-    });
-    cb.appendChild(split); side.appendChild(cb);
     body.appendChild(sum);
     deckView.scrollTop = top0;
     if(dvFocusKey){

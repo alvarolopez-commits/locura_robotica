@@ -35,10 +35,9 @@ await clickAdder('ST01-013', '.ad-plus'); await sleep(500);
 e = await estado();
 check('al llegar a 50 cartas ambos iconos pasan a "mazo lleno"', e.pill.full && !e.pill.build && e.barra.full && !e.barra.build && e.contador === '50 / 50', e);
 check('y la etiqueta pasa a "Mazo completo" (el estado no depende solo del icono) y el botón lo anuncia', e.etiqueta === 'Mazo completo' && /Mazo completo/.test(e.aria), e);
-// mazo lleno en el catálogo: chip con el icono, no la frase larga
-const tile = await ev(`(function(){ var a=document.querySelector('#grid .adder[data-number="ST01-014"]'); if(!a) return null; var chip=a.querySelector('.full-chip'), ic=chip && chip.querySelector('.ico-full'); return { chip: chip ? chip.textContent.trim() : null, icono: ic ? (getComputedStyle(ic).webkitMaskImage || '').slice(0,18) : null, colorIcono: ic ? getComputedStyle(ic).backgroundColor : null, colorTexto: chip ? getComputedStyle(chip).color : null, masDeshab: a.querySelector('.ad-plus').disabled, texto: a.textContent } })()`);
-check('en las cartas del catálogo el aviso es el chip con icono y "Mazo lleno"', tile && tile.chip === 'Mazo lleno' && tile.icono.startsWith('url(') && tile.masDeshab === true && !/50 cartas|completo \(/i.test(tile.texto), tile);
-check('el icono del chip va en blanco como su texto', tile && tile.colorIcono === 'rgb(255, 255, 255)' && tile.colorTexto === 'rgb(255, 255, 255)', tile);
+// mazo lleno en el catálogo: las tarjetas no escriben ningún aviso; solo el + deshabilitado
+const tile = await ev(`(function(){ var a=document.querySelector('#grid .adder[data-number="ST01-014"]'); if(!a) return null; return { chips: a.querySelectorAll('.full-chip').length, texto: a.querySelector('.ad-why').textContent.trim(), masDeshab: a.querySelector('.ad-plus').disabled } })()`);
+check('en las tarjetas del catálogo no sale ningún aviso de mazo lleno (ni chip ni frase): solo el + deshabilitado', tile && tile.chips === 0 && tile.texto === '' && tile.masDeshab === true, tile);
 // ficha de una carta que no está en el mazo: sin la frase larga y sin poder añadir
 await ev(`document.querySelector('#grid .card-imgwrap[data-number="ST01-014"]').click(); 1`); await sleep(1500);
 const ficha = await ev(`(function(){ var d=document.getElementById('detail'), m=d.querySelector('.dl-msg'), more=d.querySelector('.dc-btn:not(.dc-minus)'); return { msg: m ? m.textContent.trim() : null, chip: !!(m && m.querySelector('.full-chip .ico-full')), mas: more ? more.disabled : null, largo: /Quita una antes|ya tiene 50/.test(d.textContent) } })()`);
@@ -70,8 +69,8 @@ await ev(`document.getElementById('tbDecks').click(); 1`); await sleep(1300);
 const sel = await ev(`(function(){ var b=document.querySelector('#dpCopySel .ico-copy'); return { icono: !!b, texto: document.getElementById('lblDpCopySel').textContent } })()`);
 check('"Copiar mazos" lleva el icono de copiar y conserva su texto', sel.icono && /Copiar mazos/.test(sel.texto), sel);
 await ev(`document.querySelector('#dpGrid .dp-deck').click(); 1`); await sleep(1100);
-const lista = await ev(`(function(){ var b=document.getElementById('dpCopy'); return { icono: !!b.querySelector('.ico-copy'), texto: document.getElementById('lblDpCopy').textContent, alto: Math.round(b.getBoundingClientRect().height) } })()`);
-check('"Copiar lista" del detalle lleva el icono de copiar, conserva su texto y mide 44 px o más', lista.icono && lista.texto === 'Copiar lista' && lista.alto >= 44, lista);
+const lista = await ev(`(function(){ var b=document.getElementById('dpCopy'); return { icono: !!b.querySelector('.ico-copy'), texto: b.textContent.trim(), aria: b.getAttribute('aria-label'), alto: Math.round(b.getBoundingClientRect().height) } })()`);
+check('"Copiar lista" del detalle es solo el icono de copiar (sin texto), con su etiqueta accesible y 44 px o más', lista.icono && lista.texto === '' && lista.aria === 'Copiar lista' && lista.alto >= 44, lista);
 await ev(`window.__c=null; navigator.clipboard.writeText=function(t){ window.__c=t; return Promise.resolve() }; document.getElementById('dpCopy').click(); 1`); await sleep(500);
 check('y copia la lista', ((await ev(`window.__c`)) || '').length > 100);
 
@@ -87,13 +86,11 @@ for (const W of [320, 375, 430]) {
   await clickAdder('ST01-013', '.ad-plus'); await sleep(600);
   const bb = await ev(`(function(){ var bar=document.getElementById('buildBar').getBoundingClientRect(), main=document.querySelector('.bb-main').getBoundingClientRect(), cmp=document.getElementById('bbCompare'), cr=cmp.getBoundingClientRect(), cl=document.getElementById('bbClose').getBoundingClientRect(), ey=document.querySelector('.bb-eyebrow').getBoundingClientRect(); return { visible: !cmp.hidden && cr.width > 0, anchoNombre: Math.round(main.width), dentro: cr.right <= bar.right + 0.5 && cl.right <= bar.right + 0.5 && cr.left >= bar.left - 0.5, scrollW: document.documentElement.scrollWidth, ancho: innerWidth, altoEtiqueta: Math.round(ey.height) } })()`);
   check(W + ' px con 50 cartas: "Comparar" visible dentro de la barra, nombre con al menos 140 px de ancho y etiqueta en una o dos líneas', bb.visible && bb.dentro && bb.anchoNombre >= 140 && bb.altoEtiqueta <= 34 && bb.scrollW <= bb.ancho, bb);
-  const ch = await ev(`(function(){ var c=document.querySelector('#grid .adder[data-number="ST01-014"] .full-chip'); if(!c) return null; var r=c.getBoundingClientRect(); var dz=c.closest('.dz-inner').getBoundingClientRect(); return { alto: Math.round(r.height), una: r.height < 36 && r.right <= dz.right - 4, ancho: Math.round(r.width), tarjeta: Math.round(dz.width) } })()`);
-  check(W + ' px: el chip "Mazo lleno" de las tarjetas cabe en una sola línea', ch && ch.una, ch);
 }
 // inglés
 await abrir(390, 844, 'en');
 await clickAdder('ST01-013', '.ad-plus'); await sleep(500);
-const en = await estado(); const enChip = await ev(`(document.querySelector('#grid .adder[data-number="ST01-014"] .full-chip')||{}).textContent`);
+const en = await estado(); await ev(`document.querySelector('#grid .card-imgwrap[data-number="ST01-014"]').click(); 1`); await sleep(1500); const enChip = await ev(`(document.querySelector('#detail .dl-msg .full-chip')||{}).textContent`);
 check('en inglés: "Deck complete" y "Deck full"', en.etiqueta === 'Deck complete' && (enChip || '').trim() === 'Deck full', [en.etiqueta, enChip]);
 check('sin errores de consola', errs.length === 0, errs);
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');
