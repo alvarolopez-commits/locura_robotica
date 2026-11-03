@@ -179,7 +179,7 @@ input,textarea{ caret-color:var(--accent); }
 .deck-count:active{ transform:scale(.97); }
 .deck-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
 .deck-count[aria-expanded="true"]{ filter:brightness(1.12); }
-.deck-count.is-complete{ background:color-mix(in srgb, var(--sky) 78%, transparent); color:var(--sky-ink); }   /* completo: el azul de acento con algo menos de opacidad, para distinguirlo del botón ES y del estado en progreso */
+.deck-count.is-complete{ background:var(--sky); color:var(--sky-ink); }   /* completo: el azul de acento a plena opacidad */
 .deck-count.is-over{ background:var(--rose); color:#5a1111; }
 /* Navegación: menú de tres rayas */
 .hamburger{
@@ -653,7 +653,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-count:hover{ filter:brightness(1.07); }
 .dv-count:active{ transform:scale(.97); }
 .dv-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
-.dv-count.is-complete{ background:color-mix(in srgb, var(--sky) 78%, transparent); color:var(--sky-ink); }
+.dv-count.is-complete{ background:var(--sky); color:var(--sky-ink); }
 .dv-count.is-over{ background:var(--rose); color:#5a1111; }
 .dv-selwrap{ position:relative; align-self:stretch; max-width:340px; margin:2px 0 4px; }
 .dv-selwrap::after{ content:""; position:absolute; right:15px; top:50%; width:8px; height:8px; margin-top:-6px; pointer-events:none; border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg); }
@@ -3889,7 +3889,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.5';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.6';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
