@@ -21,7 +21,7 @@ async function abrir(cards, lang) {
   await send('Page.reload'); await sleep(3500);
   await ev(`document.getElementById('deckCount').click(); 1`); await sleep(1100);
 }
-const estado = () => ev(`(function(){ var b=document.getElementById('dvCopy'), r=b.getBoundingClientRect(), c=document.getElementById('dvClear').getBoundingClientRect(); return { w:Math.round(r.width), h:Math.round(r.height), aria:b.getAttribute('aria-label'), title:b.title, dis:b.disabled, copied:b.dataset.copied, svg:!!b.querySelector('svg'), junto:Math.abs(r.top-c.top)<8 && r.right<=c.left+1 } })()`);
+const estado = () => ev(`(function(){ var b=document.getElementById('dvCopy'), r=b.getBoundingClientRect(), c=document.getElementById('dvClear').getBoundingClientRect(); return { w:Math.round(r.width), h:Math.round(r.height), aria:b.getAttribute('aria-label'), title:b.title, dis:b.disabled, copied:b.dataset.copied, svg:!!b.querySelector('svg, .ico'), junto:Math.abs(r.top-c.top)<8 && r.right<=c.left+1 } })()`);
 
 for (const W of [390, 1280]) {
   console.log('\n== ancho ' + W + ' ==');

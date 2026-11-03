@@ -114,7 +114,7 @@
     }
 
     /* ---------- reconciliación al iniciar sesión ---------- */
-    function pull() {
+    function pull(withPrefs) {
       return fetchAll().then(function (remote) {
         var m = live(), seen = {};
         remote.forEach(function (b) {
@@ -134,7 +134,7 @@
           }
         });
         persistSynced();
-        return c2prefs(remote);
+        return withPrefs ? c2prefs(remote) : null;          // el mazo activo de la cuenta solo se aplica al iniciar sesión
       });
     }
     function c2prefs(remote) {
@@ -272,7 +272,7 @@
       /* Tras iniciar sesión: trae lo del servidor, reconcilia con lo local y sube los mazos que solo existían aquí. */
       start: function (u) {
         user = u; started = true; conflicts = {}; loadSynced(); emit('saving');
-        return pull().then(function () { return flush(); }).catch(function (e) { failed(e); });
+        return pull(true).then(function () { return flush(); }).catch(function (e) { failed(e); });
       },
       stop: function () {
         started = false; user = null; if (timer) clearT(timer); if (retryTimer) clearT(retryTimer); timer = retryTimer = null;
@@ -280,7 +280,12 @@
       },
       touch: function () { schedule(); },
       flush: flush,
-      retry: function () { if (retryTimer) { clearT(retryTimer); retryTimer = null; } return flush(); },
+      /* Al volver a la app o pulsar sincronizar: trae lo cambiado en otros dispositivos y después envía lo pendiente de aquí. */
+      retry: function () {
+        if (retryTimer) { clearT(retryTimer); retryTimer = null; }
+        if (!started || !user) return Promise.resolve();
+        return Promise.resolve(running).then(function () { return pull(false); }).then(function () { return flush(); }).catch(failed);
+      },
       /* Conflicto: descarta lo local de ese mazo y adopta la última versión del servidor. */
       reloadDeck: function (id) {
         return fetchAll().then(function (remote) {

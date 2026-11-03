@@ -1,0 +1,422 @@
+{
+ "label": "antes",
+ "base": "http://localhost:8768",
+ "conditions": "390x844 DPR2 móvil, CPU 4x, red 150 ms / 1,6 Mbps / 750 kbps",
+ "reps": 5,
+ "runs": {
+  "cold": [
+   {
+    "lcp": 688,
+    "cls": 0.06379247203422873,
+    "fcp": 688,
+    "long": 1,
+    "longMs": 190,
+    "firstTile": 2762.2999999523163,
+    "domNodes": 1737,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 868,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 680,
+    "cls": 0.06379247203422873,
+    "fcp": 680,
+    "long": 1,
+    "longMs": 184,
+    "firstTile": 2739.100000023842,
+    "domNodes": 1737,
+    "heapMB": 3.9,
+    "listeners": 624,
+    "kbTransfer": 793,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 680,
+    "cls": 0.06379247203422873,
+    "fcp": 680,
+    "long": 1,
+    "longMs": 185,
+    "firstTile": 2746.899999976158,
+    "domNodes": 1737,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 721,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 712,
+    "cls": 0.06379247203422873,
+    "fcp": 712,
+    "long": 1,
+    "longMs": 192,
+    "firstTile": 2787.2999999523163,
+    "domNodes": 1737,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 721,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 688,
+    "cls": 0.06379247203422873,
+    "fcp": 688,
+    "long": 1,
+    "longMs": 194,
+    "firstTile": 2758.7999999523163,
+    "domNodes": 1737,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 793,
+    "requests": 31,
+    "imgs": 12
+   }
+  ],
+  "warm": [
+   {
+    "lcp": 212,
+    "cls": 0,
+    "fcp": 212,
+    "long": 1,
+    "longMs": 208,
+    "firstTile": 506.6999999284744,
+    "domNodes": 1737,
+    "heapMB": 6.4,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 228,
+    "cls": 0,
+    "fcp": 228,
+    "long": 1,
+    "longMs": 222,
+    "firstTile": 485.5,
+    "domNodes": 1737,
+    "heapMB": 6.5,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 232,
+    "cls": 0,
+    "fcp": 232,
+    "long": 1,
+    "longMs": 196,
+    "firstTile": 521.5,
+    "domNodes": 1737,
+    "heapMB": 6.5,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 588,
+    "cls": 0,
+    "fcp": 512,
+    "long": 2,
+    "longMs": 377,
+    "firstTile": 499.39999997615814,
+    "domNodes": 1737,
+    "heapMB": 6.4,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 540,
+    "cls": 0,
+    "fcp": 188,
+    "long": 2,
+    "longMs": 255,
+    "firstTile": 448.5,
+    "domNodes": 1737,
+    "heapMB": 6.4,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   }
+  ],
+  "offline": [
+   {
+    "lcp": 804,
+    "cls": 0,
+    "fcp": 220,
+    "long": 3,
+    "longMs": 463,
+    "firstTile": 705.5,
+    "domNodes": 1738,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 764,
+    "cls": 0,
+    "fcp": 216,
+    "long": 3,
+    "longMs": 452,
+    "firstTile": 692.9000000953674,
+    "domNodes": 1738,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 772,
+    "cls": 0,
+    "fcp": 204,
+    "long": 3,
+    "longMs": 445,
+    "firstTile": 679.1999999284744,
+    "domNodes": 1738,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 776,
+    "cls": 0,
+    "fcp": 208,
+    "long": 3,
+    "longMs": 455,
+    "firstTile": 696,
+    "domNodes": 1738,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 796,
+    "cls": 0,
+    "fcp": 212,
+    "long": 3,
+    "longMs": 443,
+    "firstTile": 688.1999999284744,
+    "domNodes": 1738,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   }
+  ],
+  "interact": [
+   {
+    "search": 79.89999997615814,
+    "clearSearch": 87.19999992847443,
+    "chip": 150.19999992847443,
+    "add": 35.699999928474426,
+    "openSheet": 95.89999997615814,
+    "addInSheet": 49.5,
+    "openDeck": 97.80000007152557
+   },
+   {
+    "search": 77.39999997615814,
+    "clearSearch": 87.60000002384186,
+    "chip": 143.20000004768372,
+    "add": 35.89999997615814,
+    "openSheet": 93.70000004768372,
+    "addInSheet": 49.800000071525574,
+    "openDeck": 97.89999997615814
+   },
+   {
+    "search": 68,
+    "clearSearch": 70.80000007152557,
+    "chip": 112.89999997615814,
+    "add": 26.700000047683716,
+    "openSheet": 89.29999995231628,
+    "addInSheet": 24.399999976158142,
+    "openDeck": 98.5
+   },
+   {
+    "search": 79.10000002384186,
+    "clearSearch": 83.09999990463257,
+    "chip": 153.10000002384186,
+    "add": 40.5,
+    "openSheet": 92.79999995231628,
+    "addInSheet": 57.39999997615814,
+    "openDeck": 91.09999990463257
+   },
+   {
+    "search": 77.70000004768372,
+    "clearSearch": 85.89999997615814,
+    "chip": 142.70000004768372,
+    "add": 35.200000047683716,
+    "openSheet": 95.20000004768372,
+    "addInSheet": 52.299999952316284,
+    "openDeck": 93.70000004768372
+   }
+  ],
+  "memory": [
+   {
+    "before": {
+     "heapMB": 2.87,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 2.99,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.87,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 2.99,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.87,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 2.99,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.87,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 2.99,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.87,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 2.99,
+     "nodes": 2973,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   }
+  ]
+ },
+ "errors": [],
+ "summary": {
+  "cold": {
+   "fcp": 688,
+   "lcp": 688,
+   "firstTile": 2758.8,
+   "cls": 0.1,
+   "long": 1,
+   "longMs": 190,
+   "domNodes": 1737,
+   "kbTransfer": 793,
+   "requests": 31,
+   "imgs": 12
+  },
+  "warm": {
+   "fcp": 228,
+   "lcp": 232,
+   "firstTile": 499.4,
+   "cls": 0,
+   "long": 1,
+   "longMs": 222,
+   "domNodes": 1737,
+   "kbTransfer": 0,
+   "requests": 32,
+   "imgs": 12
+  },
+  "offline": {
+   "fcp": 212,
+   "lcp": 776,
+   "firstTile": 692.9,
+   "cls": 0,
+   "long": 3,
+   "longMs": 452,
+   "domNodes": 1738,
+   "kbTransfer": 0,
+   "requests": 32,
+   "imgs": 12,
+   "cards": 48
+  },
+  "interact": {
+   "search": 77.7,
+   "clearSearch": 85.9,
+   "chip": 143.2,
+   "add": 35.7,
+   "openSheet": 93.7,
+   "addInSheet": 49.8,
+   "openDeck": 97.8
+  },
+  "memory": {
+   "heapBefore": 2.9,
+   "heapAfter20": 3,
+   "nodesBefore": 2973,
+   "nodesAfter20": 2973,
+   "listenersBefore": 644,
+   "listenersAfter20": 644,
+   "overlayResidual": false,
+   "ciclosConEspera": 0
+  }
+ }
+}

@@ -81,11 +81,14 @@ create policy prefs_owner on public.user_preferences for all to authenticated
   using (user_id = auth.uid()) with check (user_id = auth.uid());
 
 -- ---------- operaciones (security invoker: la RLS se aplica igual) ----------
+-- #variable_conflict use_column: las columnas que devuelven (deck_id, revision...) se llaman igual que las de las tablas;
+-- sin esto Postgres falla con "column reference deck_id is ambiguous" al usar el mazo.
 
 -- Crear mazo con sus cartas. Idempotente por p_temp_id: si ya se migró ese borrador, devuelve el mismo mazo.
 create or replace function public.create_deck(p_name text, p_description text, p_cards jsonb, p_temp_id text default null)
 returns table (deck_id uuid, revision integer, updated_at timestamptz, main_count integer)
 language plpgsql as $$
+#variable_conflict use_column
 declare v_id uuid; v_count integer;
 begin
   if auth.uid() is null then raise exception 'not_authenticated' using errcode = 'PT401'; end if;
@@ -114,6 +117,7 @@ end $$;
 create or replace function public.replace_deck_cards(p_deck uuid, p_cards jsonb, p_expected_revision integer default null)
 returns table (revision integer, updated_at timestamptz, main_count integer)
 language plpgsql as $$
+#variable_conflict use_column
 declare v_rev integer; v_count integer;
 begin
   select d.revision into v_rev from public.decks d where d.id = p_deck and d.user_id = auth.uid() and d.deleted_at is null for update;
@@ -134,6 +138,7 @@ end $$;
 create or replace function public.set_card_quantity(p_deck uuid, p_card text, p_qty integer, p_board text default 'main', p_expected_revision integer default null)
 returns table (revision integer, updated_at timestamptz, main_count integer)
 language plpgsql as $$
+#variable_conflict use_column
 declare v_rev integer; v_count integer;
 begin
   select d.revision into v_rev from public.decks d where d.id = p_deck and d.user_id = auth.uid() and d.deleted_at is null for update;
@@ -155,6 +160,7 @@ end $$;
 create or replace function public.duplicate_deck(p_deck uuid)
 returns table (deck_id uuid, name text, revision integer, updated_at timestamptz, main_count integer)
 language plpgsql as $$
+#variable_conflict use_column
 declare v_new uuid; v_src public.decks%rowtype;
 begin
   select * into v_src from public.decks d where d.id = p_deck and d.user_id = auth.uid() and d.deleted_at is null;

@@ -170,6 +170,21 @@ const serverCards = (S, id) => { const o = {}; S.cards.filter((c) => c.deck_id =
     MOV.decks[id].cards['ST01-003'] = 1; MOV.sync.touch(); await MOV.run();
     await PC.sync.start(PC.user); eq(PC.decks[id].cards['ST01-003'], 1, 'el PC lo ve al sincronizar');
   });
+  await test('con la app abierta, volver a ella (retry) trae lo cambiado en otro dispositivo sin cambiar el mazo activo', async () => {
+    const S = makeServer(), PC = makeDevice(S, 'u1'), MOV = makeDevice(S, 'u1');
+    PC.decks.a = { name: 'Zaku', cards: { 'ST01-001': 4 } }; PC.decks.b = { name: 'Borrar', cards: { 'ST01-005': 1 } }; PC.activeId = 'a';
+    await PC.sync.start(PC.user); await MOV.sync.start(MOV.user);
+    const zaku = Object.keys(PC.decks).find((k) => PC.decks[k].name === 'Zaku'), borrar = Object.keys(PC.decks).find((k) => PC.decks[k].name === 'Borrar');
+    MOV.activeId = borrar;                                                        // en el móvil está mirando otro mazo
+    PC.decks[zaku].cards['ST01-002'] = 3; PC.decks.n = { name: 'Nuevo en el PC', cards: { 'ST01-007': 2 } };
+    delete PC.decks[borrar]; PC.sync.touch(); await PC.run();
+    await MOV.sync.retry();
+    eq(MOV.decks[zaku].cards, { 'ST01-001': 4, 'ST01-002': 3 }, 'el cambio del PC llega al móvil');
+    ok(Object.keys(MOV.decks).some((k) => MOV.decks[k].name === 'Nuevo en el PC'), 'el mazo nuevo del PC aparece');
+    ok(!MOV.decks[borrar], 'el mazo borrado en el PC desaparece');
+    eq(MOV.sync.state().phase, 'saved');
+    MOV.activeId = zaku; await MOV.sync.retry(); eq(MOV.activeId, zaku, 'volver a la app no cambia el mazo que se está mirando');
+  });
   await test('Test K: un usuario no puede leer ni modificar el mazo de otro', async () => {
     const S = makeServer(), A = makeDevice(S, 'uA'), B = makeDevice(S, 'uB');
     A.decks.a = { name: 'Privado', cards: { 'ST01-001': 4 } }; A.activeId = 'a'; await A.sync.start(A.user);

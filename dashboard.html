@@ -243,9 +243,8 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 @keyframes bbIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
 .bb-main{ min-width:0; flex:1 1 180px; }
 .bb-eyebrow{ font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:var(--text-label-weight); line-height:var(--text-label-lh); letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; gap:8px; color:var(--sky); }
-.bb-dot{ width:8px; height:8px; background:var(--sky); }
 .bb-name{ font-family:var(--font-sans); font-size:clamp(22px,6.4vw,30px); font-weight:700; line-height:1.15; letter-spacing:-.015em; text-transform:none; color:var(--white); margin-top:2px; overflow-wrap:anywhere; }
-.bb-namebtn{ touch-action:manipulation; display:block; max-width:100%; padding:6px 0; margin:-6px 0; font:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; text-align:left; line-height:inherit; overflow-wrap:anywhere; cursor:pointer; text-decoration:underline dotted transparent; text-underline-offset:6px; transition:text-decoration-color .15s var(--ease); }
+.bb-namebtn{ touch-action:manipulation; display:block; max-width:100%; min-width:44px; padding:11px 0; margin:-11px 0; font:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; text-align:left; line-height:inherit; overflow-wrap:anywhere; cursor:pointer; text-decoration:underline dotted transparent; text-underline-offset:6px; transition:text-decoration-color .15s var(--ease); }
 .bb-namebtn:hover{ text-decoration-color:rgba(255,255,255,.55); }
 .bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
 .bb-nameinput{ width:100%; min-height:44px; padding:0 0 2px; font:inherit; letter-spacing:inherit; text-transform:inherit; color:var(--white); background:transparent; border:0; border-bottom:2px solid var(--sky); border-radius:0; outline:none; }
@@ -265,17 +264,21 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 .sb-btn{ flex:none; width:44px; height:44px; display:grid; place-items:center; background:var(--sky); color:var(--sky-ink); border-radius:50%; transition:transform .16s var(--ease); }
 .sb-btn:active{ transform:scale(.95); }
 .addfilter-btn{ display:none; }
+/* Orden por nivel: un botón con dos estados dentro de la barra de búsqueda (apagado = orden de siempre; encendido = nivel de menor a mayor).
+   El estado encendido se ve por el relleno azul, el contorno y una insignia con un check en la esquina (no ocupa ancho: el botón no cambia de tamaño al pulsarlo). */
+.sort-btn{ position:relative; flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 12px; border-radius:9999px; background:var(--tone); color:var(--fg-2); font-family:var(--font-sans); font-size:var(--text-nav-size); font-weight:700; line-height:1; white-space:nowrap; cursor:pointer; transition:background .16s var(--ease), color .16s var(--ease); }
+.sort-btn:hover{ background:var(--tone-2); }
+.sort-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.sort-btn .sort-ck{ position:absolute; top:-2px; right:-2px; box-sizing:border-box; width:18px; height:18px; padding:3px; border-radius:50%; background:var(--navy); color:var(--white); visibility:hidden; }
+.sort-btn[aria-pressed="true"]{ background:var(--sky); color:var(--sky-ink); box-shadow:inset 0 0 0 2px currentColor; }
+.sort-btn[aria-pressed="true"] .sort-ck{ visibility:visible; }
 .quick{ display:flex; flex-wrap:nowrap; gap:6px; padding:8px var(--pad) 0; margin:0 calc(var(--pad) * -1); overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; }   /* una sola fila que se desliza: en 320 px la barra pegajosa ocupaba un cuarto de la pantalla con dos filas de chips */
 .quick::-webkit-scrollbar{ display:none; }
 .quick .tag{ flex:none; }
 
 .resultbar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .resultbar .count{ font-size:13px; color:var(--fg-3); font-weight:700; }
-.catsort{ order:1; margin-left:auto; position:relative; display:inline-block; }   /* a la derecha de la barra de resultados, junto a "Limpiar filtros" */
-.catsort select{ appearance:none; -webkit-appearance:none; min-height:40px; max-width:100%; padding:0 34px 0 14px; font-family:var(--font-sans); font-size:var(--text-nav-size); font-weight:600; color:var(--fg-1); background:var(--tone) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%232e4a62' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 12px center / 12px 8px no-repeat; border:0; border-radius:9999px; cursor:pointer; outline:0; text-overflow:ellipsis; }
-.catsort select:hover{ background-color:var(--tone-2); }
-.catsort select:focus-visible{ box-shadow:0 0 0 3px rgba(62,112,124,.45); }
-.resultbar .clearbtn{ order:2; margin-left:12px; min-height:40px; display:inline-flex; align-items:center; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; }
+.resultbar .clearbtn{ order:2; margin-left:auto; min-height:40px; display:inline-flex; align-items:center; font-size:14px; font-weight:700; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; }
 #activeFilters{ display:flex; gap:6px; flex-wrap:wrap; width:100%; order:3; }
 #activeFilters:empty{ display:none; }
 
@@ -571,7 +574,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .tb-ico{ position:relative; display:flex; }
 /* icono de Mi colección: el PNG blanco del usuario como máscara, para que tome el color de cada estado */
 .coll-ico{ flex:none; width:20px; height:20px; background:currentColor; -webkit-mask:url(icons/tab-coleccion.png) center / contain no-repeat; mask:url(icons/tab-coleccion.png) center / contain no-repeat; }
-.pm-item .coll-ico{ width:16px; height:16px; }
+.pm-item .coll-ico{ width:16px; height:16px; background:var(--sky); }   /* azul como el resto de iconos del menú (.pm-item svg) */
 #tbCollection .coll-ico{ background:var(--sky); }   /* el icono de Colección en la barra siempre en azul */
 @media (max-width:359px){ .tabbar{ padding-left:2px; padding-right:2px; gap:0; } .tb-item{ font-size:12px; letter-spacing:0; } }
 .tb-badge{ font-family:var(--font-sans); font-size:12px; font-weight:700; line-height:1; letter-spacing:0; text-transform:none; position:absolute; top:-7px; right:-12px; min-width:18px; height:18px; padding:0 5px; background:var(--rose); color:var(--rose-ink); font-style:normal; display:flex; align-items:center; justify-content:center; clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%); }
@@ -780,7 +783,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 @keyframes tbIn{ from{ transform:scaleX(0); } to{ transform:none; } }
 .deck-count.bump{ animation:bump .3s var(--ease-out); }
 @keyframes bump{ 0%{ transform:scale(1); } 35%{ transform:scale(1.1); } 100%{ transform:scale(1); } }
-.dc-n.tick,.dv-qty.tick{ animation:tick .26s var(--ease-out); }
+.dc-n.tick,.dv-qty.tick,.ad-n.tick{ animation:tick .26s var(--ease-out); }
 @keyframes tick{ 0%{ transform:translateY(6px); opacity:.2; } 100%{ transform:none; opacity:1; } }
 .decksPage::before{
   content:""; position:fixed; left:0; right:0; bottom:0; height:min(118vw,640px); z-index:0; pointer-events:none;
@@ -873,7 +876,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dp-eyebrow .warn,.dp-meta .warn{ color:var(--rose); }
 .dp-meta{ font-size:14px; font-weight:600; color:var(--fg-3); font-variant-numeric:tabular-nums; }
 .dp-title{ font-family:var(--font-display); font-size:var(--text-display-md-size); font-weight:var(--text-display-md-weight); line-height:var(--text-display-md-lh); letter-spacing:var(--text-display-md-ls); text-transform:uppercase; color:var(--fg-1); text-wrap:balance; }
-.dp-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:4px; }
+.dp-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:8px; margin-top:4px; max-width:920px; }   /* un mazo por fila: en móvil el nombre ya no se corta */
 .dp-deck,.dp-new{ min-height:156px; }
 .dp-deck{
   position:relative; padding:14px 14px 12px; cursor:pointer; display:flex; flex-direction:column; gap:12px;
@@ -943,7 +946,6 @@ body.is-building .adder{ display:grid; gap:8px; }
 @media (min-width:560px){
   :root{ --pad:20px; }
   .grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-  .dp-grid{ grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); }
   .d-fieldrow{ grid-template-columns:repeat(4,auto); justify-content:start; gap:12px 28px; }
 }
 @media (min-width:640px){
@@ -1125,7 +1127,7 @@ html{ touch-action:manipulation; }
   .hamburger{ width:44px; }
 }
 @media (max-width:349px){
-  .deck-count svg{ display:none; }
+  .deck-count svg,.deck-count .ico{ display:none; }
   .lang-toggle .lt-opt{ min-width:30px; font-size:13px; }
 }
 @media (max-width:359px){
@@ -1249,7 +1251,7 @@ html{ touch-action:manipulation; }
 /* si también está la tarjeta de instalar, el aviso de descarga se coloca encima de ella */
 @media (max-width:899px){ body:has(#installCard:not([hidden])) .warmToast{ bottom:calc(var(--tab-total) + 160px); } }
 @media (pointer:coarse){
-  .tag.chip,.resultbar .clearbtn,.catsort select{ min-height:44px; }
+  .tag.chip,.resultbar .clearbtn{ min-height:44px; }
   .tag.removable{ min-height:44px; }
   .tag.removable button{ width:36px; height:36px; }
 }
@@ -1461,6 +1463,55 @@ html{ touch-action:manipulation; }
 .fav-star[aria-pressed="true"]{ color:#f4c542; } .fav-star[aria-pressed="true"] svg path{ fill:currentColor; }
 .dp-namerow{ display:flex; align-items:center; gap:6px; min-width:0; }
 .dp-namerow .dp-name{ flex:1 1 auto; min-width:0; }
+
+/* ===== HUD refinado (Mobile UX vNext · opción A): misma app, menos altura antes de las cartas ===== */
+/* chip activo: además del color, un contorno y más peso (no depende solo del color) */
+.tag.chip.active{ font-weight:700; box-shadow:inset 0 0 0 2px currentColor; }
+/* progreso hacia 50 en el contador que ya existe (cabecera y ventana del mazo): la parte llena es --fill */
+.deck-count:not(.is-complete):not(.is-over),.dv-count:not(.is-complete):not(.is-over){
+  background:linear-gradient(to right, var(--sky) calc(var(--fill, 1) * 100%), color-mix(in srgb, var(--sky) 45%, var(--white)) 0);
+}
+/* Iconos de la marca para acciones y estados del constructor: máscaras que toman el color del texto (blanco o azul del sistema) */
+:root{ --ico-copy:url("data:image/png;base64,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"); --ico-full:url("data:image/png;base64,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"); --ico-build:url("data:image/png;base64,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"); }
+.ico{ display:inline-block; flex:none; background:currentColor; -webkit-mask:var(--ico-mask) center / contain no-repeat; mask:var(--ico-mask) center / contain no-repeat; }
+.ico-copy{ --ico-mask:var(--ico-copy); width:20px; height:20px; }
+.ico-full{ --ico-mask:var(--ico-full); width:22px; height:17px; }
+.ico-build{ --ico-mask:var(--ico-build); width:28px; height:8px; }
+.dp-btn .ico-copy{ width:18px; height:18px; }
+/* aviso de mazo lleno: icono + texto corto, en lugar de la frase larga */
+.full-chip{ display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:4px 8px; background:var(--navy); color:var(--white); font-size:var(--text-caption-size); font-weight:800; letter-spacing:.03em; text-transform:uppercase; line-height:1; white-space:nowrap; }
+.full-chip .ico-full{ width:15px; height:11px; }
+/* Fase 2 · el botón del buscador: lupa sin texto, × (borrar búsqueda) con texto; el borrar es tonal, no compite con la acción */
+.sb-ico-clear{ display:none; }
+.sb-btn.is-clear{ background:var(--tone); color:var(--fg-1); }
+.sb-btn.is-clear .sb-ico-find{ display:none; }
+.sb-btn.is-clear .sb-ico-clear{ display:block; }
+/* Fase 2 · − + papelera de la lista del mazo: 32 px visibles y 44×44 pulsables (antes 30 visibles y 34×44) sin pisarse entre sí */
+.dv-step{ gap:12px; }
+.dv-sbtn{ width:32px; height:32px; }
+.dv-sbtn::after{ inset:-6px; }
+.dv-del{ margin-left:0; }
+@media (max-width:899px){
+  .db-main{ padding-top:14px; gap:12px; }
+  /* título y avatar en la misma fila; las dos acciones debajo, a 44 px */
+  .pageTitle{ display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; column-gap:12px; }
+  .pageTitle h1{ font-size:var(--text-page-title-size); line-height:1.02; }
+  .pa-row{ display:contents; }
+  .pageTitle .avatar{ grid-column:2; grid-row:1; width:44px; height:44px; }
+  .pageActions{ grid-column:1 / -1; margin-top:12px; }
+  .pa-btn{ min-height:44px; }
+  .addDeckPanel{ grid-column:1 / -1; }
+  /* mazo en construcción: una sola línea (nombre a la izquierda, recuento y cerrar a la derecha) */
+  .buildBar{ flex-wrap:wrap; gap:8px 10px; padding:8px 8px 8px 14px; }   /* con 50 cartas aparece "Comparar": si no cabe junto al nombre, el recuento baja a su fila en vez de apretar el nombre */
+  .bb-main{ flex:1 1 150px; }
+  .bb-name{ font-size:var(--text-subsection-size); }
+  .bb-side{ gap:8px; }
+  .bb-count b{ font-size:var(--text-metric-size); }
+  /* recuento y orden comparten fila; "Limpiar filtros" solo aparece si hay algo que limpiar */
+  .resultbar .count{ flex:none; }
+  /* la fila de chips avisa de que sigue hacia la derecha */
+  .quick{ padding-right:calc(var(--pad) + 24px); -webkit-mask-image:linear-gradient(to right, black calc(100% - 36px), transparent); mask-image:linear-gradient(to right, black calc(100% - 36px), transparent); }
+}
 </style>
 
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -1509,7 +1560,7 @@ html{ touch-action:manipulation; }
       <span class="lt-opt" data-lang="es">ES</span><span class="lt-opt" data-lang="en">EN</span>
     </button>
     <button type="button" class="deck-count" id="deckCount" aria-haspopup="dialog" aria-label="Ver el mazo: 0 de 50 cartas">
-      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span class="ico ico-build" id="deckStateIco" aria-hidden="true"></span>
       <span id="deckPillCount">0 / 50</span>
     </button>
     <div class="pillWrap">
@@ -1628,7 +1679,7 @@ html{ touch-action:manipulation; }
       </div>
       <div class="buildBar" id="buildBar" hidden>
         <div class="bb-main">
-          <span class="bb-eyebrow"><i class="bb-dot"></i><span id="lblBuilding">Mazo en construcción</span></span>
+          <span class="bb-eyebrow"><span class="ico ico-build" id="bbStateIco" aria-hidden="true"></span><span id="lblBuilding">Mazo en construcción</span></span>
           <h2 class="bb-name"><button type="button" class="bb-namebtn" id="bbName"></button></h2>
           <button type="button" class="legalChip cut" id="bbLegal" hidden></button>
         </div>
@@ -1645,8 +1696,13 @@ html{ touch-action:manipulation; }
         <span class="sb-eyebrow" id="lblSearchEyebrow">Buscar carta</span>
         <span class="sb-div"></span>
         <input type="search" id="searchMain" class="sb-input" placeholder="">
+        <button type="button" class="sort-btn" id="catSortBtn" aria-pressed="false" aria-label="Ordenar por nivel de menor a mayor">
+          <svg class="sort-ck" width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="lblSortLv">Nivel ↑</span>
+        </button>
         <button class="sb-btn" id="searchBtn" aria-label="Buscar">
-          <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M18 18l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="sb-ico-find" width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M18 18l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="sb-ico-clear" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <button class="addfilter-btn" id="addFilterBtn">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1657,7 +1713,6 @@ html{ touch-action:manipulation; }
       </div>
       <div class="resultbar">
         <span class="count" id="resultcount">Cargando…</span>
-        <label class="catsort"><span class="sr-only" id="lblCatSort">Ordenar</span><select id="catSort"></select></label>
         <div id="activeFilters"></div>
         <button class="clearbtn" id="clearFilters">Limpiar filtros</button>
       </div>
@@ -1666,6 +1721,7 @@ html{ touch-action:manipulation; }
   </div>
 </div>
 
+<div class="sr-only" id="deckLive" role="status" aria-live="polite"></div>
 <div class="warmToast cut" id="warmToast" role="status" aria-live="polite" hidden>
   <span id="warmText"></span>
   <i class="wt-bar"><b id="warmFill"></b></i>
@@ -1720,7 +1776,7 @@ html{ touch-action:manipulation; }
       </div>
       <div class="cloud-note" id="dpCloudNote" hidden></div>
       <div class="dp-copybar" id="dpCopyBar">
-        <button type="button" class="dp-btn dp-btn-primary" id="dpCopySel"><span id="lblDpCopySel">Copiar mazos</span></button>
+        <button type="button" class="dp-btn dp-btn-primary" id="dpCopySel"><span class="ico ico-copy" aria-hidden="true"></span><span id="lblDpCopySel">Copiar mazos</span></button>
         <button type="button" class="dp-copylink" id="dpSelAll">Todos</button>
         <button type="button" class="dp-copylink" id="dpSelNone">Ninguno</button>
       </div>
@@ -1741,7 +1797,7 @@ html{ touch-action:manipulation; }
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             <span id="lblDpAddCards">Añadir cartas</span>
           </button>
-          <button class="dp-btn" id="dpCopy"><span id="lblDpCopy">Copiar lista</span></button>
+          <button class="dp-btn" id="dpCopy"><span class="ico ico-copy" aria-hidden="true"></span><span id="lblDpCopy">Copiar lista</span></button>
           <button class="dp-btn dp-btn-primary ml-btn" id="dpCompare" hidden><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13V8.5M6.5 13V3M10.5 13V6.5M14 13H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lblCompare">Comparar</span></button>
           <button class="dp-btn dp-btn-danger" id="dpDelete"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="lblDpDelete">Eliminar mazo</span></button>
         </div>
@@ -1769,7 +1825,7 @@ html{ touch-action:manipulation; }
           </button>
           </div>
           <button type="button" class="dv-count" id="dvCount">
-            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.2 4.1l5.1-1.9a1.4 1.4 0 0 1 1.8.8l3.7 9.9a1.4 1.4 0 0 1-.8 1.8l-5.6 2.1" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="2.2" y="4.2" width="9.4" height="13.6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+            <span class="ico ico-build" id="dvStateIco" aria-hidden="true"></span>
             <span id="dvCountTxt">0 / 50</span>
           </button>
           <button type="button" class="dv-clear dv-copy" id="dvCopy" data-copied="false"></button>
@@ -2588,7 +2644,7 @@ var EFFECT_CONFIG = {
   var I18N = {
     es: {
       searchEyebrow:'Buscar carta', setPicker:'Set', setAll:'Todos',
-      searchPh:'Nombre, número o texto de habilidad…', searchPhShort:'Nombre, número o texto', searchAria:'Buscar',
+      searchPh:'Nombre, número o texto de habilidad…', searchPhShort:'Nombre, número o texto', searchPhTiny:'Buscar carta', searchAria:'Buscar', searchClear:'Borrar búsqueda',
       fSet:'Set', fColor:'Color', fType:'Tipo', fAbility:'Habilidad', fAct:'Activación', fFx:'Efecto', secAbility:'Habilidad', secEffects:'Efectos', fxMoreAria:function(n){ return n+' efectos más'; },
       showCat:'mostrar categorías', hideCat:'ocultar categorías',
       resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros',
@@ -2620,8 +2676,7 @@ var EFFECT_CONFIG = {
       deckCopy:'Copiar lista', deckCopied:'¡Copiado!',
       copySel:'Para copiar', copySelAria:'Incluir este mazo al copiar la lista', copyDecks:function(n){ return n ? 'Copiar mazos ('+n+')' : 'Copiar mazos'; }, copyAll:'Todos', copyNone:'Ninguno', copyNoneHint:'Marca al menos un mazo para copiar', deckNewName:'Mazo',
       filterOwned:'Mi colección', filterOwnedHint:'Solo las que tengo',
-      sortLbl:'Ordenar las cartas', sortDefault:'Orden normal', sortLvAsc:'Nivel: de menor a mayor', sortLvDesc:'Nivel: de mayor a menor',
-      setTokenLbl:'Tokens',
+      sortLv:'Nivel ↑', sortLvAria:'Ordenar por nivel de menor a mayor', sortLvOn:'Orden por nivel activado: toca para volver al orden por número de carta',
       setStarterLbl:'Mazos iniciales', setExpansionLbl:'Expansión', setExtraLbl:'Cabezones feos',
       addFilter:'Añadir filtro', addDeck:'Añadir mazo', myDecks:'Ver mis mazos',
       myDecksTitle:'Mis mazos', newDeckTile:'Nuevo mazo', pmCompare:'Comparar mazos', pmCompetition:'Competición', menuOpen:'Abrir menú', menuClose:'Cerrar menú', deckCountAria:function(n){ return 'Ver el mazo: '+n+' de 50 cartas'; },
@@ -2735,7 +2790,7 @@ var EFFECT_CONFIG = {
         pairTxt:function(n){ return n+' ya está en el mazo: estas dos cartas no pueden ir juntas.'; },
         groupTxt:function(g){ return 'Tu mazo ya usa otra carta del grupo: '+g+'.'; },
         colorTxt:function(m){ return 'Añadirla metería un tercer color: el máximo es '+m+'.'; },
-        fullTxt:function(sz){ return 'Este mazo ya tiene '+sz+' cartas. Quita una antes de añadir otra.'; }
+        fullTxt:function(){ return 'Mazo lleno'; }
       },
       cloud:{
         saving:'Guardando…', saved:'Guardado', pending:'Guardando…', offline:'Sin conexión · cambios pendientes', error:'No se pudo guardar', retry:'Reintentar',
@@ -2818,15 +2873,15 @@ var EFFECT_CONFIG = {
       },
       showResults:function(n){ return n===1 ? 'Ver 1 carta' : 'Ver '+n+' cartas'; },
       newDeckLabel:'Nombre del mazo', newDeckPh:'Ej. Federación agresiva', adpSubmit:'Crear mazo', viewDeck:'Ver mazo',
-      building:'Mazo en construcción', finishDeck:'Terminar mazo', goHome:'Ir al inicio · Catálogo', quickAria:'Filtros rápidos', profileTitle:'Perfil',
+      building:'Mazo en construcción', buildingDone:'Mazo completo', finishDeck:'Terminar mazo', goHome:'Ir al inicio · Catálogo', quickAria:'Filtros rápidos', profileTitle:'Perfil',
       compareTitle:'Comparar mazos', compareEmpty:'Crea al menos 2 mazos para poder compararlos.', compareCards:'Cartas',
-      types:{UNIT:'Unidad',PILOT:'Piloto',COMMAND:'Comando',BASE:'Base'},
+      types:{UNIT:'Unidad',PILOT:'Piloto',COMMAND:'Comando',BASE:'Base',TOKEN:'Token'},
       colors:{Blue:'Azul',Green:'Verde',Red:'Rojo',Purple:'Morado',White:'Blanco'},
       tags:{breach:'Breach / Remate',removal:'Eliminación',aoe:'Área / Barrido',search:'Búsqueda de cartas',scry:'Manipulación de mazo',draw:'Robo de cartas',ramp:'Aceleración de recursos',teambuff:'Mejora de equipo',blocker:'Blocker / Defensa',token:'Generación de fichas',heal:'Curación / Repair',taunt:'Redirección / Provocar',damagered:'Protección / Reducción de daño',bounce:'Rebote',trick:'Truco de combate',shieldhand:'Escudo a mano',burst:'Burst',vanilla:'Sin habilidad',other:'Otro / Único',rest:'Poner en reposo',support:'Support',selfbuff:'Mejora propia',combatkw:'Ventaja de combate',assault:'Atacar Unidades',cheat:'Despliegue extra',recursion:'Recuperar del cementerio',ready:'Reactivar',discard:'Disrupción del rival',costred:'Reducción de coste',drawback:'Restricción'}
     },
     en: {
       searchEyebrow:'Search card', setPicker:'Set', setAll:'All',
-      searchPh:'Name, number or ability text…', searchPhShort:'Name, number or text', searchAria:'Search',
+      searchPh:'Name, number or ability text…', searchPhShort:'Name, number or text', searchPhTiny:'Search a card', searchAria:'Search', searchClear:'Clear search',
       fSet:'Set', fColor:'Color', fType:'Type', fAbility:'Ability', fAct:'Activation', fFx:'Effect', secAbility:'Ability', secEffects:'Effects', fxMoreAria:function(n){ return n+' more effects'; },
       showCat:'show categories', hideCat:'hide categories',
       resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters',
@@ -2858,8 +2913,7 @@ var EFFECT_CONFIG = {
       deckCopy:'Copy list', deckCopied:'Copied!',
       copySel:'To copy', copySelAria:'Include this deck when copying the list', copyDecks:function(n){ return n ? 'Copy decks ('+n+')' : 'Copy decks'; }, copyAll:'All', copyNone:'None', copyNoneHint:'Mark at least one deck to copy', deckNewName:'Deck',
       filterOwned:'My collection', filterOwnedHint:'Only the ones I own',
-      sortLbl:'Sort cards', sortDefault:'Default order', sortLvAsc:'Level: low to high', sortLvDesc:'Level: high to low',
-      setTokenLbl:'Tokens',
+      sortLv:'Level ↑', sortLvAria:'Sort by level, low to high', sortLvOn:'Sorted by level: tap to go back to card-number order',
       setStarterLbl:'Starter', setExpansionLbl:'Expansion', setExtraLbl:'Extra Booster',
       addFilter:'Add filter', addDeck:'Add deck', myDecks:'View my decks',
       myDecksTitle:'My decks', newDeckTile:'New deck', pmCompare:'Compare decks', pmCompetition:'Competition', menuOpen:'Open menu', menuClose:'Close menu', deckCountAria:function(n){ return 'View deck: '+n+' of 50 cards'; },
@@ -2973,7 +3027,7 @@ var EFFECT_CONFIG = {
         pairTxt:function(n){ return n+' is already in the deck: these two cards cannot go together.'; },
         groupTxt:function(g){ return 'Your deck already uses another card from the group: '+g+'.'; },
         colorTxt:function(m){ return 'Adding it would bring in a third color: the limit is '+m+'.'; },
-        fullTxt:function(sz){ return 'This deck already has '+sz+' cards. Remove one before adding another.'; }
+        fullTxt:function(){ return 'Deck full'; }
       },
       cloud:{
         saving:'Saving…', saved:'Saved', pending:'Saving…', offline:'Offline · changes pending', error:'Could not save', retry:'Retry',
@@ -3056,9 +3110,9 @@ var EFFECT_CONFIG = {
       },
       showResults:function(n){ return n===1 ? 'Show 1 card' : 'Show '+n+' cards'; },
       newDeckLabel:'Deck name', newDeckPh:'e.g. Aggro Federation', adpSubmit:'Create deck', viewDeck:'View deck',
-      building:'Deck in progress', finishDeck:'Finish deck', goHome:'Go home · Catalog', quickAria:'Quick filters', profileTitle:'Profile',
+      building:'Deck in progress', buildingDone:'Deck complete', finishDeck:'Finish deck', goHome:'Go home · Catalog', quickAria:'Quick filters', profileTitle:'Profile',
       compareTitle:'Compare decks', compareEmpty:'Create at least 2 decks to compare them.', compareCards:'Cards',
-      types:{UNIT:'Unit',PILOT:'Pilot',COMMAND:'Command',BASE:'Base'},
+      types:{UNIT:'Unit',PILOT:'Pilot',COMMAND:'Command',BASE:'Base',TOKEN:'Token'},
       colors:{Blue:'Blue',Green:'Green',Red:'Red',Purple:'Purple',White:'White'},
       tags:{breach:'Breach / Finisher',removal:'Removal',aoe:'AoE / Board wipe',search:'Search / Tutor',scry:'Deck manipulation',draw:'Card draw',ramp:'Ramp',teambuff:'Team buff',blocker:'Blocker / Defense',token:'Token generation',heal:'Heal / Repair',taunt:'Redirect / Taunt',damagered:'Protection / Damage reduction',bounce:'Bounce',trick:'Combat trick',shieldhand:'Shield to hand',burst:'Burst',vanilla:'No ability',other:'Other / Unique',rest:'Rest / Lockdown',support:'Support',selfbuff:'Self buff',combatkw:'Combat keywords',assault:'Attack Units',cheat:'Extra deploy',recursion:'Recursion (trash)',ready:'Ready / Untap',discard:'Opponent disruption',costred:'Cost reduction',drawback:'Drawback'}
     }
@@ -3210,6 +3264,7 @@ var EFFECT_CONFIG = {
   var activeDeckId = null;
   var TOKENS = [], TOKEN_IDX = new Map();   /* cartas TOKEN: fuera del catálogo y de los mazos; solo existen para Mi colección y no suman como carta */
   function isToken(c){ return !!(c && c.token); }
+  function typeKey(c){ return isToken(c) ? 'TOKEN' : c.type; }   // tipo para filtrar: un token es "Token", no "Unidad"
   var CARD_IDX = null, CARD_IDX_N = -1;   /* índice número → carta (ALL se carga una vez); antes cada consulta recorría todo el catálogo */
   function cardByNumber(num){
     if(CARD_IDX_N !== ALL.length){ CARD_IDX = new Map(); for(var i=0;i<ALL.length;i++){ if(!CARD_IDX.has(ALL[i].number)) CARD_IDX.set(ALL[i].number, ALL[i]); } CARD_IDX_N = ALL.length; }
@@ -3580,7 +3635,7 @@ var EFFECT_CONFIG = {
     var ctl = el('div','d-ctl'); ctl.dataset.number = number;
     var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dc-btn'; plus.innerHTML = ICON_PLUS;
     plus.setAttribute('aria-label', t().adderMore+' · '+cardName);
-    var nEl = el('div','dc-n','0'); nEl.setAttribute('aria-live','polite');
+    var nEl = el('div','dc-n','0');
     var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'dc-btn dc-minus'; minus.innerHTML = ICON_MINUS;
     minus.setAttribute('aria-label', t().adderLess+' · '+cardName);
     var del = document.createElement('button'); del.type = 'button'; del.className = 'dc-del'; del.innerHTML = TRASH_SVG;
@@ -3616,16 +3671,18 @@ var EFFECT_CONFIG = {
       del.setAttribute('aria-label', D.removeAll+' · '+cardName); del.title = D.removeAll;
       stat.textContent = D.inDeck(q, max);
       var info = block ? blockerText(block) : null;
-      msg.textContent = info ? info.txt : (block && block.reason === 'copy_limit' ? D.limit : '');
+      msg.textContent = '';
+      if(block && block.reason === 'deck_full' && info) msg.appendChild(fullChipEl(info.txt));
+      else msg.textContent = info ? info.txt : (block && block.reason === 'copy_limit' ? D.limit : '');
     }
     function afterChange(){
       syncSteppers(number);
       if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
       refresh();
     }
-    plus.addEventListener('click', function(){ if(addToDeck(number)) afterChange(); else refresh(); });
-    minus.addEventListener('click', function(){ removeFromDeck(number); afterChange(); });
-    del.addEventListener('click', function(){ var d = activeDeck(); while(d && (d.cards[number] || 0) > 0) removeFromDeck(number); afterChange(); });
+    plus.addEventListener('click', function(){ if(addToDeck(number)){ afterChange(); announceDeck(number); } else { refresh(); announceDeck(number, true); } });
+    minus.addEventListener('click', function(){ removeFromDeck(number); afterChange(); announceDeck(number); });
+    del.addEventListener('click', function(){ var d = activeDeck(); while(d && (d.cards[number] || 0) > 0) removeFromDeck(number); afterChange(); announceDeck(number); });
     sel.addEventListener('change', function(){
       if(sel.value === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
       else activeDeckId = sel.value;
@@ -3638,6 +3695,17 @@ var EFFECT_CONFIG = {
     return {ctl:ctl, line:line};
   }
 
+  /* Aviso de mazo lleno: icono + "Mazo lleno" (antes una frase larga). Lo usan la ficha y las cartas del catálogo. */
+  function fullChipEl(txt){
+    var c = el('span', 'full-chip'), i = el('span', 'ico ico-full'); i.setAttribute('aria-hidden', 'true');
+    c.appendChild(i); c.appendChild(document.createTextNode(txt)); return c;
+  }
+  /* Estado del mazo junto al contador: icono de progreso por debajo de 50 cartas y de mazo lleno al llegar a 50 (píldora superior, barra del mazo y ventana del mazo) */
+  function paintDeckState(n){
+    var full = n === 50;
+    ['deckStateIco', 'bbStateIco', 'dvStateIco'].forEach(function(id){ var e = document.getElementById(id); if(e){ e.classList.toggle('ico-full', full); e.classList.toggle('ico-build', !full); } });
+    var lb = document.getElementById('lblBuilding'); if(lb) lb.textContent = full ? t().buildingDone : t().building;
+  }
   function refreshAdders(){ document.querySelectorAll('.adder').forEach(function(a){ if(a._refresh) a._refresh(); }); }
   var ICON_MINUS = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   var ICON_PLUS = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -3647,6 +3715,7 @@ var EFFECT_CONFIG = {
   var ICON_DOWN = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v9.5M3.8 8.6L8 12.8l4.2-4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_STAR = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2l1.9 3.9 4.1.6-3 2.9.7 4.1L8 11.5 4.3 13.5l.7-4.1-3-2.9 4.1-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
   var COPY_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="3.5" width="9" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7v8.2c0 .9.7 1.6 1.6 1.6H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  var COPYLIST_ICON = '<span class="ico ico-copy" aria-hidden="true"></span>';   // copiar la lista de un mazo (la colección sigue con COPY_ICON)
   var CHECK_ICON = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 10.5l3.6 3.6 7.4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_X = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   /* Selector de copias del mazo en construcción (catálogo y ficha): el + añade al instante, el − quita una; el número son las copias en el mazo (máx. 4) */
@@ -3659,7 +3728,7 @@ var EFFECT_CONFIG = {
     var qtyBox = el('div','ad-qty');
     var minus = document.createElement('button'); minus.type='button'; minus.className='ds-btn ad-minus'; minus.innerHTML=ICON_MINUS;
     minus.setAttribute('aria-label', (LANG==='es'?'Quitar una copia de ':'Remove one copy of ')+cardName);
-    var nEl = el('span','ad-n num','0'); nEl.setAttribute('aria-live','polite');
+    var nEl = el('span','ad-n num','0');
     var plus = document.createElement('button'); plus.type='button'; plus.className='ds-btn ad-plus'; plus.innerHTML=ICON_PLUS;
     plus.setAttribute('aria-label', (LANG==='es'?'Añadir una copia de ':'Add one copy of ')+cardName);
     qtyBox.appendChild(minus); qtyBox.appendChild(nEl); qtyBox.appendChild(plus);
@@ -3667,12 +3736,15 @@ var EFFECT_CONFIG = {
     function inDeck(){ var d = activeDeck(); return (d && d.cards[number]) || 0; }
     function refresh(){
       var q = inDeck(), lim = building ? addLimit(number) : {max: 4 - q, blockedBy: null}, room = Math.min(4 - q, lim.max);
-      nEl.textContent = String(q);
+      if(nEl.textContent !== String(q)){ var first = nEl.textContent === '0' && !wrap._painted; nEl.textContent = String(q); if(!first){ nEl.classList.remove('tick'); void nEl.offsetWidth; nEl.classList.add('tick'); } }
+      wrap._painted = true;
       minus.disabled = q <= 0;
       plus.disabled = room <= 0;
+      plus.title = room <= 0 ? (lim.blockedBy ? blockWhy(lim.blockedBy, number) : '') || t().deckBlock.limit : '';
       whyEl.textContent = '';
       var why = lim.blockedBy ? blockWhy(lim.blockedBy, number) : '';
-      if(why){
+      if(why && lim.blockedBy.ruleType === 'deck_size' && room <= 0) whyEl.appendChild(fullChipEl(t().deckBlock.fullTxt()));
+      else if(why){
         if(room <= 0 && /^(banned_pair|exclusive_group|color_limit)$/.test(lim.blockedBy.ruleType)) whyEl.appendChild(el('span','rule-badge incompatible', t().legal.incompatible));
         whyEl.appendChild(el('span', null, why));
       }
@@ -3683,8 +3755,8 @@ var EFFECT_CONFIG = {
       syncSteppers(number);
       if(!document.getElementById('decksPage').hidden && dpDeckId) renderDeckDetail();
     }
-    minus.addEventListener('click', function(){ if(inDeck() > 0){ removeFromDeck(number); after(); } });
-    plus.addEventListener('click', function(){ addToDeck(number); after(); });
+    minus.addEventListener('click', function(){ if(inDeck() > 0){ removeFromDeck(number); after(); announceDeck(number); } });
+    plus.addEventListener('click', function(){ var ok = addToDeck(number); after(); announceDeck(number, !ok); });
     refresh();
     return wrap;
   }
@@ -3698,6 +3770,16 @@ var EFFECT_CONFIG = {
     var inner = q.parentNode; if(inner && inner.classList) inner.classList.toggle('has-qty', n > 0);
   }
   function refreshTileQty(){ document.querySelectorAll('.dz-qty').forEach(paintTileQty); }
+  /* Fase 3 · resultado de cada cambio de copias en una sola región accesible (#deckLive): carta, copias y mazo, o el motivo real si no se pudo añadir */
+  function announceDeck(number, failed){
+    var live = document.getElementById('deckLive'); if(!live) return;
+    var D = t().deckBlock, deck = activeDeck(), name = (cardByNumber(number) || {}).name || number, msg;
+    var block = addBlocker(number), q = deck ? (deck.cards[number] || 0) : 0;
+    if(failed){ var info = block ? blockerText(block) : null; msg = info ? info.txt : D.limit; }
+    else if(q > 0) msg = D.added(q, (deck && deck.name) || t().deckNewName).replace(/^✓\s*/, '') + (block && block.reason === 'copy_limit' ? ' · ' + D.limit : '');
+    else msg = D.removed.replace(/^✓\s*/, '');
+    live.textContent = name + ': ' + msg;
+  }
   function syncSteppers(number){
     if(building) refreshAdders();
     else document.querySelectorAll('.adder[data-number="'+number+'"]').forEach(function(a){ if(a._refresh) a._refresh(); });
@@ -3733,12 +3815,13 @@ var EFFECT_CONFIG = {
     if(pc) pc.textContent = n+' / 50';
     var box = document.getElementById('deckCount');
     if(box && lastDeckN !== null && lastDeckN !== n && !(REDUCED && REDUCED.matches)){ box.classList.remove('bump'); void box.offsetWidth; box.classList.add('bump'); }
-    lastDeckN = n;
+    lastDeckN = n; paintDeckState(n);
     if(box){
       var legalNow = deck && engineOK() ? legalOf(deck).status === 'legal' : true;
       box.classList.toggle('is-over', n > 50);
       box.classList.toggle('is-complete', n === 50 && legalNow);
-      box.setAttribute('aria-label', t().deckCountAria(n));
+      box.style.setProperty('--fill', Math.min(n, 50) / 50);   // progreso hacia 50 (solo visual)
+      box.setAttribute('aria-label', t().deckCountAria(n) + (n === 50 ? ' · ' + t().buildingDone : ''));
     }
     updateBuildBar();
     refreshLegalChips();
@@ -3753,7 +3836,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-02.7';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.1';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -4582,7 +4665,6 @@ var EFFECT_CONFIG = {
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('ST')===0;}), t().setStarterLbl);
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('GD')===0;}), t().setExpansionLbl);
     buildSetGroup(SET_KEYS.filter(function(s){return s.indexOf('EB')===0;}), t().setExtraLbl);
-    if(cfg.onlyPool) buildSetGroup(['TOKEN'], t().setTokenLbl);
     var colorBox = document.getElementById(ids.color); colorBox.innerHTML = '';
     COLOR_ORDER.forEach(function(c){
       if(!pool.some(function(x){return x.color===c;})) return;
@@ -4591,8 +4673,8 @@ var EFFECT_CONFIG = {
       colorBox.appendChild(b);
     });
     var typeBox = document.getElementById(ids.type); typeBox.innerHTML = '';
-    TYPE_ORDER.forEach(function(ty){
-      if(!has(function(c){ return c.type === ty; })) return;
+    TYPE_ORDER.concat(cfg.onlyPool ? ['TOKEN'] : []).forEach(function(ty){   /* en Mi colección los tokens se filtran por tipo, al final */
+      if(!has(function(c){ return typeKey(c) === ty; })) return;
       var b = chip(t().types[ty]||ty, function(btn){ toggle(st.types,ty); btn.classList.toggle('active'); }, null, change);
       b.classList.toggle('active', st.types.has(ty));
       typeBox.appendChild(b);
@@ -4662,7 +4744,7 @@ var EFFECT_CONFIG = {
     if(st.owned && !COLL.has(c.number)) return false;
     if(st.sets.size && !st.sets.has(c.set)) return false;
     if(st.colors.size && !st.colors.has(c.color)) return false;
-    if(st.types.size && !st.types.has(c.type)) return false;
+    if(st.types.size && !st.types.has(typeKey(c))) return false;
     if(!anyOf(st.kws, c.keywordEffects||[])) return false;
     if(st.fxs.size){
       if(!(c.effects || []).some(function(e){ return st.fxs.has(e.action); })) return false;
@@ -4686,7 +4768,7 @@ var EFFECT_CONFIG = {
   /* Orden elegido por la persona: por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por nivel y después por ataque,
    * de menor a mayor ('lvAsc') o de mayor a menor ('lvDesc'). 'auto' = el de siempre (por número; con filtros, por nivel y ataque). */
   var TYPE_RANK_SORT = { UNIT:0, PILOT:1, COMMAND:2, BASE:3 };
-  var catSort = (function(){ var v = null; try{ v = localStorage.getItem('msa_cat_sort'); }catch(e){} return v === 'lvAsc' || v === 'lvDesc' ? v : 'auto'; })();
+  var catSort = (function(){ var v = null; try{ v = localStorage.getItem('msa_cat_sort'); }catch(e){} return v === 'lvAsc' ? v : 'auto'; })();   // 'lvAsc' = botón Nivel ↑ encendido; un 'lvDesc' guardado por la versión anterior arranca apagado
   function byTypeLevel(dir){
     return function(a, b){
       return ((TYPE_RANK_SORT[a.type] != null ? TYPE_RANK_SORT[a.type] : 9) - (TYPE_RANK_SORT[b.type] != null ? TYPE_RANK_SORT[b.type] : 9))
@@ -4746,7 +4828,7 @@ var EFFECT_CONFIG = {
   function moreTiles(){ if(gridShown < gridList.length) appendTiles(gridShown, Math.min(gridList.length, gridShown + GRID_CHUNK)); }
   function render(){
     var filtered = ALL.filter(matches), key = filterKey();
-    if(catSort === 'lvAsc' || catSort === 'lvDesc') filtered.sort(byTypeLevel(catSort === 'lvAsc' ? 1 : -1));   // orden elegido
+    if(catSort === 'lvAsc') filtered.sort(byTypeLevel(1));   // Nivel ↑ encendido: por tipo (Unidades, Pilotos, Comandos, Bases), nivel y ataque; a igualdad se mantiene el orden por número
     else if(filtersOn(state)) filtered.sort(byLevelThenAp);   // con filtros o búsqueda: por nivel y después por ataque
     var grid = document.getElementById('grid');
     var keep = key === gridKey ? Math.max(gridShown, GRID_CHUNK) : GRID_CHUNK;
@@ -4802,10 +4884,11 @@ var EFFECT_CONFIG = {
     items.forEach(function(it){ wrap.appendChild(removableTag(it.label, function(){ it.drop(); buildFilters(); render(); })); });
     var badge = document.getElementById('tbFilterBadge');
     badge.hidden = !items.length; badge.textContent = items.length;
+    document.getElementById('clearFilters').hidden = !filtersOn(state);   // sin búsqueda ni filtros no hay nada que limpiar
   }
 
   /* ===== Carta compartida: la carta del grid viaja a la ficha y vuelve (FLIP con Web Animations) ===== */
-  var cardFly = { busy:false, clone:null, anim:null, timers:[] };
+  var cardFly = { busy:false, clone:null, anim:null, timers:[], opening:false, closeAfter:false };
   var FLY_MS = 850, FLY_EASE = 'cubic-bezier(.3,.55,.25,1)';
   function flyReduced(){ return !!(REDUCED && REDUCED.matches); }
   function flyRectOK(r){ return !!r && r.width > 8 && r.height > 8 && r.bottom > 0 && r.right > 0 && r.top < innerHeight && r.left < innerWidth; }
@@ -4994,18 +5077,23 @@ var EFFECT_CONFIG = {
     wrap.style.transform = ''; void wrap.offsetWidth; wrap.style.transition = '';
     flyShowAll(); flyHide(srcEl);
     requestAnimationFrame(function(){ overlay.classList.add('in'); });
+    cardFly.opening = true; cardFly.closeAfter = false;
+    function landed(){
+      flyCleanup(); cardFly.opening = false;             /* la carta real aparece y el clon se va en el mismo instante */
+      if(cardFly.closeAfter){ cardFly.closeAfter = false; closeDetail(); return; }   /* se pidió cerrar durante el vuelo: se cierra ahora */
+      close.focus({preventScroll:true});
+    }
     flyCard(url, sourceRect, to, 1).then(null, function(){}).then(function(){
       if(!cardFly.busy) return;                         /* cancelado */
-      flyCleanup();                                      /* la carta real aparece y el clon se va en el mismo instante */
-      close.focus({preventScroll:true});
+      landed();
     });
     /* el contenido entra cuando la carta casi ha aterrizado, sin escalonado largo */
     cardFly.timers.push(setTimeout(function(){ if(cardFly.busy) flyContentIn(wrap); }, FLY_MS * .82));
-    cardFly.timers.push(setTimeout(function(){ if(cardFly.busy) flyCleanup(); }, FLY_MS + 500));   /* red de seguridad */
+    cardFly.timers.push(setTimeout(function(){ if(cardFly.busy) landed(); }, FLY_MS + 500));   /* red de seguridad */
     close.focus({preventScroll:true});
   }
   function closeDetail(){
-    if(cardFly.busy) return;
+    if(cardFly.busy){ if(cardFly.opening) cardFly.closeAfter = true; return; }   /* cerrar durante el vuelo de apertura no se pierde: se hace al aterrizar */
     var overlay = document.getElementById('overlay'), wrap = document.getElementById('detail'), num = detailCard && detailCard.number;
     var src = detailSrc && document.contains(detailSrc) && detailSrc.dataset.number === num ? detailSrc : null;
     if(!src && detailGrid && num) src = document.querySelector('.card-imgwrap[data-number="'+num+'"]');
@@ -5046,9 +5134,10 @@ var EFFECT_CONFIG = {
   });
   document.getElementById('overlay').addEventListener('click', function(e){ if(e.target.id==='overlay') closeDetail(); });
 
-  var NARROW = window.matchMedia ? matchMedia('(max-width:375px)') : null;
-  function paintSearchPh(){ document.getElementById('searchMain').placeholder = (NARROW && NARROW.matches) ? t().searchPhShort : t().searchPh; }
-  if(NARROW){ if(NARROW.addEventListener) NARROW.addEventListener('change', paintSearchPh); else if(NARROW.addListener) NARROW.addListener(paintSearchPh); }
+  var NARROW = window.matchMedia ? matchMedia('(max-width:460px)') : null;   /* con el botón Nivel ↑ dentro de la barra, hasta 460 px el campo usa el texto corto */
+  var TINY = window.matchMedia ? matchMedia('(max-width:359px)') : null;
+  function paintSearchPh(){ document.getElementById('searchMain').placeholder = (TINY && TINY.matches) ? t().searchPhTiny : (NARROW && NARROW.matches) ? t().searchPhShort : t().searchPh; }
+  [NARROW, TINY].forEach(function(mq){ if(mq){ if(mq.addEventListener) mq.addEventListener('change', paintSearchPh); else if(mq.addListener) mq.addListener(paintSearchPh); } });
   function applyStaticI18n(){
     document.documentElement.lang = LANG;
     if(typeof paintDeleteLabels === 'function') paintDeleteLabels();
@@ -5061,7 +5150,7 @@ var EFFECT_CONFIG = {
     document.getElementById('lblNewDeckName').textContent = t().newDeckLabel;
     document.getElementById('newDeckName').placeholder = t().newDeckPh;
     document.getElementById('lblAdpSubmit').textContent = t().adpSubmit;
-    document.getElementById('lblBuilding').textContent = t().building;
+    paintDeckState(activeDeck() ? deckTotal(activeDeck()) : 0);
     document.getElementById('bbClose').setAttribute('aria-label', t().finishDeck);
     document.getElementById('bbClose').title = t().finishDeck;
     document.getElementById('homeLogo').setAttribute('aria-label', t().goHome);
@@ -5069,7 +5158,7 @@ var EFFECT_CONFIG = {
     var av = document.querySelector('.avatar'); if(av) av.title = t().profileTitle;
     document.getElementById('lblSearchEyebrow').textContent = t().searchEyebrow;
     paintSearchPh();
-    document.getElementById('searchBtn').setAttribute('aria-label', t().searchAria);
+    paintSearchBtn();
     document.getElementById('lblAddFilter').textContent = t().addFilter;
     document.getElementById('lblFilterSet').textContent = t().fSet;
     document.getElementById('lblFilterColor').textContent = t().fColor;
@@ -5078,12 +5167,7 @@ var EFFECT_CONFIG = {
     document.getElementById('lblFilterFx').textContent = t().fFx;
     document.getElementById('lblFilterTrait').textContent = t().rasgos;
     document.getElementById('clearFilters').textContent = t().clearFilters;
-    (function(){   /* selector de orden del catálogo */
-      var sel = document.getElementById('catSort'), L = t();
-      document.getElementById('lblCatSort').textContent = L.sortLbl; sel.setAttribute('aria-label', L.sortLbl);
-      sel.innerHTML = ''; [['auto', L.sortDefault], ['lvAsc', L.sortLvAsc], ['lvDesc', L.sortLvDesc]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op); });
-      sel.value = catSort;
-    })();
+    paintSortBtn();
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
     document.getElementById('lblPmMyDecks').textContent = t().myDecks;
     document.getElementById('lblPmCompetition').textContent = t().pmCompetition;
@@ -5126,16 +5210,31 @@ var EFFECT_CONFIG = {
   }
   document.getElementById('langToggle').addEventListener('click', function(){ setLang(LANG==='es'?'en':'es'); });
 
-  function runSearch(){ state.search = document.getElementById('searchMain').value.trim(); render(); }
+  function runSearch(){ state.search = document.getElementById('searchMain').value.trim(); paintSearchBtn(); render(); }
+  /* la búsqueda es en vivo: el botón del buscador lleva al campo y, si hay texto, lo borra (×) sin tocar los demás filtros */
+  function paintSearchBtn(){
+    var has = !!document.getElementById('searchMain').value, b = document.getElementById('searchBtn');
+    b.classList.toggle('is-clear', has); b.setAttribute('aria-label', has ? t().searchClear : t().searchAria);
+  }
   document.getElementById('searchMain').addEventListener('input', runSearch);
-  document.getElementById('searchBtn').addEventListener('click', runSearch);
-  document.getElementById('catSort').addEventListener('change', function(){
-    catSort = this.value; try{ localStorage.setItem('msa_cat_sort', catSort); }catch(e){}
-    render();
+  document.getElementById('searchBtn').addEventListener('click', function(){
+    var inp = document.getElementById('searchMain');
+    if(inp.value){ inp.value = ''; runSearch(); }
+    inp.focus();
+  });
+  /* botón "Nivel ↑": un toque enciende el orden por nivel y otro toque vuelve al orden de siempre; no toca la búsqueda ni los filtros */
+  function paintSortBtn(){
+    var b = document.getElementById('catSortBtn'), L = t(), on = catSort === 'lvAsc';
+    document.getElementById('lblSortLv').textContent = L.sortLv;
+    b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', L.sortLvAria); b.title = on ? L.sortLvOn : '';
+  }
+  document.getElementById('catSortBtn').addEventListener('click', function(){
+    catSort = catSort === 'lvAsc' ? 'auto' : 'lvAsc'; try{ localStorage.setItem('msa_cat_sort', catSort); }catch(e){}
+    paintSortBtn(); render();
   });
   document.getElementById('clearFilters').addEventListener('click', function(){
     state = { search:"", owned:false, sets:new Set(), colors:new Set(), types:new Set(), kws:new Set(), fxs:new Set(), traits:new Set() };
-    document.getElementById('searchMain').value = '';
+    document.getElementById('searchMain').value = ''; paintSearchBtn();
     buildFilters();
     render();
   });
@@ -5302,7 +5401,7 @@ var EFFECT_CONFIG = {
   var dvCopyTimer = null;
   function paintDvCopy(copied){
     var b = document.getElementById('dvCopy'); if(!b) return;
-    b.innerHTML = copied ? CHECK_ICON : COPY_ICON; b.dataset.copied = String(!!copied);
+    b.innerHTML = copied ? CHECK_ICON : COPYLIST_ICON; b.dataset.copied = String(!!copied);
     var txt = copied ? t().deckCopied : t().deckCopy; b.setAttribute('aria-label', txt); b.title = txt;
   }
   document.getElementById('dvCopy').addEventListener('click', function(){
@@ -5380,11 +5479,11 @@ var EFFECT_CONFIG = {
         var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'dv-sbtn'+(e.qty > 0 ? ' has-qty' : ''); plus.innerHTML = ICON_PLUS; plus.dataset.key = c.number+'|p';
         plus.setAttribute('aria-label', L.adderMore+' · '+c.name);
         plus.disabled = !!addBlocker(c.number);
-        minus.addEventListener('click', function(){ edit(c.number, 'm', function(){ removeFromDeck(c.number); }); });
-        plus.addEventListener('click', function(){ edit(c.number, 'p', function(){ addToDeck(c.number); }); });
+        minus.addEventListener('click', function(){ edit(c.number, 'm', function(){ removeFromDeck(c.number); }); announceDeck(c.number); });
+        plus.addEventListener('click', function(){ var ok; edit(c.number, 'p', function(){ ok = addToDeck(c.number); }); announceDeck(c.number, !ok); });
         var del = document.createElement('button'); del.type = 'button'; del.className = 'dv-sbtn dv-del'; del.innerHTML = TRASH_SVG; del.dataset.key = c.number+'|d';
         del.setAttribute('aria-label', L.deckBlock.removeAll+' · '+c.name); del.title = L.deckBlock.removeAll; del.disabled = e.qty <= 0;
-        del.addEventListener('click', function(){ edit(c.number, 'd', function(){ var d = activeDeck(); while(d && (d.cards[c.number] || 0) > 0) removeFromDeck(c.number); }); });
+        del.addEventListener('click', function(){ edit(c.number, 'd', function(){ var d = activeDeck(); while(d && (d.cards[c.number] || 0) > 0) removeFromDeck(c.number); }); announceDeck(c.number); });
         step.appendChild(minus); step.appendChild(plus); step.appendChild(del);
         row.appendChild(q); row.appendChild(cbit); row.appendChild(open); row.appendChild(step);
         rows.appendChild(row);
@@ -5399,8 +5498,9 @@ var EFFECT_CONFIG = {
     var top0 = deckView.scrollTop;
     var cnt = document.getElementById('dvCount');
     document.getElementById('dvCountTxt').textContent = total+' / 50';
-    cnt.setAttribute('aria-label', V.goSummary+' · '+total+' / 50');
+    cnt.setAttribute('aria-label', V.goSummary+' · '+total+' / 50' + (total === 50 ? ' · ' + L.buildingDone : '')); paintDeckState(total);
     cnt.classList.toggle('is-over', total > 50);
+    cnt.style.setProperty('--fill', Math.min(total, 50) / 50);
     var clr = document.getElementById('dvClear'); if(clr) clr.disabled = total === 0;
     var cpy = document.getElementById('dvCopy'); if(cpy) cpy.disabled = total === 0;
     paintFavStars();
@@ -6274,7 +6374,7 @@ var EFFECT_CONFIG = {
   function pruneCollState(pool){
     var m = { sets:{}, colors:{}, types:{}, kws:{}, fxs:{}, traits:{} };
     pool.forEach(function(c){
-      m.sets[c.set] = 1; m.colors[c.color] = 1; m.types[c.type] = 1;
+      m.sets[c.set] = 1; m.colors[c.color] = 1; m.types[typeKey(c)] = 1;
       (c.keywordEffects || []).forEach(function(k){ m.kws[k] = 1; });
       (c.effects || []).forEach(function(e){ if(e.action) m.fxs[e.action] = 1; });
       traitList(c).forEach(function(x){ m.traits[x] = 1; });

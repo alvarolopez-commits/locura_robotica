@@ -1,0 +1,86 @@
+{
+ "cacheAntes": "locura-shell-v13,locura-images,locura-fonts",
+ "rows": [
+  {
+   "id": "F12.1",
+   "name": "versión publicada instalada y con service worker activo",
+   "ok": true,
+   "extra": {
+    "sw": true,
+    "nueva": false
+   }
+  },
+  {
+   "id": "F12.2",
+   "name": "tras recargar online llega la versión nueva",
+   "ok": true
+  },
+  {
+   "id": "F12.3",
+   "name": "una sola navegación (sin bucle de recargas por el service worker)",
+   "ok": true,
+   "extra": [
+    "http://localhost:8770/",
+    "http://localhost:8770/",
+    "http://localhost:8770/"
+   ]
+  },
+  {
+   "id": "F12.4",
+   "name": "la caché guarda decks_sync.js nuevo (no queda una mezcla vieja/nueva)",
+   "ok": true
+  },
+  {
+   "id": "F12.5",
+   "name": "el mazo de prueba y la colección locales se conservan tras actualizar",
+   "ok": true,
+   "extra": "3 / 50"
+  },
+  {
+   "id": "F09.1",
+   "name": "sin conexión la app arranca con la versión nueva y el catálogo",
+   "ok": true,
+   "extra": {
+    "nueva": true,
+    "cards": 48
+   }
+  },
+  {
+   "id": "F09.2",
+   "name": "sin conexión el mazo local sigue ahí",
+   "ok": true
+  },
+  {
+   "id": "F09.3",
+   "name": "sin conexión se puede navegar a Mis mazos y Mi colección",
+   "ok": true,
+   "extra": {
+    "mazos": true,
+    "coleccion": true,
+    "imagenes": 0
+   }
+  },
+  {
+   "id": "F09.4",
+   "name": "imágenes ya vistas disponibles sin conexión (sin imágenes rotas)",
+   "ok": true,
+   "extra": {
+    "mazos": true,
+    "coleccion": true,
+    "imagenes": 0
+   }
+  },
+  {
+   "id": "F09.5",
+   "name": "al volver la conexión la app carga normal y conserva el mazo",
+   "ok": true
+  },
+  {
+   "id": "F12.6",
+   "name": "sin errores de JavaScript durante todo el recorrido (se ignoran los de red esperados sin conexión)",
+   "ok": true,
+   "extra": []
+  }
+ ],
+ "errores": []
+}

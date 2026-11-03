@@ -1,0 +1,422 @@
+{
+ "label": "despues",
+ "base": "http://localhost:8769",
+ "conditions": "390x844 DPR2 móvil, CPU 4x, red 150 ms / 1,6 Mbps / 750 kbps",
+ "reps": 5,
+ "runs": {
+  "cold": [
+   {
+    "lcp": 668,
+    "cls": 0.012031212834450352,
+    "fcp": 668,
+    "long": 1,
+    "longMs": 192,
+    "firstTile": 2762.4000000953674,
+    "domNodes": 1740,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 799,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 5308,
+    "cls": 0.012031212834450352,
+    "fcp": 712,
+    "long": 1,
+    "longMs": 203,
+    "firstTile": 2783.7999999523163,
+    "domNodes": 1740,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 874,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 672,
+    "cls": 0.012031212834450352,
+    "fcp": 672,
+    "long": 1,
+    "longMs": 187,
+    "firstTile": 2770.5,
+    "domNodes": 1740,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 799,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 5304,
+    "cls": 0.012031212834450352,
+    "fcp": 688,
+    "long": 1,
+    "longMs": 203,
+    "firstTile": 2805.2999999523163,
+    "domNodes": 1740,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 799,
+    "requests": 31,
+    "imgs": 12
+   },
+   {
+    "lcp": 684,
+    "cls": 0.012031212834450352,
+    "fcp": 684,
+    "long": 1,
+    "longMs": 194,
+    "firstTile": 2773.7999999523163,
+    "domNodes": 1740,
+    "heapMB": 4,
+    "listeners": 624,
+    "kbTransfer": 799,
+    "requests": 31,
+    "imgs": 12
+   }
+  ],
+  "warm": [
+   {
+    "lcp": 504,
+    "cls": 0,
+    "fcp": 460,
+    "long": 2,
+    "longMs": 316,
+    "firstTile": 461.1999999284744,
+    "domNodes": 1740,
+    "heapMB": 6.5,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 560,
+    "cls": 0,
+    "fcp": 192,
+    "long": 1,
+    "longMs": 193,
+    "firstTile": 474.89999997615814,
+    "domNodes": 1740,
+    "heapMB": 6.2,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 616,
+    "cls": 0,
+    "fcp": 232,
+    "long": 2,
+    "longMs": 296,
+    "firstTile": 509.39999997615814,
+    "domNodes": 1740,
+    "heapMB": 6.2,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 588,
+    "cls": 0,
+    "fcp": 220,
+    "long": 2,
+    "longMs": 257,
+    "firstTile": 516.6999999284744,
+    "domNodes": 1740,
+    "heapMB": 6.2,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   },
+   {
+    "lcp": 488,
+    "cls": 0,
+    "fcp": 488,
+    "long": 2,
+    "longMs": 353,
+    "firstTile": 493.6999999284744,
+    "domNodes": 1740,
+    "heapMB": 6.2,
+    "listeners": 1248,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12
+   }
+  ],
+  "offline": [
+   {
+    "lcp": 784,
+    "cls": 0,
+    "fcp": 196,
+    "long": 3,
+    "longMs": 463,
+    "firstTile": 690,
+    "domNodes": 1741,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 768,
+    "cls": 0,
+    "fcp": 196,
+    "long": 3,
+    "longMs": 455,
+    "firstTile": 683.2999999523163,
+    "domNodes": 1741,
+    "heapMB": 4.9,
+    "listeners": 626,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 760,
+    "cls": 0,
+    "fcp": 152,
+    "long": 3,
+    "longMs": 476,
+    "firstTile": 664.8999999761581,
+    "domNodes": 1741,
+    "heapMB": 5.1,
+    "listeners": 627,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 740,
+    "cls": 0,
+    "fcp": 156,
+    "long": 3,
+    "longMs": 479,
+    "firstTile": 681.6000000238419,
+    "domNodes": 1741,
+    "heapMB": 5.1,
+    "listeners": 627,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   },
+   {
+    "lcp": 128,
+    "cls": 0,
+    "fcp": 128,
+    "long": 3,
+    "longMs": 467,
+    "firstTile": 622.9000000953674,
+    "domNodes": 1741,
+    "heapMB": 5.1,
+    "listeners": 627,
+    "kbTransfer": 0,
+    "requests": 32,
+    "imgs": 12,
+    "cards": 48,
+    "deckKept": "3 / 50"
+   }
+  ],
+  "interact": [
+   {
+    "search": 72.79999995231628,
+    "clearSearch": 89.79999995231628,
+    "chip": 151.10000002384186,
+    "add": 40.60000002384186,
+    "openSheet": 111.39999997615814,
+    "addInSheet": 54.199999928474426,
+    "openDeck": 101
+   },
+   {
+    "search": 84,
+    "clearSearch": 86.39999997615814,
+    "chip": 150,
+    "add": 37.699999928474426,
+    "openSheet": 106.40000009536743,
+    "addInSheet": 58.200000047683716,
+    "openDeck": 106.39999997615814
+   },
+   {
+    "search": 78.60000002384186,
+    "clearSearch": 95.19999992847443,
+    "chip": 155.5,
+    "add": 39.89999997615814,
+    "openSheet": 104,
+    "addInSheet": 52.89999997615814,
+    "openDeck": 113.39999997615814
+   },
+   {
+    "search": 80.70000004768372,
+    "clearSearch": 97.19999992847443,
+    "chip": 145.20000004768372,
+    "add": 38.89999997615814,
+    "openSheet": 104.29999995231628,
+    "addInSheet": 52.299999952316284,
+    "openDeck": 98.80000007152557
+   },
+   {
+    "search": 89.10000002384186,
+    "clearSearch": 95.60000002384186,
+    "chip": 153.70000004768372,
+    "add": 39.60000002384186,
+    "openSheet": 108.69999992847443,
+    "addInSheet": 50.800000071525574,
+    "openDeck": 112.60000002384186
+   }
+  ],
+  "memory": [
+   {
+    "before": {
+     "heapMB": 2.91,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 3.02,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.91,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 3.02,
+     "nodes": 2977,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.9,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 3.01,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.9,
+     "nodes": 2982,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 3.01,
+     "nodes": 2977,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   },
+   {
+    "before": {
+     "heapMB": 2.9,
+     "nodes": 2980,
+     "listeners": 644,
+     "docs": 3
+    },
+    "after20": {
+     "heapMB": 3.01,
+     "nodes": 2977,
+     "listeners": 644,
+     "docs": 3
+    },
+    "timeouts": 0,
+    "residualOverlay": false
+   }
+  ]
+ },
+ "errors": [],
+ "summary": {
+  "cold": {
+   "fcp": 684,
+   "lcp": 684,
+   "firstTile": 2773.8,
+   "cls": 0,
+   "long": 1,
+   "longMs": 194,
+   "domNodes": 1740,
+   "kbTransfer": 799,
+   "requests": 31,
+   "imgs": 12
+  },
+  "warm": {
+   "fcp": 232,
+   "lcp": 560,
+   "firstTile": 493.7,
+   "cls": 0,
+   "long": 2,
+   "longMs": 296,
+   "domNodes": 1740,
+   "kbTransfer": 0,
+   "requests": 32,
+   "imgs": 12
+  },
+  "offline": {
+   "fcp": 156,
+   "lcp": 760,
+   "firstTile": 681.6,
+   "cls": 0,
+   "long": 3,
+   "longMs": 467,
+   "domNodes": 1741,
+   "kbTransfer": 0,
+   "requests": 32,
+   "imgs": 12,
+   "cards": 48
+  },
+  "interact": {
+   "search": 80.7,
+   "clearSearch": 95.2,
+   "chip": 151.1,
+   "add": 39.6,
+   "openSheet": 106.4,
+   "addInSheet": 52.9,
+   "openDeck": 106.4
+  },
+  "memory": {
+   "heapBefore": 2.9,
+   "heapAfter20": 3,
+   "nodesBefore": 2980,
+   "nodesAfter20": 2977,
+   "listenersBefore": 644,
+   "listenersAfter20": 644,
+   "overlayResidual": false,
+   "ciclosConEspera": 0
+  }
+ }
+}

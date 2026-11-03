@@ -49,13 +49,18 @@ for (const W of [1280, 390]) {
   check('el token se ve con su imagen, "Token", TENGO y sus copias', tk.meta === 'T-007 · Token' && tk.tengo && tk.n === '1' && tk.nombre === 'Zaku II' && tk.img === 'images/T-007.webp', tk);
   await ev(`document.querySelector('#collGrid .cc[data-number="T-001"] .cc-plus').click(); 1`); await sleep(300);
   check('se pueden sumar copias de un token', (JSON.parse(await ev(`localStorage.getItem('msa_collection')`))['T-001'].q) === 3 && (await text('#collSub')) === '3 cartas distintas');
-  // filtro Set → Tokens, y tokens al final con filtros
+  // filtro Tipo → Token (ya no está en Set), y tokens al final con filtros
   const chips = await ev(`Array.from(document.querySelectorAll('#cf-set .tag.chip')).map(function(c){ return c.textContent })`);
-  check('el filtro Set de Mi colección ofrece "TOKEN"', chips.includes('TOKEN') && chips.includes('ST01'), chips);
+  check('el filtro Set ya no ofrece "TOKEN"', !chips.includes('TOKEN') && chips.includes('ST01'), chips);
+  const tipos = await ev(`Array.from(document.querySelectorAll('#cf-type .tag.chip')).map(function(c){ return c.textContent })`);
+  check('el filtro Tipo de Mi colección termina en "Token"', tipos[tipos.length - 1] === 'Token' && tipos.includes('Unidad'), tipos);
   if (W < 900) { await ev(`document.getElementById('collFilterBtn').click(); 1`); await sleep(500); }
-  await ev(`(function(){ var w=document.getElementById('cf-set-wrap'); if(!w.classList.contains('open')) document.querySelector('#collFilters .sb-ghead[data-cf="cf-set-wrap"]').click() })()`); await sleep(400);
-  await ev(`Array.from(document.querySelectorAll('#cf-set .tag.chip')).filter(function(c){ return c.textContent==='TOKEN' })[0].click()`); await sleep(500);
-  check('con ese filtro solo se ven los tokens', JSON.stringify((await cards()).sort()) === JSON.stringify(['T-001', 'T-007']), await cards());
+  await ev(`(function(){ var w=document.getElementById('cf-type-wrap'); if(!w.classList.contains('open')) document.querySelector('#collFilters .sb-ghead[data-cf="cf-type-wrap"]').click() })()`); await sleep(400);
+  const pulsa = (txt) => ev(`Array.from(document.querySelectorAll('#cf-type .tag.chip')).filter(function(c){ return c.textContent==='${txt}' })[0].click()`);
+  await pulsa('Token'); await sleep(500);
+  check('con Tipo → Token solo se ven los tokens', JSON.stringify((await cards()).sort()) === JSON.stringify(['T-001', 'T-007']), await cards());
+  await pulsa('Token'); await pulsa('Unidad'); await sleep(500);
+  check('con Tipo → Unidad no salen los tokens', (await cards()).length > 0 && (await cards()).every((n) => !n.startsWith('T-')), await cards());
   await ev(`document.getElementById('collClear').click(); 1`); await sleep(300);
   if (W < 900) { await ev(`document.getElementById('collApply').click(); 1`); await sleep(400); }
   // copiar

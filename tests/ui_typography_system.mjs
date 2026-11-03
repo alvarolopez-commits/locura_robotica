@@ -48,7 +48,8 @@ for (const W of [390, 1280]) {
 
   // pantalla de inicio
   const h1 = await rol('.pageTitle h1');
-  check('Título de portada: Display en MAYÚSCULAS, 40–64 px, interlineado 1,0–1,15', h1 && /Big Shoulders/.test(h1.fam) && h1.mayus === 'uppercase' && enRango(h1.px, 34, 64) && enRango(h1.lh, 1.0, 1.15), h1);
+  // en móvil el título baja a la escala de título de página (HUD refinado: las cartas asoman antes); en escritorio sigue en Display grande
+  check('Título de portada: Display en MAYÚSCULAS, ' + (W < 900 ? '28–32' : '34–64') + ' px, interlineado 1,0–1,15', h1 && /Big Shoulders/.test(h1.fam) && h1.mayus === 'uppercase' && (W < 900 ? enRango(h1.px, 28, 32) : enRango(h1.px, 34, 64)) && enRango(h1.lh, 1.0, 1.15), h1);
   check('la tipografía Display no se usa fuera de los títulos protagonistas', JSON.stringify(await ev(FUGAS)) === '[]', await ev(FUGAS));
   const btn = await rol('.pa-btn'), nav = await rol('#tabbar .tb-item');
   check('Botones: Inter 600, 14–15 px', esInter(btn) && btn.peso >= 600 && enRango(btn.px, 14, 16), btn);
