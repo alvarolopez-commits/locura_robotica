@@ -3889,7 +3889,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.4';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.5';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -4744,8 +4744,8 @@ var EFFECT_CONFIG = {
       colorBox.appendChild(b);
     });
     var typeBox = document.getElementById(ids.type); typeBox.innerHTML = '';
-    TYPE_ORDER.concat(cfg.onlyPool ? ['TOKEN'] : []).forEach(function(ty){   /* en Mi colección los tokens se filtran por tipo, al final */
-      if(!has(function(c){ return typeKey(c) === ty; })) return;
+    TYPE_ORDER.concat(cfg.onlyPool || cfg.tokens ? ['TOKEN'] : []).forEach(function(ty){   /* los tokens se filtran por tipo, al final: en Mi colección los que se tienen; en el catálogo, todos */
+      if(cfg.tokens ? (ty === 'TOKEN' && !TOKENS.length) || (ty !== 'TOKEN' && !has(function(c){ return typeKey(c) === ty; })) : !has(function(c){ return typeKey(c) === ty; })) return;
       var b = chip(t().types[ty]||ty, function(btn){ toggle(st.types,ty); btn.classList.toggle('active'); }, null, change);
       b.classList.toggle('active', st.types.has(ty));
       typeBox.appendChild(b);
@@ -4790,7 +4790,7 @@ var EFFECT_CONFIG = {
       traitBox.appendChild(b);
     });
   }
-  var CAT_FILTERS = { ownedChip:true, st:function(){ return state; }, pool:function(){ return ALL; }, ids:{ set:'f-set', color:'f-color', type:'f-type', kw:'f-kw', fx:'f-fx', trait:'f-trait' }, onChange:function(){ render(); } };
+  var CAT_FILTERS = { ownedChip:true, tokens:true, st:function(){ return state; }, pool:function(){ return ALL; }, ids:{ set:'f-set', color:'f-color', type:'f-type', kw:'f-kw', fx:'f-fx', trait:'f-trait' }, onChange:function(){ render(); } };
   function buildFilters(){ buildFiltersFor(CAT_FILTERS); }
 
   function buildQuick(){
@@ -4876,8 +4876,10 @@ var EFFECT_CONFIG = {
     var qty = el('span','dz-qty'); qty.dataset.number = card.number; inner.appendChild(qty); paintTileQty(qty);
     var ctag = el('div','delta delta-up coll-tag', t().collTag); ctag.hidden = true; inner.appendChild(ctag);
     var body = el('div','card-body');
-    body.appendChild(adderEl(card.number));   /* el selector va primero: misma altura en todas las tarjetas de la fila */
-    var rb = ruleBadgesEl(card.number); if(rb) body.appendChild(rb);
+    if(!isToken(card)){   /* un token no se añade a mazos: sin selector de copias ni avisos de reglas */
+      body.appendChild(adderEl(card.number));   /* el selector va primero: misma altura en todas las tarjetas de la fila */
+      var rb = ruleBadgesEl(card.number); if(rb) body.appendChild(rb);
+    }
     var fxRow = el('div','card-fxrow'), fxs = fxSummary(card);
     fxs.slice(0,2).forEach(function(e){ fxRow.appendChild(fxBox(e)); });
     if(fxs.length > 2){ var more = el('span','fx-more','+'+(fxs.length-2)); more.setAttribute('aria-label', t().fxMoreAria(fxs.length-2)); fxRow.appendChild(more); }
@@ -4909,9 +4911,10 @@ var EFFECT_CONFIG = {
   }
   function moreTiles(){ if(gridShown < gridList.length) appendTiles(gridShown, Math.min(gridList.length, gridShown + GRID_CHUNK)); }
   function render(){
-    var filtered = ALL.filter(matches), key = filterKey();
+    var src = state.types.has('TOKEN') ? ALL.concat(TOKENS) : ALL;   /* los tokens solo entran en el catálogo si se elige el tipo Token */
+    var filtered = src.filter(matches), key = filterKey();
     if(catSort === 'lvAsc') filtered.sort(byTypeLevel(1));   // Nivel ↑ encendido: por tipo (Unidades, Pilotos, Comandos, Bases), nivel y ataque; a igualdad se mantiene el orden por número
-    else if(filtersOn(state)) filtered.sort(byLevelThenAp);   // con filtros o búsqueda: por nivel y después por ataque
+    else if(filtersOn(state)) filtered.sort(function(a, b){ return (isToken(a) - isToken(b)) || byLevelThenAp(a, b); });   // con filtros o búsqueda: por nivel y después por ataque
     var grid = document.getElementById('grid');
     var keep = key === gridKey ? Math.max(gridShown, GRID_CHUNK) : GRID_CHUNK;
     gridKey = key; gridList = filtered; gridShown = 0;
@@ -4933,7 +4936,7 @@ var EFFECT_CONFIG = {
         } else appendTiles(gridShown, filtered.length);
       }
     }
-    document.getElementById('resultcount').textContent = t().resultCount(filtered.length, ALL.length);
+    document.getElementById('resultcount').textContent = t().resultCount(filtered.length, src.length);
     document.getElementById('sbApply').textContent = t().showResults(filtered.length);
     renderActiveFilters();
   }
