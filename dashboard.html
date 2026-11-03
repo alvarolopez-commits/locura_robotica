@@ -179,7 +179,7 @@ input,textarea{ caret-color:var(--accent); }
 .deck-count:active{ transform:scale(.97); }
 .deck-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
 .deck-count[aria-expanded="true"]{ filter:brightness(1.12); }
-.deck-count.is-complete{ background:var(--full); color:var(--full-ink); }
+.deck-count.is-complete{ background:color-mix(in srgb, var(--sky) 78%, transparent); color:var(--sky-ink); }   /* completo: el azul de acento con algo menos de opacidad, para distinguirlo del botón ES y del estado en progreso */
 .deck-count.is-over{ background:var(--rose); color:#5a1111; }
 /* Navegación: menú de tres rayas */
 .hamburger{
@@ -242,13 +242,13 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 .buildBar{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; padding:12px 14px; background:var(--navy); color:var(--on-navy); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); animation:bbIn .45s var(--ease-out); }
 @keyframes bbIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
 .bb-main{ min-width:0; flex:1 1 180px; }
-.bb-eyebrow{ font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:var(--text-label-weight); line-height:var(--text-label-lh); letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; gap:8px; color:var(--sky); }
+.bb-state{ display:inline-flex; align-items:center; gap:7px; font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:700; line-height:1; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; color:var(--sky); }   /* estado del mazo junto al recuento: icono + texto corto */
 .bb-name{ font-family:var(--font-sans); font-size:clamp(22px,6.4vw,30px); font-weight:700; line-height:1.15; letter-spacing:-.015em; text-transform:none; color:var(--white); margin-top:2px; overflow-wrap:anywhere; }
 .bb-namebtn{ touch-action:manipulation; display:block; max-width:100%; min-width:44px; padding:11px 0; margin:-11px 0; font:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; text-align:left; line-height:inherit; overflow-wrap:anywhere; cursor:pointer; text-decoration:underline dotted transparent; text-underline-offset:6px; transition:text-decoration-color .15s var(--ease); }
 .bb-namebtn:hover{ text-decoration-color:rgba(255,255,255,.55); }
 .bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
 .bb-nameinput{ width:100%; min-height:44px; padding:0 0 2px; font:inherit; letter-spacing:inherit; text-transform:inherit; color:var(--white); background:transparent; border:0; border-bottom:2px solid var(--sky); border-radius:0; outline:none; }
-.bb-side{ display:flex; align-items:center; gap:14px; }
+.bb-side{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; }   /* recuento, estado y Comparar bajan a la línea siguiente si no caben */
 .bb-count{ font-size:13px; font-weight:600; color:var(--on-navy-2); font-variant-numeric:tabular-nums; }
 .bb-count b{ font-family:var(--font-sans); font-size:30px; font-weight:800; line-height:1; letter-spacing:var(--text-metric-ls); text-transform:none; font-variant-numeric:tabular-nums; color:var(--white); margin-right:2px; }
 .bb-link{ min-height:44px; display:inline-flex; align-items:center; font-size:14px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:4px; }
@@ -653,7 +653,7 @@ body.is-building .adder{ display:grid; gap:8px; }
 .dv-count:hover{ filter:brightness(1.07); }
 .dv-count:active{ transform:scale(.97); }
 .dv-count:focus-visible{ outline:2px solid var(--white); outline-offset:-3px; }
-.dv-count.is-complete{ background:var(--full); color:var(--full-ink); }
+.dv-count.is-complete{ background:color-mix(in srgb, var(--sky) 78%, transparent); color:var(--sky-ink); }
 .dv-count.is-over{ background:var(--rose); color:#5a1111; }
 .dv-selwrap{ position:relative; align-self:stretch; max-width:340px; margin:2px 0 4px; }
 .dv-selwrap::after{ content:""; position:absolute; right:15px; top:50%; width:8px; height:8px; margin-top:-6px; pointer-events:none; border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg); }
@@ -1483,13 +1483,30 @@ html{ touch-action:manipulation; }
 .dv-nameline .dv-title{ flex:0 1 auto; min-width:0; max-width:100%; }
 .dv-nameline .dv-deckname{ width:0; min-width:100%; }
 .dv-tools{ display:inline-flex; align-items:center; flex:none; }
-.dp-namerow{ flex-wrap:wrap; }
-.dp-namerow .dp-name{ flex:1 1 55%; min-width:55%; }   /* el nombre no se recorta por los colores: si no caben, bajan */   /* el campo no aporta su ancho por defecto: el título mide lo que mide su texto y los colores quedan a su lado */
-/* Detalle del mazo: Añadir cartas y Comparar →, y copiar / eliminar solo con el icono */
-.dp-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
-.dp-actions .dp-btn{ flex:1 1 150px; }
-.dp-actions .dp-btn-icon{ flex:none; width:50px; min-height:50px; padding:0; }
-.dp-actions #dpCopy{ margin-left:auto; }
+/* Detalle de un mazo (Mis mazos): grupo del título y datos a la izquierda, grupo de acciones a la derecha */
+.dp-namerow{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; min-width:0; }
+.dp-namewrap{ display:inline-grid; max-width:100%; min-width:0; font-family:var(--font-sans); font-size:clamp(26px,7.4vw,38px); font-weight:700; letter-spacing:-.02em; line-height:1; color:var(--fg-1); box-shadow:inset 0 -2px 0 var(--line); transition:box-shadow .15s var(--ease); }
+.dp-namewrap::after{ content:attr(data-value) " "; visibility:hidden; white-space:pre; grid-area:1 / 1; min-width:2ch; pointer-events:none; }
+.dp-namewrap:focus-within{ box-shadow:inset 0 -3px 0 var(--sky); }
+.dp-namewrap .dp-name{ grid-area:1 / 1; width:0; min-width:100%; min-height:48px; padding:0; box-shadow:none; font:inherit; letter-spacing:inherit; color:inherit; text-overflow:ellipsis; }
+.dp-meta{ display:inline-flex; align-items:center; gap:10px; font-size:15px; font-weight:700; color:var(--on-navy-2); }   /* recuento con el estado del mazo (icono), secundario pero legible */
+.dp-meta .ico{ color:var(--sky); }
+.dp-meta .ico-full{ width:20px; height:15px; }
+.dp-meta .ico-build{ width:26px; height:7px; }
+.dp-actions{ display:grid; grid-template-columns:minmax(0,1fr) 50px 50px; gap:10px; align-items:stretch; }
+.dp-actions .dp-btn{ flex:none; min-height:50px; height:50px; padding:0 18px; white-space:nowrap; line-height:1; }
+.dp-actions .dp-btn-icon{ width:50px; padding:0; }
+.dp-actions #dpAddCards{ grid-column:1; grid-row:1; }
+.dp-actions #dpCopy{ grid-column:2; grid-row:1; }
+.dp-actions #dpDelete{ grid-column:3; grid-row:1; }
+.dp-actions:has(#dpCompare:not([hidden])) #dpAddCards{ grid-column:1 / -1; }   /* con Comparar: Añadir cartas ocupa su fila y debajo van Comparar, copiar y eliminar */
+.dp-actions:has(#dpCompare:not([hidden])) #dpCompare{ grid-column:1; grid-row:2; }
+.dp-actions:has(#dpCompare:not([hidden])) #dpCopy,.dp-actions:has(#dpCompare:not([hidden])) #dpDelete{ grid-row:2; }
+@media (min-width:900px){
+  .dp-dhead{ align-items:center; gap:24px; }
+  .dp-dtitle{ flex:1 1 auto; min-width:0; }
+  .dp-actions{ display:flex; flex:none; align-items:center; gap:10px; }
+}
 /* Mis mazos · filas: selección para "Copiar lista", + en el azul de acento y "lleno" con el color de mazo completo */
 .dv-ctl{ display:flex; align-items:center; gap:12px; }
 .dv-step{ justify-content:space-between; }
@@ -1510,7 +1527,7 @@ html{ touch-action:manipulation; }
 .cmp-btn:hover{ background:var(--soft); }
 .cmp-btn:active{ transform:scale(.97); }
 .cmp-btn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
-.dp-btn.cmp-btn{ flex:1; background:var(--white); color:var(--navy); }
+.dp-btn.cmp-btn{ background:var(--white); color:var(--navy); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }   /* mismo corte y altura que el resto de botones del detalle */
 .cmp-btn svg{ flex:none; }
 @media (max-width:599px){
   .dv-row{ grid-template-columns:auto auto minmax(0,1fr); }
@@ -1714,16 +1731,13 @@ html{ touch-action:manipulation; }
       </div>
       <div class="buildBar" id="buildBar" hidden>
         <div class="bb-main">
-          <span class="bb-eyebrow"><span class="ico ico-build" id="bbStateIco" aria-hidden="true"></span><span id="lblBuilding">Mazo en construcción</span></span>
           <h2 class="bb-name"><button type="button" class="bb-namebtn" id="bbName"></button></h2>
           <button type="button" class="legalChip cut" id="bbLegal" hidden></button>
         </div>
         <div class="bb-side">
           <span class="bb-count"><b id="bbCount">0</b>/50</span>
+          <span class="bb-state"><span class="ico ico-build" id="bbStateIco" aria-hidden="true"></span><span id="lblBuilding">En progreso</span></span>
           <button type="button" class="cmp-btn ml-btn" id="bbCompare" hidden><span class="lblCompare">Comparar</span><svg class="cmp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button type="button" class="dd-close" id="bbClose" aria-label="Terminar mazo" title="Terminar">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </button>
         </div>
       </div>
       <div class="findbar">
@@ -1822,7 +1836,7 @@ html{ touch-action:manipulation; }
     <div id="dpDetail" hidden>
       <div class="dp-head dp-dhead">
         <div class="dp-dtitle">
-          <div class="dp-namerow"><input class="dp-name" id="dpName" type="text" maxlength="40" aria-label="Nombre del mazo">
+          <div class="dp-namerow"><span class="dp-namewrap" id="dpNameWrap" data-value=""><input class="dp-name" id="dpName" type="text" maxlength="40" aria-label="Nombre del mazo"></span>
           <span class="dp-colors" id="dpColors" role="group" hidden></span>
           <button type="button" class="fav-star" id="dpStar" aria-pressed="false" aria-label="Marcar como favorito" title="Marcar como favorito"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button></div>
           <span class="dp-meta" id="dpDeckMeta"></span>
@@ -2912,7 +2926,7 @@ var EFFECT_CONFIG = {
       },
       showResults:function(n){ return n===1 ? 'Ver 1 carta' : 'Ver '+n+' cartas'; },
       newDeckLabel:'Nombre del mazo', newDeckPh:'Ej. Federación agresiva', adpSubmit:'Crear mazo', viewDeck:'Ver mazo',
-      building:'Mazo en construcción', buildingDone:'Mazo completo', finishDeck:'Terminar mazo', goHome:'Ir al inicio · Catálogo', quickAria:'Filtros rápidos', profileTitle:'Perfil',
+      building:'Mazo en construcción', buildingDone:'Mazo completo', stateBuilding:'En progreso', stateDone:'Completo', finishDeck:'Terminar mazo', goHome:'Ir al inicio · Catálogo', quickAria:'Filtros rápidos', profileTitle:'Perfil',
       compareTitle:'Comparar mazos', compareEmpty:'Crea al menos 2 mazos para poder compararlos.', compareCards:'Cartas',
       types:{UNIT:'Unidad',PILOT:'Piloto',COMMAND:'Comando',BASE:'Base',TOKEN:'Token'},
       colors:{Blue:'Azul',Green:'Verde',Red:'Rojo',Purple:'Morado',White:'Blanco'},
@@ -3149,7 +3163,7 @@ var EFFECT_CONFIG = {
       },
       showResults:function(n){ return n===1 ? 'Show 1 card' : 'Show '+n+' cards'; },
       newDeckLabel:'Deck name', newDeckPh:'e.g. Aggro Federation', adpSubmit:'Create deck', viewDeck:'View deck',
-      building:'Deck in progress', buildingDone:'Deck complete', finishDeck:'Finish deck', goHome:'Go home · Catalog', quickAria:'Quick filters', profileTitle:'Profile',
+      building:'Deck in progress', buildingDone:'Deck complete', stateBuilding:'In progress', stateDone:'Complete', finishDeck:'Finish deck', goHome:'Go home · Catalog', quickAria:'Quick filters', profileTitle:'Profile',
       compareTitle:'Compare decks', compareEmpty:'Create at least 2 decks to compare them.', compareCards:'Cards',
       types:{UNIT:'Unit',PILOT:'Pilot',COMMAND:'Command',BASE:'Base',TOKEN:'Token'},
       colors:{Blue:'Blue',Green:'Green',Red:'Red',Purple:'Purple',White:'White'},
@@ -3743,7 +3757,7 @@ var EFFECT_CONFIG = {
   function paintDeckState(n){
     var full = n === 50;
     ['deckStateIco', 'bbStateIco', 'dvStateIco'].forEach(function(id){ var e = document.getElementById(id); if(e){ e.classList.toggle('ico-full', full); e.classList.toggle('ico-build', !full); } });
-    var lb = document.getElementById('lblBuilding'); if(lb) lb.textContent = full ? t().buildingDone : t().building;
+    var lb = document.getElementById('lblBuilding'); if(lb) lb.textContent = full ? t().stateDone : t().stateBuilding;
   }
   function refreshAdders(){ document.querySelectorAll('.adder').forEach(function(a){ if(a._refresh) a._refresh(); }); }
   var ICON_MINUS = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -3875,7 +3889,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.2';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = '2026-11-03.3';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -4568,9 +4582,11 @@ var EFFECT_CONFIG = {
   }
   function renderDeckDetail(){
     var deck = DECKS[dpDeckId]; if(!deck) return;
-    document.getElementById('dpName').value = deck.name;
+    document.getElementById('dpName').value = deck.name; document.getElementById('dpNameWrap').dataset.value = deck.name || ' ';
     var total = deckTotal(deck), colors = deckColorCounts(deck), nColors = Object.keys(colors).length;
     var meta = document.getElementById('dpDeckMeta'); meta.innerHTML = '';
+    var stIco = el('span', 'ico ' + (total === 50 ? 'ico-full' : 'ico-build')), stTxt = total === 50 ? t().stateDone : t().stateBuilding;   // estado del mazo junto al recuento, sin repetir el número
+    stIco.setAttribute('role', 'img'); stIco.setAttribute('aria-label', stTxt); stIco.title = stTxt; meta.appendChild(stIco);
     meta.appendChild(document.createTextNode(total+'/50 '+t().cardsWord));
     if(nColors>2){ meta.appendChild(document.createTextNode(' · ')); meta.appendChild(el('span','warn', t().maxTwoColors)); }
     colorSquares(deck, document.getElementById('dpColors'));
@@ -5216,8 +5232,6 @@ var EFFECT_CONFIG = {
     document.getElementById('newDeckName').placeholder = t().newDeckPh;
     document.getElementById('lblAdpSubmit').textContent = t().adpSubmit;
     paintDeckState(activeDeck() ? deckTotal(activeDeck()) : 0);
-    document.getElementById('bbClose').setAttribute('aria-label', t().finishDeck);
-    document.getElementById('bbClose').title = t().finishDeck;
     document.getElementById('homeLogo').setAttribute('aria-label', t().goHome);
     document.getElementById('quickFilters').setAttribute('aria-label', t().quickAria);
     var av = document.querySelector('.avatar'); if(av) av.title = t().profileTitle;
@@ -5367,6 +5381,7 @@ var EFFECT_CONFIG = {
     if(!document.getElementById('overlay').hidden) closeDetail();
     if(!cmpModal.hidden) closeCompareModal();
     if(!pillMenu.hidden) closePillMenu();
+    closeMeta();   // Comparar mazos también se cierra: antes el logo no hacía nada desde esa pantalla
     closeSidebar(); closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     selectDeckAction(null);
@@ -5451,7 +5466,6 @@ var EFFECT_CONFIG = {
     });
     btn.addEventListener('keydown', function(e){ if(e.key === 'F2'){ e.preventDefault(); clearTimeout(timer); timer = null; rename(); } });
   })();
-  document.getElementById('bbClose').addEventListener('click', function(){ setBuilding(false); });
 
   /* Página Mis mazos */
   var decksPage = document.getElementById('decksPage');
@@ -5460,7 +5474,7 @@ var EFFECT_CONFIG = {
   });
   document.getElementById('dpName').addEventListener('input', function(e){
     if(!DECKS[dpDeckId]) return;
-    DECKS[dpDeckId].name = e.target.value; saveDecksToStorage();
+    DECKS[dpDeckId].name = e.target.value; document.getElementById('dpNameWrap').dataset.value = e.target.value || ' '; saveDecksToStorage();
   });
   document.getElementById('dpAddCards').addEventListener('click', goAddCards);
   /* copiar el mazo desde su ventana: botón cuadrado como el de Mi colección (mismo texto que "Copiar lista" de Mis mazos) */

@@ -30,11 +30,17 @@ console.log('\n== 390×844 (español) ==');
 await abrir(390, 844);
 let e = await estado();
 check('con 49 cartas: icono de progreso en la píldora superior y en la barra del mazo (con la imagen cargada)', e.pill.build && !e.pill.full && e.barra.build && e.pill.mask.startsWith('url(') && e.barra.mask.startsWith('url(') && e.barra.w > 20 && e.barra.h > 5, e);
-check('con 49 cartas la etiqueta dice "Mazo en construcción"', e.etiqueta === 'Mazo en construcción' && e.contador === '49 / 50', e);
+check('con 49 cartas el estado dice "En progreso" y el contador 49 / 50', e.etiqueta === 'En progreso' && e.contador === '49 / 50', e);
+const pillBg = () => ev(`getComputedStyle(document.getElementById('deckCount')).backgroundColor`);
+const bg49 = await pillBg();
 await clickAdder('ST01-013', '.ad-plus'); await sleep(500);
 e = await estado();
 check('al llegar a 50 cartas ambos iconos pasan a "mazo lleno"', e.pill.full && !e.pill.build && e.barra.full && !e.barra.build && e.contador === '50 / 50', e);
-check('y la etiqueta pasa a "Mazo completo" (el estado no depende solo del icono) y el botón lo anuncia', e.etiqueta === 'Mazo completo' && /Mazo completo/.test(e.aria), e);
+check('y el estado pasa a "Completo" (no depende solo del icono) y el botón superior lo anuncia como "Mazo completo"', e.etiqueta === 'Completo' && /Mazo completo/.test(e.aria), e);
+const bg50 = await pillBg(), langBg = await ev(`getComputedStyle(document.querySelector('.lt-opt.is-active, .lt-opt[aria-pressed="true"], .lt-opt.active')||document.querySelector('.lt-opt')).backgroundColor`);
+check('el botón 50 / 50 de arriba pasa a azul de acento con menos opacidad: no es el verde de antes y se distingue del azul pleno de al lado', /0\.5450\d* 0\.8039\d* 1 \/ 0\.7\d*\)$/.test(bg50) && bg50 !== bg49, { bg49, bg50, langBg });
+const barra = await ev(`(function(){ var c=document.querySelector('.bb-count').getBoundingClientRect(), st=document.querySelector('.bb-state').getBoundingClientRect(); return { cierre: !!document.getElementById('bbClose'), eyebrow: !!document.querySelector('.bb-eyebrow'), estadoAlLado: st.left >= c.right - 1 && Math.abs((st.top + st.bottom) / 2 - (c.top + c.bottom) / 2) < 14, texto: document.querySelector('.bb-state').textContent.trim(), icono: !!document.querySelector('.bb-state .ico-full') } })()`);
+check('en la barra del mazo el estado es el icono con "Completo" junto al 50/50, sin la línea de arriba y sin la ×', barra.cierre === false && barra.eyebrow === false && barra.estadoAlLado && barra.texto === 'Completo' && barra.icono, barra);
 // mazo lleno en el catálogo: las tarjetas no escriben ningún aviso; solo el + deshabilitado
 const tile = await ev(`(function(){ var a=document.querySelector('#grid .adder[data-number="ST01-014"]'); if(!a) return null; return { chips: a.querySelectorAll('.full-chip').length, texto: a.querySelector('.ad-why').textContent.trim(), masDeshab: a.querySelector('.ad-plus').disabled } })()`);
 check('en las tarjetas del catálogo no sale ningún aviso de mazo lleno (ni chip ni frase): solo el + deshabilitado', tile && tile.chips === 0 && tile.texto === '' && tile.masDeshab === true, tile);
@@ -49,7 +55,7 @@ await ev(`document.querySelector('#detail .d-close').click(); 1`); await sleep(1
 // quitar una carta: vuelve el icono de progreso y la etiqueta
 await clickAdder('ST01-013', '.ad-minus'); await sleep(500);
 e = await estado();
-check('al bajar a 49 vuelven el icono de progreso y "Mazo en construcción"', e.pill.build && e.barra.build && e.etiqueta === 'Mazo en construcción' && e.contador === '49 / 50', e);
+check('al bajar a 49 vuelven el icono de progreso y "En progreso"', e.pill.build && e.barra.build && e.etiqueta === 'En progreso' && e.contador === '49 / 50', e);
 check('y el chip "Mazo lleno" desaparece de las cartas', (await ev(`document.querySelectorAll('#grid .full-chip').length`)) === 0);
 
 // ventana del mazo: icono de estado en el contador y copiar lista con el icono nuevo
@@ -84,14 +90,14 @@ for (const W of [320, 375, 430]) {
 for (const W of [320, 375, 430]) {
   await abrir(W, 800);
   await clickAdder('ST01-013', '.ad-plus'); await sleep(600);
-  const bb = await ev(`(function(){ var bar=document.getElementById('buildBar').getBoundingClientRect(), main=document.querySelector('.bb-main').getBoundingClientRect(), cmp=document.getElementById('bbCompare'), cr=cmp.getBoundingClientRect(), cl=document.getElementById('bbClose').getBoundingClientRect(), ey=document.querySelector('.bb-eyebrow').getBoundingClientRect(); return { visible: !cmp.hidden && cr.width > 0, anchoNombre: Math.round(main.width), dentro: cr.right <= bar.right + 0.5 && cl.right <= bar.right + 0.5 && cr.left >= bar.left - 0.5, scrollW: document.documentElement.scrollWidth, ancho: innerWidth, altoEtiqueta: Math.round(ey.height) } })()`);
+  const bb = await ev(`(function(){ var bar=document.getElementById('buildBar').getBoundingClientRect(), main=document.querySelector('.bb-main').getBoundingClientRect(), cmp=document.getElementById('bbCompare'), cr=cmp.getBoundingClientRect(), ey=document.querySelector('.bb-state').getBoundingClientRect(); return { visible: !cmp.hidden && cr.width > 0, anchoNombre: Math.round(main.width), dentro: cr.right <= bar.right + 0.5 && cr.left >= bar.left - 0.5, scrollW: document.documentElement.scrollWidth, ancho: innerWidth, altoEtiqueta: Math.round(ey.height) } })()`);
   check(W + ' px con 50 cartas: "Comparar" visible dentro de la barra, nombre con al menos 140 px de ancho y etiqueta en una o dos líneas', bb.visible && bb.dentro && bb.anchoNombre >= 140 && bb.altoEtiqueta <= 34 && bb.scrollW <= bb.ancho, bb);
 }
 // inglés
 await abrir(390, 844, 'en');
 await clickAdder('ST01-013', '.ad-plus'); await sleep(500);
 const en = await estado(); await ev(`document.querySelector('#grid .card-imgwrap[data-number="ST01-014"]').click(); 1`); await sleep(1500); const enChip = await ev(`(document.querySelector('#detail .dl-msg .full-chip')||{}).textContent`);
-check('en inglés: "Deck complete" y "Deck full"', en.etiqueta === 'Deck complete' && (enChip || '').trim() === 'Deck full', [en.etiqueta, enChip]);
+check('en inglés: "Complete" y "Deck full"', en.etiqueta === 'Complete' && (enChip || '').trim() === 'Deck full', [en.etiqueta, enChip]);
 check('sin errores de consola', errs.length === 0, errs);
 console.log('\n' + passed + ' pasan · ' + failed + ' fallan');
 ws.close(); process.exit(failed ? 1 : 0);
