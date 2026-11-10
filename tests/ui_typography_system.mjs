@@ -92,7 +92,8 @@ for (const W of [390, 1280]) {
   await send('Page.navigate', { url: 'http://localhost:8766/#competicion' }); await sleep(400); await send('Page.reload'); await sleep(4500);
   const tab = await rol('#compTabs .comp-tab'), ch = await rol('.comp-chip, .tag.chip');
   check('Pestañas de navegación: Inter 500–600, 13–15 px', tab && esInter(tab) && enRango(tab.peso, 500, 600) && enRango(tab.px, 13, 15), tab);
-  for (let i = 0; i < 6; i++) {
+  check('Competición tiene dos pestañas', (await ev(`document.querySelectorAll('#compTabs .comp-tab').length`)) === 2);
+  for (let i = 0; i < 2; i++) {
     await ev(`document.querySelectorAll('#compTabs .comp-tab')[${i}].click(); 1`); await sleep(1300);
     const fg = await ev(FUGAS);
     check('Competición, pestaña ' + (i + 1) + ': Display solo en el título de pantalla', JSON.stringify(fg) === '[]', fg);

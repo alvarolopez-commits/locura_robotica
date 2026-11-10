@@ -810,6 +810,126 @@ body.is-building .adder{ display:grid; gap:8px; }
 .comp-sec{ display:flex; flex-direction:column; gap:10px; }
 .comp-h{ font-family:var(--font-sans); font-size:var(--text-section-title-size); font-weight:var(--text-section-title-weight); line-height:var(--text-section-title-lh); letter-spacing:var(--text-section-title-ls); text-transform:none; color:var(--sky); }
 .comp-note{ margin:0; font-size:13px; line-height:1.45; color:var(--fg-3); }
+/* Competición: temporada, Meta, Torneos y fichas */
+.comp-scope{ display:flex; flex-wrap:wrap; gap:6px; }
+.gd-scope{ font-size:14px; font-weight:700; color:var(--fg-2); overflow-wrap:anywhere; }
+.compPage .dp-head{ display:flex; flex-wrap:wrap; flex-direction:row; align-items:center; justify-content:space-between; gap:8px 12px; }
+.gd-fbar{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; align-items:end; }
+.gd-fbar .dl-select,.gd-filters .dl-select{ width:100%; }
+.gd-fsearch{ grid-column:1 / -1; }
+.gd-nolabel > span{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.gd-fbar .gd-more-btn{ min-height:44px; height:44px; padding:0 12px; white-space:nowrap; }
+@media (min-width:900px){
+  .gd-fbar{ grid-template-columns:minmax(0,2fr) minmax(0,1.4fr) minmax(0,1.4fr) auto; }
+  .gd-fbar .gd-more-btn{ order:1; }
+}
+.gd-facts{ display:flex; flex-wrap:wrap; gap:2px 14px; font-size:14px; color:var(--fg-2); }
+.gd-facts b{ color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.gd-facts .gd-cut{ color:var(--sky); }
+.gd-st{ font-size:13px; color:var(--fg-3); }
+.gd-origin{ font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.gd-attrib{ margin-top:2px; }
+@media (max-width:899px){   /* ranking en móvil: nombre y n arriba, barra y porcentaje debajo */
+  .gd-rows .gd-arow{ grid-template-columns:28px minmax(0,1fr) auto; padding:8px 12px; }
+  .gd-rows .gd-arow .cr-meta{ grid-column:3; grid-row:1; white-space:nowrap; }
+  .gd-rows .gd-arow .cr-bar{ grid-column:2 / -1; }
+}
+@media (min-width:900px){ .gd-rows .gd-arow .cr-meta{ min-width:96px; justify-content:flex-end; } }
+input.dl-select{ font-family:inherit; }
+.gd-chips{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+@media (min-width:900px){ .compPage .dp-head{ justify-content:flex-start; gap:8px 24px; } }
+.gd-clear,.gd-back,.gd-all,.gd-retry{ align-self:flex-start; }
+.gd-error{ color:var(--rose); font-weight:700; }
+.gd-pips{ display:inline-flex; gap:3px; align-items:center; margin-right:2px; vertical-align:middle; }
+.gd-arow{ width:100%; min-height:44px; text-align:left; cursor:pointer; }
+.gd-arow .cr-track,.gd-arow .cr-track i{ display:block; }
+.gd-arow:focus-visible,.gd-event:focus-visible,.gd-best:focus-visible,.gd-link:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.gd-title{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; overflow-wrap:anywhere; }
+.gd-title:focus{ outline:none; }
+.gd-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+@media (min-width:900px){ .gd-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.gd-event{ width:100%; text-align:left; cursor:pointer; }
+.gd-event > .dl-meta{ display:block; }
+.gd-sources{ gap:2px; }
+.gd-metric-n{ font-size:15px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.comp-row.gd-era{ grid-template-columns:52px auto minmax(0,1fr); }
+.comp-row.gd-era .cr-rank{ font-size:14px; text-align:left; }
+.comp-row.gd-era .cr-meta{ grid-column:auto; justify-content:flex-end; text-align:right; }
+.gd-res-list{ display:flex; flex-direction:column; gap:6px; }
+.gd-res{ display:grid; grid-template-columns:38px minmax(0,1fr); gap:6px 8px; padding:10px 12px; background:rgba(29,26,56,.94); }
+.gd-res-place{ font-size:15px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.gd-res-main{ display:flex; flex-wrap:wrap; align-items:center; gap:0 10px; min-width:0; }
+.gd-res-title,.gd-res-ev{ flex:1 1 100%; }
+.gd-res-title{ display:flex; align-items:center; gap:6px; min-width:0; }
+.gd-link{ min-height:44px; padding:0; text-align:left; font-size:15px; font-weight:700; color:var(--fg-1); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--sky); overflow-wrap:anywhere; cursor:pointer; }
+.gd-res-ev{ font-size:14px; }
+.gd-open{ grid-column:1 / -1; }
+.dl-deck.gd-deck{ grid-column:1 / -1; padding:10px 0 0; background:transparent; box-shadow:none; }
+.gd-deck .dl-head,.gd-deck .dl-event{ display:none; }
+.gd-best{ display:grid; grid-template-columns:38px minmax(0,1fr); gap:8px; align-items:center; min-height:44px; padding:8px 12px; text-align:left; font-size:14px; color:var(--fg-2); background:rgba(29,26,56,.94); cursor:pointer; overflow-wrap:anywhere; }
+.gd-best b{ color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.gd-empty{ padding:6px 0; font-size:14px; }
+
+/* Cierre Fase 5: «Hecho» en la ventana del mazo y comparación de una lista concreta con mi mazo */
+.dv-toprow{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.dv-toprow .dp-back{ margin:0; }
+.dv-toprow .dv-done{ flex:0 0 auto; width:auto; min-width:96px; min-height:44px; padding:0 22px; margin-left:auto; }
+.dv-done[hidden]{ display:none; }
+.gd-cmp-sum{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+@media (min-width:640px){ .gd-cmp-sum{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.gd-cmp-k{ display:flex; flex-direction:column; gap:2px; padding:10px 12px; background:rgba(255,255,255,.07); box-shadow:inset 0 2px 0 rgba(139,205,255,.45); min-width:0; }
+.gd-cmp-k b{ font-family:var(--font-sans); font-size:var(--text-metric-size); font-weight:var(--text-metric-weight); line-height:var(--text-metric-lh); font-variant-numeric:tabular-nums; color:var(--fg-1); text-transform:none; letter-spacing:var(--text-metric-ls); }
+.gd-cmp-k span{ font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-3); overflow-wrap:anywhere; }
+.gd-cmp-add b{ color:var(--full); } .gd-cmp-remove b{ color:var(--rose); }
+.gd-cmp-nocoll{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+.gd-cmp-rows{ display:flex; flex-direction:column; gap:4px; }
+.gd-cmprow{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:4px 12px; align-items:center; min-height:62px; padding:8px 10px; text-align:left; background:rgba(29,26,56,.94); cursor:pointer; }
+.gd-cmprow img{ width:44px; height:61px; object-fit:cover; background:rgba(0,0,0,.25); }
+.gd-cmprow:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.gd-cmprow-tx{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+.gd-cmprow-tx b{ font-size:14px; line-height:1.25; color:var(--fg-1); overflow-wrap:anywhere; }
+.gd-cmprow-tx small{ font-size:12px; color:var(--fg-3); }
+.gd-cmprow-q{ font-size:13px; color:var(--fg-2); font-variant-numeric:tabular-nums; }
+.gd-cmprow-c{ font-size:12.5px; color:var(--fg-3); }
+.gd-cmprow-c.is-miss{ color:var(--rose); font-weight:700; }
+.gd-cmprow-d{ min-width:44px; padding:6px 10px; text-align:center; font-family:var(--font-sans); font-size:17px; font-weight:800; font-variant-numeric:tabular-nums; background:rgba(255,255,255,.1); color:var(--fg-2); }
+.gd-cmprow-d.is-add{ background:rgba(155,227,180,.2); color:var(--full); }
+.gd-cmprow-d.is-remove{ background:rgba(240,128,128,.2); color:var(--rose); }
+.gd-variant{ gap:10px; }
+.gd-var-confirm{ display:flex; flex-direction:column; gap:8px; padding:12px; background:rgba(139,205,255,.12); }
+.gd-var-done{ flex-direction:column; align-items:flex-start; }
+.gd-outside{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; margin:4px 0; }
+.gd-cmp-invalid{ padding:6px 0; }
+.gd-star{ flex:none; width:44px; min-height:44px; display:grid; place-items:center; color:var(--fg-3); fill:transparent; cursor:pointer; }
+.gd-star svg{ fill:inherit; display:block; }
+.gd-star.is-on{ color:var(--sky); fill:var(--sky); }
+.gd-star:focus-visible,.gd-fav-main:focus-visible,.gd-miss-row:focus-visible,.gd-fy-toggle:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.gd-arow-wrap{ display:grid; grid-template-columns:minmax(0,1fr) 44px; align-items:stretch; background:rgba(24,21,46,.9); }
+.gd-arow-wrap .gd-arow{ background:transparent; }
+.gd-arow-wrap .gd-star{ align-self:center; }
+.gd-title .gd-star{ margin-left:auto; }
+.gd-fy-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.gd-fy-toggle{ min-height:44px; padding:0 4px 0 12px; font-size:13px; font-weight:700; color:var(--fg-2); cursor:pointer; }
+.gd-invite{ font-size:14px; }
+.gd-invite b{ color:var(--fg-1); }
+.gd-fav{ display:grid; grid-template-columns:minmax(0,1fr) 44px; align-items:center; background:rgba(29,26,56,.94); box-shadow:inset 3px 0 0 var(--sky); }
+.gd-fav-main{ display:flex; flex-direction:column; gap:2px; min-width:0; min-height:44px; padding:8px 4px 8px 13px; text-align:left; cursor:pointer; }
+.gd-fav-name{ font-size:15px; font-weight:700; color:var(--fg-1); overflow-wrap:anywhere; }
+.gd-fav-name .gd-pips{ margin-right:6px; }
+.gd-fav-num{ font-size:14px; font-weight:700; color:var(--sky); font-variant-numeric:tabular-nums; }
+.gd-fav-best{ font-size:13px; color:var(--fg-3); overflow-wrap:anywhere; }
+.gd-fav-other{ align-self:flex-start; font-size:14px; }
+.gd-news{ font-size:13px; }
+.gd-newsbox{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:10px 12px; background:rgba(139,205,255,.12); }
+.gd-news-t{ font-size:14px; font-weight:700; color:var(--fg-1); }
+.gd-news-row{ font-size:13px; color:var(--fg-2); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.gd-seen{ margin-top:4px; }
+.gd-cov{ font-size:15px; font-weight:700; color:var(--fg-1); font-variant-numeric:tabular-nums; }
+.gd-build > .comp-ev,.gd-build > .gd-st{ align-self:flex-start; }
+.gd-miss{ display:flex; flex-direction:column; gap:2px; }
+.gd-miss-row{ display:grid; grid-template-columns:34px minmax(0,1fr); align-items:center; gap:6px; min-height:44px; padding:4px 0; text-align:left; font-size:14px; color:var(--fg-2); cursor:pointer; overflow-wrap:anywhere; }
+.gd-miss-row b{ color:var(--fg-1); font-variant-numeric:tabular-nums; }
+
 .comp-ctx{ display:grid; grid-template-columns:1fr; gap:6px; padding:14px 16px; background:rgba(255,255,255,.06); }
 .comp-k{ font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:var(--text-label-weight); line-height:var(--text-label-lh); letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
 .comp-v{ font-family:var(--font-sans); font-size:var(--text-metric-size); font-weight:var(--text-metric-weight); line-height:var(--text-metric-lh); letter-spacing:var(--text-metric-ls); text-transform:none; font-variant-numeric:tabular-nums; color:var(--fg-1); }
@@ -987,6 +1107,8 @@ span.legalChip{ cursor:inherit; }
 .rule-badges{ display:flex; flex-wrap:wrap; gap:4px; margin:6px 0 2px; }
 .rule-badges:empty{ display:none; }
 .rule-badge{ border:0; cursor:pointer; font:inherit; font-size:12px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:4px 9px; min-height:28px; background:var(--tone-2); color:var(--fg-1); }
+.rule-badge{ position:relative; }
+.rule-badge::after{ content:""; position:absolute; inset:-8px 0; }   /* se ve de 28 px y se pulsa en 44 de alto */
 .rule-badge.banned{ background:#9f2a24; color:var(--white); }
 .rule-badge.restricted{ background:#c8402f; color:var(--white); }
 .rule-badge.banned_pair,.rule-badge.exclusive_group{ background:#c43b32; color:var(--white); }
@@ -1744,7 +1866,7 @@ html{ touch-action:manipulation; }
       <div class="searchbar">
         <span class="sb-eyebrow" id="lblSearchEyebrow">Buscar carta</span>
         <span class="sb-div"></span>
-        <input type="search" id="searchMain" class="sb-input" placeholder="">
+        <input type="search" id="searchMain" class="sb-input" placeholder="" aria-labelledby="lblSearchEyebrow">
         <button type="button" class="sort-btn" id="catSortBtn" aria-pressed="false" aria-label="Ordenar por nivel de menor a mayor">
           <svg class="sort-ck" width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span id="lblSortLv">Nivel ↑</span>
@@ -1860,10 +1982,13 @@ html{ touch-action:manipulation; }
 
 <section class="decksPage deckView" id="deckView" hidden role="dialog" aria-modal="true" aria-labelledby="dvTitle">
   <div class="dp-inner">
-    <button type="button" class="dp-back" id="dvBack">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span id="lblDvBack">Volver</span>
-    </button>
+    <div class="dv-toprow">
+      <button type="button" class="dp-back" id="dvBack">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="lblDvBack">Volver</span>
+      </button>
+      <button type="button" class="dp-btn dp-btn-primary dv-done" id="dvDone" hidden><span id="lblDvDone">Hecho</span></button>
+    </div>
     <div class="dp-head dv-head">
       <button type="button" class="dv-trash" id="dvDelete" aria-label="Eliminar mazo" title="Eliminar mazo"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4.5 4.5l.6 8.4a1 1 0 0 0 1 .9h3.8a1 1 0 0 0 1-.9l.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div class="dv-headmain">
@@ -1914,6 +2039,7 @@ html{ touch-action:manipulation; }
     <div class="dp-head">
       <h1 class="dp-title" id="compTitle">Competición</h1>
       <p class="comp-sub" id="compSub">Qué se está jugando y funcionando ahora mismo.</p>
+      <div class="comp-scope" id="compScope" role="group" hidden></div>
     </div>
     <div class="comp-tabs" id="compTabs" role="tablist"></div>
     <div class="comp-panel" id="compPanel" role="tabpanel" tabindex="0"></div>
@@ -2053,10 +2179,11 @@ html{ touch-action:manipulation; }
 <script src="config.js"></script>
 <script src="decks_sync.js"></script>
 <script src="meta.js"></script>
+<script src="comp_stats.js"></script>
 <script src="collection.js"></script>
 <script src="collection_sync.js"></script>
+<script src="favorites_sync.js"></script>
 <script src="data/tokens.js" onerror="void 0"></script>
-<script src="data/meta/competition.js" onerror="void 0"></script>
 <!-- datos del catálogo en archivo aparte: el HTML pesa ~1,4 MB menos y los datos quedan en caché aunque cambie la página -->
 <script src="data/cards.js"></script>
 <script>var RULESETS = [
@@ -2773,6 +2900,73 @@ var EFFECT_CONFIG = {
         issues:function(n){ return n===1 ? '1 problema de reglas' : n+' problemas de reglas'; }, more:function(n){ return 'Ver más ('+n+')'; },
         empty:'No hay listas con estos filtros.', cards:'cartas', noEvent:'Evento sin título', descPrefix:'Lista de torneo'
       },
+      gd:{
+        seasonLabel:'Temporada', tabs:{ meta:'Meta', torneos:'Torneos' },
+        loading:'Cargando datos de torneos…', errorFile:'No se pudieron cargar los torneos de la última temporada.', errorSide6:'No se pudieron cargar los datos de esta temporada.', retry:'Reintentar',
+        fCountry:'País', allCountries:'Todos los países', fFrom:'Desde', fTo:'Hasta', fSearch:'Buscar torneo', searchPh:'Buscar sede o nombre…',
+        moreFilters:'Más filtros', lessFilters:'Menos filtros', fFormat:'Formato', allFormats:'Todos', fSize:'Tamaño del torneo', allSizes:'Todos', size:{ s:'Hasta 32 jugadores', m:'33 a 64 jugadores', l:'Más de 64 jugadores' },
+        fTop:'Posiciones', allTop:'Todas las publicadas', top:function(n){ return 'Top '+n; }, clear:'Limpiar',
+        severalCountries:'Varios países', events:function(n){ return n === 1 ? '1 torneo' : n+' torneos'; }, listsPub:function(n){ return String(n) === '1' ? '1 lista publicada' : n+' listas publicadas'; },
+        side6Scope:'Side-6, todas las regiones', side6NoFilters:'En esta temporada la fuente solo da totales: el ranking no se puede filtrar por país ni fecha.',
+        side6Sample:'Muestra de listas completas de los mejores puestos: hasta 40 por arquetipo, no todos los torneos de la temporada.',
+        shareTitle:function(n, cut){ return 'Presencia entre listas publicadas'+(cut ? ' '+cut : '')+' · n\u00a0=\u00a0'+n; },
+        shareTitleAll:function(n){ return 'Presencia entre TODAS las listas publicadas (mezcla cortes distintos) · n\u00a0=\u00a0'+n; },
+        fCov:'Cobertura de la muestra', covMain:'Corte completo (por defecto)', covAll:'Todas las listas (mezcla cortes)',
+        outsideNote:function(n){ return (n === 1 ? '1 torneo con un solo mazo publicado no entra' : n+' torneos con un solo mazo publicado no entran')+' en este porcentaje; se ven en Torneos.'; }, outsideBtn:'Incluir (mezcla cortes)',
+        archOutside:function(n){ return 'Este arquetipo solo aparece en torneos fuera de la muestra principal (n = '+n+'): no cuenta en el porcentaje, pero sus listas se pueden consultar.'; },
+        cmpTitle:'Comparar con mi mazo', cmpList:'Lista competitiva', cmpDeck:'Mi mazo', cmpPickList:'Elige una lista competitiva', cmpPickDeck:'Elige tu mazo',
+        cmpNoLists:'Todavía no hay listas completas verificadas para comparar.', cmpNoDecks:'Aún no tienes mazos. Crea uno o copia esta lista desde su ficha para empezar.',
+        cmpEmpty:'Elige una lista y uno de tus mazos para ver las diferencias.', cmpListGone:'Esa lista no está en esta temporada o ya no tiene su composición.',
+        cmpWhy:{ notComplete:'no tiene las 50 cartas verificadas', illegal:'no cumple las reglas de construcción actuales', legalUnknown:'no se ha podido comprobar su legalidad' },
+        cmpInvalid:function(w){ return 'Esta lista no se puede comparar ni usar para crear una variante: '+w+'.'; },
+        cmpSource:'Fuente de la lista', cmpSummary:'Resumen de la comparación', cmpMatch:'Coinciden', cmpAdd:'Por añadir', cmpRemove:'Por retirar', cmpMissColl:'Faltan en tu colección', cmpCollUnknownShort:'Colección sin configurar',
+        cmpBalanced:'Con mazos de 50 cartas, las copias que se añaden son las mismas que se retiran.', cmpNot50:function(n){ return 'Tu mazo tiene '+n+' cartas, no 50: lo que se añade y lo que se retira no tiene por qué coincidir.'; },
+        cmpNoColl:'Colección sin configurar: no se puede calcular qué te falta (no es lo mismo que no tener nada).', cmpGoColl:'Configurar mi colección',
+        cmpNote:'Se compara por código exacto y cantidad. «Por añadir» es lo que cambia en el mazo; «faltan en tu colección» se calcula aparte: una carta que hay que añadir puede estar ya en tu colección.',
+        cmpFilter:{ changes:'Cambios', add:'Por añadir', remove:'Por retirar', match:'Coinciden', all:'Todo' }, cmpNoRows:'Nada que mostrar con este filtro.',
+        cmpRowOwn:function(o, t){ return 'Tu mazo ×'+o+' → lista ×'+t; }, cmpColl:function(o, m){ return m ? 'Colección: tienes '+o+' · faltan '+m : 'Colección: tienes '+o+', no falta ninguna'; }, cmpCollUnknown:'Colección sin configurar',
+        cmpAddAria:function(n){ return 'Añadir '+n+(n === 1 ? ' copia' : ' copias'); }, cmpRemoveAria:function(n){ return 'Retirar '+n+(n === 1 ? ' copia' : ' copias'); }, cmpMatchAria:'Coincide',
+        varTitle:'Crear variante', varNote:'Se crea un mazo nuevo e independiente. Tu mazo original no cambia en ningún caso.',
+        varCopy:'Copiar mi mazo para editarlo', varCopyHint:'Variante con tus cartas actuales, para cambiarlas a mano en el constructor.',
+        varApply:'Variante con esta lista aplicada', varApplyHint:'Mazo nuevo con las 50 cartas de la lista. Hay que confirmarlo.',
+        varConfirmText:function(n){ return 'Se creará un mazo nuevo con las 50 cartas de la lista. «'+n+'» no se modifica.'; }, varConfirm:'Confirmar', varCancel:'Cancelar',
+        varName:function(n){ return 'Variante de '+n; }, varCreated:function(n){ return 'Variante creada: «'+n+'». Tu mazo original no ha cambiado.'; }, varOpen:'Abrir variante',
+        varFail:'No se pudo guardar la variante en este dispositivo. No se ha creado nada y tu mazo no ha cambiado.', varNoDeck:'Elige primero uno de tus mazos.',
+        varDesc:function(n, ev, d){ return 'Variante de «'+n+'» · lista de '+ev+' ('+d+')'; },
+        shareCaveat:'Solo sobre las listas publicadas de esta muestra. No es el porcentaje de todos los jugadores ni una tasa de victorias.',
+        emptyLists:'No hay listas publicadas con estos filtros.',
+        archAria:function(name, pct, n, tot){ return name+': '+pct+', '+n+' de '+tot+' listas publicadas. Abrir ficha.'; }, nOf:function(a, b){ return a+' de '+b+(String(b) === '1' ? ' lista' : ' listas'); },
+        showAll:function(n){ return 'Ver todos ('+n+')'; }, showLess:'Ver menos',
+        changes:'Cambios recientes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') frente a '+p+' (n = '+pn+'), misma fuente y ámbito. Variación en puntos de presencia.'; },
+        noTrend:{ single:'Todavía hay un solo periodo con esta segmentación, así que no se pueden indicar subidas ni bajadas.', segment:'Los periodos disponibles no son comparables entre sí, así que no se indican subidas ni bajadas.', sample:'Datos insuficientes: algún periodo no tiene muestra suficiente para comparar.' },
+        recent:'Torneos recientes', allEvents:'Ver todos los torneos', updated:function(d){ return 'Datos actualizados el '+d+'.'; },
+        players:function(n){ return n === 1 ? 'participante' : 'participantes'; }, published:function(n){ return n === 1 ? 'lista publicada' : 'listas publicadas'; }, inSample:function(n){ return n === 1 ? 'lista en la muestra' : 'listas en la muestra'; }, onlyCut:function(c){ return 'Solo '+c; }, noEvents:'No hay torneos con estos filtros.',
+        back:'Volver', sourceMain:'Fuente', sourceAlt:'Otra fuente', place:function(n){ return n+'.º'; },
+        status:{ complete:'50 cartas verificadas', pending:'Composición de cartas no disponible', incomplete:'Composición incompleta', invalid:'Cartas sin validar' },
+        seeList:'Ver lista', hideList:'Ocultar lista', viewSource:'Ver en la fuente', notFound:'Sin datos', notFoundEvent:'Este torneo no está en la temporada elegida.',
+        playersNote:'Los participantes son contexto del torneo: no se usan como denominador.',
+        sampleLists:'Listas de la muestra', positions:'Posiciones publicadas', noCardsEvent:'Sin composición no se puede copiar la lista: consúltala en la fuente.',
+        noActive:'sin filtros', notInSample:'Este arquetipo no aparece con los filtros activos.', metricN:function(a, b){ return a+' de '+b+' listas publicadas'; },
+        trend:'Evolución', best:'Mejores resultados', bestOne:'Mejor resultado', bestNote:'Puestos documentados. Un buen puesto no equivale a una tasa de victorias.',
+        cardsTitle:'Cartas populares', cardsPending:function(n){ return 'Aún no hay suficientes listas completas para analizar cartas ('+n+' con las 50 cartas verificadas).'; },
+        cardsNote:function(n){ return 'Sobre '+n+' listas con las 50 cartas verificadas. Copias de media: entre las listas que la incluyen.'; },
+        inLists:function(a, b){ return a+' de '+b+' listas'; }, avgCopies:function(x){ return x.toFixed(1).replace('.', ',')+' copias de media'; },
+        origin:{ tournament:'Torneo', community:'Comunidad' }, dataBy:'Datos de torneos aportados por', buildNoteSplit:function(a, b){ return 'Sobre '+a+' listas de torneo y '+b+' mazos de la comunidad con las 50 cartas verificadas. Se cuentan por separado: los de la comunidad no son listas de torneo.'; },
+        forYou:'Para ti', collapse:'Plegar', expand:'Desplegar', follow:'Seguir arquetipo', unfollow:'Dejar de seguir',
+        favInvite:'Toca la estrella de un arquetipo para seguirlo aquí.', favError:'No se pudo guardar el cambio en este dispositivo.', favNoLists:'Sin listas con estos filtros',
+        favNoneHere:function(s){ return 'No sigues ningún arquetipo de '+s+'.'; }, favOther:function(n, s){ return (n === 1 ? '1 favorito' : n+' favoritos')+' en '+s; },
+        newsFirst:'Primera visita con estos filtros: desde ahora verás aquí lo que se añada.', newsNone:'Sin novedades desde tu última visita.',
+        newsAdded:function(e, l){ return 'Desde tu última visita: '+(e === 1 ? '1 torneo' : e+' torneos')+' y '+(l === 1 ? '1 resultado publicado' : l+' resultados publicados')+' nuevos.'; },
+        newsLists:function(l){ return 'Desde tu última visita: '+(l === 1 ? '1 lista' : l+' listas')+' más en la fuente.'; }, newsN:function(a, b){ return 'Muestra con los mismos filtros: n = '+a+' antes, n = '+b+' ahora.'; }, markSeen:'Marcar como visto',
+        buildTitle:'Mazos competitivos que puedes construir', buildArchTitle:'Listas de este arquetipo con tu colección', buildNoLists:'Todavía no hay listas completas verificadas para comparar con tu colección.',
+        buildNoCollection:'Configura tu colección para saber qué mazos puedes construir.', buildGoCollection:'Ir a Mi colección', buildNote:function(n){ return n === 1 ? 'Sobre 1 lista con las 50 cartas verificadas.' : 'Sobre '+n+' listas con las 50 cartas verificadas.'; },
+        buildSkipped:function(n){ return n+' listas no entran porque tienen cartas sin validar o no suman 50.'; }, buildAll:function(n){ return 'Todas ('+n+')'; }, buildReady:function(n){ return 'Solo construibles ('+n+')'; }, buildAlmost:function(u, n){ return 'Faltan '+u+' o menos ('+n+')'; },
+        buildClosest:'Ninguna se puede construir aún: primero las más cercanas.', buildNoneReady:'Ninguna lista se puede construir todavía con tu colección.', buildNoneAlmost:'Ninguna lista está a tan pocas copias.',
+        buildCaveat:'La cobertura mide tus copias frente a la lista: no predice su rendimiento. No descuenta las cartas usadas en otros mazos.',
+        covLine:function(a, b, m, p){ return a+'/'+b+' copias · '+(m ? 'faltan '+m : 'no falta ninguna')+' · '+p+' de cobertura'; }, buildable:'Construible', notLegal:'No legal con las reglas actuales', legalOk:'Legal, faltan copias', legalUnknown:'Legalidad sin comprobar',
+        seeMissing:'Ver cartas que faltan', hideMissing:'Ocultar cartas que faltan', compareMine:'Comparar mi mazo', missAria:function(q, n, c, o){ return 'Faltan '+q+' de '+n+', '+c+'. Tienes '+o+'. Abrir ficha.'; },
+        publishedTitle:function(n){ return 'Resultados publicados ('+n+')'; }
+      },
       cp:{
         ctx:function(fmt, win, date){ return fmt+' · Ventana '+win+' · datos recogidos el '+date+'.'; }, share:'Presencia', lists:function(n){ return n+' listas'; },
         vsPrev:function(e){ return 'frente a '+e; }, loading:'Cargando datos del meta…', error:'No se pudieron cargar los datos.', retry:'Reintentar',
@@ -2826,6 +3020,7 @@ var EFFECT_CONFIG = {
       warmProgress:function(d,n){ return 'Guardando las cartas para usarlas sin conexión · '+d+'/'+n; },
       warmDone:'Listo: ya puedes usar la app sin conexión',
       deckView:{
+        done:'Hecho', doneAria:'Hecho: salir del modo construcción', doneNote:'Has salido del modo construcción. Tu mazo sigue como lo dejaste.', 
         goSummary:'Ver el resumen', pickOn:'En la lista', pickOff:'Fuera de la lista', pickAria:function(n){ return 'Incluir '+n+' en la lista copiada'; }, pickNone:'Selecciona al menos una carta', dpRenameLabel:'Renombrar mazo', changeDeck:'Cambiar de mazo', openCard:'Ver la carta', back:'Volver', summary:'Resumen', eyebrow:function(n){ return n+' / 50 cartas'; },
         total:'Total', avgCost:'Coste medio', colors:'Colores', byType:'Por tipo', curve:'Curva de coste',
         empty:'Todavía no has añadido cartas a este mazo.', add:'Añadir cartas', lv:'Nv.', cost:'Coste', costMax:'7+'
@@ -3010,6 +3205,73 @@ var EFFECT_CONFIG = {
         legal:'Tournament legal', issues:function(n){ return n===1 ? '1 rule issue' : n+' rule issues'; }, more:function(n){ return 'Show more ('+n+')'; },
         empty:'No lists match these filters.', cards:'cards', noEvent:'Untitled event', descPrefix:'Tournament list'
       },
+      gd:{
+        seasonLabel:'Season', tabs:{ meta:'Meta', torneos:'Tournaments' },
+        loading:'Loading tournament data…', errorFile:'Could not load the tournaments of the latest season.', errorSide6:'Could not load the data of this season.', retry:'Retry',
+        fCountry:'Country', allCountries:'All countries', fFrom:'From', fTo:'To', fSearch:'Search tournaments', searchPh:'Search venue or name…',
+        moreFilters:'More filters', lessFilters:'Fewer filters', fFormat:'Format', allFormats:'All', fSize:'Tournament size', allSizes:'All', size:{ s:'Up to 32 players', m:'33 to 64 players', l:'Over 64 players' },
+        fTop:'Placements', allTop:'All published', top:function(n){ return 'Top '+n; }, clear:'Clear',
+        severalCountries:'Several countries', events:function(n){ return n === 1 ? '1 tournament' : n+' tournaments'; }, listsPub:function(n){ return String(n) === '1' ? '1 published list' : n+' published lists'; },
+        side6Scope:'Side-6, all regions', side6NoFilters:'For this season the source only gives totals: the ranking cannot be filtered by country or date.',
+        side6Sample:'A sample of complete top-placing lists: up to 40 per archetype, not every tournament of the season.',
+        shareTitle:function(n, cut){ return 'Presence among published'+(cut ? ' '+cut : '')+' lists · n\u00a0=\u00a0'+n; },
+        shareTitleAll:function(n){ return 'Presence among ALL published lists (mixed cuts) · n\u00a0=\u00a0'+n; },
+        fCov:'Sample coverage', covMain:'Full cut (default)', covAll:'All lists (mixes cuts)',
+        outsideNote:function(n){ return (n === 1 ? '1 tournament with a single published deck is' : n+' tournaments with a single published deck are')+' not in this percentage; see them under Tournaments.'; }, outsideBtn:'Include (mixes cuts)',
+        archOutside:function(n){ return 'This archetype only appears in tournaments outside the main sample (n = '+n+'): it does not count in the percentage, but its lists can be viewed.'; },
+        cmpTitle:'Compare with my deck', cmpList:'Competitive list', cmpDeck:'My deck', cmpPickList:'Pick a competitive list', cmpPickDeck:'Pick your deck',
+        cmpNoLists:'There are no verified complete lists to compare yet.', cmpNoDecks:'You have no decks yet. Create one or copy this list from its page to start.',
+        cmpEmpty:'Pick a list and one of your decks to see the differences.', cmpListGone:'That list is not in this season or no longer has its card list.',
+        cmpWhy:{ notComplete:'it does not have its 50 cards verified', illegal:'it does not meet the current deck-building rules', legalUnknown:'its legality could not be checked' },
+        cmpInvalid:function(w){ return 'This list cannot be compared or used to create a variant: '+w+'.'; },
+        cmpSource:'List source', cmpSummary:'Comparison summary', cmpMatch:'Match', cmpAdd:'To add', cmpRemove:'To remove', cmpMissColl:'Missing in your collection', cmpCollUnknownShort:'Collection not set up',
+        cmpBalanced:'With 50-card decks, the copies added equal the copies removed.', cmpNot50:function(n){ return 'Your deck has '+n+' cards, not 50: what is added and what is removed need not match.'; },
+        cmpNoColl:'Collection not set up: what you are missing cannot be calculated (that is not the same as owning nothing).', cmpGoColl:'Set up my collection',
+        cmpNote:'Compared by exact code and quantity. “To add” is what changes in the deck; “missing in your collection” is calculated separately: a card you need to add may already be in your collection.',
+        cmpFilter:{ changes:'Changes', add:'To add', remove:'To remove', match:'Match', all:'All' }, cmpNoRows:'Nothing to show with this filter.',
+        cmpRowOwn:function(o, t){ return 'Your deck ×'+o+' → list ×'+t; }, cmpColl:function(o, m){ return m ? 'Collection: you have '+o+' · missing '+m : 'Collection: you have '+o+', none missing'; }, cmpCollUnknown:'Collection not set up',
+        cmpAddAria:function(n){ return 'Add '+n+(n === 1 ? ' copy' : ' copies'); }, cmpRemoveAria:function(n){ return 'Remove '+n+(n === 1 ? ' copy' : ' copies'); }, cmpMatchAria:'Match',
+        varTitle:'Create variant', varNote:'A new, independent deck is created. Your original deck never changes.',
+        varCopy:'Copy my deck to edit it', varCopyHint:'A variant with your current cards, to change by hand in the builder.',
+        varApply:'Variant with this list applied', varApplyHint:'A new deck with the list’s 50 cards. You have to confirm it.',
+        varConfirmText:function(n){ return 'A new deck with the list’s 50 cards will be created. “'+n+'” is not modified.'; }, varConfirm:'Confirm', varCancel:'Cancel',
+        varName:function(n){ return 'Variant of '+n; }, varCreated:function(n){ return 'Variant created: “'+n+'”. Your original deck has not changed.'; }, varOpen:'Open variant',
+        varFail:'The variant could not be saved on this device. Nothing was created and your deck has not changed.', varNoDeck:'Pick one of your decks first.',
+        varDesc:function(n, ev, d){ return 'Variant of “'+n+'” · list from '+ev+' ('+d+')'; },
+        shareCaveat:'Only over the published lists of this sample. It is not the share of all players, nor a win rate.',
+        emptyLists:'No published lists match these filters.',
+        archAria:function(name, pct, n, tot){ return name+': '+pct+', '+n+' of '+tot+' published lists. Open details.'; }, nOf:function(a, b){ return a+' of '+b+(String(b) === '1' ? ' list' : ' lists'); },
+        showAll:function(n){ return 'Show all ('+n+')'; }, showLess:'Show less',
+        changes:'Recent changes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') against '+p+' (n = '+pn+'), same source and scope. Change in presence points.'; },
+        noTrend:{ single:'There is only one period with this segmentation so far, so no rises or falls can be shown.', segment:'The available periods are not comparable, so no rises or falls are shown.', sample:'Not enough data: a period does not have a large enough sample to compare.' },
+        recent:'Recent tournaments', allEvents:'See all tournaments', updated:function(d){ return 'Data updated on '+d+'.'; },
+        players:function(n){ return n === 1 ? 'player' : 'players'; }, published:function(n){ return n === 1 ? 'published list' : 'published lists'; }, inSample:function(n){ return n === 1 ? 'list in the sample' : 'lists in the sample'; }, onlyCut:function(c){ return c+' only'; }, noEvents:'No tournaments match these filters.',
+        back:'Back', sourceMain:'Source', sourceAlt:'Other source', place:function(n){ return '#'+n; },
+        status:{ complete:'50 cards verified', pending:'Card list not available', incomplete:'Incomplete card list', invalid:'Unverified cards' },
+        seeList:'See list', hideList:'Hide list', viewSource:'View at the source', notFound:'No data', notFoundEvent:'This tournament is not in the selected season.',
+        playersNote:'Players are context for the tournament: they are not used as a denominator.',
+        sampleLists:'Lists in the sample', positions:'Published placements', noCardsEvent:'Without the card list it cannot be copied: check it at the source.',
+        noActive:'no filters', notInSample:'This archetype does not appear with the active filters.', metricN:function(a, b){ return a+' of '+b+' published lists'; },
+        trend:'Evolution', best:'Best results', bestOne:'Best result', bestNote:'Documented placements. A good placement is not a win rate.',
+        cardsTitle:'Popular cards', cardsPending:function(n){ return 'Not enough complete lists to analyse cards yet ('+n+' with all 50 cards verified).'; },
+        cardsNote:function(n){ return 'Over '+n+' lists with all 50 cards verified. Average copies: among the lists that include the card.'; },
+        inLists:function(a, b){ return a+' of '+b+' lists'; }, avgCopies:function(x){ return x.toFixed(1)+' copies on average'; },
+        origin:{ tournament:'Tournament', community:'Community' }, dataBy:'Tournament data provided by', buildNoteSplit:function(a, b){ return 'Over '+a+' tournament lists and '+b+' community decks with all 50 cards verified. Counted separately: community decks are not tournament lists.'; },
+        forYou:'For you', collapse:'Collapse', expand:'Expand', follow:'Follow archetype', unfollow:'Unfollow',
+        favInvite:'Tap the star on an archetype to follow it here.', favError:'The change could not be saved on this device.', favNoLists:'No lists with these filters',
+        favNoneHere:function(s){ return 'You follow no archetypes from '+s+'.'; }, favOther:function(n, s){ return (n === 1 ? '1 favourite' : n+' favourites')+' in '+s; },
+        newsFirst:'First visit with these filters: from now on, new results will show here.', newsNone:'Nothing new since your last visit.',
+        newsAdded:function(e, l){ return 'Since your last visit: '+(e === 1 ? '1 tournament' : e+' tournaments')+' and '+(l === 1 ? '1 published result' : l+' published results')+' added.'; },
+        newsLists:function(l){ return 'Since your last visit: '+(l === 1 ? '1 list' : l+' lists')+' more at the source.'; }, newsN:function(a, b){ return 'Sample with the same filters: n = '+a+' before, n = '+b+' now.'; }, markSeen:'Mark as seen',
+        buildTitle:'Competitive decks you can build', buildArchTitle:'Lists of this archetype with your collection', buildNoLists:'There are no verified complete lists to compare with your collection yet.',
+        buildNoCollection:'Set up your collection to find out which decks you can build.', buildGoCollection:'Go to My collection', buildNote:function(n){ return n === 1 ? 'Over 1 list with all 50 cards verified.' : 'Over '+n+' lists with all 50 cards verified.'; },
+        buildSkipped:function(n){ return n+' lists are left out because they have unverified cards or do not add up to 50.'; }, buildAll:function(n){ return 'All ('+n+')'; }, buildReady:function(n){ return 'Buildable only ('+n+')'; }, buildAlmost:function(u, n){ return u+' or fewer missing ('+n+')'; },
+        buildClosest:'None can be built yet: closest first.', buildNoneReady:'No list can be built with your collection yet.', buildNoneAlmost:'No list is that few copies away.',
+        buildCaveat:'Coverage measures your copies against the list: it does not predict performance. Cards used in other decks are not subtracted.',
+        covLine:function(a, b, m, p){ return a+'/'+b+' copies · '+(m ? m+' missing' : 'none missing')+' · '+p+' coverage'; }, buildable:'Buildable', notLegal:'Not legal under current rules', legalOk:'Legal, copies missing', legalUnknown:'Legality not checked',
+        seeMissing:'See missing cards', hideMissing:'Hide missing cards', compareMine:'Compare my deck', missAria:function(q, n, c, o){ return q+' missing of '+n+', '+c+'. You have '+o+'. Open details.'; },
+        publishedTitle:function(n){ return 'Published results ('+n+')'; }
+      },
       cp:{
         ctx:function(fmt, win, date){ return fmt+' · Window '+win+' · data collected on '+date+'.'; }, share:'Presence', lists:function(n){ return n+' lists'; },
         vsPrev:function(e){ return 'vs '+e; }, loading:'Loading meta data…', error:'Could not load the data.', retry:'Retry',
@@ -3063,6 +3325,7 @@ var EFFECT_CONFIG = {
       warmProgress:function(d,n){ return 'Saving the cards for offline use · '+d+'/'+n; },
       warmDone:'Done: you can now use the app offline',
       deckView:{
+        done:'Done', doneAria:'Done: leave build mode', doneNote:'You left build mode. Your deck stays as you left it.', 
         goSummary:'See the summary', pickOn:'In list', pickOff:'Not in list', pickAria:function(n){ return 'Include '+n+' in the copied list'; }, pickNone:'Select at least one card', dpRenameLabel:'Rename deck', changeDeck:'Change deck', openCard:'View card', back:'Back', summary:'Summary', eyebrow:function(n){ return n+' / 50 cards'; },
         total:'Total', avgCost:'Average cost', colors:'Colors', byType:'By type', curve:'Cost curve',
         empty:'You have not added any cards to this deck yet.', add:'Add cards', lv:'Lv.', cost:'Cost', costMax:'7+'
@@ -3850,6 +4113,7 @@ var EFFECT_CONFIG = {
     var deck = activeDeck();
     var wasBuilding = document.body.classList.contains('is-building');
     document.body.classList.toggle('is-building', !!(building && deck));
+    var dvd = document.getElementById('dvDone'); if(dvd) dvd.hidden = !(building && deck);   // «Hecho»: salida del modo construcción desde la ventana del mazo
     if(building && deck && !wasBuilding) refreshAdders();
     if(!building || !deck){ bar.hidden = true; return; }
     bar.hidden = false;
@@ -3889,7 +4153,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   /* ===== CUENTA Y SINCRONIZACIÓN (Supabase) ===== */
-  var APP_BUILD = '2026-11-03.6';   /* se sube a mano en cada publicación: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo */
+  var APP_BUILD = 'Gundaneo v.2';   /* nombre de la versión publicada: el diagnóstico de "Tu cuenta" lo enseña para saber qué versión corre en cada dispositivo (antes era 2026-11-03.6; cambia a mano al publicar una versión nueva) */
   var cloud = { client:null, sync:null, user:null, configured:false, loadFailed:false, explicitSignOut:false, state:{phase:'signedout', dirty:0} };
   var SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js';
   function cloudConfigured(){ var c = window.SUPABASE_CONFIG; return !!(c && c.url && c.anonKey && typeof DeckSync !== 'undefined'); }
@@ -4149,6 +4413,7 @@ var EFFECT_CONFIG = {
         (es ? 'Sesión: ' : 'Session: ') + (cloud.user ? (cloud.user.email || '?') + ' · ' + String(cloud.user.id || '').slice(0, 8) : (es ? 'no iniciada' : 'signed out')),
         (es ? 'Estado de guardado: ' : 'Save state: ') + (st.phase || '—') + (st.message ? ' · ' + st.message : '') + (st.dirty ? ' · ' + st.dirty + (es ? ' pendiente(s)' : ' pending') : ''),
         (es ? 'Colección: ' : 'Collection: ') + (cloud.csync ? cloud.csync.state().phase : '—') + ' · ' + COLL.size() + (es ? ' cartas distintas' : ' distinct cards') + (cloud.csync && cloud.csync.state().phase === 'unavailable' ? (es ? ' (falta crear la tabla en Supabase)' : ' (the Supabase table is missing)') : ''),
+        (es ? 'Favoritos: ' : 'Favourites: ') + (cloud.fsync ? cloud.fsync.state().phase : '—') + ' · ' + gdFavs().length + (cloud.fsync && cloud.fsync.state().phase === 'unavailable' ? (es ? ' (falta aplicar supabase/favorites.sql: siguen solo en este dispositivo)' : ' (supabase/favorites.sql not applied yet: kept on this device only)') : ''),
         (es ? 'Mazos en este dispositivo: ' : 'Decks on this device: ') + ids.length + (es ? ' (con copia en la nube: ' : ' (with a cloud copy: ') + withRemote + ')'
       ];
       return out.concat(extra).join('\n');
@@ -4314,12 +4579,16 @@ var EFFECT_CONFIG = {
       if(remoteAv && remoteAv !== currentAvatarId()){ lsSet('msa_avatar', remoteAv); paintAvatar(); }
       cloud.sync.start(cloud.user).then(function(){ cloudRefreshUI(); paintSaveState(); });
       if(cloud.csync) cloud.csync.start(cloud.user);   // une la colección de este dispositivo con la de la cuenta
+      if(cloud.fsync) cloud.fsync.start(cloud.user);   // y los arquetipos favoritos
       paintSaveState();
     } else if(cloud.user){
       var pending = cloud.sync.state().dirty > 0;
       cloud.user = null; cloud.sync.stop();
       var collSaved = cloud.csync && cloud.csync.state().phase === 'saved';
       if(cloud.csync) cloud.csync.stop();
+      var favSaved = cloud.fsync && cloud.fsync.state().phase === 'saved';
+      if(cloud.fsync) cloud.fsync.stop();
+      if(cloud.explicitSignOut && favSaved){ gdSaveFavs([]); if(!compPage.hidden) renderComp(); }   // como la colección: los favoritos ya guardados en la cuenta no se los queda otra persona que use este navegador
       if(cloud.explicitSignOut && collSaved) COLL.replaceAll({});   // cierre voluntario con la colección ya en la nube: no se la queda otra cuenta que inicie sesión aquí
       if(cloud.explicitSignOut || !pending){
         // cierre voluntario (o sin nada pendiente): los mazos de la cuenta salen de este navegador; los locales se conservan
@@ -4370,6 +4639,11 @@ var EFFECT_CONFIG = {
     })();
     if(!cloud.configured) return;
     cloud.sync = DeckSync.create(cloudHost());
+    if(typeof FavoritesSync !== 'undefined') cloud.fsync = FavoritesSync.create({
+      client: function(){ return cloud.client; }, snapshot: function(){ return gdFavs().slice(); },
+      replaceAll: function(list){ gdSaveFavs(list); if(typeof compPage !== 'undefined' && !compPage.hidden && typeof renderComp === 'function') renderComp(); },
+      storage: { get: lsGet, set: lsSet }, onState: function(st){ cloud.favState = st; }
+    });
     if(typeof CollectionSync !== 'undefined') cloud.csync = CollectionSync.create({
       client: function(){ return cloud.client; }, snapshot: function(){ return COLL.snapshot(); }, replaceAll: function(m){ COLL.replaceAll(m); },
       storage: { get: lsGet, set: lsSet }, onState: function(st){ cloud.collState = st; }
@@ -4385,8 +4659,8 @@ var EFFECT_CONFIG = {
       sc.onerror = function(){ cloud.loadFailed = true; paintSaveState(); };      // sin conexión o bloqueado: los mazos siguen en local
       document.head.appendChild(sc);
     }
-    window.addEventListener('online', function(){ if(cloud.sync && cloud.user) cloud.sync.retry(); if(cloud.csync && cloud.user) cloud.csync.retry(); });
-    document.addEventListener('visibilitychange', function(){ if(!document.hidden && cloud.sync && cloud.user){ cloud.sync.retry(); if(cloud.csync) cloud.csync.retry(); } });   // al volver a la pestaña se pone al día
+    window.addEventListener('online', function(){ if(cloud.sync && cloud.user) cloud.sync.retry(); if(cloud.csync && cloud.user) cloud.csync.retry(); if(cloud.fsync && cloud.user) cloud.fsync.retry(); });
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden && cloud.sync && cloud.user){ cloud.sync.retry(); if(cloud.csync) cloud.csync.retry(); if(cloud.fsync) cloud.fsync.retry(); } });   // al volver a la pestaña se pone al día
   }
   /* ===== MIS MAZOS (página) ===== */
   var dpDeckId = null, dpSeen = {}, dpDelArmed = {};
@@ -5605,6 +5879,7 @@ var EFFECT_CONFIG = {
     var deck = activeDeck(); if(!deck) return;
     var L = t(), V = L.deckView, total = deckTotal(deck), entries = deckEntries(deck);
     document.getElementById('lblDvBack').textContent = V.back;
+    var dn = document.getElementById('dvDone'); document.getElementById('lblDvDone').textContent = V.done; dn.setAttribute('aria-label', V.doneAria); dn.title = V.doneAria;
     var top0 = deckView.scrollTop;
     var cnt = document.getElementById('dvCount');
     document.getElementById('dvCountTxt').textContent = total+' / 50';
@@ -5701,6 +5976,11 @@ var EFFECT_CONFIG = {
   }
   document.getElementById('deckCount').addEventListener('click', function(){ if(deckView.hidden) openDeckView(); else closeDeckView(); });
   document.getElementById('dvBack').addEventListener('click', closeDeckView);
+  /* «Hecho»: sale del modo construcción sin tocar el mazo (se autoguarda al editar); cierra la ventana y lo anuncia sin prometer guardado en la nube */
+  document.getElementById('dvDone').addEventListener('click', function(){
+    setBuilding(false); closeDeckView();
+    var live = document.getElementById('deckLive'); if(live){ live.textContent = ''; setTimeout(function(){ live.textContent = t().deckView.doneNote; }, 50); }
+  });
   document.getElementById('dvSelect').addEventListener('change', function(){
     if(this.value === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
     else activeDeckId = this.value;
@@ -5737,52 +6017,10 @@ var EFFECT_CONFIG = {
   /* ===== COMPETICIÓN =====
    * Parte del meta (no de un mazo del usuario). Estructura preparada para los datos que vendrán (Meta Lab):
    * cada sección declara qué filtros admitirá; cuando haya datos se marca `ready` y se pinta su contenido. */
-  var COMP_SECTIONS = [
-    {id:'decklists', ready:true,  filters:['archetype','event']},
-    {id:'overview',   ready:true,  filters:['period','region','format']},
-    {id:'archetypes', ready:true,  filters:['period','region','country','eventType','colors','set']},
-    {id:'cards',      ready:true,  filters:['period','region','archetype','colors','set']},
-    {id:'events',     ready:true,  filters:['period','region','country','eventType','set']},
-    {id:'matchups',   ready:false, filters:['period','archetype','set']}
-  ];
   var compPage = document.getElementById('compPage');
   var cmpScrim = document.getElementById('cmpScrim'), cmpModal = document.getElementById('cmpModal');   /* antes de openCompPage(): al cargar con #competicion se usa ya en el arranque */
-  var compState = {tab:'decklists', filters:{}, sort:'share', mu:null};
+  var compState = {};
   /* ---- datos: solo existen en local (data/meta/competition.js); sin ellos la sección dice "Próximamente" ---- */
-  function compData(){ return (typeof COMPETITION_DATA !== 'undefined' && COMPETITION_DATA && COMPETITION_DATA.archetypes) ? COMPETITION_DATA : null; }
-  function cNum(n, d){
-    if(n === null || n === undefined) return '—';
-    var x = Number(n).toFixed(d === undefined ? 1 : d); if(d === undefined) x = x.replace(/\.0$/, '');
-    return LANG === 'es' ? x.replace('.', ',') : x;
-  }
-  function cPct(n){ return n === null || n === undefined ? '—' : cNum(n)+' %'; }
-  function cPP(n){
-    if(n === null || n === undefined) return null;
-    var span = el('span', n > 0 ? 'comp-up' : n < 0 ? 'comp-down' : 'comp-flat');
-    if(n !== 0){ var ic = document.createElement('i'); ic.className = 'comp-ico'; ic.innerHTML = n > 0 ? ICON_UP : ICON_DOWN; span.appendChild(ic); }
-    span.appendChild(document.createTextNode((n > 0 ? '+' : '')+cNum(n)+' pp'));
-    return span;
-  }
-  function cEv(status, U){ var b = el('span','comp-ev '+String(status).toLowerCase(), U.ev[status] || status); return b; }
-  function cPips(arch){
-    var w = document.createDocumentFragment();
-    (arch.colors || []).forEach(function(c){ var p = el('span','dd-pip'); p.dataset.color = c; p.title = t().colors[c] || c; w.appendChild(p); });
-    return w;
-  }
-  function cSec(panel, title, note){
-    var sec = el('section','comp-sec'); sec.appendChild(el('h3','comp-h', title));
-    if(note) sec.appendChild(el('p','comp-note', note));
-    panel.appendChild(sec); return sec;
-  }
-  function cSources(panel, D, U){
-    var sec = cSec(panel, U.sources), box = el('div','comp-sources');
-    D.sources.forEach(function(sr){
-      var line = el('div'); var a = document.createElement('a'); a.href = sr.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = sr.name;
-      line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(sr.retrievedAt))); box.appendChild(line);
-    });
-    sec.appendChild(box);
-  }
-  function cOpenCard(num){ var c = cardByNumber(num); if(c) openDetail(c); }
 
   /* ===== META LAB · COMPARAR el mazo con el meta ===== */
   var ML = { deckId:null, mode:{type:'closest'}, tab:'summary', status:'idle', data:null, sets:null, why:{}, opener:null };
@@ -5978,11 +6216,6 @@ var EFFECT_CONFIG = {
       DL.data = j; DL.status = 'ok'; if(!compPage.hidden) renderComp();
     }).catch(function(){ DL.status = 'error'; if(!compPage.hidden) renderComp(); });
   }
-  function dlFlat(){
-    var out = [];
-    DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){ out.push({a:a, d:d}); }); });
-    return out;
-  }
   function dlTypeCounts(cards){
     var c = {UNIT:0, PILOT:0, COMMAND:0, BASE:0};
     Object.keys(cards).forEach(function(n){ var cd = cardByNumber(n); if(cd && c[cd.type] !== undefined) c[cd.type] += cards[n]; });
@@ -5994,7 +6227,7 @@ var EFFECT_CONFIG = {
     var ev = d.event && d.event.title ? d.event.title : U.noEvent;
     var nid = createDeck(name || (a.name+(d.place ? ' · '+U.place(d.place) : '')));
     DECKS[nid].cards = cards;
-    DECKS[nid].description = U.descPrefix+': '+ev+(d.event && d.event.date ? ' ('+d.event.date+')' : '')+' · '+U.source+' Side-6';
+    DECKS[nid].description = U.descPrefix+': '+ev+(d.event && d.event.date ? ' ('+d.event.date+')' : '')+' · '+U.source+' '+(d.src !== undefined ? d.src : 'Side-6');
     activeDeckId = nid; saveDecksToStorage(); updateDeckPill(); render();
     return nid;
   }
@@ -6026,7 +6259,6 @@ var EFFECT_CONFIG = {
     wrap.innerHTML = '<svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+body+'</svg>';
     return wrap;
   }
-  function evKey(e){ return (e && e.title ? e.title : '')+'|'+(e && e.date ? e.date : '')+'|'+(e && e.country ? e.country : ''); }
   /* bandera a la izquierda del título del evento y su fecha a la derecha */
   function eventLine(e, titleFallback, noDate){
     var row = el('div','dl-event'); row.appendChild(flagEl(e && e.country));
@@ -6084,336 +6316,822 @@ var EFFECT_CONFIG = {
       });
       box.appendChild(wrap);
     }
-    var src = document.createElement('a'); src.className = 'comp-link'; src.href = BASE_SIDE6+'/en/decklists/'+d.h+'/'; src.target = '_blank'; src.rel = 'noopener noreferrer'; src.textContent = U.original;
-    box.appendChild(src);
+    var href = d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/';   // d.url === '' = la lista no tiene página propia: sin enlace antes que uno equivocado
+    if(href){
+      var src = document.createElement('a'); src.className = 'comp-link'; src.href = href; src.target = '_blank'; src.rel = 'noopener noreferrer'; src.textContent = d.urlLabel || U.original;
+      box.appendChild(src);
+    }
     return box;
   }
   var BASE_SIDE6 = 'https://side-6.com';
-  function dlView(panel){
-    var U = t().dl;
-    loadDecklists();
-    if(DL.status === 'loading' || DL.status === 'idle'){ panel.appendChild(el('p','comp-note', U.loading)); return; }
-    if(DL.status === 'error'){
-      panel.appendChild(el('p','comp-note', U.error));
-      var rb = el('button','dp-btn', U.retry); rb.type = 'button'; rb.addEventListener('click', function(){ DL.status = 'idle'; renderComp(); }); panel.appendChild(rb); return;
-    }
-    var all = dlFlat(), snap = DL.data.snapshot;
-    panel.appendChild(el('p','comp-note', U.intro(all.length, DL.data.archetypes.length, fmtDate(snap.from), fmtDate(snap.to))));
-    function field(label, id, opts, val, onChange){
-      var f = el('div','dl-field');
-      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id; sel.setAttribute('aria-label', label);
-      opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
-      sel.addEventListener('change', function(){ onChange(sel.value); DL.shown = 12; renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
-      f.appendChild(sel); return f;
-    }
-    var events = {}, evDate = {}; all.forEach(function(x){ var e = x.d.event; if(e && e.id){ var k = evKey(e); events[k] = (e.title || U.noEvent)+(e.date ? ' · '+fmtDate(e.date) : ''); evDate[k] = e.date || ''; } });
-    var archOpts = [['', U.allArch]].concat(DL.data.archetypes.map(function(a){ return [a.id, a.name+' ('+a.decks.length+')']; }));
-    var fl = el('div','dl-filters');
-    fl.appendChild(field(U.fArch, 'dlArch', archOpts, DL.arch, function(v){ DL.arch = v; }));
-    panel.appendChild(fl);
-    if(DL.event && events[DL.event]){   // viene de la pestaña Eventos: se enseña el evento filtrado y se puede quitar
-      var chip = el('div','dl-evchip'); chip.appendChild(el('span', null, U.fEvent+': '+events[DL.event]));
-      var cx = document.createElement('button'); cx.type = 'button'; cx.innerHTML = ICON_X; cx.setAttribute('aria-label', U.allEvents); cx.title = U.allEvents;
-      cx.addEventListener('click', function(){ DL.event = ''; DL.shown = 12; renderComp(); });
-      chip.appendChild(cx); panel.appendChild(chip);
-    }
-    var rows = all.filter(function(x){ return (!DL.arch || x.a.id === DL.arch) && (!DL.event || (x.d.event && evKey(x.d.event) === DL.event)); });
-    rows.sort(function(x, y){   // siempre lo más reciente primero; a igual fecha, mejor puesto
-      return String(y.d.event.date).localeCompare(String(x.d.event.date)) || ((x.d.place || 99) - (y.d.place || 99));
-    });
-    if(!rows.length){ panel.appendChild(el('p','comp-note', U.empty)); return; }
-    var list = el('div','dl-list');
-    function paint(){
-      list.innerHTML = '';
-      rows.slice(0, DL.shown).forEach(function(x){ list.appendChild(dlDeckEl(x.a, x.d, paint)); });
-      var more = panel.querySelector('.dl-more'); if(more) more.remove();
-      if(rows.length > DL.shown){
-        var b = el('button','dp-btn dl-more', U.more(rows.length - DL.shown)); b.type = 'button';
-        b.addEventListener('click', function(){ DL.shown += 12; paint(); });
-        panel.appendChild(b);
-      }
-    }
-    panel.appendChild(list); paint();
-    var foot = el('div','comp-sources'), line = el('div'); var a = document.createElement('a'); a.href = snap.source.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = snap.source.name;
-    line.appendChild(document.createTextNode(U.source+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.dataFrom+' '+fmtDate(snap.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
-  }
   /* ===== Competición con datos públicos ===== */
-  var CP = { cardsShown:20, cardQ:'', cardTypes:{}, archStyle:'', archSort:'share', archOpen:{}, eventsShown:15 };
-  function cpNeed(panel, holder, ready){
-    var U = t().cp;
-    if(holder.status === 'idle' || holder.status === 'loading'){ panel.appendChild(el('p','comp-note', U.loading)); return; }
-    if(holder.status === 'error'){
-      panel.appendChild(el('p','comp-note', U.error)); var b = el('button','dp-btn', U.retry); b.type = 'button';
-      b.addEventListener('click', function(){ holder.status = 'idle'; if(holder === ML) loadMeta(); else loadDecklists(); renderComp(); }); panel.appendChild(b); return;
-    }
-    ready();
-  }
-  function cpNeedMeta(panel, ready){
-    loadMeta();
-    cpNeed(panel, ML, function(){
-      var M = ML.data, eras = M.snapshot.eras || [M.snapshot.era], cur = M.snapshot.era, prev = eras[eras.indexOf(cur) - 1] || null;
-      var tot = function(e){ return M.archetypes.reduce(function(sum, a){ return sum + ((a.eraDecks && a.eraDecks[e]) || 0); }, 0); };
-      var P = { cur:cur, prev:prev, totCur:tot(cur), totPrev:prev ? tot(prev) : 0 };
-      P.share = function(a){ return P.totCur ? ((a.eraDecks && a.eraDecks[cur]) || a.deckCount) / P.totCur * 100 : 0; };
-      P.prevShare = function(a){ return prev && P.totPrev && a.eraDecks && a.eraDecks[prev] !== undefined ? a.eraDecks[prev] / P.totPrev * 100 : null; };
-      P.merged = Meta.mergeProfiles(M.archetypes, 'all', 'all');
-      ready(M, P);
-    });
-  }
-  function cpName(a){ return a.name.replace(/^(\w)(\w)\s/, '$1/$2 '); }
-  function cpArchPips(a){
-    var w = document.createDocumentFragment(); var full = {B:'Blue', G:'Green', R:'Red', P:'Purple', W:'White'};
-    (a.colors || []).forEach(function(l){ var p = el('span','dd-pip'); p.dataset.color = full[l]; p.title = t().colors[full[l]] || full[l]; w.appendChild(p); });
-    return w;
-  }
-  function cpHeader(panel, M, U){
-    var snap = M.snapshot, T = t().cp;
-    var w = snap.windowFrom && snap.windowTo ? fmtDate(snap.windowFrom)+' – '+fmtDate(snap.windowTo) : (snap.windowLabel || '—');
-    panel.appendChild(el('p','comp-note', T.ctx(snap.formatLabel, w, fmtDate(snap.retrievedAt.slice(0, 10)))));
-  }
-  function cpFooter(panel, url, snapDate, U){
-    var foot = el('div','comp-sources'), line = el('div'); var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Side-6';
-    line.appendChild(document.createTextNode(U.sources+': ')); line.appendChild(a); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(snapDate.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
-  }
   function cpCardRow(num, line1, line2){
     var cd = cardByNumber(num), row = el('div','ml-row'), im = document.createElement('img'); row.dataset.number = num; im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+num+'.webp';
     if(cd) im.addEventListener('click', function(){ openDetail(cd, im); }); row.appendChild(im);
     row.appendChild(el('b',null, cd ? cd.name : num)); row.appendChild(el('small',null, line1)); if(line2) row.appendChild(el('small',null, line2)); return row;
   }
-  function cpOverview(panel, M, P, U){
-    var T = t().cp; cpHeader(panel, M, U);
-    var snap = M.snapshot, sec = cSec(panel, U.tournament, U.tournamentNote(snap.era, cNum(P.totCur, 0)));
-    var list = M.archetypes.filter(function(a){ return P.share(a) > 0; }).sort(function(a, b){ return P.share(b) - P.share(a); }), max = P.share(list[0]) || 1;
-    var rows = el('div','comp-rows');
-    list.forEach(function(a, i){
-      var row = el('div','comp-row'); row.appendChild(el('div','cr-rank', String(i + 1)));
-      var nm = el('div','cr-name'); nm.appendChild(cpArchPips(a)); nm.appendChild(document.createTextNode(cpName(a))); row.appendChild(nm);
-      var bar = el('div','cr-bar'), tr = el('div','cr-track'), fill = document.createElement('i'); fill.style.width = Math.max(2, Math.round(P.share(a) / max * 100))+'%'; tr.appendChild(fill);
-      bar.appendChild(tr); bar.appendChild(el('span','cr-val', cPct(P.share(a)))); row.appendChild(bar);
-      var meta = el('div','cr-meta'); meta.appendChild(el('span',null, T.lists((a.eraDecks && a.eraDecks[P.cur]) || a.deckCount)));
-      var ps = P.prevShare(a); if(ps !== null && ((a.eraDecks[P.prev] || 0) >= 30 || (a.eraDecks[P.cur] || 0) >= 30)){ var mv = cPP(Math.round((P.share(a) - ps) * 10) / 10); if(mv) meta.appendChild(mv); }
-      meta.appendChild(cEv(Meta.evidenceLevel((a.eraDecks && a.eraDecks[P.cur]) || a.deckCount).toUpperCase(), U)); row.appendChild(meta); rows.appendChild(row);
+  /* ===== Competición: Meta y Torneos, con fichas de arquetipo y de torneo =====
+   * Temporadas: las de data/competition_events.json (listas por torneo: GD06) y GD05 de Side-6 (totales por temporada en data/meta.json y
+   * muestra de listas completas en data/decklists.json). No se mezclan entre sí.
+   * Presencia = listas publicadas del arquetipo / listas publicadas de la muestra filtrada (CompStats); nunca los inscritos.
+   * El estado (pestaña, filtros, ficha) vive en la URL: #competicion[/torneos|/arquetipo/x|/torneo/x][?s=…&c=…]. */
+  var GD_ISO = { 'Japan':'JP', 'Philippines':'PH', 'Indonesia':'ID', 'United States':'US', 'Germany':'DE', 'France':'FR', 'Spain':'ES', 'Italy':'IT', 'United Kingdom':'GB', 'Canada':'CA', 'Mexico':'MX', 'Brazil':'BR', 'Korea':'KR', 'Taiwan':'TW', 'Singapore':'SG', 'Thailand':'TH', 'Malaysia':'MY' };
+  var GD_SIDE6_SET = 'GD05', GD_MIN_TREND = 30, GD_ARCH_FIRST = 7;
+  var GD_SIZES = { s:{ sizeMax:32 }, m:{ sizeMin:33, sizeMax:64 }, l:{ sizeMin:65 } };
+  function gdNoFilters(){ return { country:'', from:'', to:'', format:'', size:'', topN:0, cov:'' }; }
+  var GD = { status:'idle', table:null, data:null, cache:{}, season:null, tab:'meta', detail:null, f:gdNoFilters(), q:'', more:false, allArch:false, listShown:12, evShown:10, open:{}, scroll:{}, tabScroll:{}, nav:0, depth:0 };
+  function loadGd(){
+    if(GD.status !== 'idle') return;
+    GD.status = 'loading';
+    Promise.all([fetch('data/competition_events.json').then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); }),
+      fetch('data/archetype_aliases.json').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })]).then(function(a){
+      var j = a[0], tb = a[1]; GD.table = tb && tb.archetypes ? { archetypes:tb.archetypes, byId:tb.archetypes.reduce(function(m, x){ m[x.id] = x.name; return m; }, {}) } : null;   // sin tabla, los arquetipos siguen agrupándose por su nombre
+      GD.data = j; GD.cache = {}; GD.status = 'ok'; if(!compPage.hidden) renderComp();
+    }).catch(function(){ GD.status = 'error'; if(!compPage.hidden) renderComp(); });
+  }
+  function gdFileSets(){
+    var last = {}; if(GD.data) GD.data.events.forEach(function(e){ if(e.set && (!last[e.set] || e.date > last[e.set])) last[e.set] = e.date; });
+    return Object.keys(last).sort(function(a, b){ return String(last[b]).localeCompare(last[a]); });
+  }
+  function gdSeasons(){ var s = gdFileSets(); return s.indexOf(GD_SIDE6_SET) >= 0 ? s : s.concat([GD_SIDE6_SET]); }
+  function gdSeason(){ var all = gdSeasons(); return all.indexOf(GD.season) >= 0 ? GD.season : all[0]; }
+  function gdIsSide6(s){ return s === GD_SIDE6_SET && gdFileSets().indexOf(s) < 0; }
+  /* decklists.json (listas completas por arquetipo) con la misma forma que el archivo de torneos */
+  function gdFromSide6(){
+    var evs = {}, results = [], src = DL.data.snapshot.source || { name:'Side-6', url:BASE_SIDE6 };
+    DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){
+      var e = d.event || {}, id = 'side6:'+(e.id || d.h);
+      if(!evs[id]) evs[id] = { id:id, date:e.date || '', name:e.title || t().dl.noEvent, venue:'', country:e.country || '', format:'', set:GD_SIDE6_SET, type:CompStats.eventType(e.title), playersTotal:null, listsPublished:null,
+        sources:[{ provider:'side6', id:e.id, url:src.url, label:src.name, primary:true }] };
+      results.push({ id:'side6:'+d.h, eventId:id, placement:d.place || null, archetype:a.name, colors:a.colors || [], set:GD_SIDE6_SET, country:e.country || '', sourceUrl:BASE_SIDE6+'/en/decklists/'+d.h+'/', cards:d.cards });
+    }); });
+    return { events:Object.keys(evs).map(function(k){ return evs[k]; }), results:results, aggregate:true, updated:(DL.data.snapshot.retrievedAt || '').slice(0, 10) };
+  }
+  function gdData(){
+    var s = gdSeason(), c = GD.cache[s];
+    if(c) return c;
+    if(gdIsSide6(s)){ if(DL.status !== 'ok') return null; c = gdFromSide6(); }
+    else {
+      var ids = {}; c = { events:GD.data.events.filter(function(e){ if(e.set !== s) return false; ids[e.id] = 1; return true; }), aggregate:false, updated:GD.data.updatedAt };
+      c.results = GD.data.results.filter(function(r){ return CompStats.originOf(r) === 'tournament' && ids[r.eventId]; });
+      c.community = GD.data.results.filter(function(r){ return CompStats.originOf(r) === 'community' && r.set === s; });   // mazos de la comunidad: nunca entran en presencia ni en cartas populares
+    }
+    c.community = c.community || [];
+    c.ev = {}; c.byEv = {};
+    c.events.forEach(function(e){ c.ev[e.id] = e; c.byEv[e.id] = []; });
+    c.results.forEach(function(r){ if(c.byEv[r.eventId]) c.byEv[r.eventId].push(r); });
+    GD.cache[s] = c; return c;
+  }
+  function gdF(){
+    var f = { set:gdSeason() }, g = GD.f;
+    ['country', 'from', 'to', 'format', 'topN'].forEach(function(k){ if(g[k]) f[k] = g[k]; });
+    if(g.cov === 'all') f.coverage = 'all';   // por defecto la presencia usa solo la muestra homogénea (cortes completos); mezclar es una decisión expresa
+    if(g.size && GD_SIZES[g.size]) Object.assign(f, GD_SIZES[g.size]);
+    return f;
+  }
+  function gdEraCounts(era){ var out = {}; ML.data.archetypes.forEach(function(a){ var n = a.eraDecks && a.eraDecks[era]; if(n) out[a.name] = n; }); return out; }
+  function gdPresence(c){ return c.aggregate ? CompStats.presenceFromCounts(gdEraCounts(ML.data.snapshot.era)) : CompStats.presence(c.results, c.events, gdF(), GD.table); }
+  function gdNum(x){ try{ return new Intl.NumberFormat(LANG === 'es' ? 'es-ES' : 'en-US').format(x); }catch(e){ return String(x); } }
+  function gdPct(x){ var s = x.toFixed(1); return LANG === 'es' ? s.replace('.', ',')+' %' : s+'%'; }
+  function gdIso(c){ return GD_ISO[c] || (/^[A-Z]{2}$/.test(c || '') ? c : ''); }
+  function gdCountry(c){ var iso = gdIso(c); if(!iso) return c || ''; try{ return new Intl.DisplayNames([LANG === 'es' ? 'es' : 'en'], { type:'region' }).of(iso) || c; }catch(e){ return c; } }
+  function gdPeriod(a, b){ return !a ? '' : a === b ? fmtDate(a) : fmtDate(a)+' – '+fmtDate(b); }
+  function gdByDate(a, b){ return String(b.date).localeCompare(a.date) || String(a.venue || a.name).localeCompare(b.venue || b.name) || a.id.localeCompare(b.id); }
+  function gdCatalogHas(n){ return !!cardByNumber(n); }
+  function gdArchColors(results, arch){
+    var tally = {}, best = null, key = CompStats.normText(arch);
+    results.forEach(function(r){ if(CompStats.normText(r.archetype || CompStats.UNCLASSIFIED) !== key || !(r.colors || []).length) return; var k = r.colors.join('/'); tally[k] = tally[k] || { n:0, c:r.colors }; tally[k].n++; });
+    Object.keys(tally).forEach(function(k){ if(!best || tally[k].n > best.n) best = tally[k]; });
+    return best ? best.c : [];
+  }
+  function gdPips(colors){
+    var w = el('span','gd-pips');
+    (colors || []).forEach(function(c){ var p = el('span','dd-pip'); p.dataset.color = c; p.title = t().colors[c] || c; w.appendChild(p); });
+    return w;
+  }
+
+  /* ---- estado en la URL ---- */
+  function gdIsHash(){ var h = location.hash; return h === '#competicion' || h.indexOf('#competicion/') === 0 || h.indexOf('#competicion?') === 0; }
+  function gdHash(){
+    var d = GD.detail, path = '#competicion', p = new URLSearchParams(), g = GD.f;
+    if(d) path += '/'+(d.type === 'arch' ? 'arquetipo' : d.type === 'compare' ? 'comparar' : 'torneo')+(d.id ? '/'+encodeURIComponent(d.id) : '');
+    else if(GD.tab === 'torneos') path += '/torneos';
+    if(d && GD.tab === 'torneos') p.set('t', 'torneos');
+    if(GD.season) p.set('s', GD.season);
+    if(g.country) p.set('c', g.country); if(g.from) p.set('from', g.from); if(g.to) p.set('to', g.to);
+    if(g.cov) p.set('cov', g.cov); if(g.format) p.set('fmt', g.format); if(g.size) p.set('size', g.size); if(g.topN) p.set('top', g.topN); if(GD.q) p.set('q', GD.q);
+    var q = p.toString(); return path+(q ? '?'+q : '');
+  }
+  function gdFromHash(){
+    var parts = location.hash.slice(1).split('?'), seg = parts[0].split('/'), p = new URLSearchParams(parts[1] || '');
+    GD.detail = seg[1] === 'arquetipo' && seg[2] ? { type:'arch', id:decodeURIComponent(seg[2]) } : seg[1] === 'torneo' && seg[2] ? { type:'event', id:decodeURIComponent(seg[2]) } : seg[1] === 'comparar' ? { type:'compare', id:seg[2] ? decodeURIComponent(seg[2]) : '' } : null;
+    GD.tab = seg[1] === 'torneos' || p.get('t') === 'torneos' ? 'torneos' : 'meta';
+    GD.season = p.get('s') || null; GD.q = p.get('q') || '';
+    GD.f = { country:p.get('c') || '', from:p.get('from') || '', to:p.get('to') || '', format:p.get('fmt') || '', size:p.get('size') || '', topN:Number(p.get('top')) || 0, cov:p.get('cov') === 'all' ? 'all' : '' };
+    if(GD.f.format || GD.f.size || GD.f.topN || GD.f.cov) GD.more = true;
+    var st = history.state || {}; GD.nav = st.gdN || 0; GD.depth = st.gdD || 0;
+  }
+  function gdSyncUrl(){ try{ history.replaceState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){} }
+  function gdGo(detail){
+    GD.scroll[location.hash] = compPage.scrollTop;
+    GD.detail = detail; GD.listShown = 12; GD.nav++; GD.depth++;
+    try{ history.pushState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){}
+    renderComp(); compPage.scrollTop = 0;
+    var h = document.querySelector('.gd-title'); if(h) h.focus({ preventScroll:true });
+  }
+  function gdBack(){
+    if(GD.depth > 0){ history.back(); return; }
+    GD.detail = null; gdSyncUrl(); renderComp(); compPage.scrollTop = 0;   // se entró directamente por un enlace a la ficha
+  }
+  function gdSetTab(tab){
+    if(GD.tab === tab) return;
+    GD.tabScroll[GD.tab] = compPage.scrollTop;
+    GD.tab = tab; compState.animate = true; compState.dir = tab === 'torneos' ? 'forward' : 'back'; gdSyncUrl(); renderComp(); compPage.scrollTop = GD.tabScroll[tab] || 0;
+  }
+
+  /* ---- filtros ---- */
+  function gdChanged(id){ GD.evShown = 10; GD.allArch = false; gdSyncUrl(); renderComp(); var again = id && document.getElementById(id); if(again) again.focus(); }
+  function gdSelect(label, id, opts, val, onChange){
+    var f = el('label','dl-field'); f.appendChild(el('span', null, label));
+    var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
+    opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(String(o[0]) === String(val)) op.selected = true; sel.appendChild(op); });
+    sel.addEventListener('change', function(){ onChange(sel.value); gdChanged(id); });
+    f.appendChild(sel); return f;
+  }
+  function gdDate(label, id, val, onChange){
+    var f = el('label','dl-field'); f.appendChild(el('span', null, label));
+    var inp = document.createElement('input'); inp.type = 'date'; inp.className = 'dl-select'; inp.id = id; inp.value = val || '';
+    inp.addEventListener('change', function(){ onChange(inp.value); gdChanged(id); });
+    f.appendChild(inp); return f;
+  }
+  function gdActive(){
+    var G = t().gd, g = GD.f, out = [];
+    if(g.country) out.push({ label:gdCountry(g.country), drop:function(){ g.country = ''; } });
+    if(g.from) out.push({ label:G.fFrom+' '+fmtDate(g.from), drop:function(){ g.from = ''; } });
+    if(g.to) out.push({ label:G.fTo+' '+fmtDate(g.to), drop:function(){ g.to = ''; } });
+    if(g.format) out.push({ label:g.format, drop:function(){ g.format = ''; } });
+    if(g.size) out.push({ label:G.size[g.size], drop:function(){ g.size = ''; } });
+    if(g.topN) out.push({ label:G.top(g.topN), drop:function(){ g.topN = 0; } });
+    if(g.cov === 'all') out.push({ label:G.covAll, drop:function(){ g.cov = ''; } });
+    if(GD.q) out.push({ label:'«'+GD.q+'»', drop:function(){ GD.q = ''; } });
+    return out;
+  }
+  function gdFilterBar(panel, c, view){
+    var G = t().gd, g = GD.f, bar = el('div','gd-fbar');
+    if(view === 'torneos'){
+      var sf = el('label','dl-field gd-nolabel gd-fsearch'); sf.appendChild(el('span', null, G.fSearch));
+      var si = document.createElement('input'); si.type = 'search'; si.className = 'dl-select'; si.id = 'gdQ'; si.value = GD.q; si.placeholder = G.searchPh; si.autocomplete = 'off';
+      si.addEventListener('input', function(){ GD.q = si.value; var pos = si.selectionStart; gdChanged('gdQ'); var again = document.getElementById('gdQ'); if(again){ try{ again.setSelectionRange(pos, pos); }catch(e){} } });
+      sf.appendChild(si); bar.appendChild(sf);
+    }
+    var cs = {}; c.events.forEach(function(e){ if(e.country) cs[e.country] = 1; });
+    var ctry = Object.keys(cs).map(function(k){ return [k, gdCountry(k)]; }).sort(function(a, b){ return a[1].localeCompare(b[1]); });
+    var fc = gdSelect(G.fCountry, 'gdCountry', [['', G.allCountries]].concat(ctry), g.country, function(v){ g.country = v; }); fc.classList.add('gd-nolabel'); bar.appendChild(fc);
+    var fmts = {}, cuts = {}, sized = false;
+    c.events.forEach(function(e){ if(e.format) fmts[e.format] = 1; if(e.listsPublished) cuts[e.listsPublished] = 1; if(e.playersTotal != null) sized = true; });
+    var showTop = view === 'meta' && Object.keys(cuts).length, showFmt = Object.keys(fmts).length, showCov = view === 'meta' && c.events.some(function(e){ return !CompStats.inMainSample(e); });
+    if(showTop || showFmt || sized || showCov){
+      var mb = el('button','dp-btn gd-more-btn', GD.more ? G.lessFilters : G.moreFilters); mb.type = 'button'; mb.id = 'gdMoreBtn'; mb.setAttribute('aria-expanded', String(!!GD.more)); mb.setAttribute('aria-controls', 'gdMore');
+      mb.addEventListener('click', function(){ GD.more = !GD.more; renderComp(); var a = document.getElementById('gdMoreBtn'); if(a) a.focus(); });
+      bar.appendChild(mb);
+    } else fc.classList.add('gd-fsearch');
+    bar.appendChild(gdDate(G.fFrom, 'gdFrom', g.from, function(v){ g.from = v; }));
+    bar.appendChild(gdDate(G.fTo, 'gdTo', g.to, function(v){ g.to = v; }));
+    panel.appendChild(bar);
+    if(GD.more && (showTop || showFmt || sized || showCov)){
+      var more = el('div','dl-filters gd-filters'); more.id = 'gdMore';
+      if(showCov) more.appendChild(gdSelect(G.fCov, 'gdCov', [['', G.covMain], ['all', G.covAll]], g.cov, function(v){ g.cov = v; }));
+      if(showFmt) more.appendChild(gdSelect(G.fFormat, 'gdFormat', [['', G.allFormats]].concat(Object.keys(fmts).sort().map(function(f){ return [f, f]; })), g.format, function(v){ g.format = v; }));
+      if(sized) more.appendChild(gdSelect(G.fSize, 'gdSize', [['', G.allSizes], ['s', G.size.s], ['m', G.size.m], ['l', G.size.l]], g.size, function(v){ g.size = v; }));
+      if(showTop) more.appendChild(gdSelect(G.fTop, 'gdTop', [[0, G.allTop]].concat(Object.keys(cuts).map(Number).sort(function(a, b){ return a - b; }).map(function(n){ return [n, G.top(n)]; })), g.topN, function(v){ g.topN = Number(v); }));
+      panel.appendChild(more);
+    }
+    var act = gdActive();
+    if(act.length){
+      var chips = el('div','gd-chips');
+      act.forEach(function(it){ chips.appendChild(removableTag(it.label, function(){ it.drop(); gdChanged(); })); });
+      var clr = el('button','dp-btn gd-clear', G.clear); clr.type = 'button'; clr.id = 'gdClear';
+      clr.addEventListener('click', function(){ GD.f = gdNoFilters(); GD.q = ''; gdChanged(); });
+      chips.appendChild(clr); panel.appendChild(chips);
+    }
+  }
+  /* «GD06 · Japón · 1 nov – 3 nov 2026 · 5 torneos · 56 listas publicadas» */
+  function gdScopeLine(c, shown, nLists){
+    var G = t().gd, cc = {}; shown.forEach(function(e){ if(e.country) cc[e.country] = 1; });
+    var names = Object.keys(cc), dates = shown.map(function(e){ return e.date; }).filter(Boolean).sort();
+    var bits = [gdSeason(), names.length === 1 ? gdCountry(names[0]) : names.length ? G.severalCountries : '', gdPeriod(dates[0], dates[dates.length - 1]), G.events(shown.length)];
+    if(nLists != null) bits.push(G.listsPub(nLists));
+    return bits.filter(Boolean).join(' · ');
+  }
+  function gdNote(panel, text, cls){ var p = el('p','comp-note'+(cls ? ' '+cls : ''), text); panel.appendChild(p); return p; }
+  function gdH(panel, text){ var h = el('h2','comp-h', text); panel.appendChild(h); return h; }
+
+  /* ---- Meta ---- */
+  function gdTrend(c){
+    if(!c.aggregate) return CompStats.compareShares({ seg:'file', counts:{} }, null);
+    var eras = ML.data.snapshot.eras || [], cur = ML.data.snapshot.era, prev = eras[eras.indexOf(cur) - 1];
+    if(!prev) return CompStats.compareShares({ seg:'side6', counts:{} }, null);
+    return CompStats.compareShares({ label:cur, seg:'side6', counts:gdEraCounts(cur) }, { label:prev, seg:'side6', counts:gdEraCounts(prev) }, GD_MIN_TREND);
+  }
+  /* «Top 8/16»: los cortes (listas publicadas por torneo) de los eventos que forman la muestra */
+  function gdCutLabel(evs){ var cuts = {}; evs.forEach(function(e){ if(e && e.listsPublished) cuts[e.listsPublished] = 1; }); var l = Object.keys(cuts).map(Number).sort(function(a, b){ return a - b; }); return l.length ? t().gd.top(l.join('/')) : ''; }
+  function gdPoints(d){ var s = (d > 0 ? '+' : d < 0 ? '−' : '')+Math.abs(d).toFixed(1); return (LANG === 'es' ? s.replace('.', ',') : s)+' pts'; }
+  function gdMetaView(panel, c){
+    var G = t().gd, p = gdPresence(c);
+    if(c.aggregate){
+      var sn = ML.data.snapshot;
+      gdNote(panel, [gdSeason(), G.side6Scope, gdPeriod(sn.windowFrom, sn.windowTo), G.listsPub(gdNum(p.n))].join(' · '), 'gd-scope');
+      gdNote(panel, G.side6NoFilters);
+    } else {
+      var ev = {}, list = CompStats.filterResults(c.results, c.events, gdF()); list.forEach(function(r){ ev[r.eventId] = c.ev[r.eventId]; });
+      gdNote(panel, gdScopeLine(c, Object.keys(ev).map(function(k){ return ev[k]; }), p.n), 'gd-scope');
+      gdFilterBar(panel, c, 'meta');
+    }
+    gdForYou(panel, c, p);
+    var sec = el('section','comp-sec'), allCov = !c.aggregate && GD.f.cov === 'all', sample = {};
+    if(!c.aggregate) CompStats.filterResults(c.results, c.events, gdF()).forEach(function(r){ sample[r.eventId] = c.ev[r.eventId]; });
+    gdH(sec, allCov ? G.shareTitleAll(gdNum(p.n)) : G.shareTitle(gdNum(p.n), GD.f.topN ? G.top(GD.f.topN) : gdCutLabel(Object.keys(sample).map(function(k){ return sample[k]; })))).classList.add('gd-share-title');
+    panel.appendChild(sec);
+    var outside = c.aggregate || allCov ? 0 : CompStats.filterEvents(c.events, Object.assign({}, gdF(), { coverage:'all' })).filter(function(e){ return !CompStats.inMainSample(e); }).length;
+    if(outside){ var on = el('div','gd-outside'); on.appendChild(el('p','comp-note', G.outsideNote(outside))); var ib = el('button','dp-btn gd-incl', G.outsideBtn); ib.type = 'button'; ib.id = 'gdIncl'; ib.addEventListener('click', function(){ GD.f.cov = 'all'; GD.more = true; gdChanged('gdIncl'); }); on.appendChild(ib); sec.appendChild(on); }
+    if(!p.n){ gdNote(sec, G.shareCaveat); gdNote(panel, G.emptyLists, 'gd-empty'); return; }
+    var rows = el('div','comp-rows gd-rows'), max = p.rows[0].pct || 1, first = GD.allArch ? p.rows : p.rows.slice(0, GD_ARCH_FIRST);
+    first.forEach(function(r, i){
+      var row = el('button','comp-row gd-arow'); row.type = 'button'; row.setAttribute('aria-label', G.archAria(r.archetype, gdPct(r.pct), gdNum(r.lists), gdNum(p.n)));
+      row.appendChild(el('span','cr-rank', String(i + 1)));
+      var nm = el('span','cr-name'); nm.appendChild(gdPips(gdArchColors(c.results, r.archetype))); nm.appendChild(document.createTextNode(r.archetype)); row.appendChild(nm);
+      var bar = el('span','cr-bar'), tr = el('span','cr-track'), fill = document.createElement('i'); fill.style.width = (r.pct / max * 100)+'%'; tr.appendChild(fill);
+      bar.appendChild(tr); bar.appendChild(el('span','cr-val', gdPct(r.pct))); row.appendChild(bar);
+      row.appendChild(el('span','cr-meta', G.nOf(gdNum(r.lists), gdNum(p.n))));
+      row.addEventListener('click', function(){ gdGo({ type:'arch', id:r.archetype }); });
+      var line = el('div','gd-arow-wrap'); line.appendChild(row); line.appendChild(gdStar(gdSeason(), r.archetype, 'rank')); rows.appendChild(line);
     });
     sec.appendChild(rows);
-    // movimientos: solo con datos suficientes en las dos ventanas
-    var sm = cSec(panel, U.movers, U.moversNote+' '+(P.prev ? T.vsPrev(P.prev)+'.' : ''));
-    var movers = M.archetypes.filter(function(a){ var ps = P.prevShare(a); return ps !== null && (a.eraDecks[P.cur] || 0) >= 30 && (a.eraDecks[P.prev] || 0) >= 30; })
-      .map(function(a){ return {a:a, d:P.share(a) - P.prevShare(a), now:P.share(a), before:P.prevShare(a)}; })
-      .filter(function(m){ return Math.abs(m.d) >= 1; }).sort(function(x, y){ return Math.abs(y.d) - Math.abs(x.d); }).slice(0, 6);
-    if(!movers.length) sm.appendChild(el('p','comp-note', T.moversNone));
-    var mrows = el('div','comp-rows');
-    movers.forEach(function(m){
-      var row = el('div','comp-row'), rk = el('div','cr-rank comp-ico'); rk.innerHTML = m.d > 0 ? ICON_UP : ICON_DOWN; row.appendChild(rk);
-      var nm = el('div','cr-name'); nm.appendChild(cpArchPips(m.a)); nm.appendChild(document.createTextNode(cpName(m.a))); nm.appendChild(el('span','comp-tag', m.d > 0 ? U.riser : U.faller)); row.appendChild(nm);
-      var bar = el('div','cr-bar'); bar.appendChild(el('span','comp-note', U.prev+' '+cPct(m.before)+' → '+cPct(m.now))); bar.appendChild(cPP(Math.round(m.d * 10) / 10)); row.appendChild(bar); mrows.appendChild(row);
-    });
-    sm.appendChild(mrows);
-    // cartas más presentes (aproximado)
-    var ss = cSec(panel, U.staples, T.stapleNote);
-    Object.keys(P.merged.cards).sort(function(a, b){ return P.merged.cards[b].adoption - P.merged.cards[a].adoption; }).slice(0, 10).forEach(function(n){
-      var c = P.merged.cards[n]; ss.appendChild(cpCardRow(n, T.adoption(cNum(c.adoption * 100), cNum(c.avgCopies, 2))));
-    });
-    cpFooter(panel, snap.source.url, snap.retrievedAt, U);
-  }
-  function cpArchetypes(panel, M, P, U){
-    var T = t().cp; cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.archNote));
-    function field(label, id, opts, val, onChange){
-      var f = el('div','dl-field');
-      var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id; sel.setAttribute('aria-label', label);
-      opts.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(o[0] === val) op.selected = true; sel.appendChild(op); });
-      sel.addEventListener('change', function(){ onChange(sel.value); renderComp(); var again = document.getElementById(id); if(again) again.focus(); });
-      f.appendChild(sel); return f;
+    if(p.rows.length > GD_ARCH_FIRST){
+      var all = el('button','dp-btn gd-all', GD.allArch ? G.showLess : G.showAll(p.rows.length)); all.type = 'button'; all.id = 'gdAll'; all.setAttribute('aria-expanded', String(!!GD.allArch));
+      all.addEventListener('click', function(){ GD.allArch = !GD.allArch; renderComp(); var a = document.getElementById('gdAll'); if(a) a.focus(); });
+      sec.appendChild(all);
     }
-    var fl = el('div','dl-filters');
-    fl.appendChild(field(T.fStyle, 'cpStyle', [['', T.allStyles], ['Aggro', T.styles.Aggro], ['Midrange', T.styles.Midrange], ['Control', T.styles.Control]], CP.archStyle, function(v){ CP.archStyle = v; }));
-    fl.appendChild(field(T.fSort, 'cpSort', [['share', T.fSort+': '+T.sortShare], ['name', T.fSort+': '+T.sortName]], CP.archSort, function(v){ CP.archSort = v; }));
-    panel.appendChild(fl);
-    var list = M.archetypes.filter(function(a){ return (!CP.archStyle || a.style === CP.archStyle) && P.share(a) > 0; });
-    list.sort(function(a, b){ return CP.archSort === 'name' ? a.name.localeCompare(b.name) : P.share(b) - P.share(a); });
-    var box = el('div','dl-list');
-    list.forEach(function(a){
-      var d = el('article','dl-deck'); d.style.setProperty('--row-c', a.colors[0] ? 'var(--c-'+({B:'blue',G:'green',R:'red',P:'purple',W:'white'}[a.colors[0]])+', var(--sky))' : 'var(--sky)');
-      var head = el('div','dl-head'); var pw = el('span'); pw.appendChild(cpArchPips(a)); head.appendChild(pw); head.appendChild(el('span','dl-name', cpName(a)));
-      head.appendChild(el('span','dl-place', cPct(P.share(a)))); d.appendChild(head);
-      var n = (a.eraDecks && a.eraDecks[P.cur]) || a.deckCount;
-      var st = el('div','dl-stats'); st.appendChild(el('span',null, T.lists(n))); st.appendChild(cEv(Meta.evidenceLevel(n).toUpperCase(), U)); d.appendChild(st);
-      var acts = el('div','dl-actions');
-      var bo = el('button','dp-btn', CP.archOpen[a.id] ? T.hideCards : T.showCards); bo.type = 'button'; bo.setAttribute('aria-expanded', String(!!CP.archOpen[a.id]));
-      bo.addEventListener('click', function(){ CP.archOpen[a.id] = !CP.archOpen[a.id]; renderComp(); }); acts.appendChild(bo);
-      var bl = el('button','dp-btn dp-btn-primary', T.seeLists); bl.type = 'button';
-      bl.addEventListener('click', function(){ DL.arch = a.id; DL.event = ''; DL.shown = 12; compState.tab = 'decklists'; compState.dir = 'back'; compState.animate = true; renderComp(); compPage.scrollTop = 0; });
-      acts.appendChild(bl); d.appendChild(acts);
-      if(CP.archOpen[a.id]){
-        var wrap = el('div','dl-cards'); wrap.appendChild(el('div','dl-type', T.topCards));
-        Object.keys(a.cards).sort(function(x, y){ return a.cards[y].adoption - a.cards[x].adoption; }).slice(0, 12).forEach(function(num){
-          wrap.appendChild(cpCardRow(num, T.adoption(cNum(a.cards[num].adoption * 100), cNum(a.cards[num].avgCopies, 2))));
-        });
-        d.appendChild(wrap);
+    gdNote(sec, G.shareCaveat);
+    /* cambios recientes: solo con periodos comparables */
+    var ch = el('section','comp-sec'), tr2 = gdTrend(c); gdH(ch, G.changes);
+    if(tr2.comparable){
+      gdNote(ch, G.changesNote(tr2.label, gdNum(tr2.n), tr2.prevLabel, gdNum(tr2.prevN)));
+      var mv = el('div','comp-rows gd-movers');
+      tr2.rows.filter(function(r){ return !r.isNew && Math.abs(r.delta) >= 0.5; }).slice(0, 5).forEach(function(r){
+        var b = el('button','comp-row gd-arow gd-mover'); b.type = 'button';
+        b.appendChild(el('span','cr-rank', r.delta > 0 ? '↑' : '↓')); b.appendChild(el('span','cr-name', r.archetype));
+        b.appendChild(el('span','cr-meta', gdPoints(r.delta)+' · '+gdPct(r.prevPct)+' → '+gdPct(r.pct)));
+        b.addEventListener('click', function(){ gdGo({ type:'arch', id:r.archetype }); }); mv.appendChild(b);
+      });
+      ch.appendChild(mv);
+    } else gdNote(ch, G.noTrend[tr2.reason] || G.noTrend.single, 'gd-notrend');
+    panel.appendChild(ch);
+    gdBuildBlock(panel, c);
+    /* torneos recientes */
+    var recent = CompStats.filterEvents(c.events, gdF()).sort(gdByDate).slice(0, 3);
+    if(recent.length){
+      var rec = el('section','comp-sec'); gdH(rec, G.recent);
+      var list2 = el('div','dl-list'); recent.forEach(function(e){ list2.appendChild(gdEventCard(e, c)); }); rec.appendChild(list2);
+      var go = el('button','dp-btn gd-all', G.allEvents); go.type = 'button'; go.id = 'gdToEvents'; go.addEventListener('click', function(){ gdSetTab('torneos'); }); rec.appendChild(go);
+      panel.appendChild(rec);
+    }
+    gdNote(panel, G.updated(fmtDate(c.aggregate ? ML.data.snapshot.dataDate : c.updated)));
+    gdAttribution(panel, c);
+  }
+
+  /* ---- Torneos ---- */
+  function gdEventTitle(e){ return e.venue || e.name; }
+  function gdEventMeta(e){
+    var name = e.venue ? e.name : '', type = e.type === 'Otro' ? '' : e.type;
+    if(type && CompStats.normText(e.name).indexOf(CompStats.normText(type)) >= 0) type = '';   // no repetir "Newtype Challenge" si ya está en el nombre
+    return [name, type, gdCountry(e.country), e.set, e.format].filter(Boolean).join(' · ');
+  }
+  function gdFacts(e, rs, c){
+    var G = t().gd, box = el('span','gd-facts');
+    function fact(value, label){ var d = el('span'); d.appendChild(el('b', null, value)); d.appendChild(document.createTextNode(' '+label)); box.appendChild(d); }
+    if(e.playersTotal != null) fact(gdNum(e.playersTotal), G.players(e.playersTotal));
+    fact(gdNum(rs.length), (c.aggregate ? G.inSample : G.published)(rs.length));
+    if(e.listsPublished && e.listsPublished === rs.length) box.appendChild(el('b', 'gd-cut', G.onlyCut(G.top(e.listsPublished))));
+    return box;
+  }
+  function gdEventCard(e, c){
+    var G = t().gd, rs = c.byEv[e.id] || [], b = el('button','dl-deck gd-event'); b.type = 'button'; b.dataset.event = e.id;
+    var line = el('span','dl-event'); line.appendChild(flagEl(gdIso(e.country))); line.appendChild(el('span','dl-etitle', gdEventTitle(e))); line.appendChild(el('span','dl-edate', fmtDate(e.date))); b.appendChild(line);
+    b.appendChild(el('span','dl-meta', gdEventMeta(e)));
+    b.appendChild(gdFacts(e, rs, c));
+    b.addEventListener('click', function(){ gdGo({ type:'event', id:e.id }); });
+    return b;
+  }
+  function gdEventsView(panel, c){
+    var G = t().gd, q = CompStats.normText(GD.q);
+    var evs = CompStats.filterEvents(c.events, gdF()).filter(function(e){ return !q || CompStats.normText(e.venue+' '+e.name+' '+(e.type || '')).indexOf(q) >= 0; }).sort(gdByDate);
+    gdNote(panel, gdScopeLine(c, evs, null), 'gd-scope');
+    if(c.aggregate) gdNote(panel, G.side6Sample);
+    gdFilterBar(panel, c, 'torneos');
+    if(!evs.length){ gdNote(panel, G.noEvents, 'gd-empty'); return; }
+    var list = el('div','dl-list gd-grid'); evs.slice(0, GD.evShown).forEach(function(e){ list.appendChild(gdEventCard(e, c)); });
+    panel.appendChild(list);
+    if(evs.length > GD.evShown){ var more = el('button','dp-btn dl-more', t().dl.more(evs.length - GD.evShown)); more.type = 'button'; more.addEventListener('click', function(){ GD.evShown += 10; renderComp(); }); panel.appendChild(more); }
+    gdAttribution(panel, c);
+  }
+
+  /* ---- fichas ---- */
+  function gdDetailHead(panel, title, colors){
+    var G = t().gd, back = el('button','dp-btn gd-back', '← '+G.back); back.type = 'button'; back.id = 'gdBack'; back.addEventListener('click', gdBack); panel.appendChild(back);
+    var h = el('h2','comp-h gd-title'); h.tabIndex = -1; if(colors && colors.length) h.appendChild(gdPips(colors)); h.appendChild(document.createTextNode(title)); panel.appendChild(h);
+  }
+  /* DigiLab exige un enlace visible a digilab.cards cuando se usan sus datos */
+  function gdAttribution(panel, c){
+    var G = t().gd, used = c.events.some(function(e){ return (e.sources || []).some(function(s){ return s.provider === 'digilab'; }); });
+    if(!used) return;
+    var box = el('div','comp-sources gd-attrib'), a = document.createElement('a'); a.href = 'https://digilab.cards'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'digilab.cards';
+    box.appendChild(document.createTextNode(G.dataBy+' ')); box.appendChild(a); panel.appendChild(box);
+  }
+  function gdSources(e){
+    var G = t().gd, box = el('div','comp-sources gd-sources');
+    (e.sources || []).forEach(function(s){
+      if(!s.url) return;
+      var line = el('div'), a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = s.label || s.provider;
+      line.appendChild(document.createTextNode((s.primary ? G.sourceMain : G.sourceAlt)+': ')); line.appendChild(a); box.appendChild(line);
+    });
+    return box;
+  }
+  /* una lista o resultado publicado. Solo con las 50 cartas verificadas se abre la ficha de lista (copiar y ver cartas) */
+  function gdResultEl(r, e, opt){
+    var G = t().gd, status = CompStats.deckStatus(r, gdCatalogHas), complete = status === 'complete', arch = r.archetype || CompStats.UNCLASSIFIED;
+    var box = el('article','gd-res'); box.dataset.result = r.id; box.dataset.status = status;
+    box.appendChild(el('span','gd-res-place', r.placement ? G.place(r.placement) : '—'));
+    var main = el('div','gd-res-main');
+    function link(text, fn, cls){ var b = el('button','gd-link'+(cls ? ' '+cls : ''), text); b.type = 'button'; b.addEventListener('click', fn); return b; }
+    if(opt.showArch){ var wa = el('div','gd-res-title'); wa.appendChild(gdPips(r.colors)); wa.appendChild(link(arch, function(){ gdGo({ type:'arch', id:arch }); })); main.appendChild(wa); }
+    if(opt.showEvent){ main.appendChild(link(gdEventTitle(e)+' · '+fmtDate(e.date), function(){ gdGo({ type:'event', id:e.id }); }, 'gd-res-ev')); }
+    main.appendChild(el('span','gd-origin', G.origin[CompStats.originOf(r)]));
+    main.appendChild(el('span', complete ? 'comp-ev high' : 'gd-st', G.status[status]));
+    box.appendChild(main);
+    if(complete){
+      var open = !!GD.open[r.id], vb = el('button','dp-btn gd-open', open ? G.hideList : G.seeList); vb.type = 'button'; vb.setAttribute('aria-expanded', String(open));
+      vb.addEventListener('click', function(){ GD.open[r.id] = !GD.open[r.id]; if(GD.open[r.id] && DL.open[r.id] === undefined) DL.open[r.id] = true; renderComp(); });
+      box.appendChild(vb);
+      if(open){
+        var a = { name:arch, colors:r.colors || [] }, d = { h:r.id, place:r.placement, src:(e.sources && e.sources[0]) ? (e.sources[0].label || e.sources[0].provider) : '', cards:r.cards, url:(r.decklistUrl || r.sourceUrl || (e.sources && e.sources[0] && e.sources[0].url) || ''), urlLabel:gdIsSide6(gdSeason()) ? undefined : G.viewSource, event:{ title:e.venue ? e.venue+' · '+e.name : e.name, date:e.date, country:gdIso(e.country) } };
+        var deck = dlDeckEl(a, d, renderComp); deck.classList.add('gd-deck'); box.appendChild(deck);
       }
-      box.appendChild(d);
-    });
-    panel.appendChild(box); cpFooter(panel, M.snapshot.source.url, M.snapshot.retrievedAt, U);
-  }
-  function cpCards(panel, M, P, U){
-    var T = t().cp, L = t(); cpHeader(panel, M, U); panel.appendChild(el('p','comp-note', T.cardsNote));
-    var fl = el('div','dl-filters');
-    var f1 = el('div','dl-field');
-    var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'dl-select'; inp.id = 'cpQ'; inp.value = CP.cardQ; inp.autocomplete = 'off'; inp.placeholder = T.cardSearch; inp.setAttribute('aria-label', T.cardSearch);
-    inp.addEventListener('input', function(){ CP.cardQ = inp.value; CP.cardsShown = 20; paint(); }); f1.appendChild(inp); fl.appendChild(f1);
-    panel.appendChild(fl);
-    /* tipo: 4 botones que se pulsan o despulsan (varios a la vez); ninguno pulsado = todos los tipos */
-    var tbox = el('div','cp-types'); tbox.setAttribute('role','group'); tbox.setAttribute('aria-label', T.cardType);
-    ['UNIT','PILOT','COMMAND','BASE'].forEach(function(ty){
-      var on = !!CP.cardTypes[ty], b = el('button','tag chip'+(on ? ' active' : ''), L.types[ty]); b.type = 'button'; b.setAttribute('aria-pressed', String(on));
-      b.addEventListener('click', function(){
-        if(CP.cardTypes[ty]) delete CP.cardTypes[ty]; else CP.cardTypes[ty] = true;
-        var now = !!CP.cardTypes[ty]; b.classList.toggle('active', now); b.setAttribute('aria-pressed', String(now));
-        CP.cardsShown = 20; paint();
-      });
-      tbox.appendChild(b);
-    });
-    panel.appendChild(tbox);
-    var users = {};     // carta -> arquetipos que la juegan en >= 20 % de sus listas
-    M.archetypes.forEach(function(a){ Object.keys(a.cards).forEach(function(n){ if(a.cards[n].adoption >= 0.2) (users[n] = users[n] || []).push(a); }); });
-    var all = Object.keys(P.merged.cards).map(function(n){ return {n:n, c:P.merged.cards[n], cd:cardByNumber(n)}; }).sort(function(a, b){ return b.c.adoption - a.c.adoption; });
-    var box = el('div'); panel.appendChild(box);
-    function paint(){
-      box.innerHTML = '';
-      var q = CP.cardQ.trim().toLowerCase();
-      var anyType = Object.keys(CP.cardTypes).length > 0;
-      var rows = all.filter(function(x){ return (!anyType || (x.cd && CP.cardTypes[x.cd.type])) && (!q || x.n.toLowerCase().indexOf(q) !== -1 || (x.cd && x.cd.name.toLowerCase().indexOf(q) !== -1)); });
-      if(!rows.length) box.appendChild(el('p','comp-note', T.noResults));
-      rows.slice(0, CP.cardsShown).forEach(function(x){
-        var us = (users[x.n] || []).slice().sort(function(a, b){ return P.share(b) - P.share(a); });
-        box.appendChild(cpCardRow(x.n, T.adoption(cNum(x.c.adoption * 100), cNum(x.c.avgCopies, 2)), T.inArchs(us.length, us.slice(0, 3).map(cpName).join(', '))));
-      });
-      if(rows.length > CP.cardsShown){
-        var b = el('button','dp-btn dl-more', T.more(rows.length - CP.cardsShown)); b.type = 'button'; b.addEventListener('click', function(){ CP.cardsShown += 20; paint(); }); box.appendChild(b);
-      }
+      var cov = CompStats.coverage(r.cards, function(n){ return COLL.qty(n); }, gdCollectionKnown());
+      if(cov.state === 'configured') main.appendChild(el('div','gd-cov gd-res-cov', G.covLine(cov.coveredCopies, cov.requiredCopies, cov.missingCopies, gdPct(cov.coveragePct))));
+      else main.appendChild(el('div','dl-meta gd-res-cov', G.buildNoCollection));
+      if(gdListUsable(r).ok){ var cb = el('button','dp-btn gd-cmp', G.compareMine); cb.type = 'button'; cb.addEventListener('click', function(){ gdGo({ type:'compare', id:r.id }); }); box.appendChild(cb); }   // recibe la identidad de ESTA lista
     }
-    paint(); cpFooter(panel, M.snapshot.source.url, M.snapshot.retrievedAt, U);
+    return box;
   }
-  function cpEvents(panel, U){
-    var T = t().cp, D = DL.data, evs = {};
-    D.archetypes.forEach(function(a){ a.decks.forEach(function(d){
-      var id = d.event && d.event.id; if(!id) return; var k = evKey(d.event);
-      var e = evs[k] || (evs[k] = {key:k, ev:d.event, title:d.event.title, date:d.event.date, decks:[]}); e.decks.push({a:a, d:d});
-    }); });
-    var list = Object.keys(evs).map(function(k){ return evs[k]; }).sort(function(a, b){ return String(b.date).localeCompare(String(a.date)) || b.decks.length - a.decks.length; });
-    panel.appendChild(el('p','comp-note', T.eventsNote));
-    var box = el('div','dl-list'); panel.appendChild(box);
-    list.slice(0, CP.eventsShown).forEach(function(e){
-      var d = el('article','dl-deck'); d.appendChild(eventLine(e.ev, T.noEventTitle));
-      d.appendChild(el('div','dl-meta', T.eventLists(e.decks.length)));
-      var top = e.decks.filter(function(x){ return x.d.place && x.d.place <= 4; }).sort(function(a, b){ return a.d.place - b.d.place; });
-      if(top.length){
-        var st = el('div','dl-stats'); st.appendChild(el('span',null, T.top+': '));
-        top.slice(0, 4).forEach(function(x){ st.appendChild(el('span',null, (LANG === 'es' ? x.d.place+'.º ' : x.d.place+'· ')+cpName(x.a))); }); d.appendChild(st);
-      }
-      var acts = el('div','dl-actions'), b = el('button','dp-btn dp-btn-primary', T.seeEventLists); b.type = 'button';
-      b.addEventListener('click', function(){ DL.event = e.key; DL.arch = ''; DL.shown = 12; compState.tab = 'decklists'; compState.dir = 'back'; compState.animate = true; renderComp(); compPage.scrollTop = 0; });
-      acts.appendChild(b); d.appendChild(acts); box.appendChild(d);
-    });
-    if(list.length > CP.eventsShown){
-      var more = el('button','dp-btn dl-more', T.more(list.length - CP.eventsShown)); more.type = 'button'; more.addEventListener('click', function(){ CP.eventsShown += 15; renderComp(); }); panel.appendChild(more);
-    }
-    var foot = el('div','comp-sources'), line = el('div'), a1 = document.createElement('a'); a1.href = D.snapshot.source.url; a1.target = '_blank'; a1.rel = 'noopener noreferrer'; a1.textContent = 'Side-6';
-    line.appendChild(document.createTextNode(U.sources+': ')); line.appendChild(a1); line.appendChild(document.createTextNode(' · '+U.retrieved+' '+fmtDate(D.snapshot.retrievedAt.slice(0, 10)))); foot.appendChild(line); panel.appendChild(foot);
+  function gdEventDetail(panel, c, id){
+    var G = t().gd, e = c.ev[id];
+    if(!e){ gdDetailHead(panel, G.notFound); gdNote(panel, G.notFoundEvent, 'gd-empty'); return; }
+    gdDetailHead(panel, gdEventTitle(e));
+    var ctx = el('div','dl-event'); ctx.appendChild(flagEl(gdIso(e.country))); ctx.appendChild(el('span','dl-etitle', gdEventMeta(e))); ctx.appendChild(el('span','dl-edate', fmtDate(e.date))); panel.appendChild(ctx);
+    var rs = (c.byEv[id] || []).slice().sort(function(a, b){ return (a.placement || 999) - (b.placement || 999) || a.id.localeCompare(b.id); });
+    panel.appendChild(gdFacts(e, rs, c));
+    if(e.playersTotal != null) gdNote(panel, G.playersNote);
+    panel.appendChild(gdSources(e));
+    var sec = el('section','comp-sec'); gdH(sec, c.aggregate ? G.sampleLists : G.positions);
+    if(c.aggregate) gdNote(sec, G.side6Sample);
+    if(!rs.some(function(r){ return CompStats.deckStatus(r, gdCatalogHas) === 'complete'; })) gdNote(sec, G.noCardsEvent);
+    var list = el('div','gd-res-list'); rs.forEach(function(r){ list.appendChild(gdResultEl(r, e, { showArch:true })); }); sec.appendChild(list); panel.appendChild(sec);
+    gdAttribution(panel, c);
   }
-  var COMP_VIEWS = {
-    decklists: dlView,
-    /* ---- Overview, Arquetipos, Cartas y Eventos: datos públicos de data/meta.json y data/decklists.json ---- */
-    overview: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpOverview(panel, M, P, U); }); },
-    archetypes: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpArchetypes(panel, M, P, U); }); },
-    cards: function(panel, D, U){ cpNeedMeta(panel, function(M, P){ cpCards(panel, M, P, U); }); },
-    events: function(panel, D, U){ loadDecklists(); cpNeed(panel, DL, function(){ cpEvents(panel, U); }); },
-    /* ---- Matchups: win rate del arquetipo elegido frente a cada rival ---- */
-    matchups: function(panel, D, U){
-      var withData = {}; D.matchups.forEach(function(m){ withData[m.a] = true; });
-      var ids = Object.keys(withData).sort(function(a,b){ return D.archetypes[a].name.localeCompare(D.archetypes[b].name); });
-      if(!compState.mu || !withData[compState.mu]) compState.mu = ids[0];
-      var wrap = el('div','comp-sel'), sel = document.createElement('select'); sel.setAttribute('aria-label', U.muPick);
-      ids.forEach(function(id){ var o = document.createElement('option'); o.value = id; o.textContent = D.archetypes[id].name; if(id === compState.mu) o.selected = true; sel.appendChild(o); });
-      sel.addEventListener('change', function(){ compState.mu = sel.value; renderComp(); }); wrap.appendChild(sel); panel.appendChild(wrap);
-      panel.appendChild(el('p','comp-note', U.muNote));
-      var list = D.matchups.filter(function(m){ return m.a === compState.mu; });
-      list.sort(function(a,b){ return (b.winRate === null ? -1 : b.winRate) - (a.winRate === null ? -1 : a.winRate); });
-      if(!list.length){ panel.appendChild(el('p','comp-note', U.muNone)); return; }
-      var rows = el('div','comp-rows');
-      list.forEach(function(m){
-        var b = D.archetypes[m.b], row = el('div','comp-row'); row.appendChild(el('div','cr-rank', 'vs'));
-        var nm = el('div','cr-name'); nm.appendChild(cPips(b)); nm.appendChild(document.createTextNode(b.name)); row.appendChild(nm);
-        var bar = el('div','cr-bar');
-        if(m.suppressed || m.winRate === null){ bar.appendChild(el('span','comp-note', U.muSupp)); bar.appendChild(cEv('INSUFFICIENT', U)); }
-        else {
-          var tr = el('div','cr-track mid'), fill = document.createElement('i'), w = Math.min(100, Math.max(0, m.winRate));
-          if(w >= 50){ fill.className = 'win'; fill.style.cssText = 'margin-left:50%;width:'+(w - 50)+'%'; } else { fill.className = 'lose'; fill.style.cssText = 'margin-left:'+w+'%;width:'+(50 - w)+'%'; }
-          tr.appendChild(fill); bar.appendChild(tr); bar.appendChild(el('span','cr-val', cPct(m.winRate)));
-        }
-        row.appendChild(bar); rows.appendChild(row);
+  function gdArchDetail(panel, c, name){
+    var G = t().gd, p = gdPresence(c), res = CompStats.resolveArchetype(name, GD.table);
+    if(res.id) name = res.name;   // un enlace con un alias o un id llega a la misma ficha
+    var key = CompStats.normText(name), row = p.rows.filter(function(r){ return CompStats.normText(r.archetype) === key; })[0];
+    var f = c.aggregate ? { set:gdSeason() } : Object.assign({}, gdF(), { coverage:'all' }); f.archetype = name; if(res.id) f.archetypeId = res.id;   // las listas del arquetipo se consultan aunque su torneo no entre en el porcentaje
+    var rs = CompStats.filterResults(c.results, c.events, f);
+    gdDetailHead(panel, row ? row.archetype : name, gdArchColors(c.results, name));
+    panel.querySelector('.gd-title').appendChild(gdStar(gdSeason(), row ? row.archetype : name, 'sheet'));
+    var act = c.aggregate ? [] : gdActive().map(function(x){ return x.label; });
+    gdNote(panel, [gdSeason()].concat(act).join(' · ')+(act.length ? '' : ' · '+G.noActive), 'gd-scope');
+    if(!row && !rs.length){ gdNote(panel, G.notInSample, 'gd-empty'); return; }
+    var box = el('section','comp-sec gd-metric');
+    if(row){ box.appendChild(el('div','comp-big', gdPct(row.pct))); box.appendChild(el('div','gd-metric-n', G.metricN(gdNum(row.lists), gdNum(p.n)))); }
+    else box.appendChild(el('p','comp-note gd-outside-arch', G.archOutside(gdNum(p.n))));
+    gdNote(box, G.shareCaveat); panel.appendChild(box);
+    /* evolución */
+    var tr = el('section','comp-sec'); gdH(tr, G.trend);
+    if(c.aggregate){
+      var eras = ML.data.snapshot.eras || [], rows = el('div','comp-rows');
+      eras.forEach(function(er){ var q = CompStats.presenceFromCounts(gdEraCounts(er)), hit = q.rows.filter(function(r){ return CompStats.normText(r.archetype) === key; })[0]; var d = el('div','comp-row gd-era'); d.appendChild(el('span','cr-rank', er)); d.appendChild(el('span','cr-name', hit ? gdPct(hit.pct) : '—')); d.appendChild(el('span','cr-meta', G.nOf(gdNum(hit ? hit.lists : 0), gdNum(q.n)))); rows.appendChild(d); });
+      tr.appendChild(rows);
+    } else gdNote(tr, G.noTrend.single, 'gd-notrend');
+    panel.appendChild(tr);
+    /* mejores resultados */
+    var placed = rs.filter(function(r){ return r.placement; }).sort(function(a, b){ return a.placement - b.placement || String(c.ev[b.eventId].date).localeCompare(c.ev[a.eventId].date) || a.id.localeCompare(b.id); });
+    if(placed.length){
+      var best = el('section','comp-sec'); gdH(best, G.best); gdNote(best, G.bestNote);
+      var bl = el('div','gd-res-list'); placed.slice(0, 5).forEach(function(r){
+        var e = c.ev[r.eventId], b = el('button','gd-best'); b.type = 'button'; b.appendChild(el('b', null, G.place(r.placement))); b.appendChild(el('span', null, gdEventTitle(e)+' · '+fmtDate(e.date)));
+        b.addEventListener('click', function(){ gdGo({ type:'event', id:e.id }); }); bl.appendChild(b);
       });
-      panel.appendChild(rows);
-      cSources(panel, D, U);
+      best.appendChild(bl); panel.appendChild(best);
     }
-  };
-  function renderComp(){
-    var L = t();
-    document.getElementById('lblCompBack').textContent = L.dpBackCatalog;
-    document.getElementById('compTitle').textContent = L.compTitle;
-    document.getElementById('compSub').textContent = L.compSub;
-    var tabs = document.getElementById('compTabs'); tabs.innerHTML = '';
-    COMP_SECTIONS.forEach(function(sec){
-      var b = el('button','comp-tab', L.compTabs[sec.id]);
-      b.type = 'button'; b.id = 'compTab-'+sec.id; b.setAttribute('role','tab');
-      b.setAttribute('aria-selected', String(sec.id === compState.tab)); b.setAttribute('aria-controls','compPanel');
-      b.tabIndex = sec.id === compState.tab ? 0 : -1;
-      b.addEventListener('click', function(){ if(compState.tab === sec.id) return; compState.dir = COMP_SECTIONS.indexOf(sec) > COMP_SECTIONS.map(function(x){ return x.id; }).indexOf(compState.tab) ? 'forward' : 'back'; compState.tab = sec.id; compState.animate = true; renderComp(); });
-      b.addEventListener('keydown', function(e){
-        var i = COMP_SECTIONS.indexOf(sec), d = e.key==='ArrowRight' ? 1 : e.key==='ArrowLeft' ? -1 : 0;
-        if(!d) return;
-        e.preventDefault(); compState.tab = COMP_SECTIONS[(i+d+COMP_SECTIONS.length)%COMP_SECTIONS.length].id; renderComp();
-        document.getElementById('compTab-'+compState.tab).focus();
-      });
-      tabs.appendChild(b);
-    });
-    var panel = document.getElementById('compPanel'); panel.innerHTML = '';
-    if(compState.animate){ compState.animate = false; enter(panel, compState.dir || 'forward'); }
-    panel.setAttribute('aria-labelledby', 'compTab-'+compState.tab);
-    var sec = COMP_SECTIONS.filter(function(x){ return x.id === compState.tab; })[0];
-    var D = compData(), view = (sec.id === 'matchups') ? (D ? COMP_VIEWS.matchups : null) : COMP_VIEWS[sec.id];
-    panel.classList.toggle('has-data', !!view);
-    if(view){
-      panel.appendChild(el('h2','comp-q', L.compQ[sec.id]));
-      view(panel, D, L.compU);
+    /* cartas populares: solo con listas de 50 cartas verificadas, con su propio denominador */
+    var inc = CompStats.inclusion(rs, c.events, {}, gdCatalogHas), cs = el('section','comp-sec'); gdH(cs, G.cardsTitle);
+    if(inc.n < CompStats.MIN_LISTS_FOR_CARDS) gdNote(cs, G.cardsPending(inc.n), 'gd-pending');
+    else {
+      gdNote(cs, G.cardsNote(inc.n));
+      var cl = el('div','gd-cards'); inc.rows.slice(0, 15).forEach(function(r){ cl.appendChild(cpCardRow(r.number, gdPct(r.pct)+' · '+G.inLists(r.lists, inc.n), G.avgCopies(r.avgCopies))); }); cs.appendChild(cl);
+    }
+    panel.appendChild(cs);
+    gdBuildBlock(panel, c, name);
+    /* listas */
+    var ls = el('section','comp-sec'); gdH(ls, c.aggregate ? G.sampleLists : G.publishedTitle(rs.length));
+    if(c.aggregate) gdNote(ls, G.side6Sample);
+    var sorted = rs.slice().sort(function(a, b){ return String(c.ev[b.eventId].date).localeCompare(c.ev[a.eventId].date) || (a.placement || 999) - (b.placement || 999) || a.id.localeCompare(b.id); });
+    var list = el('div','gd-res-list'); sorted.slice(0, GD.listShown).forEach(function(r){ list.appendChild(gdResultEl(r, c.ev[r.eventId], { showEvent:true })); }); ls.appendChild(list);
+    if(sorted.length > GD.listShown){ var more = el('button','dp-btn dl-more', t().dl.more(sorted.length - GD.listShown)); more.type = 'button'; more.addEventListener('click', function(){ GD.listShown += 12; renderComp(); }); ls.appendChild(more); }
+    panel.appendChild(ls);
+  }
+
+  /* ---- Fase 4: favoritos, novedades y lo que se puede construir con la colección ----
+   * Favoritos y fotos de novedades: solo en este dispositivo (localStorage). No van en la URL ni a la cuenta: user_preferences no tiene dónde guardarlos. */
+  var GD_ALMOST = 4, GD_STAR = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.2 6-5.5-3-5.5 3 1.2-6-4.5-4.2 6.1-.8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+  var GDF = { favs:null, err:false, closed:false, allFavs:false, build:'all', buildShown:3, miss:{}, snaps:null, firstNow:{} };
+  try{ GDF.closed = localStorage.getItem('msa_comp_foryou') === '0'; }catch(e){}
+  function gdFavs(){ if(!GDF.favs) GDF.favs = CompStats.parseFavs(lsGet('msa_comp_favs') || '[]'); return GDF.favs; }
+  function gdSaveFavs(list){ GDF.favs = list; GDF.err = false; try{ localStorage.setItem('msa_comp_favs', JSON.stringify(list)); }catch(e){ GDF.err = true; } }
+  function gdIsFav(season, name){ var id = CompStats.favId(season, name); return gdFavs().some(function(x){ return x.id === id; }); }
+  function gdToggleFav(season, name, btn, where){
+    gdSaveFavs(CompStats.toggleFav(gdFavs(), season, name, Date.now()));
+    if(typeof cloud !== 'undefined' && cloud.fsync) cloud.fsync.touch();   // con sesión se envía a la cuenta; sin sesión se queda en este dispositivo
+    /* el bloque "Para ti" crece o encoge encima del ranking: la estrella que se ha tocado no se mueve de debajo del dedo */
+    var id = CompStats.favId(season, name), before = btn.getBoundingClientRect().top;
+    renderComp();
+    var again = document.querySelector('.gd-star[data-fav="'+id.replace(/"/g, '')+'"][data-where="'+where+'"]');
+    if(again){ compPage.scrollTop += again.getBoundingClientRect().top - before; again.focus({ preventScroll:true }); }
+  }
+  function gdStar(season, name, where){
+    var G = t().gd, on = gdIsFav(season, name), b = el('button','gd-star'+(on ? ' is-on' : '')); b.type = 'button'; b.innerHTML = GD_STAR;
+    b.dataset.fav = CompStats.favId(season, name).replace(/"/g, ''); b.dataset.where = where;
+    b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', (on ? G.unfollow : G.follow)+': '+name); b.title = on ? G.unfollow : G.follow;
+    b.addEventListener('click', function(e){ e.stopPropagation(); gdToggleFav(season, name, b, where); });
+    return b;
+  }
+  /* ---- novedades ---- */
+  function gdSnaps(){
+    if(!GDF.snaps){ try{ GDF.snaps = JSON.parse(lsGet('msa_comp_seen') || '{}') || {}; }catch(e){ GDF.snaps = {}; } }
+    return GDF.snaps;
+  }
+  function gdSaveSnap(snap){
+    var all = gdSnaps(); snap.viewedAt = Date.now(); all[snap.key] = snap;
+    var keys = Object.keys(all).sort(function(a, b){ return (all[b].viewedAt || 0) - (all[a].viewedAt || 0); });
+    keys.slice(8).forEach(function(k){ delete all[k]; });   // solo los últimos contextos vistos
+    try{ localStorage.setItem('msa_comp_seen', JSON.stringify(all)); }catch(e){}
+  }
+  function gdCurrentSnap(c, f){
+    if(c.aggregate){ var ctr = gdEraCounts(ML.data.snapshot.era); return CompStats.snapshotOf(CompStats.contextKey({ set:gdSeason() }), ML.data.snapshot.dataDate, ctr); }
+    var list = CompStats.filterResults(c.results, c.events, f), counts = {}, ev = {};
+    list.forEach(function(r){ var a = r.archetype || CompStats.UNCLASSIFIED; counts[a] = (counts[a] || 0) + 1; ev[r.eventId] = 1; });
+    return CompStats.snapshotOf(CompStats.contextKey(f), c.updated, counts, Object.keys(ev), list.map(function(r){ return r.id; }));
+  }
+  function gdNews(box, c, names, quiet){
+    var G = t().gd, f = c.aggregate ? { set:gdSeason() } : gdF(), cur = gdCurrentSnap(c, f), prev = gdSnaps()[cur.key], d = CompStats.diffSnapshots(prev, cur, names);
+    if(!prev || GDF.firstNow[cur.key]){   // primera visita a este contexto: la referencia empieza aquí y el aviso se mantiene mientras dure la sesión
+      if(!prev && cur.n){ gdSaveSnap(cur); GDF.firstNow[cur.key] = true; }
+      if(!quiet) gdNote(box, G.newsFirst, 'gd-news');
       return;
     }
-    if(!sec.ready) panel.appendChild(el('span','comp-soon', L.compSoon));
-    panel.appendChild(el('h2','comp-q', L.compQ[sec.id]));
-    var ul = el('ul','comp-list');
-    L.compWill[sec.id].forEach(function(x){ ul.appendChild(el('li',null,x)); });
-    panel.appendChild(ul);
+    if(!d.changed){ if(!quiet) gdNote(box, G.newsNone, 'gd-news'); return; }
+    var w = el('div','gd-newsbox'); w.setAttribute('role','status');
+    w.appendChild(el('div','gd-news-t', c.aggregate ? G.newsLists(d.newLists) : G.newsAdded(d.newEvents, d.newLists)));
+    w.appendChild(el('div','comp-note', G.newsN(gdNum(d.prevN), gdNum(d.n))));
+    d.rows.forEach(function(r){ w.appendChild(el('div','gd-news-row', r.name+': '+gdPct(r.before)+' ('+gdNum(r.beforeLists)+'/'+gdNum(d.prevN)+') → '+gdPct(r.after)+' ('+gdNum(r.afterLists)+'/'+gdNum(d.n)+') · '+gdPoints(r.delta))); });
+    var b = el('button','dp-btn gd-seen', G.markSeen); b.type = 'button'; b.id = 'gdSeen'; b.addEventListener('click', function(){ gdSaveSnap(cur); renderComp(); }); w.appendChild(b);
+    box.appendChild(w);
   }
-  function openCompPage(){
+  /* ---- Para ti ---- */
+  function gdForYou(panel, c, p){
+    var G = t().gd, season = gdSeason(), favs = gdFavs(), mine = favs.filter(function(x){ return x.season === season; }), others = {};
+    favs.forEach(function(x){ if(x.season !== season) others[x.season] = (others[x.season] || 0) + 1; });
+    if(!favs.length){
+      var inv = el('p','comp-note gd-invite'); inv.appendChild(el('b', null, G.forYou+'. ')); inv.appendChild(document.createTextNode(G.favInvite)); panel.appendChild(inv);
+      if(GDF.err) gdNote(panel, G.favError, 'gd-error');
+      gdNews(panel, c, [], true); return;
+    }
+    var sec = el('section','comp-sec gd-foryou'), head = el('div','gd-fy-head'); head.appendChild(el('h2','comp-h', G.forYou));
+    var tg = el('button','gd-fy-toggle', GDF.closed ? G.expand : G.collapse); tg.type = 'button'; tg.id = 'gdFyToggle'; tg.setAttribute('aria-expanded', String(!GDF.closed));
+    tg.addEventListener('click', function(){ GDF.closed = !GDF.closed; try{ localStorage.setItem('msa_comp_foryou', GDF.closed ? '0' : '1'); }catch(e){} renderComp(); var a = document.getElementById('gdFyToggle'); if(a) a.focus({ preventScroll:true }); });
+    head.appendChild(tg); sec.appendChild(head); panel.appendChild(sec);
+    if(GDF.closed) return;
+    if(GDF.err) gdNote(sec, G.favError, 'gd-error');
+    if(mine.length){
+      var rows = el('div','gd-res-list'), f = c.aggregate ? { set:season } : gdF();
+      (GDF.allFavs ? mine : mine.slice(0, 3)).forEach(function(x){
+        var key = CompStats.normText(x.name), hit = p.rows.filter(function(r){ return CompStats.normText(r.archetype) === key; })[0];
+        var wrap = el('div','gd-fav'), b = el('button','gd-fav-main'); b.type = 'button';
+        var nm = el('span','gd-fav-name'); nm.appendChild(gdPips(gdArchColors(c.results, x.name))); nm.appendChild(document.createTextNode(hit ? hit.archetype : x.name)); b.appendChild(nm);
+        b.appendChild(el('span','gd-fav-num', hit ? gdPct(hit.pct)+' · '+G.nOf(gdNum(hit.lists), gdNum(p.n)) : G.favNoLists));
+        var ff = Object.assign({}, f, { archetype:x.name }), best = CompStats.filterResults(c.results, c.events, ff).filter(function(r){ return r.placement; }).sort(function(a, y){ return a.placement - y.placement || String(c.ev[y.eventId].date).localeCompare(c.ev[a.eventId].date); })[0];
+        if(best) b.appendChild(el('span','gd-fav-best', G.bestOne+': '+G.place(best.placement)+' · '+gdEventTitle(c.ev[best.eventId])+' · '+fmtDate(c.ev[best.eventId].date)));
+        if(hit){ var tr = gdTrend(c), mv = tr.comparable ? tr.rows.filter(function(r){ return CompStats.normText(r.archetype) === key; })[0] : null; if(mv && !mv.isNew) b.appendChild(el('span','gd-fav-best', gdPoints(mv.delta)+' · '+tr.prevLabel+' → '+tr.label)); }
+        b.addEventListener('click', function(){ gdGo({ type:'arch', id:hit ? hit.archetype : x.name }); });
+        wrap.appendChild(b); wrap.appendChild(gdStar(season, x.name, 'fy')); rows.appendChild(wrap);
+      });
+      sec.appendChild(rows);
+      if(mine.length > 3){ var m = el('button','dp-btn gd-all', GDF.allFavs ? G.showLess : G.showAll(mine.length)); m.type = 'button'; m.addEventListener('click', function(){ GDF.allFavs = !GDF.allFavs; renderComp(); }); sec.appendChild(m); }
+      gdNews(sec, c, mine.map(function(x){ return x.name; }));
+    } else {
+      if(favs.length) gdNote(sec, G.favNoneHere(season));
+      gdNews(sec, c, []);
+    }
+    Object.keys(others).sort().forEach(function(s){
+      var o = el('button','gd-link gd-fav-other', G.favOther(others[s], s)); o.type = 'button';
+      o.addEventListener('click', function(){ GD.season = s; GD.f = gdNoFilters(); GD.q = ''; gdSyncUrl(); renderComp(); compPage.scrollTop = 0; });
+      sec.appendChild(o);
+    });
+  }
+  /* ---- lo que se puede construir ---- */
+  function gdCollectionKnown(){ return lsGet(Collection.KEY) !== null; }   // sin clave no se ha configurado nunca; '{}' es una colección con cero copias
+  function gdLegal(r){ try{ return Legality.validateDeck(r.cards, ruleset(), cardMap()).status === 'legal'; }catch(e){ return null; } }
+  function gdBuildList(c, f){
+    var known = gdCollectionKnown(), rs = CompStats.filterResults(c.results, c.events, Object.assign({}, f, { coverage:'all' })), out = [], skipped = 0;   // una lista completa se puede construir aunque su torneo no entre en el porcentaje
+    var com = c.aggregate ? [] : CompStats.filterResults(c.community, c.events, Object.assign({}, f, { origin:'community', coverage:'all' }));
+    rs.concat(com).forEach(function(r){
+      var st = CompStats.deckStatus(r, gdCatalogHas);
+      if(st === 'pending') return;
+      if(st !== 'complete'){ skipped++; return; }
+      out.push({ r:r, cov:CompStats.coverage(r.cards, function(n){ return COLL.qty(n); }, known) });
+    });
+    var nT = out.filter(function(x){ return CompStats.originOf(x.r) === 'tournament'; }).length;
+    return { known:known, list:out, skipped:skipped, nTournament:nT, nCommunity:out.length - nT };
+  }
+  function gdBuildCard(x, c){
+    var G = t().gd, r = x.r, e = c.ev[r.eventId] || { id:'', name:'', venue:'', date:'', set:r.set, sources:[] }, cov = x.cov, id = r.id, legal = gdLegal(r), buildable = cov.missingCopies === 0 && legal === true, isCom = CompStats.originOf(r) === 'community';
+    var box = el('article','dl-deck gd-build'); box.dataset.result = id; box.style.setProperty('--row-c', r.colors && r.colors[0] ? 'var(--c-'+String(r.colors[0]).toLowerCase()+', var(--sky))' : 'var(--sky)');
+    var head = el('div','dl-head'); head.appendChild(gdPips(r.colors)); head.appendChild(el('span','dl-name', r.archetype || CompStats.UNCLASSIFIED));
+    if(r.placement) head.appendChild(el('span','dl-place', G.place(r.placement))); box.appendChild(head);
+    box.appendChild(el('div','dl-meta', isCom ? [G.origin.community, r.set].filter(Boolean).join(' · ') : [G.origin.tournament, gdEventTitle(e), fmtDate(e.date), e.set].join(' · ')));
+    box.appendChild(el('div','gd-cov', G.covLine(cov.coveredCopies, cov.requiredCopies, cov.missingCopies, gdPct(cov.coveragePct))));
+    box.appendChild(el('span', buildable ? 'comp-ev high' : legal === false ? 'comp-ev low' : 'gd-st', buildable ? G.buildable : legal === false ? G.notLegal : legal === null ? G.legalUnknown : G.legalOk));
+    var acts = el('div','dl-actions');
+    var v = el('button','dp-btn', GD.open[id] ? G.hideList : G.seeList); v.type = 'button'; v.setAttribute('aria-expanded', String(!!GD.open[id]));
+    v.addEventListener('click', function(){ GD.open[id] = !GD.open[id]; if(GD.open[id] && DL.open[id] === undefined) DL.open[id] = true; renderComp(); }); acts.appendChild(v);
+    if(cov.missingCopies > 0){
+      var mb = el('button','dp-btn gd-miss-btn', GDF.miss[id] ? G.hideMissing : G.seeMissing); mb.type = 'button'; mb.setAttribute('aria-expanded', String(!!GDF.miss[id]));
+      mb.addEventListener('click', function(){ GDF.miss[id] = !GDF.miss[id]; renderComp(); }); acts.appendChild(mb);
+    }
+    if(gdListUsable(r).ok){ var cb = el('button','dp-btn gd-cmp', G.compareMine); cb.type = 'button'; cb.addEventListener('click', function(){ gdGo({ type:'compare', id:r.id }); }); acts.appendChild(cb); }
+    box.appendChild(acts);
+    if(r.sourceUrl){ var sl = el('div','comp-sources'), a = document.createElement('a'); a.href = r.sourceUrl; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = (e.sources && e.sources[0] && (e.sources[0].label || e.sources[0].provider)) || G.viewSource; var sl1 = el('div'); sl1.appendChild(document.createTextNode(G.sourceMain+': ')); sl1.appendChild(a); sl.appendChild(sl1); box.appendChild(sl); }
+    if(GDF.miss[id] && cov.missingCopies > 0){
+      var list = el('div','gd-miss'), groups = {};
+      cov.missingByCard.forEach(function(m){ var cd = cardByNumber(m.number), ty = cd && cd.type ? cd.type : 'OTHER'; (groups[ty] = groups[ty] || []).push({ m:m, cd:cd }); });
+      ['UNIT','PILOT','COMMAND','BASE','OTHER'].forEach(function(ty){
+        if(!groups[ty]) return;
+        list.appendChild(el('div','dl-type', (t().types[ty] || ty)+' · '+groups[ty].reduce(function(s, x2){ return s + x2.m.missing; }, 0)));
+        groups[ty].sort(function(p1, p2){ return p1.m.number.localeCompare(p2.m.number); }).forEach(function(g){
+          var b = el('button','gd-miss-row'); b.type = 'button'; b.appendChild(el('b', null, '×'+g.m.missing)); b.appendChild(el('span', null, (g.cd ? g.cd.name : g.m.number)+' · '+g.m.number));
+          b.setAttribute('aria-label', G.missAria(g.m.missing, g.cd ? g.cd.name : g.m.number, g.m.number, g.m.owned));
+          if(g.cd) b.addEventListener('click', function(){ openDetail(g.cd, b); });
+          list.appendChild(b);
+        });
+      });
+      box.appendChild(list);
+    }
+    if(GD.open[id]){
+      var a2 = { name:r.archetype || CompStats.UNCLASSIFIED, colors:r.colors || [] }, d2 = { h:id, place:r.placement, src:(e.sources && e.sources[0]) ? (e.sources[0].label || e.sources[0].provider) : '', cards:r.cards, url:(r.decklistUrl || r.sourceUrl || (e.sources && e.sources[0] && e.sources[0].url) || ''), urlLabel:gdIsSide6(gdSeason()) ? undefined : G.viewSource, event:{ title:isCom ? G.origin.community : (e.venue ? e.venue+' · '+e.name : e.name), date:e.date || '', country:gdIso(e.country) } };
+      var deck = dlDeckEl(a2, d2, renderComp); deck.classList.add('gd-deck'); box.appendChild(deck);
+    }
+    return box;
+  }
+  function gdBuildBlock(panel, c, arch){
+    var G = t().gd, f = c.aggregate ? { set:gdSeason() } : gdF(); if(arch) f = Object.assign({}, f, { archetype:arch });
+    var data = gdBuildList(c, f), sec = el('section','comp-sec gd-buildsec'); gdH(sec, arch ? G.buildArchTitle : G.buildTitle); panel.appendChild(sec);
+    if(!data.list.length){ gdNote(sec, G.buildNoLists, 'gd-pending'); return; }
+    if(!data.known){
+      gdNote(sec, G.buildNoCollection, 'gd-pending');
+      var go = el('button','dp-btn dp-btn-primary gd-all', G.buildGoCollection); go.type = 'button'; go.id = 'gdGoColl'; go.addEventListener('click', function(){ closeCompPage(); openCollPage(); }); sec.appendChild(go); return;
+    }
+    gdNote(sec, data.nCommunity ? G.buildNoteSplit(data.nTournament, data.nCommunity) : G.buildNote(data.list.length));
+    if(data.skipped) gdNote(sec, G.buildSkipped(data.skipped));
+    var list = data.list.slice().sort(function(a, b){ return a.cov.missingCopies - b.cov.missingCopies || String((c.ev[b.r.eventId] || {}).date || '').localeCompare((c.ev[a.r.eventId] || {}).date || '') || a.r.id.localeCompare(b.r.id); });   // un mazo de la comunidad no tiene torneo ni fecha de torneo
+    var ready = list.filter(function(x){ return x.cov.missingCopies === 0 && gdLegal(x.r) === true; }), almost = list.filter(function(x){ return x.cov.missingCopies > 0 && x.cov.missingCopies <= GD_ALMOST; });
+    var chips = el('div','comp-sorts gd-buildchips');
+    [['all', G.buildAll(list.length)], ['ready', G.buildReady(ready.length)], ['almost', G.buildAlmost(GD_ALMOST, almost.length)]].forEach(function(o){
+      var b = el('button','comp-chip', o[1]); b.type = 'button'; b.id = 'gdBuild-'+o[0]; b.setAttribute('aria-pressed', String(GDF.build === o[0]));
+      b.addEventListener('click', function(){ GDF.build = o[0]; GDF.buildShown = 3; renderComp(); var a = document.getElementById('gdBuild-'+o[0]); if(a) a.focus({ preventScroll:true }); });
+      chips.appendChild(b);
+    });
+    sec.appendChild(chips);
+    var rows = GDF.build === 'ready' ? ready : GDF.build === 'almost' ? almost : ready.concat(list.filter(function(x){ return ready.indexOf(x) < 0; }));
+    if(!ready.length && GDF.build === 'all') gdNote(sec, G.buildClosest);
+    if(!rows.length){ gdNote(sec, GDF.build === 'ready' ? G.buildNoneReady : G.buildNoneAlmost, 'gd-empty'); return; }
+    var box = el('div','dl-list gd-grid'); rows.slice(0, GDF.buildShown).forEach(function(x){ box.appendChild(gdBuildCard(x, c)); }); sec.appendChild(box);
+    if(rows.length > GDF.buildShown){ var more = el('button','dp-btn dl-more gd-buildmore', t().dl.more(rows.length - GDF.buildShown)); more.type = 'button'; more.addEventListener('click', function(){ GDF.buildShown += 6; renderComp(); }); sec.appendChild(more); }
+    gdNote(sec, G.buildCaveat);
+  }
+
+  /* ---- Comparar una lista competitiva concreta con uno de MIS mazos, y crear una variante ----
+   * Comparación por código exacto y cantidad (CompStats.compareDecks). La colección es un cálculo aparte. La variante es SIEMPRE un mazo nuevo con cartas
+   * propias (clonadas): el original no se toca ni mientras se crea ni si el guardado falla. */
+  var GDC = { id:null, deck:'', filter:'changes', confirm:false, done:null, busy:false, error:'' };
+  function gdListUsable(r){
+    if(CompStats.deckStatus(r, gdCatalogHas) !== 'complete') return { ok:false, why:'notComplete' };
+    var lg = gdLegal(r); if(lg !== true) return { ok:false, why:lg === false ? 'illegal' : 'legalUnknown' };
+    return { ok:true };
+  }
+  function gdOwnDeckLabel(id){ var d = DECKS[id]; return (d.name || t().deckNewName)+' · '+deckTotal(d)+'/50'; }
+  function gdCreateVariant(mode, ownId, r, e){
+    var G = t().gd, own = DECKS[ownId];
+    if(!own) return { error:G.varNoDeck };
+    var cards = CompStats.cloneCards(mode === 'apply' ? r.cards : own.cards), id = null, ok = false;
+    try{
+      id = createDeck(G.varName(own.name || t().deckNewName).slice(0, 40));
+      DECKS[id].cards = cards;
+      DECKS[id].description = G.varDesc(own.name || t().deckNewName, gdEventTitle(e), fmtDate(e.date));
+      saveDecksToStorage();
+      var raw = JSON.parse(localStorage.getItem('msa_decks') || '{}');   // persistLocal no avisa si falla: se comprueba que de verdad quedó guardado
+      ok = !!(raw[id] && JSON.stringify(raw[id].cards) === JSON.stringify(cards));
+    }catch(err){ ok = false; }
+    if(!ok){ if(id && DECKS[id]) delete DECKS[id]; return { error:G.varFail }; }
+    return { id:id, name:DECKS[id].name };
+  }
+  function gdCompareView(panel, c, id){
+    var G = t().gd, L = t();
+    if(GDC.id !== id){ GDC = { id:id, deck:'', filter:'changes', confirm:false, done:null, busy:false, error:'' }; }
+    var pool = c.results.filter(function(r){ return CompStats.deckStatus(r, gdCatalogHas) === 'complete'; }).sort(function(a, b){ var ea = c.ev[a.eventId], eb = c.ev[b.eventId]; return String(eb.date).localeCompare(ea.date) || (a.placement || 999) - (b.placement || 999) || a.id.localeCompare(b.id); });
+    var r = id ? c.results.filter(function(x){ return x.id === id; })[0] : null;
+    gdDetailHead(panel, G.cmpTitle);
+    /* 1 · lista competitiva */
+    var f1 = el('label','dl-field'); f1.appendChild(el('span', null, G.cmpList));
+    var sl = document.createElement('select'); sl.className = 'dl-select'; sl.id = 'gdCmpList';
+    var o0 = document.createElement('option'); o0.value = ''; o0.textContent = G.cmpPickList; sl.appendChild(o0);
+    pool.slice(0, 60).concat(r && pool.indexOf(r) >= 60 ? [r] : []).forEach(function(x){ var e = c.ev[x.eventId], o = document.createElement('option'); o.value = x.id; o.textContent = (x.archetype || CompStats.UNCLASSIFIED)+' · '+(x.placement ? G.place(x.placement)+' · ' : '')+gdEventTitle(e)+' · '+fmtDate(e.date); if(x.id === id) o.selected = true; sl.appendChild(o); });
+    sl.addEventListener('change', function(){ GD.detail = { type:'compare', id:sl.value }; gdSyncUrl(); renderComp(); var a = document.getElementById('gdCmpList'); if(a) a.focus(); });
+    f1.appendChild(sl); panel.appendChild(f1);
+    if(!pool.length){ gdNote(panel, G.cmpNoLists, 'gd-empty'); return; }
+    if(!r){ gdNote(panel, id ? G.cmpListGone : G.cmpEmpty, 'gd-empty'); return; }
+    var e = c.ev[r.eventId], use = gdListUsable(r);
+    /* 2 · mi mazo */
+    var decks = Object.keys(DECKS).filter(function(k){ return !DECKS[k].archived; });
+    var f2 = el('label','dl-field'); f2.appendChild(el('span', null, G.cmpDeck));
+    var sd = document.createElement('select'); sd.className = 'dl-select'; sd.id = 'gdCmpDeck';
+    var d0 = document.createElement('option'); d0.value = ''; d0.textContent = G.cmpPickDeck; sd.appendChild(d0);
+    decks.forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = gdOwnDeckLabel(k); if(k === GDC.deck) o.selected = true; sd.appendChild(o); });
+    sd.addEventListener('change', function(){ GDC.deck = sd.value; GDC.confirm = false; GDC.done = null; GDC.error = ''; renderComp(); var a = document.getElementById('gdCmpDeck'); if(a) a.focus(); });
+    f2.appendChild(sd); panel.appendChild(f2);
+    /* origen de la lista */
+    var src = el('div','comp-sources gd-sources'), l1 = el('div'), bt = el('button','gd-link', gdEventTitle(e)+' · '+fmtDate(e.date)); bt.type = 'button'; bt.addEventListener('click', function(){ gdGo({ type:'event', id:e.id }); });
+    l1.appendChild(document.createTextNode(G.cmpSource+': ')); l1.appendChild(bt); src.appendChild(l1);
+    var u = r.decklistUrl || r.sourceUrl; if(u){ var l2 = el('div'), a2 = document.createElement('a'); a2.href = u; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = (e.sources && e.sources[0] && (e.sources[0].label || e.sources[0].provider)) || G.viewSource; l2.appendChild(a2); src.appendChild(l2); }
+    panel.appendChild(src);
+    if(!use.ok){ gdNote(panel, G.cmpInvalid(G.cmpWhy[use.why]), 'gd-error gd-cmp-invalid'); return; }   // sin comparar ni variante: no se simula una lista válida
+    if(!decks.length){ gdNote(panel, G.cmpNoDecks, 'gd-empty'); return; }
+    if(!GDC.deck || !DECKS[GDC.deck]){ gdNote(panel, G.cmpEmpty, 'gd-empty'); return; }
+    var own = DECKS[GDC.deck], known = gdCollectionKnown();
+    var cmp = CompStats.compareDecks(r.cards, own.cards, function(n){ return COLL.qty(n); }, known), T = cmp.totals;
+    /* resumen */
+    var sum = el('section','comp-sec gd-cmp-sum'); sum.setAttribute('aria-label', G.cmpSummary);
+    [[G.cmpMatch, T.match, 'match'], [G.cmpAdd, T.add, 'add'], [G.cmpRemove, T.remove, 'remove']].forEach(function(x){ var d = el('div','gd-cmp-k gd-cmp-'+x[2]); d.appendChild(el('b', null, String(x[1]))); d.appendChild(el('span', null, x[0])); sum.appendChild(d); });
+    var kc = el('div','gd-cmp-k gd-cmp-coll'); if(known){ kc.appendChild(el('b', null, String(T.missingInCollection))); kc.appendChild(el('span', null, G.cmpMissColl)); } else { kc.appendChild(el('b', null, '—')); kc.appendChild(el('span', null, G.cmpCollUnknownShort)); }
+    sum.appendChild(kc); panel.appendChild(sum);
+    gdNote(panel, T.own === 50 ? G.cmpBalanced : G.cmpNot50(T.own));
+    if(!known){ var nc = el('div','gd-cmp-nocoll'); nc.appendChild(el('p','comp-note', G.cmpNoColl)); var gc = el('button','dp-btn', G.cmpGoColl); gc.type = 'button'; gc.id = 'gdCmpColl'; gc.addEventListener('click', function(){ closeCompPage(); openCollPage(); }); nc.appendChild(gc); panel.appendChild(nc); }
+    gdNote(panel, G.cmpNote);
+    /* filtro y lista detallada */
+    var chips = el('div','comp-sorts gd-buildchips');
+    [['changes', G.cmpFilter.changes, T.add + T.remove], ['add', G.cmpFilter.add, T.add], ['remove', G.cmpFilter.remove, T.remove], ['match', G.cmpFilter.match, T.match], ['all', G.cmpFilter.all, null]].forEach(function(o){
+      var b = el('button','comp-chip', o[1]+(o[2] != null ? ' ('+o[2]+')' : '')); b.type = 'button'; b.id = 'gdCmpF-'+o[0]; b.setAttribute('aria-pressed', String(GDC.filter === o[0]));
+      b.addEventListener('click', function(){ GDC.filter = o[0]; renderComp(); var a = document.getElementById('gdCmpF-'+o[0]); if(a) a.focus({ preventScroll:true }); }); chips.appendChild(b);
+    });
+    panel.appendChild(chips);
+    var rows = cmp.rows.filter(function(x){ return GDC.filter === 'all' || (GDC.filter === 'changes' ? (x.add || x.remove) : x[GDC.filter]); })
+      .sort(function(a, b){ return (b.add - a.add) || (b.remove - a.remove) || a.number.localeCompare(b.number); });
+    var list = el('div','gd-cmp-rows'); list.id = 'gdCmpRows';
+    if(!rows.length) gdNote(list, G.cmpNoRows, 'gd-empty');
+    rows.forEach(function(x){
+      var cd = cardByNumber(x.number), b = el('button','gd-cmprow'); b.type = 'button'; b.dataset.number = x.number;
+      var im = document.createElement('img'); im.loading = 'lazy'; im.alt = ''; im.src = 'images/'+x.number+'.webp'; b.appendChild(im);
+      var tx = el('span','gd-cmprow-tx'); tx.appendChild(el('b', null, cd ? cd.name : x.number)); tx.appendChild(el('small', null, x.number));
+      tx.appendChild(el('span','gd-cmprow-q', G.cmpRowOwn(x.own, x.target)));
+      tx.appendChild(el('span','gd-cmprow-c'+(known && x.missingInCollection ? ' is-miss' : ''), known ? G.cmpColl(x.owned, x.missingInCollection) : G.cmpCollUnknown));
+      b.appendChild(tx);
+      var dl = x.add ? '+'+x.add : x.remove ? '−'+x.remove : '='; var chip = el('span','gd-cmprow-d '+(x.add ? 'is-add' : x.remove ? 'is-remove' : 'is-match'), dl);
+      chip.setAttribute('aria-label', x.add ? G.cmpAddAria(x.add) : x.remove ? G.cmpRemoveAria(x.remove) : G.cmpMatchAria); b.appendChild(chip);
+      if(cd) b.addEventListener('click', function(){ openDetail(cd, im); });
+      list.appendChild(b);
+    });
+    panel.appendChild(list);
+    /* variante */
+    var vs = el('section','comp-sec gd-variant'); gdH(vs, G.varTitle); gdNote(vs, G.varNote);
+    if(GDC.error) gdNote(vs, GDC.error, 'gd-error').setAttribute('role', 'alert');
+    if(GDC.done){
+      var st = el('div','dl-msg gd-var-done'); st.setAttribute('role','status'); st.appendChild(document.createTextNode(G.varCreated(GDC.done.name)));
+      var go = el('button','dp-btn dp-btn-primary', G.varOpen); go.type = 'button'; go.id = 'gdVarOpen';
+      go.addEventListener('click', function(){ var vid = GDC.done.id; closeCompPage(); openDecksPage(); openDeckDetail(vid); }); st.appendChild(go); vs.appendChild(st);
+    }
+    function make(mode){
+      if(GDC.busy) return; GDC.busy = true;
+      var res = gdCreateVariant(mode, GDC.deck, r, e);
+      GDC.busy = false; GDC.confirm = false;
+      if(res.error){ GDC.error = res.error; GDC.done = null; } else { GDC.error = ''; GDC.done = res; }
+      renderComp(); var a = document.getElementById(res.error ? 'gdVarCopy' : 'gdVarOpen'); if(a) a.focus({ preventScroll:true });
+    }
+    var bc = el('button','dp-btn', G.varCopy); bc.type = 'button'; bc.id = 'gdVarCopy'; bc.addEventListener('click', function(){ make('copy'); });
+    var ba = el('button','dp-btn dp-btn-primary', G.varApply); ba.type = 'button'; ba.id = 'gdVarApply'; ba.setAttribute('aria-expanded', String(!!GDC.confirm));
+    ba.addEventListener('click', function(){ GDC.confirm = !GDC.confirm; GDC.done = null; GDC.error = ''; renderComp(); var a = document.getElementById(GDC.confirm ? 'gdVarYes' : 'gdVarApply'); if(a) a.focus({ preventScroll:true }); });
+    var acts = el('div','dl-actions'); acts.appendChild(bc); acts.appendChild(ba); vs.appendChild(acts);
+    vs.appendChild(el('p','comp-note', G.varCopyHint)); vs.appendChild(el('p','comp-note', G.varApplyHint));
+    if(GDC.confirm){
+      var cf = el('div','gd-var-confirm'); cf.setAttribute('role','group'); cf.appendChild(el('p','dl-msg', G.varConfirmText(own.name || t().deckNewName)));
+      var yes = el('button','dp-btn dp-btn-primary', G.varConfirm); yes.type = 'button'; yes.id = 'gdVarYes'; yes.addEventListener('click', function(){ make('apply'); });
+      var no = el('button','dp-btn', G.varCancel); no.type = 'button'; no.id = 'gdVarNo'; no.addEventListener('click', function(){ GDC.confirm = false; renderComp(); var a = document.getElementById('gdVarApply'); if(a) a.focus({ preventScroll:true }); });
+      var row = el('div','dl-actions'); row.appendChild(yes); row.appendChild(no); cf.appendChild(row); vs.appendChild(cf);
+    }
+    panel.appendChild(vs);
+  }
+  /* ---- marco de la página ---- */
+  function gdSeasonBar(){
+    var box = document.getElementById('compScope'), seasons = gdSeasons(), cur = gdSeason(), G = t().gd;
+    box.innerHTML = ''; box.hidden = !!GD.detail || seasons.length < 2; box.setAttribute('aria-label', G.seasonLabel);
+    seasons.forEach(function(s){
+      var b = el('button','comp-chip', s); b.type = 'button'; b.id = 'gdSeason-'+s; b.setAttribute('aria-pressed', String(s === cur));
+      b.addEventListener('click', function(){
+        if(s === cur) return;
+        GD.season = s; GD.f = gdNoFilters(); GD.q = ''; GD.evShown = 10; GD.allArch = false; gdSyncUrl(); renderComp(); compPage.scrollTop = 0;
+        var a = document.getElementById('gdSeason-'+s); if(a) a.focus();
+      });
+      box.appendChild(b);
+    });
+  }
+  function gdTabs(){
+    var box = document.getElementById('compTabs'), G = t().gd, ids = ['meta', 'torneos']; box.innerHTML = ''; box.hidden = !!GD.detail;
+    ids.forEach(function(id, i){
+      var b = el('button','comp-tab', G.tabs[id]); b.type = 'button'; b.id = 'compTab-'+id; b.setAttribute('role','tab');
+      b.setAttribute('aria-selected', String(id === GD.tab)); b.setAttribute('aria-controls','compPanel'); b.tabIndex = id === GD.tab ? 0 : -1;
+      b.addEventListener('click', function(){ gdSetTab(id); });
+      b.addEventListener('keydown', function(e){
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if(!d) return;
+        e.preventDefault(); gdSetTab(ids[(i + d + ids.length) % ids.length]); document.getElementById('compTab-'+GD.tab).focus();
+      });
+      box.appendChild(b);
+    });
+  }
+  function gdRetry(panel, text, fn){ gdNote(panel, text, 'gd-error'); var b = el('button','dp-btn gd-retry', t().gd.retry); b.type = 'button'; b.addEventListener('click', fn); panel.appendChild(b); }
+  function renderComp(){
+    var L = t(), G = L.gd, top = compPage.scrollTop, panel = document.getElementById('compPanel');
+    loadGd();
+    document.getElementById('lblCompBack').textContent = L.dpBackCatalog;
+    document.getElementById('compTitle').textContent = L.compTitle;
+    document.getElementById('compSub').hidden = true;
+    document.getElementById('compBack').hidden = !!GD.detail;
+    panel.innerHTML = ''; panel.classList.add('has-data');
+    if(compState.animate){ compState.animate = false; enter(panel, compState.dir || 'forward'); }
+    if(GD.status === 'idle' || GD.status === 'loading'){
+      document.getElementById('compScope').hidden = true; document.getElementById('compTabs').innerHTML = '';
+      gdNote(panel, G.loading, 'gd-loading'); return;
+    }
+    var side6 = gdIsSide6(gdSeason());
+    gdSeasonBar(); gdTabs();
+    panel.setAttribute('aria-labelledby', 'compTab-'+GD.tab);
+    if(GD.status === 'error') gdRetry(panel, G.errorFile, function(){ GD.status = 'idle'; renderComp(); });
+    if(side6){
+      loadDecklists(); if(!GD.detail || GD.detail.type === 'arch' || GD.tab === 'meta') loadMeta();
+      var needMeta = !GD.detail ? GD.tab === 'meta' : GD.detail.type === 'arch';
+      if(DL.status === 'error' || (needMeta && ML.status === 'error')){
+        gdRetry(panel, G.errorSide6, function(){ if(DL.status === 'error') DL.status = 'idle'; if(ML.status === 'error') ML.status = 'idle'; renderComp(); }); return;
+      }
+      if(DL.status !== 'ok' || (needMeta && ML.status !== 'ok')){ gdNote(panel, G.loading, 'gd-loading'); return; }
+    }
+    var c = gdData();
+    if(GD.detail){ if(GD.detail.type === 'arch') gdArchDetail(panel, c, GD.detail.id); else if(GD.detail.type === 'compare') gdCompareView(panel, c, GD.detail.id); else gdEventDetail(panel, c, GD.detail.id); }
+    else if(GD.tab === 'torneos') gdEventsView(panel, c);
+    else gdMetaView(panel, c);
+    compPage.scrollTop = top;   // repintar no debe mover la página
+  }
+  function openCompPage(fromUrl){
     closeSidebar(); closeDeckView();
+    if(fromUrl !== true) GD.detail = null;
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
     renderComp();
     compPage.hidden = false; compPage.scrollTop = 0; enter(compPage, 'forward');
-    try{ if(location.hash !== '#competicion') history.pushState(null, '', '#competicion'); }catch(e){}
+    try{ if(!gdIsHash()){ GD.nav = 1; GD.depth = 0; history.pushState({ gdN:1, gdD:0 }, '', gdHash()); } }catch(e){}
     updateTabbar();
   }
   function closeCompPage(fromHistory){
     if(typeof closeCollPage === 'function') closeCollPage(fromHistory ? true : 'sibling');   // pantallas hermanas: abrir una cierra la otra (si viene del historial, no se toca la dirección)
     if(compPage.hidden) return;
     compPage.hidden = true; backToCatalog();
-    try{ if(!fromHistory && location.hash === '#competicion') history.back(); }catch(e){}
+    try{ if(!fromHistory && gdIsHash()){ if(GD.nav > 0) history.go(-GD.nav); else history.replaceState(null, '', location.pathname+location.search); } }catch(e){}   // se sale de todas las fichas abiertas de una vez
     updateTabbar();
   }
   document.getElementById('compBack').addEventListener('click', function(){ closeCompPage(); closeDeckView(); });
   window.addEventListener('popstate', function(){
-    if(location.hash === '#competicion'){ if(compPage.hidden) openCompPage(); } else closeCompPage(true);
+    if(gdIsHash()){
+      gdFromHash();
+      if(compPage.hidden) openCompPage(true); else renderComp();
+      compPage.scrollTop = GD.scroll[location.hash] || 0;   // al volver de una ficha, la página sigue donde estaba
+    } else closeCompPage(true);
   });
-  if(location.hash === '#competicion') openCompPage();
+  if(gdIsHash()){ gdFromHash(); openCompPage(true); }
 
   /* ===== MI COLECCIÓN (pantalla) =====
    * Gestor de cartas: cabecera con recuento, buscador, orden, filtros (el mismo constructor que el catálogo, aplicado a tus cartas),

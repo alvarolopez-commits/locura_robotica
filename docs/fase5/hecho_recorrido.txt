@@ -1,0 +1,58 @@
+﻿
+== 390 px ==
+  PASS en modo construcción hay barra del mazo y «Hecho» aún no se ve (la ventana del mazo está cerrada)
+  PASS al abrir la ventana del mazo en modo construcción aparece «Hecho»
+  PASS «Hecho»: mide al menos 44×44, nada lo tapa, cabe en pantalla y no queda bajo la navegación inferior
+  PASS «Hecho»: nombre accesible claro y entra en el orden de tabulación
+  PASS sin desbordamiento horizontal con «Hecho» visible
+  PASS con el teclado (Enter) sale del modo construcción: sin barra, sin marca guardada y la ventana se cierra
+  PASS no se pierde nada: el mazo guardado es idéntico (cartas, nombre, fecha)
+  PASS se anuncia a lectores de pantalla, sin prometer guardado en la nube
+  PASS al volver a abrir el mazo «Hecho» ya no está
+  PASS tras recargar sigue fuera del modo construcción y el mazo intacto
+
+== 360 px ==
+  PASS en modo construcción hay barra del mazo y «Hecho» aún no se ve (la ventana del mazo está cerrada)
+  PASS al abrir la ventana del mazo en modo construcción aparece «Hecho»
+  PASS «Hecho»: mide al menos 44×44, nada lo tapa, cabe en pantalla y no queda bajo la navegación inferior
+  PASS «Hecho»: nombre accesible claro y entra en el orden de tabulación
+  PASS sin desbordamiento horizontal con «Hecho» visible
+  PASS con el teclado (Enter) sale del modo construcción: sin barra, sin marca guardada y la ventana se cierra
+  PASS no se pierde nada: el mazo guardado es idéntico (cartas, nombre, fecha)
+  PASS se anuncia a lectores de pantalla, sin prometer guardado en la nube
+  PASS al volver a abrir el mazo «Hecho» ya no está
+  PASS tras recargar sigue fuera del modo construcción y el mazo intacto
+
+== 430 px ==
+  PASS en modo construcción hay barra del mazo y «Hecho» aún no se ve (la ventana del mazo está cerrada)
+  PASS al abrir la ventana del mazo en modo construcción aparece «Hecho»
+  PASS «Hecho»: mide al menos 44×44, nada lo tapa, cabe en pantalla y no queda bajo la navegación inferior
+  PASS «Hecho»: nombre accesible claro y entra en el orden de tabulación
+  PASS sin desbordamiento horizontal con «Hecho» visible
+  PASS con el teclado (Enter) sale del modo construcción: sin barra, sin marca guardada y la ventana se cierra
+  PASS no se pierde nada: el mazo guardado es idéntico (cartas, nombre, fecha)
+  PASS se anuncia a lectores de pantalla, sin prometer guardado en la nube
+  PASS al volver a abrir el mazo «Hecho» ya no está
+  PASS tras recargar sigue fuera del modo construcción y el mazo intacto
+
+== 1440 px ==
+  PASS en modo construcción hay barra del mazo y «Hecho» aún no se ve (la ventana del mazo está cerrada)
+  PASS al abrir la ventana del mazo en modo construcción aparece «Hecho»
+  PASS «Hecho»: mide al menos 44×44, nada lo tapa, cabe en pantalla y no queda bajo la navegación inferior
+  PASS «Hecho»: nombre accesible claro y entra en el orden de tabulación
+  PASS sin desbordamiento horizontal con «Hecho» visible
+  PASS con el teclado (Enter) sale del modo construcción: sin barra, sin marca guardada y la ventana se cierra
+  PASS no se pierde nada: el mazo guardado es idéntico (cartas, nombre, fecha)
+  PASS se anuncia a lectores de pantalla, sin prometer guardado en la nube
+  PASS al volver a abrir el mazo «Hecho» ya no está
+  PASS tras recargar sigue fuera del modo construcción y el mazo intacto
+
+== volver a entrar y editar, y sincronización pendiente ==
+  PASS fuera del modo construcción, «Hecho» no se ofrece
+  PASS sin conexión se edita igual: la carta añadida queda en el mazo local (50 cartas)
+  PASS «Hecho» con la sincronización pendiente: sale, y los cambios locales siguen intactos
+  PASS no promete haberlo guardado en la cuenta: el servidor aún tiene 49 y el mazo local 50
+  PASS al volver la conexión, lo pendiente sube solo y el servidor llega a 50 cartas
+  PASS sin errores de consola
+
+46 pasan · 0 fallan

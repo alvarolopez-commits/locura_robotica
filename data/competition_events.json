@@ -1,0 +1,1191 @@
+{
+ "version": 1,
+ "updatedAt": "2026-11-04",
+ "methodology": "Presencia = listas publicadas del arquetipo / listas publicadas de la muestra filtrada. No son todos los inscritos, ni tasa de victorias.",
+ "events": [
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "date": "2026-11-03",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "カードラボ所沢店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 32,
+   "listsPublished": 8,
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía.",
+   "sources": [
+    {
+     "provider": "metasheep",
+     "id": "93be0c0b-8078-499f-82c2-a1be439251ed",
+     "url": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+     "label": "MetaSheep / Bandai TCG+D JP",
+     "primary": true
+    }
+   ]
+  },
+  {
+   "id": "windecks:01M6G9R42V9CAP5B5H33SFXZ8T",
+   "date": "2026-11-03",
+   "name": "Newtype Challenge",
+   "venue": "コーギーアール本店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 16,
+   "listsPublished": null,
+   "dataQuality": "single_deck",
+   "notes": "",
+   "sources": [
+    {
+     "provider": "windecks",
+     "id": "01M6G9R42V9CAP5B5H33SFXZ8T",
+     "url": "https://gcg-win-decks.jp/season/GD06/event/01M6G9R42V9CAP5B5H33SFXZ8T/deck/01M6G9R42TD8FAWCRGWM8Z3RRN",
+     "label": "WinDecks",
+     "primary": true
+    }
+   ]
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "date": "2026-11-02",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "チェルモサード",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 64,
+   "listsPublished": 16,
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía.",
+   "sources": [
+    {
+     "provider": "metasheep",
+     "id": "1d1279ac-4e23-4c7f-9730-08197763c673",
+     "url": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+     "label": "MetaSheep / Bandai TCG+D JP",
+     "primary": true
+    }
+   ]
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "date": "2026-11-02",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "Japan TCG Center 吉祥寺駅北口店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 64,
+   "listsPublished": 16,
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía.",
+   "sources": [
+    {
+     "provider": "metasheep",
+     "id": "3bb418c8-32c8-4dee-8f25-d97e378ac551",
+     "url": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+     "label": "MetaSheep / Bandai TCG+D JP",
+     "primary": true
+    }
+   ]
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "date": "2026-11-02",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "トレカダンジョン",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 32,
+   "listsPublished": 8,
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía.",
+   "sources": [
+    {
+     "provider": "metasheep",
+     "id": "74c672c1-c1d8-479c-934f-695e3fcbb0df",
+     "url": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+     "label": "MetaSheep / Bandai TCG+D JP",
+     "primary": true
+    }
+   ]
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "date": "2026-11-01",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "マスターズギルド",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Newtype Challenge",
+   "playersTotal": 32,
+   "listsPublished": 8,
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía.",
+   "sources": [
+    {
+     "provider": "metasheep",
+     "id": "2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+     "url": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+     "label": "MetaSheep / Bandai TCG+D JP",
+     "primary": true
+    }
+   ]
+  }
+ ],
+ "results": [
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:1",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 1,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:2",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 2,
+   "archetype": "SF IBO",
+   "archetypeId": "sf-ibo",
+   "archetypeOriginal": "SF IBO",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:3",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 3,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:4",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 4,
+   "archetype": "Kshatriya Banshee",
+   "archetypeId": "kshatriya-banshee",
+   "archetypeOriginal": "Kshatriya Banshee",
+   "colors": [
+    "Red",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:5",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 5,
+   "archetype": "SF Blockers",
+   "archetypeId": "sf-blockers",
+   "archetypeOriginal": "SF Blockers",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:6",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 6,
+   "archetype": "SF Blockers",
+   "archetypeId": "sf-blockers",
+   "archetypeOriginal": "SF Blockers",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:7",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 7,
+   "archetype": "Marine Aggro",
+   "archetypeId": "marine-aggro",
+   "archetypeOriginal": "Marine Aggro",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:8",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 8,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:9",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 9,
+   "archetype": "SF Blockers",
+   "archetypeId": "sf-blockers",
+   "archetypeOriginal": "SF Blockers",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:10",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 10,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:11",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 11,
+   "archetype": "LM Unicorn",
+   "archetypeId": "lm-unicorn",
+   "archetypeOriginal": "LM Unicorn",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:12",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 12,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:13",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 13,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:14",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 14,
+   "archetype": "EFF Banshee",
+   "archetypeId": "eff-banshee",
+   "archetypeOriginal": "EFF Banshee",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:15",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 15,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:16",
+   "eventId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 16,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:1",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 1,
+   "archetype": "Justice Aerial Control",
+   "archetypeId": "justice-aerial-control",
+   "archetypeOriginal": "Justice Aerial Control",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:2",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 2,
+   "archetype": "Kshatriya Banshee",
+   "archetypeId": "kshatriya-banshee",
+   "archetypeOriginal": "Kshatriya Banshee",
+   "colors": [
+    "Red",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:3",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 3,
+   "archetype": "EFF Banshee",
+   "archetypeId": "eff-banshee",
+   "archetypeOriginal": "EFF Banshee",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:4",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 4,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:5",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 5,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:6",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 6,
+   "archetype": "Justice Aerial Control",
+   "archetypeId": "justice-aerial-control",
+   "archetypeOriginal": "Justice Aerial Control",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:7",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 7,
+   "archetype": "EFF Banshee",
+   "archetypeId": "eff-banshee",
+   "archetypeOriginal": "EFF Banshee",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a:position:8",
+   "eventId": "metasheep:2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "placement": 8,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/2a6e0c28-bfe9-4820-a270-7011b70d6f9a",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:1",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 1,
+   "archetype": "Academy Control",
+   "archetypeId": "academy-control",
+   "archetypeOriginal": "Academy Control",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:2",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 2,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:3",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 3,
+   "archetype": "SF Blockers",
+   "archetypeId": "sf-blockers",
+   "archetypeOriginal": "SF Blockers",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:4",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 4,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:5",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 5,
+   "archetype": "Nu Aggro",
+   "archetypeId": "nu-aggro",
+   "archetypeOriginal": "Nu Aggro",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:6",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 6,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:7",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 7,
+   "archetype": "Kshatriya Banshee",
+   "archetypeId": "kshatriya-banshee",
+   "archetypeOriginal": "Kshatriya Banshee",
+   "colors": [
+    "Red",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:8",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 8,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:9",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 9,
+   "archetype": "Aggro Orb",
+   "archetypeId": "aggro-orb",
+   "archetypeOriginal": "Aggro Orb",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:10",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 10,
+   "archetype": "SF Blockers",
+   "archetypeId": "sf-blockers",
+   "archetypeOriginal": "SF Blockers",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:11",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 11,
+   "archetype": "SF IBO",
+   "archetypeId": "sf-ibo",
+   "archetypeOriginal": "SF IBO",
+   "colors": [
+    "Blue",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:12",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 12,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:13",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 13,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:14",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 14,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:15",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 15,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:16",
+   "eventId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 16,
+   "archetype": "Aggro Orb",
+   "archetypeId": "aggro-orb",
+   "archetypeOriginal": "Aggro Orb",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:1",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 1,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:2",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 2,
+   "archetype": "Nu Aggro",
+   "archetypeId": "nu-aggro",
+   "archetypeOriginal": "Nu Aggro",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:3",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 3,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:4",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 4,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:5",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 5,
+   "archetype": "SF League Militaire",
+   "archetypeId": "sf-league-militaire",
+   "archetypeOriginal": "SF League Militaire",
+   "colors": [
+    "Blue",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:6",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 6,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:7",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 7,
+   "archetype": "BG OYW",
+   "archetypeId": "bg-oyw",
+   "archetypeOriginal": "BG OYW",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df:position:8",
+   "eventId": "metasheep:74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "placement": 8,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/74c672c1-c1d8-479c-934f-695e3fcbb0df",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:1",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 1,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:2",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 2,
+   "archetype": "Kshatriya Banshee",
+   "archetypeId": "kshatriya-banshee",
+   "archetypeOriginal": "Kshatriya Banshee",
+   "colors": [
+    "Red",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:3",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 3,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:4",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 4,
+   "archetype": "Nu Aggro",
+   "archetypeId": "nu-aggro",
+   "archetypeOriginal": "Nu Aggro",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:5",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 5,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:6",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 6,
+   "archetype": "Nu Aggro",
+   "archetypeId": "nu-aggro",
+   "archetypeOriginal": "Nu Aggro",
+   "colors": [
+    "Blue",
+    "Green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:7",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 7,
+   "archetype": "Char IBO",
+   "archetypeId": "char-ibo",
+   "archetypeOriginal": "Char IBO",
+   "colors": [
+    "Green",
+    "Purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed:position:8",
+   "eventId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 8,
+   "archetype": "Mobile Fighter",
+   "archetypeId": "mobile-fighter",
+   "archetypeOriginal": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "origin": "tournament",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/93be0c0b-8078-499f-82c2-a1be439251ed",
+   "decklistUrl": null,
+   "cards": null
+  },
+  {
+   "id": "windecks:01M6G9R42TD8FAWCRGWM8Z3RRN",
+   "eventId": "windecks:01M6G9R42V9CAP5B5H33SFXZ8T",
+   "placement": 1,
+   "archetype": "Kshatriya + Strike Freedom Gundam",
+   "archetypeId": "kshatriya-strike-freedom-gundam",
+   "archetypeOriginal": "Kshatriya + Strike Freedom Gundam",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "",
+   "origin": "tournament",
+   "sourceUrl": "",
+   "decklistUrl": "https://gcg-win-decks.jp/season/GD06/event/01M6G9R42V9CAP5B5H33SFXZ8T/deck/01M6G9R42TD8FAWCRGWM8Z3RRN",
+   "cards": {
+    "GD05-111": 4,
+    "GD01-128": 2,
+    "ST03-013": 4,
+    "GD03-101": 4,
+    "GD04-101": 4,
+    "GD01-093": 4,
+    "GD05-110": 3,
+    "GD03-109": 4,
+    "GD05-081": 2,
+    "GD01-100": 4,
+    "GD03-110": 1,
+    "GD04-109": 3,
+    "GD01-044": 4,
+    "GD04-110": 2,
+    "GD01-003": 3,
+    "GD05-002": 2
+   }
+  }
+ ],
+ "review": []
+}

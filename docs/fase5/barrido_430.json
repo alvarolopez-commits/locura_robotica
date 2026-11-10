@@ -1,0 +1,187 @@
+[
+ {
+  "pantalla": "Catálogo",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button#bbName.bb-namebtn visible 163.4x43.8 pulsable 81x38",
+   "button.tag.chip visible 67.1x40.0 pulsable 68x40",
+   "button.tag.chip visible 75.4x40.0 pulsable 76x40",
+   "button.tag.chip visible 68.1x40.0 pulsable 70x40",
+   "button.tag.chip visible 91.1x40.0 pulsable 81x40",
+   "button.tag.chip visible 86.9x40.0 pulsable 81x40"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 168,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Detalle de carta",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 178,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Colección",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 219,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Mis mazos",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button.tag.chip visible 78.3x40.0 pulsable 79x40",
+   "button.tag.chip visible 105.5x40.0 pulsable 81x40"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 182,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Detalle de mazo",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button.dv-pick.is-on visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-plus visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-del visible 32.0x32.0 pulsable 42x42",
+   "button.dv-pick.is-on visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-plus visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-del visible 32.0x32.0 pulsable 42x42",
+   "button.dv-pick.is-on visible 32.0x32.0 pulsable 42x24",
+   "button.dv-sbtn visible 32.0x32.0 pulsable 42x24",
+   "button.dv-sbtn.dv-plus visible 32.0x32.0 pulsable 42x24",
+   "button.dv-sbtn.dv-del visible 32.0x32.0 pulsable 42x24"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 260,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Constructor (ventana del mazo)",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button.dv-pick.is-on visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-plus visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-del visible 32.0x32.0 pulsable 42x42",
+   "button.dv-pick.is-on visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-plus visible 32.0x32.0 pulsable 42x42",
+   "button.dv-sbtn.dv-del visible 32.0x32.0 pulsable 42x42",
+   "button.dv-open visible 310.0x62.0 pulsable 81x36"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 263,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Comparador (mazo frente al meta)",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button.tag.chip visible 130.5x40.0 pulsable 81x40",
+   "button.tag.chip visible 127.0x40.0 pulsable 81x40",
+   "button.tag.chip visible 158.1x40.0 pulsable 81x40",
+   "button.tag.chip visible 129.3x40.0 pulsable 81x40",
+   "button.ml-cand visible 402.0x65.8 pulsable 81x35"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 181,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Meta + Para ti",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [
+   "button.comp-row.gd-arow visible 358.0x68.6 pulsable 81x39",
+   "button.gd-star visible 44.0x44.0 pulsable 44x26"
+  ],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 206,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Torneos",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 185,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Ficha de arquetipo",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 189,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ },
+ {
+  "pantalla": "Ficha de torneo",
+  "ancho": 430,
+  "overflow": false,
+  "scrollW": 430,
+  "pequenos": [],
+  "sinNombre": [],
+  "sinAlt": 0,
+  "controles": 179,
+  "errores": [],
+  "respuestasMalas": [],
+  "repetidos": []
+ }
+]

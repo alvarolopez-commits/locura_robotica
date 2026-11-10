@@ -1,0 +1,106 @@
+{
+ "version": 1,
+ "note": "Tabla explicita y revisable de identidades de arquetipo. Un nombre solo recibe identidad por coincidencia EXACTA con name o aliases; nunca por parecido ni por colores. aliases vacios = cada nombre es su propia identidad (nada fusionado). Para fusionar dos nombres hace falta comprobarlo con la fuente y anadir el alias a mano.",
+ "archetypes": [
+  {
+   "id": "academy-control",
+   "name": "Academy Control",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "aggro-orb",
+   "name": "Aggro Orb",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "bg-oyw",
+   "name": "BG OYW",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "char-ibo",
+   "name": "Char IBO",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "eff-banshee",
+   "name": "EFF Banshee",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "justice-aerial-control",
+   "name": "Justice Aerial Control",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "kshatriya-banshee",
+   "name": "Kshatriya Banshee",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "kshatriya-strike-freedom-gundam",
+   "name": "Kshatriya + Strike Freedom Gundam",
+   "aliases": [],
+   "source": "windecks"
+  },
+  {
+   "id": "lm-unicorn",
+   "name": "LM Unicorn",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "marine-aggro",
+   "name": "Marine Aggro",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "mobile-fighter",
+   "name": "Mobile Fighter",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "nu-aggro",
+   "name": "Nu Aggro",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "sf-blockers",
+   "name": "SF Blockers",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "sf-ibo",
+   "name": "SF IBO",
+   "aliases": [],
+   "source": "metasheep"
+  },
+  {
+   "id": "sf-league-militaire",
+   "name": "SF League Militaire",
+   "aliases": [],
+   "source": "metasheep"
+  }
+ ],
+ "pendingReview": [
+  {
+   "ids": [
+    "kshatriya-banshee",
+    "kshatriya-strike-freedom-gundam"
+   ],
+   "reason": "Posible relacion entre los nombres de la fuente con Kshatriya (MetaSheep: Kshatriya Banshee; WinDecks: Kshatriya + Strike Freedom Gundam). NO se han fusionado: falta comprobacion externa y decision expresa del dueno.",
+   "decision": "pendiente"
+  }
+ ]
+}

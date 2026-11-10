@@ -3,7 +3,7 @@
 (function (root, factory) { if (typeof module === 'object' && module.exports) module.exports = factory(); else root.FakeSupabase = factory(); })(typeof self !== 'undefined' ? self : this, function () {
 'use strict';
 function makeServer() {
-  const S = { decks: [], cards: [], prefs: {}, collections: {}, noCollectionTable: false, seq: 0, calls: [], offline: false, authFail: false };
+  const S = { decks: [], cards: [], prefs: {}, collections: {}, favorites: {}, noCollectionTable: false, noFavoritesTable: false, seq: 0, calls: [], offline: false, authFail: false };
   const uuid = () => { S.seq++; const h = String(S.seq).padStart(12, '0'); return '00000000-0000-4000-8000-' + h; };
   const mainCount = (id) => S.cards.filter((c) => c.deck_id === id && c.board === 'main').reduce((s, c) => s + c.quantity, 0);
   const touchStatus = (d) => { d.status = mainCount(d.id) >= 50 ? 'complete' : 'draft'; d.revision++; d.updated_at = new Date(1700000000000 + S.seq * 1000 + d.revision).toISOString(); };
@@ -36,6 +36,9 @@ function makeServer() {
           } else if (table === 'user_collection') {
             if (S.noCollectionTable) out = { data: null, error: err('PGRST205', 'Could not find the table', 404) };
             else { const row = S.collections[userId]; out = { data: row ? [{ cards: row.cards, revision: row.revision }] : [], error: null }; }
+          } else if (table === 'user_archetype_favorites') {
+            if (S.noFavoritesTable) out = { data: null, error: err('PGRST205', 'Could not find the table', 404) };
+            else { const row = S.favorites[userId]; out = { data: row ? [{ favorites: row.favorites, revision: row.revision }] : [], error: null }; }
           } else if (table === 'user_preferences') {
             if (st.op === 'upsert') { if (st.payload.user_id !== userId) out = { data: null, error: err('42501', 'rls') }; else { S.prefs[userId] = st.payload.active_deck_id; out = { data: null, error: null }; } }
             else out = { data: S.prefs[userId] !== undefined ? [{ active_deck_id: S.prefs[userId] }] : [], error: null };
@@ -75,6 +78,13 @@ function makeServer() {
             const cur = S.collections[userId] ? S.collections[userId].revision : 0;
             if (a.p_expected_revision != null && a.p_expected_revision !== cur) return resolve({ data: null, error: err('PT409', 'revision_conflict', 409) });
             S.collections[userId] = { cards: JSON.parse(JSON.stringify(a.p_cards || {})), revision: cur + 1 };
+            return resolve({ data: [{ new_revision: cur + 1, saved_at: new Date(1700000000000 + S.seq * 1000).toISOString() }], error: null });
+          }
+          if (name === 'save_favorites') {
+            if (S.noFavoritesTable) return resolve({ data: null, error: err('PGRST202', 'function not found', 404) });
+            const cur = S.favorites[userId] ? S.favorites[userId].revision : 0;
+            if (a.p_expected_revision != null && a.p_expected_revision !== cur) return resolve({ data: null, error: err('PT409', 'revision_conflict', 409) });
+            S.favorites[userId] = { favorites: JSON.parse(JSON.stringify(a.p_favorites || [])), revision: cur + 1 };
             return resolve({ data: [{ new_revision: cur + 1, saved_at: new Date(1700000000000 + S.seq * 1000).toISOString() }], error: null });
           }
           resolve({ data: null, error: err('42883', 'función desconocida ' + name) });

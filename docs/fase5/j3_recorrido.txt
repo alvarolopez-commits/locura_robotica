@@ -1,0 +1,60 @@
+﻿
+== datos de partida ==
+  PASS la lista es completa, legal según el motor y distinta del mazo propio
+
+== J3 · ficha de torneo → comparar ==
+  PASS la ficha del torneo ofrece "Comparar mi mazo" en la lista completa
+  PASS abre la comparación DE ESA LISTA (identidad estable en la URL, sin nombre de arquetipo)
+  PASS la lista queda seleccionada y se pide elegir uno de mis mazos (no se compara por defecto con uno al azar)
+  PASS se enseña la fuente de la lista, con enlace al original
+  PASS resumen exacto: 49 coinciden (50 − la 1 que falta) · 1 por añadir · 1 por retirar · 3 faltan en la colección
+  PASS con mazos de 50 cartas lo que se añade es lo que se retira, y lo explica
+  PASS "Cambios": solo 2 filas, con cantidad y código exactos
+  PASS la colección es un cálculo aparte: GD03-110 hay que añadirla al mazo y YA la tengo (no falta)
+  PASS "Todo": las 16 cartas de la lista
+  PASS GD05-111: no cambia en el mazo (=) pero me faltan 1 en la colección (tengo 3 de 4)
+  PASS GD04-110: no está en mi colección: faltan 2
+  PASS "Coinciden": 15 códigos
+  PASS tocar una carta abre su ficha
+  PASS la comparación no cambia ningún mazo ni la colección
+  PASS accesible: sin desbordamiento horizontal a 390 px y cada fila con nombre accesible
+
+== crear variante: copia editable de mi mazo ==
+  PASS se crea un mazo NUEVO con id distinto y nombre claro, y se avisa
+  PASS la copia lleva exactamente mis cartas y es independiente (cambiarla no toca el original)
+  PASS el ORIGINAL queda idéntico (cartas, nombre y fecha de modificación)
+  PASS cada toque crea exactamente una variante
+
+== crear variante con la lista aplicada (pide confirmar) ==
+  PASS no crea nada hasta confirmar: muestra qué va a pasar
+  PASS cancelar no crea nada
+  PASS confirmado: mazo nuevo con las 50 cartas de la lista, distinto del original
+  PASS el original sigue idéntico tras todo
+  PASS tras recargar, las variantes persisten y el original sigue idéntico
+  (J3: 13 acciones desde la ficha del torneo hasta la variante guardada)
+
+== fallo de guardado: no se declara creada ni se toca el original ==
+  PASS avisa del fallo con un mensaje claro y no dice "creada"
+  PASS el almacenamiento sigue con solo los 2 mazos originales, idénticos
+  PASS y tras recargar no aparece ninguna variante fantasma
+
+== colección sin configurar, listas no válidas y entrada sin lista ==
+  PASS colección SIN configurar: no se inventan cifras (—) y se ofrece configurarla
+  PASS las filas dicen "Colección sin configurar", no "faltan"
+  PASS una lista SIN composición no se puede comparar: explica el motivo y no ofrece comparar ni variante
+  PASS entrando sin lista (p. ej. desde Mis mazos) se pide elegirla de forma explícita
+  PASS al elegir lista y mazo compara, y la URL pasa a identificar la lista
+  PASS sin mazos propios, la app crea uno vacío: se compara con él y se dice que no tiene 50 cartas (todo por añadir)
+
+== atrás, anchos y consola ==
+  PASS "atrás" desde la comparación vuelve a la ficha del torneo
+  PASS y otra vez a Torneos
+  PASS 360: sin desbordamiento horizontal y filas legibles
+  PASS 360: botones y selectores de al menos 44 px de alto
+  PASS 430: sin desbordamiento horizontal y filas legibles
+  PASS 430: botones y selectores de al menos 44 px de alto
+  PASS 1440: sin desbordamiento horizontal y filas legibles
+  PASS 1440: botones y selectores de al menos 44 px de alto
+  PASS sin errores de consola
+
+43 pasan · 0 fallan

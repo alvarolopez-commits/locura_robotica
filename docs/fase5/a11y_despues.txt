@@ -1,0 +1,9 @@
+﻿  PASS 390/es: el buscador principal tiene nombre accesible (Buscar carta)
+  PASS 390/en: el buscador principal tiene nombre accesible (Search card)
+  PASS 1440/es: el buscador principal tiene nombre accesible (Buscar carta)
+  PASS 1440/en: el buscador principal tiene nombre accesible (Search card)
+  PASS hay insignias de regla en el catálogo con un mazo de prueba
+  PASS las insignias de regla se pulsan en al menos 44 px de alto (se ven de 28)
+  PASS sin errores de consola
+
+7 pasan · 0 fallan

@@ -65,10 +65,10 @@ for (const W of [390, 1280]) {
   const dp = await fam('#dpName');
   check('el nombre del mazo abierto (campo editable) usa Inter', esInter(dp) && +dp.peso >= 600, dp);
 
-  // Competición > Listas: nombre del arquetipo y texto de apoyo
+  // Competición > Meta: nombre del arquetipo y texto de apoyo
   await send('Page.navigate', { url: 'http://localhost:8766/#competicion' }); await sleep(400); await send('Page.reload'); await sleep(4500);
-  const nm = await fam('.dl-deck .dl-name'), nota = await fam('.comp-note');
-  check('el nombre del arquetipo en Listas usa Inter', esInter(nm) && +nm.peso >= 600, nm);
+  const nm = await fam('.gd-arow .cr-name'), nota = await fam('.comp-note');
+  check('el nombre del arquetipo en Meta usa Inter', esInter(nm) && +nm.peso >= 600, nm);
   check('las notas de apoyo usan Inter', esInter(nota), nota);
   check('el título "COMPETICIÓN" sigue como título', esTitulo(await fam('#compTitle')), await fam('#compTitle'));
   check('sin errores de consola', errs.length === 0, errs);

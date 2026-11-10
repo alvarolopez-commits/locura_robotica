@@ -1,0 +1,21 @@
+﻿
+== J2 · Catálogo → carta → mazo → contador 50/50 → persistencia ==
+  PASS al abrir, el contador marca 0 / 50
+  PASS 3 toques en "+" de la primera carta: 3 copias y 3 / 50
+  PASS el mazo activo (creado solo) guarda esas 3 copias con el código correcto
+  PASS quitar una: 2 copias y 2 / 50
+  PASS el límite de 4 copias por carta se respeta: el "+" se desactiva en la cuarta
+  PASS tras recargar, las 4 copias y el contador persisten
+  (J2: 7 toques desde el catálogo hasta tener la carta en el mazo guardado: 1 por copia; el guardado es automático, sin botón)
+
+== J6 · recuperación: recarga, atrás y fallo de datos ==
+  PASS recargar en mitad de una ficha vuelve a la misma ficha con sus filtros (n = 40)
+  PASS "atrás" del navegador desde la ficha vuelve a Meta con el filtro Top 8 (n = 40)
+  PASS "adelante" reabre la ficha
+  PASS de la ficha de un torneo, "atrás" vuelve a Torneos
+  PASS si los datos fallan (503): mensaje claro con "Reintentar", sin pantalla en blanco y la otra temporada sigue usable
+  PASS al volver los datos, "Reintentar" recupera GD06 sin recargar ni duplicar nada
+  PASS el fallo de datos y la recuperación no tocaron los mazos guardados (mismos ids, nombre y cartas)
+  PASS sin errores de consola
+
+14 pasan · 0 fallan

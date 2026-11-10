@@ -1,0 +1,117 @@
+{
+ "snapshotDate": "2026-11-04",
+ "tournaments": [
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "date": "2026-11-02",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "チェルモサード",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 64,
+   "listsPublished": 16,
+   "sourceProvider": "MetaSheep / Bandai TCG+D JP",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía."
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "date": "2026-11-02",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "Japan TCG Center 吉祥寺駅北口店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 64,
+   "listsPublished": 16,
+   "sourceProvider": "MetaSheep / Bandai TCG+D JP",
+   "sourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "dataQuality": "top_cut_only",
+   "notes": "Las posiciones y arquetipos se extrajeron de los resultados publicados. Composición de 50 cartas pendiente de importación; no usar como mazo jugable todavía."
+  }
+ ],
+ "results": [
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:1",
+   "tournamentId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 1,
+   "player": "Nombre de prueba 1",
+   "archetype": "BG OYW",
+   "colors": [
+    "blue",
+    "green"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null,
+   "decklistStatus": "pending_exact_card_import",
+   "eligibleForArchetypeShare": true,
+   "eligibleForCardInclusion": false,
+   "eligibleForWinRate": false
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673:position:2",
+   "tournamentId": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "placement": 2,
+   "player": "Nombre de prueba 2",
+   "archetype": "SF IBO",
+   "colors": [
+    "blue",
+    "purple"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://metasheep.gg/gundam/tournaments/1d1279ac-4e23-4c7f-9730-08197763c673",
+   "decklistUrl": null,
+   "cards": null,
+   "decklistStatus": "pending_exact_card_import",
+   "eligibleForArchetypeShare": true,
+   "eligibleForCardInclusion": false,
+   "eligibleForWinRate": false
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:1",
+   "tournamentId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 1,
+   "player": "Nombre de prueba 3",
+   "archetype": "Academy Control",
+   "colors": [
+    "red",
+    "white"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null,
+   "decklistStatus": "pending_exact_card_import",
+   "eligibleForArchetypeShare": true,
+   "eligibleForCardInclusion": false,
+   "eligibleForWinRate": false
+  },
+  {
+   "id": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551:position:2",
+   "tournamentId": "metasheep:3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "placement": 2,
+   "player": "Nombre de prueba 4",
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "red",
+    "white"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://metasheep.gg/gundam/tournaments/3bb418c8-32c8-4dee-8f25-d97e378ac551",
+   "decklistUrl": null,
+   "cards": null,
+   "decklistStatus": "pending_exact_card_import",
+   "eligibleForArchetypeShare": true,
+   "eligibleForCardInclusion": false,
+   "eligibleForWinRate": false
+  }
+ ]
+}

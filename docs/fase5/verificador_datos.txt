@@ -1,0 +1,20 @@
+﻿  OK    ids de evento únicos
+  OK    ids de lista únicos
+  OK    ninguna lista de torneo apunta a un evento inexistente
+  OK    conteos: 6 eventos, 57 resultados
+  OK    cobertura: 5 eventos top_cut_only y 1 single_deck
+  OK    privacidad: solo campos permitidos y ningún nombre de jugador
+  OK    muestra principal GD06: n = 56 en 5 eventos
+  OK    Mobile Fighter = 16/56 = 28,6 %
+  OK    con coverage "all" (mezcla) n = 57 y solo si se pide
+  OK    los 6 eventos y los 57 resultados siguen consultables
+  OK    listas completas verificadas: 1
+  OK    lista windecks:01M6G9R42TD8FAWCRGWM8Z3RRN: 50 cartas, 16 códigos en el catálogo
+  OK    lista windecks:01M6G9R42TD8FAWCRGWM8Z3RRN: legal a fecha del torneo (2026-11-03)
+  OK    cartas populares: n = 1 < mínimo 10 (no se publican porcentajes)
+  OK    taxonomía: todos los resultados tienen archetypeId y archetypeOriginal, sin cambiar archetype
+  OK    taxonomía: ids únicos en la tabla
+  OK    taxonomía: Kshatriya Banshee y Kshatriya + Strike Freedom Gundam NO están fusionados
+  OK    taxonomía: ningún alias apunta a dos arquetipos
+
+18 correctas · 0 con problemas

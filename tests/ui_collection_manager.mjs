@@ -79,7 +79,8 @@ for (const W of [1440, 390, 820]) {
   const tg = await ev(`(function(){ var c=document.querySelector('#collGrid .cc'), g=c.querySelector('.coll-tag'), r=g.getBoundingClientRect(), i=c.querySelector('.card-imgwrap').getBoundingClientRect(); return { txt:g.textContent.trim(), dentro:r.top>=i.top && r.right<=i.right+1 && r.width>0, fila:!!c.querySelector('.coll-row'), todas:document.querySelectorAll('#collGrid .cc').length===document.querySelectorAll('#collGrid .coll-tag').length } })()`);
   check('cada carta lleva la etiqueta TENGO sobre la imagen, sin fila "En mi colección"', tg.txt === 'TENGO' && tg.dentro && !tg.fila && tg.todas, tg);
   check('hay controles − y + por carta', first.plus && first.minus, first);
-  check('el orden por defecto es por código', eq(await cards(), [...OWNED].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
+  const RANGO = { UNIT: 0, PILOT: 1, COMMAND: 2, BASE: 3 }, rango = (n) => (RANGO[cat[n].type] != null ? RANGO[cat[n].type] : 9);
+  check('el orden por defecto es por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por código', eq(await cards(), [...OWNED].sort((a, b) => rango(a) - rango(b) || a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
 
   // ---- barra de búsqueda / orden / añadir
   check('hay buscador y botón "Añadir cartas"', (await vis('#collSearch')) && !(await ev(`!!document.getElementById('collSort')`)) && (await vis('#collAdd')) && /Añadir cartas/.test(await text('#collAdd')), null);
