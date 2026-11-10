@@ -1,0 +1,311 @@
+{
+ "snapshotDate": "2026-11-10",
+ "tournaments": [
+  {
+   "id": "demo:top8",
+   "date": "2026-11-08",
+   "name": "Torneo de prueba Top 8",
+   "venue": "Tienda de prueba A",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 32,
+   "listsPublished": 8,
+   "dataQuality": "top_cut_only",
+   "sourceUrl": "https://example.test/torneo/top8",
+   "sourceProvider": "Demo",
+   "type": "Newtype Challenge"
+  },
+  {
+   "id": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "date": "2026-11-03",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "カードラボ所沢店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 32,
+   "listsPublished": 8,
+   "dataQuality": "top_cut_only",
+   "sourceUrl": "https://example.test/espejo/metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "sourceProvider": "Demo (espejo)",
+   "type": "Newtype Challenge"
+  },
+  {
+   "id": "demo:ambiguo",
+   "date": "2026-11-03",
+   "name": "Newtype Challenge 2026 MISSION 5",
+   "venue": "カードラボ所沢店",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 20,
+   "listsPublished": null,
+   "dataQuality": null,
+   "sourceUrl": "https://example.test/torneo/ambiguo",
+   "sourceProvider": "Demo"
+  },
+  {
+   "id": "demo:solo",
+   "date": "2026-11-09",
+   "name": "Torneo de prueba un mazo",
+   "venue": "Tienda de prueba B",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "playersTotal": 12,
+   "listsPublished": 1,
+   "dataQuality": null,
+   "sourceUrl": "https://example.test/torneo/solo",
+   "sourceProvider": "Demo",
+   "type": "Newtype Challenge"
+  },
+  {
+   "id": "metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "date": "2026-11-02",
+   "name": "Torneo Regional de prueba",
+   "venue": "チェルモサード",
+   "country": "Japan",
+   "format": "Standard",
+   "set": "GD06",
+   "type": "Regional",
+   "playersTotal": 64,
+   "listsPublished": 16,
+   "dataQuality": "top_cut_only",
+   "sourceUrl": "https://example.test/espejo/metasheep:1d1279ac-4e23-4c7f-9730-08197763c673",
+   "sourceProvider": "Demo (tipo distinto)"
+  }
+ ],
+ "results": [
+  {
+   "id": "demo:top8:1",
+   "tournamentId": "demo:top8",
+   "placement": 1,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8",
+   "player": "Persona Ficticia",
+   "profileUrl": "https://example.test/profile/nombre-real",
+   "email": "persona@example.test"
+  },
+  {
+   "id": "demo:top8:2",
+   "tournamentId": "demo:top8",
+   "placement": 2,
+   "archetype": "Char IBO",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:3",
+   "tournamentId": "demo:top8",
+   "placement": 3,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:4",
+   "tournamentId": "demo:top8",
+   "placement": 4,
+   "archetype": "Zeon",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:5",
+   "tournamentId": "demo:top8",
+   "placement": 5,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:6",
+   "tournamentId": "demo:top8",
+   "placement": 6,
+   "archetype": "Char IBO",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:7",
+   "tournamentId": "demo:top8",
+   "placement": 7,
+   "archetype": "Zeon",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:8",
+   "tournamentId": "demo:top8",
+   "placement": 8,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8"
+  },
+  {
+   "id": "demo:top8:9",
+   "tournamentId": "demo:top8",
+   "placement": 9,
+   "archetype": "Zeon",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8",
+   "decklistUrl": "https://example.test/player/nombre-real/mazo/1"
+  },
+  {
+   "id": "demo:top8:10",
+   "tournamentId": "demo:top8",
+   "placement": 10,
+   "archetype": "Char IBO",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/top8",
+   "cards": {
+    "GD01-030": 3,
+    "GD01-100": 1,
+    "GD01-126": 2,
+    "GD03-001": 1,
+    "GD05-015": 4,
+    "GD05-017": 4,
+    "GD05-019": 4,
+    "GD05-020": 1,
+    "GD05-027": 4,
+    "GD05-029": 4,
+    "GD05-085": 4,
+    "GD05-105": 1,
+    "GD05-125": 3,
+    "ST01-001": 4,
+    "ST01-010": 4,
+    "ST03-007": 1,
+    "ST03-008": 4
+   }
+  },
+  {
+   "id": "demo:enr:1",
+   "tournamentId": "metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "placement": 1,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "White"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/espejo/metasheep:93be0c0b-8078-499f-82c2-a1be439251ed",
+   "cards": {
+    "GD01-030": 4,
+    "GD01-100": 1,
+    "GD01-126": 2,
+    "GD03-001": 1,
+    "GD05-015": 4,
+    "GD05-017": 4,
+    "GD05-019": 4,
+    "GD05-020": 1,
+    "GD05-027": 4,
+    "GD05-029": 4,
+    "GD05-085": 4,
+    "GD05-105": 1,
+    "GD05-125": 3,
+    "ST01-001": 4,
+    "ST01-010": 4,
+    "ST03-007": 1,
+    "ST03-008": 4
+   }
+  },
+  {
+   "id": "demo:ambiguo:1",
+   "tournamentId": "demo:ambiguo",
+   "placement": 1,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/ambiguo"
+  },
+  {
+   "id": "demo:solo:1",
+   "tournamentId": "demo:solo",
+   "placement": 1,
+   "archetype": "Mobile Fighter",
+   "colors": [
+    "Red",
+    "Blue"
+   ],
+   "set": "GD06",
+   "country": "Japan",
+   "resultSourceUrl": "https://example.test/torneo/solo",
+   "cards": {
+    "GD01-030": 4,
+    "GD01-100": 1,
+    "GD01-126": 2,
+    "GD03-001": 1,
+    "GD05-015": 4,
+    "GD05-017": 4,
+    "GD05-019": 4,
+    "GD05-020": 1,
+    "GD05-027": 4,
+    "GD05-029": 4,
+    "GD05-085": 4,
+    "GD05-105": 1,
+    "GD05-125": 3,
+    "ST01-001": 4,
+    "ST01-010": 4,
+    "ST03-007": 1,
+    "ST03-008": 4
+   }
+  }
+ ]
+}

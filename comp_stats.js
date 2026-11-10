@@ -31,7 +31,7 @@
     } catch (e) { return String(u).trim().toLowerCase().replace(/\/+$/, ''); }
   }
   function sourcesOf(e) { return Array.isArray(e.sources) ? e.sources : []; }
-  function source(s, primary) { var o = { provider: s.provider, id: s.id, url: s.url }; if (s.label) o.label = s.label; o.primary = !!primary; return o; }   // orden de claves fijo: el archivo no cambia al reimportar
+  function source(s, primary) { var o = { provider: s.provider, id: s.id, url: s.url }; if (s.label) o.label = s.label; if (s.retrievedAt) o.retrievedAt = s.retrievedAt; if (s.license) o.license = s.license; if (s.canonicalUrl) o.canonicalUrl = s.canonicalUrl; o.primary = !!primary; return o; }   // orden de claves fijo: el archivo no cambia al reimportar
 
   /* ---------- eventos ---------- */
   function eventType(name) { return /new\s*type challenge/i.test(name || '') ? 'Newtype Challenge' : /serial card challenge/i.test(name || '') ? 'Serial Card Challenge' : /regional/i.test(name || '') ? 'Regional' : /qualifier/i.test(name || '') ? 'Qualifier' : 'Otro'; }

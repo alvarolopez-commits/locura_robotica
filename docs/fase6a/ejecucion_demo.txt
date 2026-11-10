@@ -1,0 +1,49 @@
+# Ejecución real sobre una COPIA de los datos (el archivo del proyecto no se toca)
+
+$ preview (no escribe nada)
+PREVISUALIZACIÓN · tests/fixtures/pipeline/lote_demo.json · no se escribe nada
+detectados 18 · nuevos 12 · enriquecimientos 1 · duplicados 2 · rechazados 1 · en revisión 6 · listos 11
+Se descartaron 4 campos o valores personales de la entrada (no se guardan ni se muestran).
+archetype_aliases.json competition_events.json ← sin carpeta de cola: preview no escribió
+
+$ stage
+COLA · tests/fixtures/pipeline/lote_demo.json · se guardan los candidatos en la cola local
+detectados 18 · nuevos 12 · enriquecimientos 1 · duplicados 2 · rechazados 1 · en revisión 6 · listos 11
+Se descartaron 4 campos o valores personales de la entrada (no se guardan ni se muestran).
+
+$ approve --ids <los 11 «ready»> --by op-1
+Aprobados: 11
+
+$ approve de un candidato con id existente y tipo contradictorio, sin decidir
+Aprobados: 0 · omitidos: E:metasheep:1d1279ac-4e23-4c7f-9730-08197763c673 (falta_--as_new|merge)
+
+$ publish --apply --by op-1
+PUBLICADO
+Cambios: {"eventsNew":1,"eventsMerged":1,"resultsNew":8,"resultsEnriched":1,"resultsNoop":0}
+
+Estadísticas GD06 (antes → después):
+  eventos publicados                    6                           → 7
+  resultados publicados                 57                          → 65
+  muestra de presencia (denominador n)  56                          → 64
+  eventos en la muestra                 5                           → 6
+  arquetipo más presente                Mobile Fighter 16/56 = 28.6%→ Mobile Fighter 20/64 = 31.3%
+  n si se mezclan coberturas            57                          → 65
+  listas completas verificadas          1                           → 2
+  cartas populares: n (mínimo 10)       1                           → 2
+Copia previa: <carpeta-de-copias>/competition_events-2026-11-10T08-10-35-856Z-pre-publish.json
+Checksum: 1f270e26c64cf06902506a2cf93ac03c64b703a13b4a27bac2693426493c953a
+Para deshacer: node scripts/competition_pipeline.js rollback --apply --by <id>
+
+$ publish --apply (segunda vez: idempotente)
+NO PUBLICADO
+No hay candidatos aprobados nuevos: nada que publicar.
+
+$ status
+Cola: published 11 · needs_review 6 · rejected 1
+
+$ rollback --apply --by op-1
+REVERTIDO
+
+Copia: competition_events-2026-11-10T08-10-35-856Z-pre-publish.json · checksum actual 1f270e26c64c · tras publicar 1f270e26c64c
+
+hash de los datos: inicial 61e7381b8059 · tras publicar 1f270e26c64c · tras publicar otra vez 1f270e26c64c · tras rollback 61e7381b8059
