@@ -1,5 +1,6 @@
 // Prueba de interfaz: el logo de la cabecera lleva siempre al inicio (Catálogo), desde cualquier pantalla, con un clic real.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_logo_inicio.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -18,7 +19,7 @@ async function abrir(W, H) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Mazo de 50',cards:${JSON.stringify(c50)}}})); localStorage.setItem('msa_active_deck','d1'); localStorage.setItem('msa_building','1'); localStorage.setItem('msa_collection', JSON.stringify(${JSON.stringify(coll)})); 1`);
-  await send('Page.reload'); await sleep(4500);
+  await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: true })); await sleep(300);
 }
 // punto del logo y quién lo recibe de verdad
 const logoPunto = () => ev(`(function(){ var a=document.getElementById('homeLogo'), r=a.getBoundingClientRect(), x=r.left + r.width/2, y=r.top + r.height/2, el=document.elementFromPoint(x, y); return { x: x, y: y, recibe: el ? (el.closest('#homeLogo') ? 'logo' : (el.id || el.className || el.tagName)) : null } })()`);

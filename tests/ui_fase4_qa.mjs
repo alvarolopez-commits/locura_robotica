@@ -1,6 +1,7 @@
 // Prueba de interfaz: fase 4 (QA). Regresiones encontradas al medir: cerrar la ficha mientras la carta aún "vuela" hacia ella
 // no debe perderse (antes se ignoraba y la ficha se quedaba abierta).
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_fase4_qa.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -23,6 +24,7 @@ for (const [W, H] of [[320, 700], [390, 844]]) {
   await ev(`document.querySelectorAll('img').forEach(function(i){ i.loading='eager' }); 1`); await sleep(1500);
 
   for (const [como, accion] of [['la ×', `document.querySelector('#detail .d-close').click()`], ['Escape', 'ESC'], ['tocar fuera (velo)', `document.getElementById('overlay').dispatchEvent(new MouseEvent('click',{bubbles:true}))`]]) {
+    await ev(`document.querySelectorAll('#grid .card-imgwrap')[2].scrollIntoView({ block: 'center' }); 1`); await sleep(400);   // con la barra del constructor y los selectores la tercera carta puede quedar fuera de pantalla a 320 px, y entonces no hay vuelo
     const y0 = await ev(`Math.round(scrollY)`);
     await ev(`document.querySelectorAll('#grid .card-imgwrap')[2].click(); 1`); await sleep(200);   // la carta aún va de camino (vuelo de 850 ms)
     const enVuelo = await ev(`!!document.querySelector('.fly-card')`);
@@ -34,7 +36,7 @@ for (const [W, H] of [[320, 700], [390, 844]]) {
   }
   // el nombre del mazo en construcción (abre el mazo) se pulsa en 44 px de alto sin mover nada: se compara con la regla antigua (34 px) en la misma página
   await ev(`localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:{'ST01-002':1}}})); localStorage.setItem('msa_active_deck','d1'); localStorage.setItem('msa_building','1'); 1`);
-  await send('Page.reload'); await sleep(4500);
+  await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: true })); await sleep(300);
   const medir = `(function(){ var b=document.getElementById('buildBar').getBoundingClientRect(), n=document.getElementById('bbName'), r=n.getBoundingClientRect(), tr=document.createRange(); tr.selectNodeContents(n); var t=tr.getBoundingClientRect(); return { alto:Math.round(r.height), ancho:Math.round(r.width), barra:Math.round(b.height*10)/10, textoY:Math.round((t.top - b.top)*10)/10 } })()`;
   const nuevo = await ev(medir);
   await ev(`(function(){ var s=document.createElement('style'); s.id='__viejo'; s.textContent='.bb-namebtn{ min-width:0; padding:6px 0; margin:-6px 0 }'; document.head.appendChild(s); return 1 })()`); await sleep(200);

@@ -1,6 +1,7 @@
 // Prueba de interfaz: Mobile UX vNext · fase 2 (ergonomía). Borrar la búsqueda desde el propio buscador, − + papelera del mazo
 // pulsables a 44×44 sin pisarse y "Añadir a mi colección" como acción secundaria en la ficha.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_fase2_ergonomia.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -19,7 +20,7 @@ for (const [W, H] of [[320, 568], [375, 667], [390, 844]]) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', JSON.stringify(${JSON.stringify(deck)})); localStorage.setItem('msa_active_deck','d1'); 1`);
-  await send('Page.reload'); await sleep(4500);
+  await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
 
   // buscar con un filtro rápido activo y borrar la búsqueda con el botón del buscador
   await ev(`document.querySelectorAll('#quickFilters .tag.chip')[0].click(); 1`); await sleep(400);

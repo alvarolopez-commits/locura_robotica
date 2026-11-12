@@ -1,5 +1,6 @@
 // Prueba del sistema tipográfico: tokens, uso exclusivo de la tipografía Display en títulos protagonistas (MAYÚSCULAS) y roles de la escala en Inter.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_typography_system.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 import fs from 'node:fs';
 const decklists = JSON.parse(fs.readFileSync(new URL('../data/decklists.json', import.meta.url), 'utf8'));
 const topDeck = decklists.archetypes[0].decks[0].cards;
@@ -32,7 +33,7 @@ async function abrir(seed) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); ${seed} 1`);
-  await send('Page.reload'); await sleep(3500);
+  await send('Page.reload'); await sleep(3500); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
 }
 const SEED = `localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'GP Control',cards:${JSON.stringify(topDeck)}}})); localStorage.setItem('msa_active_deck','d1'); localStorage.setItem('msa_collection','["ST01-001","ST01-002","GD01-001"]');`;
 

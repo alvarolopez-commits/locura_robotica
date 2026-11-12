@@ -1,6 +1,7 @@
 // Prueba de interfaz: Mis mazos (ventana del mazo y detalle) — orden de las filas, selección de cartas para "Copiar lista",
 // botón + (azul / lleno), "Guardado" y "COLORES" fuera, y "Comparar →" unificado.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_mis_mazos.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 import fs from 'node:fs';
 const fake = fs.readFileSync(new URL('./fake_supabase.js', import.meta.url), 'utf8');
 const all = JSON.parse(fs.readFileSync(new URL('../data/all_cards.json', import.meta.url), 'utf8'));
@@ -40,7 +41,7 @@ async function abrir(W, H, decks, active) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', JSON.stringify(${JSON.stringify(decks)})); localStorage.setItem('msa_active_deck','${active || 'd1'}'); localStorage.setItem('msa_building','1'); 1`);
-  await send('Page.reload'); await sleep(4500);
+  await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: true })); await sleep(300);
 }
 const abrirMazo = async () => { await ev(`document.getElementById('deckCount').click(); 1`); await sleep(1400); };
 const filas = () => ev(`(function(){ var out = {}; document.querySelectorAll('#deckView section.dv-color').forEach(function(s){ out[s.querySelector('.dv-cname').textContent] = [].map.call(s.querySelectorAll('.dv-row'), function(r){ return r.querySelector('.dv-pick').dataset.key.split('|')[0] }) }); return out })()`);
@@ -65,7 +66,7 @@ check('tras sumar y quitar copias el orden se conserva en todos los tipos', Obje
 await ev(`${btn('GD05-107', 'm')}.click(); 1`); await sleep(500);
 f = await filas();
 check('al quitar la última copia de una carta su fila desaparece y los demás siguen ordenados', !f.Comandos.includes('GD05-107') && JSON.stringify(f.Comandos) === JSON.stringify(esperado('COMMAND').filter((n) => n !== 'GD05-107')), f.Comandos);
-await send('Page.reload'); await sleep(4500); await abrirMazo(); f = await filas();
+await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: true })); await sleep(300); await abrirMazo(); f = await filas();
 check('tras recargar el orden es el mismo', JSON.stringify(f.Unidades) === JSON.stringify(esperado('UNIT')), f.Unidades);
 
 console.log('\n== "COLORES", "Guardado" y "Comparar →" ==');

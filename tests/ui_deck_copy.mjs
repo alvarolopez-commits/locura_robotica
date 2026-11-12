@@ -1,5 +1,6 @@
 // Copiar el mazo desde su ventana (botón cuadrado junto a "vaciar", como el de Mi colección).
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_deck_copy.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 import fs from 'node:fs';
 const decklists = JSON.parse(fs.readFileSync(new URL('../data/decklists.json', import.meta.url), 'utf8'));
 const topDeck = decklists.archetypes[0].decks[0].cards;
@@ -18,7 +19,7 @@ async function abrir(cards, lang) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','${lang}'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Mi mazo de prueba',cards:${JSON.stringify(cards)}}})); localStorage.setItem('msa_active_deck','d1'); 1`);
-  await send('Page.reload'); await sleep(3500);
+  await send('Page.reload'); await sleep(3500); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
   await ev(`document.getElementById('deckCount').click(); 1`); await sleep(1100);
 }
 const estado = () => ev(`(function(){ var b=document.getElementById('dvCopy'), r=b.getBoundingClientRect(), c=document.getElementById('dvClear').getBoundingClientRect(); return { w:Math.round(r.width), h:Math.round(r.height), aria:b.getAttribute('aria-label'), title:b.title, dis:b.disabled, copied:b.dataset.copied, svg:!!b.querySelector('svg, .ico'), junto:Math.abs(r.top-c.top)<8 && r.right<=c.left+1 } })()`);

@@ -35,7 +35,7 @@
   --navy:#221e41; --navy-2:#2c2757; --paper:#eef2f5; --panel:#ffffff; --tone:#e3eaef; --tone-2:#d3dde5; --line:#c6d3dc;
   --fg-1:#221e41; --fg-2:#2e4a62; --fg-3:#4b6880;
   --on-navy:#e6eef6; --on-navy-2:#a9bdd2;
-  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
+  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --cyan-ink:#0a739a; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
   --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2;
   --font-sans:'Inter','Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-display:'Inter Digits','Big Shoulders Display',var(--font-sans);
@@ -248,6 +248,9 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 .bb-namebtn:hover{ text-decoration-color:rgba(255,255,255,.55); }
 .bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
 .bb-nameinput{ width:100%; min-height:44px; padding:0 0 2px; font:inherit; letter-spacing:inherit; text-transform:inherit; color:var(--white); background:transparent; border:0; border-bottom:2px solid var(--sky); border-radius:0; outline:none; }
+.bb-hint{ margin:2px 0 0; font-size:var(--text-body-sm-size); line-height:var(--text-body-sm-lh); color:var(--on-navy-2); }
+.buildBar.is-empty .bb-side{ display:none; }   /* sin mazo seleccionado: ni recuento, ni estado, ni Comparar */
+.buildBar.is-empty .bb-namebtn{ text-decoration:none; cursor:default; }
 .bb-side{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; }   /* recuento, estado y Comparar bajan a la línea siguiente si no caben */
 .bb-count{ font-size:13px; font-weight:600; color:var(--on-navy-2); font-variant-numeric:tabular-nums; }
 .bb-count b{ font-family:var(--font-sans); font-size:30px; font-weight:800; line-height:1; letter-spacing:var(--text-metric-ls); text-transform:none; font-variant-numeric:tabular-nums; color:var(--white); margin-right:2px; }
@@ -535,6 +538,22 @@ body.is-building .adder{ display:grid; gap:8px; }
   transform:translateY(105%); visibility:hidden; transition:transform .38s var(--ease-out), visibility 0s linear .38s;
 }
 .db-sidebar.open{ transform:none; visibility:visible; transition:transform .38s var(--ease-out), visibility 0s; }
+/* Apertura y cierre suaves en móvil: la hoja sube/baja con transform + opacidad (240 ms) y el fondo oscuro se funde a la vez; sin rebote */
+@media (max-width:899px){
+  .db-sidebar{ opacity:0; transition:transform .24s var(--ease-out), opacity .2s var(--ease-out), visibility 0s linear .24s; }
+  .db-sidebar.open{ opacity:1; transition:transform .24s var(--ease-out), opacity .2s var(--ease-out), visibility 0s; }
+  .sb-scrim{ display:block; position:fixed; inset:0; z-index:var(--z-scrim); background:rgba(10,9,20,.5); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .24s var(--ease-out), visibility 0s linear .24s; }
+  .sb-scrim.show{ opacity:1; visibility:visible; pointer-events:auto; transition:opacity .24s var(--ease-out), visibility 0s; }
+}
+/* «Borrar»: píldora secundaria sobre la barra inferior, justo encima de la pestaña Filtros; solo existe (visible) mientras hay filtros del panel */
+.tb-clear{ position:absolute; left:30%; bottom:calc(100% + 8px); transform:translate(-50%,6px); display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 16px 0 12px; white-space:nowrap;
+  font:var(--text-button); letter-spacing:var(--text-button-ls); color:var(--accent-ink); background:var(--white); box-shadow:inset 0 0 0 1px var(--line);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);
+  opacity:0; visibility:hidden; pointer-events:none; transition:opacity .16s var(--ease-out), transform .16s var(--ease-out), visibility 0s linear .16s; }
+.tb-clear.on{ opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,0); transition:opacity .16s var(--ease-out), transform .16s var(--ease-out), visibility 0s; }
+.tb-clear:active{ background:var(--tone); }
+.tb-clear:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.tb-clear svg{ flex:none; }
 .db-sidebar{ scrollbar-width:thin; scrollbar-color:rgba(139,205,255,.55) transparent; }
 @media (min-width:900px){ .db-sidebar.has-more{ -webkit-mask-image:linear-gradient(#000 calc(100% - 44px), transparent); mask-image:linear-gradient(#000 calc(100% - 44px), transparent); } }   /* en móvil el botón Aplicar va fijo al pie y no debe difuminarse */
 .sb-sheethead{ position:sticky; top:0; z-index:2; margin:0 calc(var(--pad) * -1); padding:10px var(--pad) 8px; background:linear-gradient(var(--paper) 80%, transparent); }
@@ -1492,6 +1511,7 @@ html{ touch-action:manipulation; }
 .dl-actions{ display:flex; flex-wrap:wrap; gap:8px; }
 .dl-actions .dp-btn{ flex:1 1 150px; white-space:normal; text-align:center; line-height:1.15; padding:0 12px; }   /* "Ver listas de torneo" se cortaba a 375 px */
 .dl-msg{ font-size:14px; font-weight:700; color:#8fe3b0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
+.d-deckline .dl-msg{ color:var(--cyan-ink); }   /* límite alcanzado / bloqueos al añadir una carta: cian oscuro (4,7:1 sobre el papel de la ficha), no el verde de éxito */
 .dl-cards{ display:flex; flex-direction:column; gap:12px; }
 .dl-type{ font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:var(--text-label-weight); line-height:var(--text-label-lh); letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); box-shadow:inset 0 -1px 0 var(--line); padding-bottom:4px; margin-bottom:4px; }
 .dl-card{ display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:10px; width:100%; min-height:62px; padding:4px 0; text-align:left; color:inherit; }
@@ -1854,6 +1874,7 @@ html{ touch-action:manipulation; }
       <div class="buildBar" id="buildBar" hidden>
         <div class="bb-main">
           <h2 class="bb-name"><button type="button" class="bb-namebtn" id="bbName"></button></h2>
+          <p class="bb-hint" id="bbHint" hidden></p>
           <button type="button" class="legalChip cut" id="bbLegal" hidden></button>
         </div>
         <div class="bb-side">
@@ -1908,6 +1929,7 @@ html{ touch-action:manipulation; }
 </aside>
 
 <nav class="tabbar" id="tabbar" aria-label="Navegación principal">
+  <button type="button" class="tb-clear" id="tbClear" aria-label="Borrar filtros"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="lblTbClear">Borrar</span></button>
   <button type="button" class="tb-item is-active" id="tbCatalog">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="5.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="11.5" y="3" width="5.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="12.5" width="5.5" height="4.5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="11.5" y="12.5" width="5.5" height="4.5" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
     <span id="lblTbCatalog">Catálogo</span>
@@ -2827,7 +2849,7 @@ var EFFECT_CONFIG = {
       searchPh:'Nombre, número o texto de habilidad…', searchPhShort:'Nombre, número o texto', searchPhTiny:'Buscar carta', searchAria:'Buscar', searchClear:'Borrar búsqueda',
       fSet:'Set', fColor:'Color', fType:'Tipo', fAbility:'Habilidad', fAct:'Activación', fFx:'Efecto', secAbility:'Habilidad', secEffects:'Efectos', fxMoreAria:function(n){ return n+' efectos más'; },
       showCat:'mostrar categorías', hideCat:'ocultar categorías',
-      resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros',
+      resultCount:function(f,t){ return f+' de '+t+' cartas'; }, clearFilters:'Limpiar filtros', clearShort:'Borrar', clearShortAria:'Borrar filtros',
       tengo:'Tengo', enColeccion:'En tu colección', collAdd:'Añadir a mi colección', collHave:'En mi colección', collRemove:'Quitar de mi colección', collTag:'TENGO', collMiss:'No la tengo', collBanner:function(n){ return n === 1 ? 'Te falta 1 carta de este mazo' : 'Te faltan '+n+' cartas de este mazo'; }, collTitle:'Mi colección', collBack:'Catálogo', collOpen:'Mi colección', collCopy:'Copiar mi colección', collCopied:'Copiado',
       collCopyHead:function(n, u){ return 'Mi colección de Gundam Card Game ('+n+(n === 1 ? ' carta distinta' : ' cartas distintas')+', '+u+(u === 1 ? ' unidad' : ' unidades')+'):'; },
       collSub:function(n){ return n === 0 ? 'Aún no tienes ninguna carta. Empieza añadiendo un mazo inicial o las cartas que tengas.' : n+(n === 1 ? ' carta distinta' : ' cartas distintas'); },
@@ -3026,6 +3048,7 @@ var EFFECT_CONFIG = {
         empty:'Todavía no has añadido cartas a este mazo.', add:'Añadir cartas', lv:'Nv.', cost:'Coste', costMax:'7+'
       },
       deckBlock:{
+        noDeck:'Ningún mazo seleccionado', noDeckHint:'Selecciona un mazo para empezar a editar', pickDeck:'Selecciona un mazo',
         removeAll:'Quitar todas las copias', addTop:'Añadir', addBottom:'al mazo', deckLabel:'Mazo', inDeck:function(q,m){ return q+' / '+m+' en el mazo'; }, removeOne:'Quitar 1', linkJump:'Ver los pilotos con los que linkea', linkJumpUnits:'Ver las unidades con las que linkea',
         title:'Añadir al mazo', to:'Mazo de destino', newDeck:'+ Nuevo mazo',
         copies:function(n){ return n===1 ? '1 copia en este mazo' : n+' copias en este mazo'; },
@@ -3132,7 +3155,7 @@ var EFFECT_CONFIG = {
       searchPh:'Name, number or ability text…', searchPhShort:'Name, number or text', searchPhTiny:'Search a card', searchAria:'Search', searchClear:'Clear search',
       fSet:'Set', fColor:'Color', fType:'Type', fAbility:'Ability', fAct:'Activation', fFx:'Effect', secAbility:'Ability', secEffects:'Effects', fxMoreAria:function(n){ return n+' more effects'; },
       showCat:'show categories', hideCat:'hide categories',
-      resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters',
+      resultCount:function(f,t){ return f+' of '+t+' cards'; }, clearFilters:'Clear filters', clearShort:'Clear', clearShortAria:'Clear filters',
       tengo:'Owned', enColeccion:'In your collection', collAdd:'Add to my collection', collHave:'In my collection', collRemove:'Remove from my collection', collTag:'OWNED', collMiss:'Not owned', collBanner:function(n){ return n === 1 ? 'You are missing 1 card from this deck' : 'You are missing '+n+' cards from this deck'; }, collTitle:'My collection', collBack:'Catalog', collOpen:'My collection', collCopy:'Copy my collection', collCopied:'Copied',
       collCopyHead:function(n, u){ return 'My Gundam Card Game collection ('+n+(n === 1 ? ' distinct card' : ' distinct cards')+', '+u+(u === 1 ? ' copy' : ' copies')+'):'; },
       collSub:function(n){ return n === 0 ? 'You have no cards yet. Start by adding a starter deck or the cards you own.' : n+(n === 1 ? ' distinct card' : ' distinct cards'); },
@@ -3331,6 +3354,7 @@ var EFFECT_CONFIG = {
         empty:'You have not added any cards to this deck yet.', add:'Add cards', lv:'Lv.', cost:'Cost', costMax:'7+'
       },
       deckBlock:{
+        noDeck:'No deck selected', noDeckHint:'Select a deck to start editing', pickDeck:'Select a deck',
         removeAll:'Remove all copies', addTop:'Add', addBottom:'to deck', deckLabel:'Deck', inDeck:function(q,m){ return q+' / '+m+' in deck'; }, removeOne:'Remove 1', linkJump:'See the pilots it links with', linkJumpUnits:'See the units it links with',
         title:'Add to deck', to:'Target deck', newDeck:'+ New deck',
         copies:function(n){ return n===1 ? '1 copy in this deck' : n+' copies in this deck'; },
@@ -3600,7 +3624,6 @@ var EFFECT_CONFIG = {
     try{
       localStorage.setItem('msa_decks', JSON.stringify(DECKS));
       localStorage.setItem('msa_decks_archived', JSON.stringify(ARCHIVED));
-      localStorage.setItem('msa_active_deck', activeDeckId);
     }catch(e){}
   }
   function saveDecksToStorage(){
@@ -3615,15 +3638,12 @@ var EFFECT_CONFIG = {
   }
   function loadDecksFromStorage(){
     try{ var raw = localStorage.getItem('msa_decks'); DECKS = raw ? JSON.parse(raw) : {}; }catch(e){ DECKS = {}; }
-    try{ activeDeckId = localStorage.getItem('msa_active_deck'); }catch(e){ activeDeckId = null; }
+    activeDeckId = null;   // la selección es solo de la sesión: al abrir o recargar no hay ningún mazo activo (los mazos y sus cartas siguen en msa_decks)
+    try{ localStorage.removeItem('msa_active_deck'); }catch(e){}   // clave antigua del último mazo: ya no se usa
     try{ var rawA = localStorage.getItem('msa_decks_archived'); ARCHIVED = rawA ? JSON.parse(rawA) : {}; }catch(e){ ARCHIVED = {}; }
     if(!DECKS || typeof DECKS !== 'object') DECKS = {};
     if(!ARCHIVED || typeof ARCHIVED !== 'object') ARCHIVED = {};
     Object.keys(ARCHIVED).forEach(function(k){ if(!DECKS[k]) DECKS[k] = ARCHIVED[k]; delete ARCHIVED[k]; });   // ya no existe «archivar»: lo archivado vuelve a Mis mazos
-    if(!activeDeckId || !DECKS[activeDeckId]){
-      var ids = Object.keys(DECKS);
-      activeDeckId = ids.length ? ids[0] : createDeck(t().deckNewName+' 1');
-    }
     saveDecksToStorage();
   }
   function activeDeck(){ return DECKS[activeDeckId]; }
@@ -3966,6 +3986,7 @@ var EFFECT_CONFIG = {
 
     function fillDecks(){
       sel.innerHTML = '';
+      if(!activeDeck()){ var ph = document.createElement('option'); ph.value = ''; ph.textContent = t().deckBlock.pickDeck; ph.selected = true; sel.appendChild(ph); }   // sin mazo: no se marca ninguno
       Object.keys(DECKS).forEach(function(id){
         var o = document.createElement('option'); o.value = id; o.textContent = DECKS[id].name || t().deckNewName;
         if(id === activeDeckId) o.selected = true;
@@ -4000,6 +4021,7 @@ var EFFECT_CONFIG = {
     minus.addEventListener('click', function(){ removeFromDeck(number); afterChange(); announceDeck(number); });
     del.addEventListener('click', function(){ var d = activeDeck(); while(d && (d.cards[number] || 0) > 0) removeFromDeck(number); afterChange(); announceDeck(number); });
     sel.addEventListener('change', function(){
+      if(!sel.value) return;
       if(sel.value === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
       else activeDeckId = sel.value;
       saveDecksToStorage();
@@ -4051,12 +4073,12 @@ var EFFECT_CONFIG = {
     wrap.appendChild(qtyBox); wrap.appendChild(whyEl);
     function inDeck(){ var d = activeDeck(); return (d && d.cards[number]) || 0; }
     function refresh(){
-      var q = inDeck(), lim = building ? addLimit(number) : {max: 4 - q, blockedBy: null}, room = Math.min(4 - q, lim.max);
+      var q = inDeck(), noDeck = !activeDeck(), lim = building ? addLimit(number) : {max: 4 - q, blockedBy: null}, room = noDeck ? 0 : Math.min(4 - q, lim.max);
       if(nEl.textContent !== String(q)){ var first = nEl.textContent === '0' && !wrap._painted; nEl.textContent = String(q); if(!first){ nEl.classList.remove('tick'); void nEl.offsetWidth; nEl.classList.add('tick'); } }
       wrap._painted = true;
       minus.disabled = q <= 0;
       plus.disabled = room <= 0;
-      plus.title = room <= 0 ? (lim.blockedBy ? blockWhy(lim.blockedBy, number) : '') || t().deckBlock.limit : '';
+      plus.title = noDeck ? t().deckBlock.pickDeck : room <= 0 ? (lim.blockedBy ? blockWhy(lim.blockedBy, number) : '') || t().deckBlock.limit : '';
       whyEl.textContent = '';
       var why = lim.blockedBy ? blockWhy(lim.blockedBy, number) : '';
       if(why && lim.blockedBy.ruleType === 'deck_size'){ /* mazo lleno: las tarjetas del catálogo no escriben nada (el + queda deshabilitado); el aviso "Mazo lleno" solo sale al abrir la carta */ }
@@ -4101,23 +4123,26 @@ var EFFECT_CONFIG = {
     else document.querySelectorAll('.adder[data-number="'+number+'"]').forEach(function(a){ if(a._refresh) a._refresh(); });
     updateDeckPill();
   }
-  var building = false;
-  try{ building = localStorage.getItem('msa_building')==='1'; }catch(e){}
+  var building = true;   // al abrir siempre se está en el constructor, sin mazo: no se restaura el modo ni el último mazo
   function setBuilding(on){
     building = on;
     try{ if(on) localStorage.setItem('msa_building','1'); else localStorage.removeItem('msa_building'); }catch(e){}
     updateBuildBar();
   }
+  var lastBarDeck;
   function updateBuildBar(){
     var bar = document.getElementById('buildBar');
     var deck = activeDeck();
     var wasBuilding = document.body.classList.contains('is-building');
-    document.body.classList.toggle('is-building', !!(building && deck));
+    document.body.classList.toggle('is-building', !!building);   // también sin mazo: los selectores salen a 0 y deshabilitados hasta elegir o crear uno
     var dvd = document.getElementById('dvDone'); if(dvd) dvd.hidden = !(building && deck);   // «Hecho»: salida del modo construcción desde la ventana del mazo
-    if(building && deck && !wasBuilding) refreshAdders();
-    if(!building || !deck){ bar.hidden = true; return; }
-    bar.hidden = false;
-    var bbn = document.getElementById('bbName');
+    if(building && (!wasBuilding || lastBarDeck !== activeDeckId)) refreshAdders();
+    lastBarDeck = activeDeckId;
+    if(!building){ bar.hidden = true; return; }
+    bar.hidden = false; bar.classList.toggle('is-empty', !deck);
+    var bbn = document.getElementById('bbName'), hint = document.getElementById('bbHint'), DB = t().deckBlock;
+    if(!deck){ bbn.textContent = DB.noDeck; bbn.disabled = true; bbn.removeAttribute('title'); hint.textContent = DB.noDeckHint; hint.hidden = false; return; }
+    bbn.disabled = false; hint.hidden = true;
     bbn.textContent = deck.name || t().deckNewName;
     bbn.title = LANG === 'es' ? 'Abrir el mazo · doble clic para renombrar' : 'Open the deck · double-click to rename';
     document.getElementById('bbCount').textContent = deckTotal(deck);
@@ -4131,6 +4156,7 @@ var EFFECT_CONFIG = {
     var pc = document.getElementById('deckPillCount');
     if(pc) pc.textContent = n+' / 50';
     var box = document.getElementById('deckCount');
+    if(box) box.hidden = !deck;   // sin mazo seleccionado no hay contador ni estado en la barra superior
     if(box && lastDeckN !== null && lastDeckN !== n && !(REDUCED && REDUCED.matches)){ box.classList.remove('bump'); void box.offsetWidth; box.classList.add('bump'); }
     lastDeckN = n; paintDeckState(n);
     if(box){
@@ -4205,7 +4231,7 @@ var EFFECT_CONFIG = {
     return {
       client: function(){ return cloud.client; },
       get: function(){ return { decks:DECKS, archived:ARCHIVED, activeId:activeDeckId }; },
-      setActive: function(id){ activeDeckId = id; },
+      setActive: function(id){ /* la cuenta recuerda el último mazo, pero no se vuelve a seleccionar al abrir la app */ },
       rekey: function(o, n){
         var m = DECKS[o] ? DECKS : ARCHIVED; m[n] = m[o]; delete m[o]; deckHash[n] = deckHash[o]; delete deckHash[o];
         if(activeDeckId === o) activeDeckId = n; if(dpDeckId === o) dpDeckId = n; if(legalDeckId === o) legalDeckId = n;
@@ -4683,8 +4709,7 @@ var EFFECT_CONFIG = {
     return out;
   }
   function pickActiveAfterRemoval(){
-    var ids = Object.keys(DECKS).sort(function(a,b){ return (DECKS[b].updatedAt||0) - (DECKS[a].updatedAt||0); });
-    return ids.length ? ids[0] : createDeck(t().deckNewName+' 1');
+    return null;   // si desaparece el mazo activo no se elige otro solo: vuelve el estado «ningún mazo seleccionado»
   }
   function deleteDeck(id){
     delete DECKS[id]; delete ARCHIVED[id]; delete deckHash[id];
@@ -5244,7 +5269,19 @@ var EFFECT_CONFIG = {
     var badge = document.getElementById('tbFilterBadge');
     badge.hidden = !items.length; badge.textContent = items.length;
     document.getElementById('clearFilters').hidden = !filtersOn(state);   // sin búsqueda ni filtros no hay nada que limpiar
+    paintTbClear();
   }
+  /* «Borrar» (móvil): visible solo con filtros del panel activos y en el catálogo; quita esos filtros (no la búsqueda de texto) con las mismas funciones que las etiquetas */
+  function paintTbClear(){
+    var b = document.getElementById('tbClear'); if(!b) return;
+    var hid = function(id){ var e = document.getElementById(id); return !e || e.hidden; };
+    var catalog = hid('decksPage') && hid('compPage') && hid('collPage') && hid('deckView') && !document.getElementById('sidebar').classList.contains('open');
+    b.classList.toggle('on', catalog && activeFilterItems(state).length > 0);
+  }
+  document.getElementById('tbClear').addEventListener('click', function(){
+    activeFilterItems(state).forEach(function(it){ it.drop(); });
+    buildFilters(); render();
+  });
 
   /* ===== Carta compartida: la carta del grid viaja a la ficha y vuelve (FLIP con Web Animations) ===== */
   var cardFly = { busy:false, clone:null, anim:null, timers:[], opening:false, closeAfter:false };
@@ -5524,6 +5561,7 @@ var EFFECT_CONFIG = {
     document.getElementById('lblFilterFx').textContent = t().fFx;
     document.getElementById('lblFilterTrait').textContent = t().rasgos;
     document.getElementById('clearFilters').textContent = t().clearFilters;
+    document.getElementById('lblTbClear').textContent = t().clearShort; document.getElementById('tbClear').setAttribute('aria-label', t().clearShortAria);
     paintSortBtn();
     document.getElementById('lblPmNewDeck').textContent = t().newDeckTile;
     document.getElementById('lblPmMyDecks').textContent = t().myDecks;
@@ -5653,6 +5691,7 @@ var EFFECT_CONFIG = {
       b.classList.toggle('is-active', id===active);
       if(id===active) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
     });
+    paintTbClear();
   }
   document.getElementById('homeLogo').addEventListener('click', function(e){
     e.preventDefault();
@@ -5721,7 +5760,7 @@ var EFFECT_CONFIG = {
   /* nombre del mazo en construcción: un clic abre el mazo, doble clic (o doble toque, o F2) lo renombra en el sitio */
   (function(){
     var btn = document.getElementById('bbName'), timer = null;
-    function openIt(){ openDecksPage(); openDeckDetail(activeDeckId); }
+    function openIt(){ if(!activeDeck()) return; openDecksPage(); openDeckDetail(activeDeckId); }
     function rename(){
       var deck = activeDeck(); if(!deck || !btn.parentNode.querySelector) return;
       if(btn.parentNode.querySelector('.bb-nameinput')) return;

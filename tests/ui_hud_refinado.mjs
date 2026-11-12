@@ -1,5 +1,6 @@
 // Prueba de interfaz: Mobile UX vNext · opción A ("HUD refinado"). Menos altura antes de las cartas, sin cambiar funciones.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_hud_refinado.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -18,7 +19,7 @@ for (const W of [320, 390, 1280]) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
   await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', JSON.stringify(${JSON.stringify(deck)})); localStorage.setItem('msa_active_deck','d1'); localStorage.removeItem('msa_cat_sort'); 1`);
-  await send('Page.reload'); await sleep(4500);
+  await send('Page.reload'); await sleep(4500); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
 
   const s = await ev(`(function(){
     var first = document.querySelector('#grid .dz-inner').getBoundingClientRect(), xs = {};

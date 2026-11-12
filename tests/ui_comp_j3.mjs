@@ -125,7 +125,7 @@ await setSel('gdCmpList', lista.id); await setSel('gdCmpDeck', 'd1');
 check('al elegir lista y mazo compara, y la URL pasa a identificar la lista', (await count('.gd-cmprow')) === 2 && (await ev(`location.hash`)).indexOf(encodeURIComponent(lista.id)) > 0);
 await abrir(390, 844, '#competicion/comparar/' + encodeURIComponent(lista.id), {});
 const unico = await ev(`Array.from(document.querySelectorAll('#gdCmpDeck option')).map(function(o){ return o.value }).filter(Boolean)`);
-check('sin mazos propios, la app crea uno vacío: se compara con él y se dice que no tiene 50 cartas (todo por añadir)', unico.length === 1 && (await setSel('gdCmpDeck', unico[0]), true) && JSON.stringify(await sum()) === JSON.stringify(['0 Coinciden', '50 Por añadir', '0 Por retirar', '— Colección sin configurar']) && /Tu mazo tiene 0 cartas, no 50/.test(await txt('.gd-cmp-sum + .comp-note')), unico);
+check('sin mazos propios no se inventa ninguno: el selector no ofrece mazos y se avisa de que aún no hay ninguno', unico.length === 0 && /Aún no tienes mazos/.test(await txt('#compPanel')), [unico, await txt('#compPanel')]);
 
 console.log('\n== atrás, anchos y consola ==');
 await abrir(390, 844, '#competicion/torneos', { msa_decks: MAZOS_JSON, msa_active_deck: 'd1', msa_collection: JSON.stringify(COL) });

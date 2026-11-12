@@ -1,5 +1,6 @@
 // F5-06 · «Hecho»: salir del modo construcción desde la ventana del mazo, sin perder nada, con teclado y con la sincronización pendiente.
 // Límites: 30 s por orden y 4 min en total.  Uso: Chrome con --remote-debugging-port=9333 y la carpeta en http://localhost:8766/ ;  node tests/ui_constructor_hecho.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 import fs from 'node:fs';
 let paso = 'inicio';
 setTimeout(() => { console.log('TIEMPO AGOTADO (4 min) en: ' + paso); process.exit(3); }, 240000);
@@ -33,10 +34,10 @@ async function abrir(W, H, { building = true, cloud = false } = {}) {
   await send('Page.navigate', { url: 'about:blank' }); await sleep(150);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', ${JSON.stringify(JSON.stringify(MAZO))}); localStorage.setItem('msa_active_deck','d1'); ${building ? "localStorage.setItem('msa_building','1');" : ''} 1`);
-  await send('Page.reload'); await sleep(3800);
+  await send('Page.reload'); await sleep(3800); await ev(elegirMazoJS('d1', { building: building })); await sleep(300);
 }
 const key = async (k, code, vk, text) => { await send('Input.dispatchKeyEvent', { type: 'keyDown', key: k, code, windowsVirtualKeyCode: vk, text }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: k, code, windowsVirtualKeyCode: vk }); await sleep(500); };
-const deck = () => ev(`(function(){ var d = JSON.parse(localStorage.getItem('msa_decks') || '{}'); return d[localStorage.getItem('msa_active_deck')] || d.d1 })()`);
+const deck = () => ev(`(function(){ var d = JSON.parse(localStorage.getItem('msa_decks') || '{}'); return d[localStorage.getItem('msa_active_deck')] || d.d1 || Object.values(d)[0] })()`);
 const enServidor = () => ev(`window.__S.cards.filter(function(c){ return c.board === 'main' }).reduce(function(a, c){ return a + c.quantity }, 0)`);
 const estado = () => ev(`({ building: document.body.classList.contains('is-building'), ls: localStorage.getItem('msa_building'), barra: !document.getElementById('buildBar').hidden, vista: !document.getElementById('deckView').hidden, hecho: !document.getElementById('dvDone').hidden })`);
 const sinHScroll = () => ev(`document.documentElement.scrollWidth <= innerWidth + 1`);
@@ -66,7 +67,7 @@ for (const [W, H] of [[390, 844], [360, 740], [430, 900], [1440, 900]]) {
   check('al volver a abrir el mazo «Hecho» ya no está', e.vista && !e.hecho);
   await ev(`location.reload()`); await sleep(3800);
   e = await estado();
-  check('tras recargar sigue fuera del modo construcción y el mazo intacto', !e.building && e.ls === null && JSON.stringify(await deck()) === antes);
+  check('tras recargar vuelve el estado inicial (constructor sin mazo seleccionado, sin marca guardada) y el mazo sigue intacto', e.building && e.barra && e.ls === null && (await ev(`document.getElementById('bbName').textContent`)) === 'Ningún mazo seleccionado' && JSON.stringify(await deck()) === antes);
 }
 
 console.log('\n== volver a entrar y editar, y sincronización pendiente ==');

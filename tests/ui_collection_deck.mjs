@@ -1,5 +1,6 @@
 // Prueba de interfaz: aviso "No la tengo" en las listas de mazo (ventana del mazo y detalle de Mis mazos).
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_collection_deck.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -14,9 +15,9 @@ await send('Runtime.enable'); await send('Page.enable'); await send('Network.ena
 const DECK = { 'ST01-001': 3, 'ST01-005': 2, 'ST01-003': 1 };
 async function load(collection) {
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
-  await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:${JSON.stringify(DECK)}}})); localStorage.setItem('msa_active_deck','d1');
+  await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:${JSON.stringify(DECK)}}})); localStorage.setItem('msa_active_deck','d1');
     ${collection ? `localStorage.setItem('msa_collection', ${JSON.stringify(JSON.stringify(collection))});` : `localStorage.removeItem('msa_collection');`} 1`);
-  await send('Page.reload'); await sleep(3200);
+  await send('Page.reload'); await sleep(3200); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
 }
 const rows = (root) => ev(`(function(){ var r=[].slice.call(document.querySelectorAll('${root} .dv-row')); return r.map(function(x){ var m=x.querySelector('.coll-miss'); var th=x.querySelector('.dv-thumb');
   return { num:(x.querySelector('.dv-meta')||{}).textContent.split(' · ')[0], falta:x.classList.contains('is-missing'), aviso:m&&m.textContent.trim(), color:m&&getComputedStyle(m).color, opacidadMiniatura:th&&getComputedStyle(th).opacity } }) })()`);

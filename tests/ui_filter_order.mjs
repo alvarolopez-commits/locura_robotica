@@ -1,5 +1,6 @@
 // Orden al filtrar: de menor a mayor nivel y, a igual nivel, de menor a mayor ataque. Sin filtros se conserva el orden de siempre.
 // Uso: Chrome con --remote-debugging-port=9333 y la carpeta servida en http://localhost:8766/ ;  node tests/ui_filter_order.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 import fs from 'node:fs';
 const cat = {};
 for (const f of fs.readdirSync(new URL('../data/', import.meta.url))) {
@@ -64,7 +65,7 @@ const decklists = JSON.parse(fs.readFileSync(new URL('../data/decklists.json', i
 const topDeck = decklists.archetypes[0].decks[0].cards;
 await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
 await ev(`localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Orden',cards:${JSON.stringify(topDeck)}}})); localStorage.setItem('msa_active_deck','d1'); 1`);
-await send('Page.reload'); await sleep(3800);
+await send('Page.reload'); await sleep(3800); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
 await click('#deckCount'); await sleep(1200);
 const rows = await ev(`Array.from(document.querySelectorAll('#deckView .dv-open')).map(function(b){ return b.getAttribute('aria-label') })`);
 const dn = rows.map((l) => l.match(/[A-Z]{2}\d+-\d+/)[0]);

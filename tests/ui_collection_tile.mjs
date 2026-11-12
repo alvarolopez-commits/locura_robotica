@@ -1,5 +1,6 @@
 // Prueba de interfaz de Mi colección en la carta del catálogo (Chrome sin interfaz).
 // Uso: abrir Chrome con --remote-debugging-port=9333 y servir la carpeta en http://localhost:8766/ ; luego  node tests/ui_collection_tile.mjs
+import { elegirMazoJS } from './_elegir_mazo.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const t = await (await fetch('http://127.0.0.1:9333/json/new?about:blank', { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
@@ -35,7 +36,7 @@ for (const W of [390, 1280]) {
   check('con la colección guardada, la carta sale con su etiqueta TENGO, solo en esa carta', marcada.etiqueta === true && marcada.texto === 'TENGO' && marcada.otras === 1, marcada);
   // ficha de la carta: botón "Añadir a mi colección" y columna +, cantidad, −, papelera sin verde
   await ev(`localStorage.removeItem('msa_collection'); localStorage.setItem('msa_decks', JSON.stringify({d1:{name:'Prueba',cards:{}}})); localStorage.setItem('msa_active_deck','d1'); 1`);
-  await send('Page.reload'); await sleep(3200);
+  await send('Page.reload'); await sleep(3200); await ev(elegirMazoJS('d1', { building: false })); await sleep(300);
   await ev(`document.querySelector('.dz-inner').click(); 1`); await sleep(1200);
   const F = () => ev(`(function(){ var d=document.querySelector('.detail'); var bg=function(e){ return e ? getComputedStyle(e).backgroundColor : null };
     var btns=[].slice.call(d.querySelectorAll('.d-ctl .dc-btn')), del=d.querySelector('.d-ctl .dc-del'), add=d.querySelector('.coll-add'), cdel=d.querySelector('.coll-del');
