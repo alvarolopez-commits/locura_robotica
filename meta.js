@@ -128,16 +128,42 @@
   /* ---------- paquetes: Unidad + Piloto enlazado, y grupos de rasgo ---------- */
   function nameOf(s) { return String(s || '').trim().toLowerCase(); }
   function traitsOf(card) { var out = [], re = /\(([^)]+)\)/g, m; while ((m = re.exec(card.trait || ''))) out.push(m[1].trim()); return out; }
+  /* ---------- Link: Unidad ↔ Piloto, solo con datos confirmados del catálogo ----------
+   * El campo `link` de una Unidad lista requisitos separados por « / »: «[Nombre]» (un Piloto con ESE nombre) y «(Rasgo) Trait» (un Piloto con ESE rasgo). Vale cualquiera.
+   * Límites conocidos (para no afirmar de más): la igualdad es exacta (sin mayúsculas ni espacios de más), así que un Piloto con otro nombre impreso o un rasgo escrito de otra forma
+   * NO se marca como compatible (falso negativo antes que falso positivo); solo se leen los rasgos entre paréntesis; no se comprueba color ni nivel. «-» o vacío = sin Link. */
+  function linkParts(link) {
+    var names = [], traits = [], raw = [], re = /\[([^\]]+)\]/g, m;
+    if (!link || link === '-') return { names: names, traits: traits, raw: raw };
+    while ((m = re.exec(link))) names.push(nameOf(m[1]));
+    re = /\(([^)]+)\)/g; while ((m = re.exec(link))) { traits.push(nameOf(m[1])); raw.push(m[1].trim()); }
+    return { names: names, traits: traits, raw: raw };
+  }
+  /* 'name' (Link directo por nombre) · 'trait' (por rasgo) · null (no compatible o sin datos) */
+  function linkMatch(unit, pilot) {
+    if (!unit || !pilot || unit.type !== 'UNIT' || pilot.type !== 'PILOT') return null;
+    var p = linkParts(unit.link); if (!p.names.length && !p.traits.length) return null;
+    if (p.names.indexOf(nameOf(pilot.name)) !== -1) return 'name';
+    return traitsOf(pilot).some(function (t) { return p.traits.indexOf(nameOf(t)) !== -1; }) ? 'trait' : null;
+  }
+  /* Unidades de `units` enlazadas con el Piloto: [{ unit, via:'name'|'trait', trait? }], primero por nombre y después por rasgo, y por código dentro de cada grupo */
+  function linkUnitsFor(pilot, units) {
+    var out = [];
+    (units || []).forEach(function (u) {
+      var via = linkMatch(u, pilot); if (!via) return;
+      var o = { unit: u, via: via };
+      if (via === 'trait') { var p = linkParts(u.link), mine = traitsOf(pilot).map(nameOf), k = p.traits.findIndex(function (t) { return mine.indexOf(t) !== -1; }); o.trait = p.raw[k]; }
+      out.push(o);
+    });
+    return out.sort(function (a, b) { return (a.via === b.via ? 0 : a.via === 'name' ? -1 : 1) || (String(a.unit.number) < String(b.unit.number) ? -1 : String(a.unit.number) > String(b.unit.number) ? 1 : 0); });
+  }
   function detectPackages(user, cardMap) {
     var nums = Object.keys(user).filter(function (n) { return cardMap[n] && Number(user[n]) > 0; }), out = [];
     var pilots = nums.filter(function (n) { return cardMap[n].type === 'PILOT'; });
     nums.filter(function (n) { return cardMap[n].type === 'UNIT' && cardMap[n].link && cardMap[n].link !== '-'; }).forEach(function (u) {
-      var names = [], re = /\[([^\]]+)\]/g, m, link = cardMap[u].link;
-      while ((m = re.exec(link))) names.push(nameOf(m[1]));
-      var wantTraits = []; re = /\(([^)]+)\)/g; while ((m = re.exec(link))) wantTraits.push(nameOf(m[1]));
       pilots.forEach(function (p) {
-        var pc = cardMap[p], ok = names.indexOf(nameOf(pc.name)) !== -1 || traitsOf(pc).some(function (t) { return wantTraits.indexOf(nameOf(t)) !== -1; });
-        if (ok) out.push({ id: 'link:' + u + '+' + p, name: cardMap[u].name + ' + ' + pc.name, cards: [u, p], reason: 'link' });
+        var pc = cardMap[p];
+        if (linkMatch(cardMap[u], pc)) out.push({ id: 'link:' + u + '+' + p, name: cardMap[u].name + ' + ' + pc.name, cards: [u, p], reason: 'link' });
       });
     });
     var byTrait = {};
@@ -211,6 +237,6 @@
   }
 
   return { DEFAULTS: DEFAULTS, evidenceLevel: evidenceLevel, similarity: similarity, rankArchetypes: rankArchetypes, mergeProfiles: mergeProfiles,
-    globalAdoption: globalAdoption, roleOf: roleOf, composition: composition, missingCommon: missingCommon, detectPackages: detectPackages,
+    globalAdoption: globalAdoption, roleOf: roleOf, composition: composition, missingCommon: missingCommon, detectPackages: detectPackages, linkMatch: linkMatch, linkUnitsFor: linkUnitsFor,
     unusual: unusual, setBoundary: setBoundary, compare: compare };
 });

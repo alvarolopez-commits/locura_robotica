@@ -35,7 +35,7 @@
   --navy:#221e41; --navy-2:#2c2757; --paper:#eef2f5; --panel:#ffffff; --tone:#e3eaef; --tone-2:#d3dde5; --line:#c6d3dc;
   --fg-1:#221e41; --fg-2:#2e4a62; --fg-3:#4b6880;
   --on-navy:#e6eef6; --on-navy-2:#a9bdd2;
-  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
+  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --collection-builder:#CD9FC8; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
   --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2;
   --font-sans:'Inter','Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-display:'Inter Digits','Big Shoulders Display',var(--font-sans);
@@ -1162,6 +1162,106 @@ span.legalChip{ cursor:inherit; }
   .legalModal.open{ transform:none; }
 }
 
+/* ===== Mi colección: entrada a «Crear desde mi colección» (rosa reservado a esta función) ===== */
+.coll-builder-wrap{ margin:2px 0 6px; max-width:460px; }
+.coll-builder-wrap[hidden]{ display:none; }
+.coll-builder{ display:flex; align-items:center; gap:12px; width:100%; min-height:64px; padding:10px 16px 10px 12px; text-align:left; color:var(--navy); background:var(--collection-builder); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); transition:transform .16s var(--ease-out); }
+.coll-builder img{ flex:none; width:36px; height:36px; display:block; }
+.coll-builder .cb-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.coll-builder b{ font-size:16px; font-weight:800; line-height:1.2; }
+.coll-builder small{ font-size:13px; font-weight:600; line-height:1.3; }
+.coll-builder:active{ transform:scale(.985); }
+.coll-builder:focus-visible{ outline:3px solid var(--sky); outline-offset:2px; }
+@media (hover:hover){ .coll-builder:hover{ filter:brightness(1.05); } }
+
+/* ===== Crear desde mis cartas ===== */
+.mc-intro{ margin:6px 0 0; font-size:14px; line-height:1.45; color:var(--fg-2); }
+.mc-tray{ display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+.mc-sel{ display:grid; grid-template-columns:56px minmax(0,1fr) 44px; gap:4px 12px; align-items:start; padding:10px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.mc-sel .cx-img{ grid-row:1 / span 2; }
+.mc-sel b{ display:block; font-size:15px; line-height:1.25; overflow-wrap:anywhere; }
+.mc-sel small{ display:block; font-size:12px; color:var(--fg-3); }
+.mc-x{ grid-column:3; grid-row:1; width:44px; height:44px; display:flex; align-items:center; justify-content:center; color:var(--fg-2); background:transparent; }
+.mc-x:focus-visible,.mc-opt:focus-visible,.mc-tile:focus-visible,.mc-add:focus-visible{ outline:3px solid var(--accent); outline-offset:-3px; }
+.mc-prio{ grid-column:2 / 4; display:flex; flex-wrap:wrap; gap:6px; }
+.mc-opt{ min-height:44px; padding:0 12px; font-size:13px; font-weight:700; color:var(--fg-2); background:var(--tone); clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); }
+.mc-opt[aria-pressed="true"]{ background:var(--sky); color:var(--sky-ink); }
+.mc-empty-tray{ margin:0; padding:12px; font-size:14px; color:var(--fg-3); background:var(--panel); }
+.mc-note{ margin:10px 0 0; min-height:0; font-size:13px; line-height:1.45; font-weight:600; color:var(--sky); }
+.mc-note:empty{ display:none; }
+.mc-note.is-warn{ color:var(--rose); }
+.mc-go{ display:flex; width:100%; min-height:52px; margin-top:12px; align-items:center; justify-content:center; }
+.mc-go[disabled]{ opacity:.45; cursor:not-allowed; }
+.mc-linksec{ margin-top:20px; }
+.mc-linksec h3{ margin:0 0 4px; font-size:16px; font-weight:800; line-height:1.3; color:var(--fg-1); }
+.mc-linksub{ margin:14px 0 6px; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.mc-link{ display:grid; grid-template-columns:48px minmax(0,1fr); gap:4px 12px; align-items:center; padding:8px 10px; margin-top:6px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.mc-link .cx-img{ grid-row:1 / span 2; }
+.mc-link b{ display:block; font-size:14px; line-height:1.25; overflow-wrap:anywhere; }
+.mc-link small{ display:block; font-size:12px; color:var(--fg-3); }
+.mc-badges{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; margin-top:2px; }
+.mc-badge{ display:inline-flex; align-items:center; min-height:22px; padding:0 8px; font-size:12px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; background:var(--tone); color:var(--fg-2); }
+.mc-badge.own{ background:var(--sky); color:var(--sky-ink); }
+.mc-add{ grid-column:1 / 3; min-height:44px; margin-top:4px; padding:0 14px; font-size:13px; font-weight:700; color:var(--accent-ink); background:var(--white); box-shadow:inset 0 0 0 1px var(--line); }
+.mc-add[disabled]{ opacity:.55; }
+.mc-filters{ display:flex; flex-direction:column; gap:10px; margin-top:22px; }
+.mc-seg{ display:inline-flex; gap:6px; flex-wrap:wrap; }
+.mc-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.mc-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:10px; margin-top:12px; }
+.mc-tile{ position:relative; display:flex; flex-direction:column; width:100%; text-align:left; padding:0 0 8px; color:inherit; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.mc-tile[aria-pressed="true"]{ box-shadow:inset 0 0 0 3px var(--sky); }
+.mc-tile b{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; padding:8px 8px 0; font-size:13px; line-height:1.25; overflow-wrap:anywhere; }
+.mc-tile small{ padding:0 8px; font-size:12px; color:var(--fg-3); }
+.mc-tengo{ position:absolute; top:6px; left:0; z-index:1; padding:3px 8px 3px 6px; font-size:12px; font-weight:800; letter-spacing:.04em; background:var(--sky); color:var(--sky-ink); }
+.mc-check{ position:absolute; right:6px; bottom:6px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; background:var(--sky); color:var(--sky-ink); }
+.mc-chipline{ display:flex; flex-wrap:wrap; gap:4px 6px; }
+.mc-ok,.mc-miss{ display:inline-flex; align-items:center; min-height:22px; padding:0 8px; font-size:12px; font-weight:700; }
+.mc-ok{ background:var(--sky); color:var(--sky-ink); }
+.mc-miss{ background:transparent; color:var(--rose); box-shadow:inset 0 0 0 1px var(--rose); }
+.mc-banner{ margin:12px 0 0; padding:10px 12px; font-size:13px; line-height:1.45; font-weight:600; color:var(--fg-1); background:var(--panel); box-shadow:inset 3px 0 0 var(--rose); }
+.mc-crit{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.mc-more{ display:flex; width:100%; min-height:48px; margin-top:12px; align-items:center; justify-content:center; }
+@media (min-width:640px){ .mc-grid{ grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); } .mc-tray{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); } }
+
+/* ===== COMPETICIÓN V1: explorar mazos → arquetipo → lista → copiar ===== */
+.cx-search{ display:block; }
+.cx-search input{ width:100%; min-height:48px; padding:0 16px; border:0; background:var(--panel); color:var(--fg-1); font:var(--text-body); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); }
+.cx-search input::placeholder{ color:var(--fg-3); }
+.cx-search input:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.cx-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:12px; margin-top:14px; }
+.cx-card{ display:flex; flex-direction:column; width:100%; text-align:left; background:var(--panel); color:inherit; padding:0 0 12px; clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); transition:transform .16s var(--ease-out); }
+.cx-card:active,.cx-list:active{ transform:scale(.985); }
+.cx-card:focus-visible,.cx-list:focus-visible,.cx-cardbtn:focus-visible{ outline:3px solid var(--accent); outline-offset:-3px; }
+.cx-img{ position:relative; aspect-ratio:5/7; background:var(--tone); overflow:hidden; }
+.cx-img img{ display:block; width:100%; height:100%; object-fit:cover; }
+.cx-ph{ display:flex; align-items:center; justify-content:center; width:100%; height:100%; padding:8px; text-align:center; font-size:12px; font-weight:700; line-height:1.3; color:var(--fg-2); overflow-wrap:anywhere; }
+.cx-name{ display:flex; align-items:flex-start; gap:8px; padding:10px 10px 0; font-weight:700; line-height:1.25; color:var(--fg-1); }
+.cx-name > span:last-child{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere; }
+.cx-dual{ flex:none; width:16px; height:16px; margin-top:1px; background:linear-gradient(135deg,var(--ca) 0 50%,var(--cb) 50% 100%); box-shadow:inset 0 0 0 1px var(--line); }
+.cx-title .cx-dual{ width:20px; height:20px; margin-top:0; }
+.cx-note{ margin:14px 0 0; }
+.cx-link{ display:inline-flex; align-items:center; min-height:44px; margin-top:8px; padding:0; font-size:14px; font-weight:700; color:var(--sky); text-decoration:underline; text-underline-offset:3px; }
+.cx-head{ display:flex; align-items:center; gap:14px; margin-top:10px; }
+.cx-head .cx-img{ flex:none; width:88px; }
+.cx-title{ display:flex; align-items:center; gap:10px; margin:0; overflow-wrap:anywhere; }
+.cx-title:focus{ outline:none; }
+.cx-lists{ display:flex; flex-direction:column; gap:12px; margin-top:16px; }
+.cx-list{ display:flex; flex-direction:column; gap:10px; width:100%; padding:10px; text-align:left; color:inherit; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); transition:transform .16s var(--ease-out); }
+.cx-thumbs{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+.cx-foot{ display:flex; align-items:center; gap:8px; min-height:24px; font-size:13px; font-weight:600; color:var(--fg-3); }
+.cx-foot svg{ flex:none; margin-left:auto; color:var(--sky); }
+.cx-metaline{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; margin:8px 0 0; font-size:13px; color:var(--fg-3); }
+.cx-metaline a{ color:var(--sky); font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+.cx-cta{ display:flex; width:100%; min-height:52px; margin-top:14px; align-items:center; justify-content:center; }
+.cx-msg{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-top:12px; font-size:14px; font-weight:700; color:var(--sky); }
+.cx-msg.is-err{ color:var(--rose); }
+.cx-type{ margin:22px 0 10px; font-family:var(--font-sans); font-size:var(--text-label-size); font-weight:var(--text-label-weight); line-height:var(--text-label-lh); letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.cx-cards{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.cx-cardbtn{ position:relative; display:block; width:100%; padding:0; background:none; color:inherit; }
+.cx-qty{ position:absolute; right:6px; bottom:6px; min-width:30px; height:26px; padding:0 8px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; font-variant-numeric:tabular-nums; background:var(--navy); color:var(--white); clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px); }
+@media (min-width:640px){ .cx-cards{ grid-template-columns:repeat(4,minmax(0,1fr)); } .cx-grid{ grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); } }
+@media (min-width:900px){ .cx-cards{ grid-template-columns:repeat(6,minmax(0,1fr)); } .cx-lists{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
 /* ===== INSTALAR COMO APP ===== */
 html{ touch-action:manipulation; }
 @media (display-mode:standalone){ html,body{ overscroll-behavior-y:none; } }
@@ -2064,6 +2164,9 @@ html{ touch-action:manipulation; }
         <button type="button" class="dp-btn dp-btn-primary" id="collStarters"></button>
       </div>
     </div>
+    <div class="coll-builder-wrap" id="collBuilderWrap">
+      <button type="button" class="coll-builder" id="collBuilder"><img src="icons/avatar-de-perfil.png" alt="" width="36" height="36"><span class="cb-txt"><b id="lblCollBuilder">Crear desde mi colección</b><small id="lblCollBuilderSub">Encuentra mazos con tus cartas</small></span></button>
+    </div>
     <div class="coll-bar" id="collBar">
       <div class="coll-search">
         <svg class="cs-ico" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.6" stroke="currentColor" stroke-width="1.8"/><path d="M13.3 13.3L17 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -2900,6 +3003,30 @@ var EFFECT_CONFIG = {
         issues:function(n){ return n===1 ? '1 problema de reglas' : n+' problemas de reglas'; }, more:function(n){ return 'Ver más ('+n+')'; },
         empty:'No hay listas con estos filtros.', cards:'cartas', noEvent:'Evento sin título', descPrefix:'Lista de torneo'
       },
+      mc:{
+        entry:'Crear desde mi colección', entrySub:'Encuentra mazos con tus cartas', fromComp:'Desde mis cartas', title:'Crear desde mis cartas', intro:'Elige las cartas con las que quieres jugar y encuentra listas que las utilizan',
+        backColl:'Mi colección', backPick:'Elegir cartas', backRes:'Resultados', loadingColl:'Cargando tu colección…', noPilots:'Todavía no tienes Pilots registrados en tu colección.', noUnits:'Todavía no tienes Units registradas en tu colección.',
+        goColl:'Ir a Mi colección', exploreUnits:'Explorar mis Units', exploreMine:'Ver mis Pilots', pilots:'Pilots', units:'Units', all:'Todos', onlyLR:'Solo LR', search:'Buscar por nombre o código…', searchAria:'Buscar entre tus cartas por nombre o código',
+        have:'TENGO', haveNot:'No tengo', haveYes:'Tengo', trayHint:'Elige entre 1 y 3 cartas. Tu mazo no se modifica: es solo para buscar listas.', must:'Imprescindible', want:'Me gustaría incluirla',
+        remove:function(n){ return 'Quitar '+n; }, max:'Ya has elegido 3 cartas. Quita una para añadir otra.', selected:function(n){ return n+' elegida'; }, unselected:function(n){ return n+' quitada'; },
+        linksTitle:'Units compatibles con Link', linksFor:function(n){ return 'con '+n; }, linksOwn:'Las que tienes', linksNot:'Las que no tienes', viaName:'Link directo por nombre', viaTrait:function(x){ return 'Link por rasgo: '+x; },
+        add:'Añadir a búsqueda', added:'En la búsqueda', showAll:function(n){ return 'Ver todas ('+n+')'; }, showLess:'Ver menos', noLinks:'No hay Units con Link confirmado para este Piloto en el catálogo.',
+        colorWarn:function(names, max){ return 'Combinación de colores no viable: '+names+' añadiría un color más del máximo permitido ('+max+') en un mazo. Puedes buscar igualmente.'; },
+        searchBtn:'Buscar mazos', resultsTitle:'Mazos con tus cartas', crit:function(m){ return m ? 'Imprescindible' : 'Deseada'; },
+        exactNone:'No hay listas publicadas con todas tus cartas imprescindibles.', partialBtn:'Explorar coincidencias parciales', partialNote:'Coincidencias parciales: ninguna de estas listas es un mazo probado con tu combinación completa.',
+        exactCount:function(n){ return n === 1 ? '1 lista incluye todas tus cartas imprescindibles' : n+' listas incluyen todas tus cartas imprescindibles'; }, partialCount:function(n){ return n === 1 ? '1 lista con coincidencia parcial' : n+' listas con coincidencia parcial'; },
+        coverage:function(n){ return 'Se busca entre '+n+' listas completas verificadas de torneo.'; }, lowCoverage:function(n){ return 'Hay pocas listas verificadas ('+n+'): puede que tu combinación no aparezca aunque exista.'; },
+        has:function(n){ return 'Incluye '+n; }, lacks:function(n){ return 'No incluye '+n; }, openList:'Ver lista', more:function(n){ return 'Ver más ('+n+')'; },
+        ownedNote:function(h, n){ return 'Tienes '+h+' de las '+n+' cartas distintas de esta lista; el resto no las tienes en tu colección. Puedes consultarla y copiarla igualmente.'; }, ownedAll:'Tienes todas las cartas distintas de esta lista en tu colección.', ownedNone:'Aún no tienes cartas registradas en tu colección: puedes consultar la lista y copiarla igualmente.'
+      },
+      cx:{
+        sub:'Descubre qué mazos se están jugando.', search:'Buscar mazo…', searchAria:'Buscar mazo por nombre', loading:'Cargando mazos…', error:'No se pudieron cargar los mazos.',
+        empty:'Todavía no hay listas completas disponibles.', noMatch:function(q){ return 'Ningún mazo coincide con «'+q+'».'; }, toMeta:'Ver Meta y Torneos', noDate:'Fecha no disponible',
+        openList:function(n, d){ return 'Abrir la lista de '+n+(d ? ', '+d : ''); }, openArch:function(n){ return 'Ver las listas de '+n; }, backHome:'Competición', backArch:function(n){ return n; },
+        copyHint:'Se creará un mazo nuevo con esta lista y se guardará en Mis mazos. Ninguno de tus mazos se modifica.', copySuffix:' · Copia', viewDeck:'Ver mi mazo',
+        saveError:'No se pudo guardar el mazo, así que no se ha copiado nada. Inténtalo de nuevo.', offline:'Parece que no tienes conexión: vuelve a intentarlo cuando la recuperes.', notLegal:'Con las reglas actuales esta lista no es legal; puedes copiarla igualmente.',
+        groups:{ UNIT:'Unidades', PILOT:'Pilotos', COMMAND:'Comandos', BASE:'Bases', OTHER:'Otras' }, source:'Fuente', qty:function(n){ return n+' copias'; }, noImage:'Sin imagen'
+      },
       gd:{
         seasonLabel:'Temporada', tabs:{ meta:'Meta', torneos:'Torneos' },
         loading:'Cargando datos de torneos…', errorFile:'No se pudieron cargar los torneos de la última temporada.', errorSide6:'No se pudieron cargar los datos de esta temporada.', retry:'Reintentar',
@@ -3204,6 +3331,30 @@ var EFFECT_CONFIG = {
         copyDeck:'Copy deck', nameEyebrow:'Copy deck', nameTitle:'Name the new deck', nameHint:'A new deck will be created with these 50 cards and saved in My decks.', nameLabel:'Deck name', nameSave:'Save deck', nameCancel:'Cancel', nameDefault:'Unnamed deck', created:function(name){ return 'Deck created: '+name; }, openDeck:'Open deck', original:'See on Side-6',
         legal:'Tournament legal', issues:function(n){ return n===1 ? '1 rule issue' : n+' rule issues'; }, more:function(n){ return 'Show more ('+n+')'; },
         empty:'No lists match these filters.', cards:'cards', noEvent:'Untitled event', descPrefix:'Tournament list'
+      },
+      mc:{
+        entry:'Build from my collection', entrySub:'Find decks with your cards', fromComp:'From my cards', title:'Build from my cards', intro:'Choose the cards you want to play with and find lists that use them',
+        backColl:'My collection', backPick:'Choose cards', backRes:'Results', loadingColl:'Loading your collection…', noPilots:'You do not have any Pilots registered in your collection yet.', noUnits:'You do not have any Units registered in your collection yet.',
+        goColl:'Go to My collection', exploreUnits:'Browse my Units', exploreMine:'See my Pilots', pilots:'Pilots', units:'Units', all:'All', onlyLR:'LR only', search:'Search by name or code…', searchAria:'Search your cards by name or code',
+        have:'OWNED', haveNot:'Not owned', haveYes:'Owned', trayHint:'Choose 1 to 3 cards. Your decks are not modified: this is only to search lists.', must:'Must include', want:'Would like to include',
+        remove:function(n){ return 'Remove '+n; }, max:'You have already chosen 3 cards. Remove one to add another.', selected:function(n){ return n+' chosen'; }, unselected:function(n){ return n+' removed'; },
+        linksTitle:'Units compatible with Link', linksFor:function(n){ return 'with '+n; }, linksOwn:'The ones you own', linksNot:'The ones you do not own', viaName:'Direct Link by name', viaTrait:function(x){ return 'Link by trait: '+x; },
+        add:'Add to search', added:'In the search', showAll:function(n){ return 'Show all ('+n+')'; }, showLess:'Show less', noLinks:'No Units with a confirmed Link for this Pilot in the catalog.',
+        colorWarn:function(names, max){ return 'Colour combination not viable: '+names+' would add a colour beyond the maximum allowed ('+max+') in a deck. You can still search.'; },
+        searchBtn:'Find decks', resultsTitle:'Decks with your cards', crit:function(m){ return m ? 'Must include' : 'Wanted'; },
+        exactNone:'There are no published lists with all your must-include cards.', partialBtn:'Explore partial matches', partialNote:'Partial matches: none of these lists is a deck proven with your full combination.',
+        exactCount:function(n){ return n === 1 ? '1 list includes all your must-include cards' : n+' lists include all your must-include cards'; }, partialCount:function(n){ return n === 1 ? '1 list with a partial match' : n+' lists with a partial match'; },
+        coverage:function(n){ return 'Searching among '+n+' verified complete tournament lists.'; }, lowCoverage:function(n){ return 'There are few verified lists ('+n+'): your combination may not show up even if it exists.'; },
+        has:function(n){ return 'Includes '+n; }, lacks:function(n){ return 'Does not include '+n; }, openList:'View list', more:function(n){ return 'Show more ('+n+')'; },
+        ownedNote:function(h, n){ return 'You own '+h+' of the '+n+' distinct cards in this list; the rest are not in your collection. You can still view and copy it.'; }, ownedAll:'You own every distinct card in this list.', ownedNone:'You have no cards registered in your collection yet: you can still view and copy the list.'
+      },
+      cx:{
+        sub:'Discover which decks are being played.', search:'Search deck…', searchAria:'Search deck by name', loading:'Loading decks…', error:'Decks could not be loaded.',
+        empty:'There are no complete lists available yet.', noMatch:function(q){ return 'No deck matches “'+q+'”.'; }, toMeta:'See Meta and Tournaments', noDate:'Date not available',
+        openList:function(n, d){ return 'Open the '+n+' list'+(d ? ', '+d : ''); }, openArch:function(n){ return 'See the '+n+' lists'; }, backHome:'Competition', backArch:function(n){ return n; },
+        copyHint:'A new deck will be created with this list and saved in My decks. None of your decks is modified.', copySuffix:' · Copy', viewDeck:'View my deck',
+        saveError:'The deck could not be saved, so nothing was copied. Please try again.', offline:'You seem to be offline: try again when the connection is back.', notLegal:'Under the current rules this list is not legal; you can still copy it.',
+        groups:{ UNIT:'Units', PILOT:'Pilots', COMMAND:'Commands', BASE:'Bases', OTHER:'Other' }, source:'Source', qty:function(n){ return n+(n === 1 ? ' copy' : ' copies'); }, noImage:'No image'
       },
       gd:{
         seasonLabel:'Season', tabs:{ meta:'Meta', torneos:'Tournaments' },
@@ -6413,6 +6564,16 @@ var EFFECT_CONFIG = {
   /* ---- estado en la URL ---- */
   function gdIsHash(){ var h = location.hash; return h === '#competicion' || h.indexOf('#competicion/') === 0 || h.indexOf('#competicion?') === 0; }
   function gdHash(){
+    if(GD.cx && GD.cx.mine){   // Crear desde mis cartas: #competicion/mias[/buscar | /lista/<clave>][?s=códigos&p=1]
+      var mp = '#competicion/mias'+(GD.cx.view === 'res' ? '/buscar' : GD.cx.view === 'list' ? '/lista/'+encodeURIComponent(GD.cx.list) : ''), mq = [];
+      if(MC.sel.length) mq.push('s='+CompStats.criteriaToString(MC.sel));   // solo códigos, puntos y comas: legible sin codificar
+      if(MC.partial && GD.cx.view !== 'pick') mq.push('p=1');
+      return mp+(mq.length ? '?'+mq.join('&') : '');
+    }
+    if(GD.cx){   // Explorar mazos: #competicion/mazos[/<arquetipo>[/<lista>]][?q=…]
+      var cp = '#competicion/mazos'+(GD.cx.arch ? '/'+encodeURIComponent(GD.cx.arch) : '')+(GD.cx.list ? '/'+encodeURIComponent(GD.cx.list) : '');
+      return cp+(GD.cxq ? '?q='+encodeURIComponent(GD.cxq) : '');
+    }
     var d = GD.detail, path = '#competicion', p = new URLSearchParams(), g = GD.f;
     if(d) path += '/'+(d.type === 'arch' ? 'arquetipo' : d.type === 'compare' ? 'comparar' : 'torneo')+(d.id ? '/'+encodeURIComponent(d.id) : '');
     else if(GD.tab === 'torneos') path += '/torneos';
@@ -6425,6 +6586,10 @@ var EFFECT_CONFIG = {
   function gdFromHash(){
     var parts = location.hash.slice(1).split('?'), seg = parts[0].split('/'), p = new URLSearchParams(parts[1] || '');
     GD.detail = seg[1] === 'arquetipo' && seg[2] ? { type:'arch', id:decodeURIComponent(seg[2]) } : seg[1] === 'torneo' && seg[2] ? { type:'event', id:decodeURIComponent(seg[2]) } : seg[1] === 'comparar' ? { type:'compare', id:seg[2] ? decodeURIComponent(seg[2]) : '' } : null;
+    GD.cx = seg[1] === 'mazos' ? { view:seg[3] ? 'list' : seg[2] ? 'arch' : 'home', arch:seg[2] ? decodeURIComponent(seg[2]) : '', list:seg[3] ? decodeURIComponent(seg[3]) : '' }
+      : seg[1] === 'mias' ? { mine:true, view:seg[2] === 'buscar' ? 'res' : seg[2] === 'lista' ? 'list' : 'pick', arch:'', list:seg[3] ? decodeURIComponent(seg[3]) : '' } : null;
+    if(GD.cx && GD.cx.mine){ MC.sel = CompStats.criteriaFromString(p.get('s')); MC.partial = p.get('p') === '1'; }
+    GD.cxq = GD.cx && !GD.cx.mine ? (p.get('q') || '') : '';
     GD.tab = seg[1] === 'torneos' || p.get('t') === 'torneos' ? 'torneos' : 'meta';
     GD.season = p.get('s') || null; GD.q = p.get('q') || '';
     GD.f = { country:p.get('c') || '', from:p.get('from') || '', to:p.get('to') || '', format:p.get('fmt') || '', size:p.get('size') || '', topN:Number(p.get('top')) || 0, cov:p.get('cov') === 'all' ? 'all' : '' };
@@ -7075,6 +7240,375 @@ var EFFECT_CONFIG = {
     });
   }
   function gdRetry(panel, text, fn){ gdNote(panel, text, 'gd-error'); var b = el('button','dp-btn gd-retry', t().gd.retry); b.type = 'button'; b.addEventListener('click', fn); panel.appendChild(b); }
+  /* ===== Competición V1: explorar mazos → arquetipo → lista → copiar =====
+   * Solo listas con las 50 cartas verificadas (CompStats.deckStatus: suman 50 y existen en el catálogo). Fuentes: data/decklists.json (Side-6) y las listas completas de
+   * data/competition_events.json (torneos). Sin jugadores, sin puestos, sin porcentajes. Los arquetipos de cada temporada no se mezclan (clave = nombre + temporada).
+   * Carta del arquetipo: la que más listas incluyen (desempate: menos presente en el resto de arquetipos, UNIT/PILOT antes, código). Miniaturas de cada lista: unidades y pilotos
+   * con 2+ copias que menos aparecen en las otras listas del arquetipo (si no hay suficientes, las de más copias). Todo determinista. */
+  var COMP_V1 = true;   // false: el menú abre otra vez Meta y Torneos (las rutas antiguas funcionan siempre)
+  var CX = { cache:null, done:{} };
+  function cxSlug(name, set){ return CompStats.normText(name).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')+'.'+String(set || '').toLowerCase(); }
+  function cxSig(cards){ return Object.keys(cards).sort().map(function(k){ return k+':'+cards[k]; }).join(','); }
+  function cxData(){
+    if(GD.status !== 'ok' || DL.status !== 'ok') return null;
+    if(CX.cache) return CX.cache;
+    var lists = [], seen = {};
+    function push(it){
+      if(!it.name || !it.cards || seen[it.key]) return;
+      if(CompStats.deckStatus({ cards:it.cards }, gdCatalogHas) !== 'complete') return;   // composición incompleta o con cartas desconocidas: no entra
+      seen[it.key] = 1; it.arch = cxSlug(it.name, it.set); lists.push(it);
+    }
+    DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){
+      var e = d.event || {};
+      push({ key:d.h, name:a.name, colors:a.colors || [], set:GD_SIDE6_SET, date:e.date || '', cards:d.cards, eventTitle:e.title || '', label:d.urlLabel || t().dl.original, url:d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/' });
+    }); });
+    var evs = {}; GD.data.events.forEach(function(e){ evs[e.id] = e; });
+    GD.data.results.forEach(function(r){
+      if(CompStats.originOf(r) !== 'tournament' || !r.cards) return;
+      var e = evs[r.eventId] || {}, res = CompStats.resolveArchetype(r.archetype, GD.table), name = res.id ? res.name : r.archetype, src = (e.sources || []).filter(function(x){ return x.primary; })[0] || (e.sources || [])[0] || {};
+      push({ key:r.id, name:name, colors:r.colors || [], set:e.set || r.set || '', date:e.date || '', cards:r.cards, eventTitle:e.name || '', label:src.label || t().cx.source, url:r.decklistUrl || r.sourceUrl || src.url || '' });
+    });
+    var by = {}, ginc = {};
+    lists.forEach(function(it){ (by[it.arch] = by[it.arch] || { key:it.arch, name:it.name, set:it.set, lists:[], inc:{}, colorsTally:{} }); by[it.arch].lists.push(it); Object.keys(it.cards).forEach(function(n){ by[it.arch].inc[n] = (by[it.arch].inc[n] || 0) + 1; ginc[n] = (ginc[n] || 0) + 1; }); });
+    var arches = Object.keys(by).map(function(k){
+      var A = by[k];
+      A.lists.sort(function(a, b){ return (a.date ? 0 : 1) - (b.date ? 0 : 1) || String(b.date).localeCompare(a.date) || a.key.localeCompare(b.key); });   // más recientes primero; sin fecha, al final
+      A.latest = A.lists[0].date || '';
+      A.lists.forEach(function(it){ var c = it.colors.join('/'); if(c) A.colorsTally[c] = { n:((A.colorsTally[c] || {}).n || 0)+1, c:it.colors }; });
+      var best = null; Object.keys(A.colorsTally).forEach(function(c){ if(!best || A.colorsTally[c].n > best.n || (A.colorsTally[c].n === best.n && c < best.k)) best = { k:c, n:A.colorsTally[c].n, c:A.colorsTally[c].c }; });
+      A.colors = best ? best.c : [];
+      var rank = { UNIT:0, PILOT:1, COMMAND:2, BASE:3 };
+      A.cover = Object.keys(A.inc).map(function(n){ var cd = cardByNumber(n); return { n:n, cd:cd, share:A.inc[n] / A.lists.length, g:ginc[n] / lists.length }; }).filter(function(x){ return x.cd; })
+        .sort(function(a, b){ return (b.share - a.share) || (a.g - b.g) || ((rank[a.cd.type] === undefined ? 9 : rank[a.cd.type]) - (rank[b.cd.type] === undefined ? 9 : rank[b.cd.type])) || (a.n < b.n ? -1 : 1); })[0] || null;
+      return A;
+    });
+    arches.sort(function(a, b){ return (a.latest ? 0 : 1) - (b.latest ? 0 : 1) || String(b.latest).localeCompare(a.latest) || a.name.localeCompare(b.name); });
+    var byList = {}; arches.forEach(function(A){ A.lists.forEach(function(it){ byList[it.key] = { A:A, it:it }; }); });
+    CX.cache = { arches:arches, by:arches.reduce(function(m, a){ m[a.key] = a; return m; }, {}), byList:byList, total:lists.length };
+    return CX.cache;
+  }
+  function cxThumbCards(it, A){
+    var all = Object.keys(it.cards).map(function(n){ return { n:n, cd:cardByNumber(n), q:it.cards[n], share:(A.inc[n] || 0) / A.lists.length }; }).filter(function(x){ return x.cd; });
+    var pool = all.filter(function(x){ return x.cd.type === 'UNIT' || x.cd.type === 'PILOT'; })
+      .sort(function(a, b){ return ((a.q >= 2 ? 0 : 1) - (b.q >= 2 ? 0 : 1)) || (a.share - b.share) || (b.q - a.q) || (a.n < b.n ? -1 : 1); });
+    var pick = pool.slice(0, 4);
+    if(pick.length < 4) pick = pick.concat(all.filter(function(x){ return pick.indexOf(x) < 0; }).sort(function(a, b){ return (b.q - a.q) || (a.n < b.n ? -1 : 1); }).slice(0, 4 - pick.length));
+    return pick;
+  }
+  function cxImg(num, name, host){
+    var im = document.createElement('img'); im.loading = 'lazy'; im.alt = name || num; im.src = 'images/'+num+'.webp';
+    im.addEventListener('error', function(){ if(im.parentNode){ var ph = el('div','cx-ph', name || t().cx.noImage); im.parentNode.replaceChild(ph, im); } });
+    host.appendChild(im); return im;
+  }
+  function cxDual(colors){
+    var d = el('span','cx-dual'), v = function(c){ return 'var(--c-'+String(c).toLowerCase()+')'; };
+    d.setAttribute('aria-hidden', 'true'); if(colors && colors.length){ d.style.setProperty('--ca', v(colors[0])); d.style.setProperty('--cb', v(colors[1] || colors[0])); d.title = colors.map(function(c){ return t().colors[c] || c; }).join(' · '); }
+    else d.hidden = true;
+    return d;
+  }
+  function cxDateLabel(it){ return it.date ? fmtDate(it.date) : t().cx.noDate; }
+  function cxGo(st){
+    GD.scroll[location.hash] = compPage.scrollTop; GD.cx = st; GD.nav++; GD.depth++;
+    try{ history.pushState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){}
+    compState.animate = true; compState.dir = 'forward'; renderComp(); compPage.scrollTop = 0;
+    var h = document.querySelector('.cx-title'); if(h) h.focus({ preventScroll:true });
+  }
+  function cxBack(){
+    if(GD.depth > 0){ compState.animate = true; compState.dir = 'back'; history.back(); return; }
+    if(GD.cx.mine && GD.cx.view === 'pick' && MC.from === 'coll'){ closeCompPage(); return; }
+    GD.cx = GD.cx.mine ? (GD.cx.view === 'list' ? { mine:true, view:'res', arch:'', list:'' } : GD.cx.view === 'res' ? { mine:true, view:'pick', arch:'', list:'' } : { view:'home', arch:'', list:'' })
+      : GD.cx.list ? { view:'arch', arch:GD.cx.arch, list:'' } : { view:'home', arch:'', list:'' };   // se entró directamente por un enlace
+    gdSyncUrl(); compState.animate = true; compState.dir = 'back'; renderComp(); compPage.scrollTop = 0;
+  }
+  function cxBackBtn(panel, label, id){
+    var b = el('button','dp-btn gd-back', '← '+label); b.type = 'button'; b.id = id; b.addEventListener('click', cxBack); panel.appendChild(b);
+  }
+  function cxHome(panel, D){
+    var C = t().cx, wrap = el('div','cx-home'), lab = el('label','cx-search'), inp = document.createElement('input');
+    inp.type = 'search'; inp.id = 'cxSearch'; inp.placeholder = C.search; inp.setAttribute('aria-label', C.searchAria); inp.autocomplete = 'off'; inp.value = GD.cxq || '';
+    lab.appendChild(inp); wrap.appendChild(lab);
+    var grid = el('div','cx-grid'); grid.id = 'cxGrid'; var note = el('p','comp-note cx-note'); note.setAttribute('role','status'); wrap.appendChild(grid); wrap.appendChild(note);
+    function paint(){
+      var q = CompStats.normText(inp.value || ''); grid.innerHTML = ''; note.textContent = '';
+      var shown = D.arches.filter(function(A){ return !q || CompStats.normText(A.name).indexOf(q) >= 0; });
+      if(!D.arches.length) note.textContent = C.empty; else if(!shown.length) note.textContent = C.noMatch(inp.value.trim());
+      shown.forEach(function(A){
+        var b = el('button','cx-card'); b.type = 'button'; b.dataset.arch = A.key; b.setAttribute('aria-label', C.openArch(A.name));
+        var im = el('div','cx-img'); if(A.cover) cxImg(A.cover.n, A.cover.cd.name, im); else im.appendChild(el('div','cx-ph', A.name)); b.appendChild(im);
+        var nm = el('div','cx-name'); nm.appendChild(cxDual(A.colors)); nm.appendChild(el('span', null, A.name)); b.appendChild(nm);
+        b.addEventListener('click', function(){ cxGo({ view:'arch', arch:A.key, list:'' }); });
+        grid.appendChild(b);
+      });
+    }
+    inp.addEventListener('input', function(){ GD.cxq = inp.value.trim() ? inp.value : ''; gdSyncUrl(); paint(); });
+    paint();
+    var meta = el('button','cx-link', C.toMeta); meta.type = 'button'; meta.id = 'cxToMeta';
+    meta.addEventListener('click', function(){
+      GD.scroll[location.hash] = compPage.scrollTop; GD.cx = null; GD.detail = null; GD.tab = 'meta'; GD.nav++; GD.depth++;
+      try{ history.pushState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){}
+      compState.animate = true; compState.dir = 'forward'; renderComp(); compPage.scrollTop = 0;
+    });
+    var mine = el('button','cx-link', t().mc.fromComp); mine.type = 'button'; mine.id = 'cxMine'; mine.style.marginRight = '18px';
+    mine.addEventListener('click', function(){ mcOpen('comp'); });
+    wrap.insertBefore(mine, grid);
+    wrap.appendChild(meta); panel.appendChild(wrap);
+  }
+  function cxArch(panel, D, A){
+    var C = t().cx;
+    cxBackBtn(panel, C.backHome, 'cxBack');
+    var head = el('div','cx-head'), im = el('div','cx-img'); if(A.cover) cxImg(A.cover.n, A.cover.cd.name, im); else im.appendChild(el('div','cx-ph', A.name)); head.appendChild(im);
+    var h = el('h2','comp-h cx-title'); h.tabIndex = -1; h.appendChild(cxDual(A.colors)); h.appendChild(el('span', null, A.name)); head.appendChild(h); panel.appendChild(head);
+    var box = el('div','cx-lists');
+    A.lists.forEach(function(it){
+      var b = el('button','cx-list'); b.type = 'button'; b.dataset.list = it.key; b.setAttribute('aria-label', C.openList(A.name, it.date ? fmtDate(it.date) : ''));
+      var th = el('div','cx-thumbs'); cxThumbCards(it, A).forEach(function(x){ var w = el('div','cx-img'); cxImg(x.n, x.cd.name, w); th.appendChild(w); }); b.appendChild(th);
+      var ft = el('div','cx-foot'); ft.appendChild(el('span', null, cxDateLabel(it)+(it.set ? ' · '+it.set : '')));
+      ft.insertAdjacentHTML('beforeend', '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'); b.appendChild(ft);
+      b.addEventListener('click', function(){ cxGo({ view:'list', arch:A.key, list:it.key }); });
+      box.appendChild(b);
+    });
+    panel.appendChild(box);
+  }
+  function cxCreateDeck(A, it, name){
+    var nid = createDeck(name || (A.name+t().cx.copySuffix)), cards = {};
+    Object.keys(it.cards).forEach(function(n){ cards[n] = it.cards[n]; });
+    DECKS[nid].cards = cards;
+    var U = t().dl; DECKS[nid].description = U.descPrefix+': '+(it.eventTitle || U.noEvent)+(it.date ? ' ('+it.date+')' : '')+' · '+U.source+' '+it.label;
+    activeDeckId = nid; saveDecksToStorage(); updateDeckPill(); render();
+    var ok = false;   // no se dice que se copió si lo guardado no coincide
+    try{ var saved = JSON.parse(localStorage.getItem('msa_decks') || '{}')[nid]; ok = !!saved && cxSig(saved.cards || {}) === cxSig(cards); }catch(e){}
+    if(!ok){ delete DECKS[nid]; if(activeDeckId === nid) activeDeckId = null; try{ persistLocal(); }catch(e){} updateDeckPill(); render(); return { error:true }; }
+    return { id:nid };
+  }
+  function cxList(panel, D, A, it, opts){
+    var C = t().cx, L = t();
+    cxBackBtn(panel, (opts && opts.backLabel) || C.backArch(A.name), 'cxBack');
+    var h = el('h2','comp-h cx-title'); h.tabIndex = -1; h.style.marginTop = '10px'; h.appendChild(cxDual(A.colors)); h.appendChild(el('span', null, A.name)); panel.appendChild(h);
+    var meta = el('p','cx-metaline'); meta.appendChild(el('span', null, cxDateLabel(it)+(it.set ? ' · '+it.set : '')));
+    if(it.url){ var a = document.createElement('a'); a.href = it.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = C.source+': '+it.label; meta.appendChild(a); }
+    panel.appendChild(meta);
+    var cta = el('button','dp-btn dp-btn-primary cx-cta', L.dl.copyDeck); cta.type = 'button'; cta.id = 'cxCopy';
+    cta.addEventListener('click', function(){
+      askName({ eyebrow:L.dl.nameEyebrow, title:L.dl.nameTitle, hint:C.copyHint, label:L.dl.nameLabel, cancel:L.dl.nameCancel, saveLabel:L.dl.nameSave, fallback:L.dl.nameDefault, value:(A.name+C.copySuffix).slice(0, 40),
+        onSave:function(name){ CX.done[it.key] = cxCreateDeck(A, it, name); renderComp(); var m = document.getElementById('cxMsg'); if(m) m.focus({ preventScroll:true }); } });
+    });
+    panel.appendChild(cta);
+    var done = CX.done[it.key];
+    if(done && done.id && DECKS[done.id]){
+      var ok = el('div','cx-msg'); ok.id = 'cxMsg'; ok.tabIndex = -1; ok.setAttribute('role','status'); ok.appendChild(el('span', null, L.dl.created(DECKS[done.id].name)));
+      var go = el('button','dp-btn', C.viewDeck); go.type = 'button'; go.id = 'cxViewDeck'; go.addEventListener('click', function(){ closeCompPage(); openDecksPage(); openDeckDetail(done.id); }); ok.appendChild(go); panel.appendChild(ok);
+    } else if(done && done.error){ var er = el('div','cx-msg is-err', C.saveError); er.id = 'cxMsg'; er.tabIndex = -1; er.setAttribute('role','alert'); panel.appendChild(er); }
+    if(engineOK()){ var lg = legalOf({ cards:it.cards }); if(lg && lg.status !== 'legal') panel.appendChild(el('p','comp-note cx-note', C.notLegal)); }
+    if(opts && opts.owned){   // desde «Crear desde mis cartas»: cuántas cartas distintas de la lista tienes (solo informa; no cambia nada)
+      var M = t().mc, ks = Object.keys(it.cards), have = ks.filter(function(n){ return COLL.has(n); }).length;
+      panel.appendChild(el('p','comp-note cx-note', !COLL.size() ? M.ownedNone : have === ks.length ? M.ownedAll : M.ownedNote(have, ks.length)));
+    }
+    var groups = { UNIT:[], PILOT:[], COMMAND:[], BASE:[], OTHER:[] };
+    Object.keys(it.cards).forEach(function(n){ var cd = cardByNumber(n); (cd && groups[cd.type] ? groups[cd.type] : groups.OTHER).push({ n:n, cd:cd, q:it.cards[n] }); });
+    ['UNIT','PILOT','COMMAND','BASE','OTHER'].forEach(function(ty){
+      var g = groups[ty]; if(!g.length) return;
+      g.sort(function(x, y){ return ((x.cd ? x.cd.lv : 0) - (y.cd ? y.cd.lv : 0)) || x.n.localeCompare(y.n); });
+      panel.appendChild(el('h3','cx-type', C.groups[ty]+' · '+g.reduce(function(s, x){ return s + x.q; }, 0)));
+      var grid = el('div','cx-cards');
+      g.forEach(function(x){
+        var b = el('button','cx-cardbtn'); b.type = 'button'; b.dataset.number = x.n; b.setAttribute('aria-label', (x.cd ? x.cd.name : x.n)+' · '+C.qty(x.q));
+        var w = el('div','cx-img'); var im = cxImg(x.n, x.cd ? x.cd.name : x.n, w); b.appendChild(w); b.appendChild(el('span','cx-qty','×'+x.q));
+        if(x.cd) b.addEventListener('click', function(){ openDetail(x.cd, im.parentNode ? im : w); });   // abrir la ficha no cambia ningún mazo
+        grid.appendChild(b);
+      });
+      panel.appendChild(grid);
+    });
+  }
+  /* ===== Crear desde mi colección (V1) =====
+   * Misma pantalla desde Mi colección y desde Competición → «Desde mis cartas». Elegir cartas es temporal: no toca ningún mazo ni la colección hasta que alguien pulsa «Copiar mazo».
+   * Criterios, prioridad y búsqueda: CompStats (toggleCriterion, matchLists). Link: Meta.linkUnitsFor (datos del catálogo; ver sus límites). Colores: Legality.maxAddable. */
+  var MC = { sel:[], kind:'PILOT', color:'', q:'', lr:false, partial:false, from:'comp', msg:'', warn:false, linkAll:{}, shown:20 };
+  function mcCard(n){ return cardByNumber(n); }
+  function mcOwned(kind){ return ALL.filter(function(c){ return c.type === kind && COLL.has(c.number); }); }
+  function mcLoading(){
+    if(!ALL.length) return true;
+    var ph = typeof cloud !== 'undefined' && cloud.csync ? cloud.csync.state().phase : '';
+    return !!(typeof cloud !== 'undefined' && cloud.user && (ph === 'saving' || ph === 'pending') && !COLL.size());   // colección de la cuenta aún sin traer: no se dice «sin Pilots»
+  }
+  function mcOpen(from){
+    MC = { sel:[], kind:'PILOT', color:'', q:'', lr:false, partial:false, from:from, msg:'', warn:false, linkAll:{}, shown:20 };
+    if(from === 'coll'){ closeCollPage(true); GD.detail = null;   // true: no toca la dirección, así «atrás» vuelve a #coleccion
+      GD.cx = { mine:true, view:'pick', arch:'', list:'' }; GD.cxq = ''; openCompPage(true); }
+    else cxGo({ mine:true, view:'pick', arch:'', list:'' });
+  }
+  function mcImg(n, name, size){ var w = el('div','cx-img'); if(size) w.style.width = size+'px'; cxImg(n, name, w); return w; }
+  function mcColorWarn(){
+    if(!engineOK() || MC.sel.length < 2) return '';
+    var cards = {}, bad = [], allowed = 2;
+    MC.sel.forEach(function(c){
+      var lim = Legality.maxAddable(cards, c.n, 1, ruleset(), cardMap(), Legality.context(cards, ruleset(), cardMap()));
+      if(lim.max < 1 && lim.blockedBy && lim.blockedBy.ruleType === 'color_limit'){ bad.push((mcCard(c.n) || {}).name || c.n); allowed = lim.blockedBy.allowedValue || allowed; } else cards[c.n] = 1;
+    });
+    return bad.length ? t().mc.colorWarn(bad.join(', '), allowed) : '';
+  }
+  function mcToggle(n, prio){
+    var M = t().mc, cd = mcCard(n), r = CompStats.toggleCriterion(MC.sel, n, prio);
+    if(r.blocked){ MC.msg = M.max; mcPaintNote(); return false; }
+    MC.sel = r.sel; MC.msg = '';
+    var live = document.getElementById('deckLive'); if(live && cd) live.textContent = (r.sel.some(function(x){ return x.n === n; }) ? M.selected : M.unselected)(cd.name);
+    gdSyncUrl(); mcRefresh(); return true;
+  }
+  function mcPaintNote(){
+    var note = document.getElementById('mcNote'); if(!note) return;
+    var w = mcColorWarn(); note.textContent = MC.msg || w; note.classList.toggle('is-warn', !!w && !MC.msg);
+  }
+  function mcPaintTray(){
+    var M = t().mc, box = document.getElementById('mcTray'); if(!box) return; box.innerHTML = '';
+    if(!MC.sel.length){ box.appendChild(el('p','mc-empty-tray', M.trayHint)); return; }
+    MC.sel.forEach(function(c){
+      var cd = mcCard(c.n) || { name:c.n, type:'' }, row = el('div','mc-sel'); row.dataset.number = c.n;
+      row.appendChild(mcImg(c.n, cd.name));
+      var info = el('div'); info.appendChild(el('b', null, cd.name)); info.appendChild(el('small', null, c.n+' · '+(t().types[cd.type] || ''))); row.appendChild(info);
+      var x = el('button','mc-x'); x.type = 'button'; x.setAttribute('aria-label', M.remove(cd.name)); x.innerHTML = ICON_X; x.addEventListener('click', function(){ mcToggle(c.n); }); row.appendChild(x);
+      var pr = el('div','mc-prio'); pr.setAttribute('role','group'); pr.setAttribute('aria-label', cd.name);
+      [['must', M.must], ['want', M.want]].forEach(function(o){
+        var b = el('button','mc-opt', o[1]); b.type = 'button'; b.dataset.prio = o[0]; b.setAttribute('aria-pressed', String(c.prio === o[0]));
+        b.addEventListener('click', function(){ MC.sel = CompStats.setCriterionPrio(MC.sel, c.n, o[0]); gdSyncUrl(); mcPaintTray(); }); pr.appendChild(b);
+      });
+      row.appendChild(pr); box.appendChild(row);
+    });
+  }
+  function mcPaintGo(){ var b = document.getElementById('mcSearch'); if(b){ b.disabled = !MC.sel.length; b.setAttribute('aria-disabled', String(!MC.sel.length)); } }
+  function mcMarkTiles(){ document.querySelectorAll('.mc-tile').forEach(function(b){ var on = MC.sel.some(function(x){ return x.n === b.dataset.number; }); b.setAttribute('aria-pressed', String(on)); var ck = b.querySelector('.mc-check'); if(ck) ck.hidden = !on; }); }
+  function mcPaintLinks(){
+    var M = t().mc, box = document.getElementById('mcLinks'); if(!box) return; box.innerHTML = '';
+    var pilots = MC.sel.map(function(c){ return mcCard(c.n); }).filter(function(c){ return c && c.type === 'PILOT'; });
+    if(!pilots.length || typeof Meta === 'undefined') return;
+    var units = ALL.filter(function(c){ return c.type === 'UNIT'; });
+    pilots.forEach(function(p){
+      var sec = el('section','mc-linksec'), h = el('h3', null, M.linksTitle+' '); h.appendChild(el('span','mc-linksub', M.linksFor(p.name))); h.lastChild.style.margin = '0'; sec.appendChild(h);
+      var rel = Meta.linkUnitsFor(p, units); if(!rel.length){ sec.appendChild(el('p','comp-note', M.noLinks)); box.appendChild(sec); return; }
+      [[true, M.linksOwn], [false, M.linksNot]].forEach(function(g){
+        var list = rel.filter(function(r){ return COLL.has(r.unit.number) === g[0]; }); if(!list.length) return;
+        var key = p.number+(g[0] ? '+' : '-'), open = !!MC.linkAll[key], shown = open ? list : list.slice(0, 6);
+        sec.appendChild(el('div','mc-linksub', g[1]+' · '+list.length));
+        shown.forEach(function(r){
+          var u = r.unit, row = el('div','mc-link'); row.dataset.number = u.number; row.appendChild(mcImg(u.number, u.name));
+          var tx = el('div'); tx.appendChild(el('b', null, u.name)); tx.appendChild(el('small', null, u.number));
+          var bd = el('div','mc-badges'); bd.appendChild(el('span','mc-badge'+(g[0] ? ' own' : ''), g[0] ? M.haveYes : M.haveNot)); bd.appendChild(el('span','comp-note', r.via === 'name' ? M.viaName : M.viaTrait(r.trait))); tx.appendChild(bd); row.appendChild(tx);
+          var inSearch = MC.sel.some(function(x){ return x.n === u.number; }), ad = el('button','mc-add', inSearch ? M.added : M.add); ad.type = 'button'; ad.disabled = inSearch;
+          ad.setAttribute('aria-label', (inSearch ? M.added : M.add)+' · '+u.name);
+          ad.addEventListener('click', function(){ mcToggle(u.number, 'want'); }); row.appendChild(ad); sec.appendChild(row);   // propuesta, nunca automática: entra con «Me gustaría incluirla»
+        });
+        if(list.length > 6){ var mb = el('button','dp-btn mc-more', open ? M.showLess : M.showAll(list.length)); mb.type = 'button'; mb.addEventListener('click', function(){ MC.linkAll[key] = !open; mcPaintLinks(); }); sec.appendChild(mb); }
+      });
+      box.appendChild(sec);
+    });
+  }
+  function mcPaintGrid(){
+    var M = t().mc, box = document.getElementById('mcGrid'), note = document.getElementById('mcEmpty'); if(!box) return; box.innerHTML = ''; note.innerHTML = '';
+    if(mcLoading()){ note.appendChild(el('p','comp-note gd-loading', M.loadingColl)); return; }
+    var q = CompStats.normText(MC.q || ''), own = mcOwned(MC.kind);
+    var shown = own.filter(function(c){ return (!MC.color || c.color === MC.color) && (!MC.lr || c.rarity === 'LR') && (!q || CompStats.normText(c.name).indexOf(q) >= 0 || CompStats.normText(c.number).indexOf(q) >= 0); })
+      .sort(function(a, b){ return a.number < b.number ? -1 : a.number > b.number ? 1 : 0; });
+    if(!own.length){
+      note.appendChild(el('p','comp-note', MC.kind === 'PILOT' ? M.noPilots : M.noUnits));
+      var acts = el('div','mc-seg'); var g = el('button','dp-btn', M.goColl); g.type = 'button'; g.id = 'mcGoColl'; g.addEventListener('click', function(){ if(MC.from === 'coll'){ cxBack(); return; } closeCompPage(true); openCollPage(); }); acts.appendChild(g);
+      var o = el('button','dp-btn', MC.kind === 'PILOT' ? M.exploreUnits : M.exploreMine); o.type = 'button'; o.id = 'mcOther'; o.addEventListener('click', function(){ MC.kind = MC.kind === 'PILOT' ? 'UNIT' : 'PILOT'; MC.lr = false; mcPaintFilters(); mcPaintGrid(); }); acts.appendChild(o); note.appendChild(acts); return;
+    }
+    if(!shown.length){ note.appendChild(el('p','comp-note', t().cx.noMatch(MC.q || '…'))); return; }
+    shown.forEach(function(c){
+      var b = el('button','mc-tile'); b.type = 'button'; b.dataset.number = c.number; b.setAttribute('aria-label', c.name+' · '+c.number);
+      var w = el('div','cx-img'); cxImg(c.number, c.name, w); w.appendChild(el('span','mc-tengo', M.have));
+      var ck = el('span','mc-check'); ck.innerHTML = ICON_CHECK; ck.hidden = true; ck.setAttribute('aria-hidden','true'); w.appendChild(ck); b.appendChild(w);
+      b.appendChild(el('b', null, c.name)); b.appendChild(el('small', null, c.number));
+      b.addEventListener('click', function(){ mcToggle(c.number, 'must'); });
+      box.appendChild(b);
+    });
+    mcMarkTiles();
+  }
+  function mcPaintFilters(){
+    var M = t().mc, box = document.getElementById('mcFilters'); if(!box) return; box.innerHTML = '';
+    var seg = el('div','mc-seg'); seg.setAttribute('role','group');
+    [['PILOT', M.pilots], ['UNIT', M.units]].forEach(function(o){ var b = el('button','tag chip', o[1]); b.type = 'button'; b.dataset.kind = o[0]; b.setAttribute('aria-pressed', String(MC.kind === o[0])); if(MC.kind === o[0]) b.classList.add('active');
+      b.addEventListener('click', function(){ if(MC.kind === o[0]) return; MC.kind = o[0]; if(o[0] !== 'UNIT') MC.lr = false; mcPaintFilters(); mcPaintGrid(); }); seg.appendChild(b); });
+    box.appendChild(seg);
+    var chips = el('div','mc-chips'); chips.setAttribute('role','group'); chips.setAttribute('aria-label', t().colors ? 'Color' : '');
+    var all = el('button','tag chip', M.all); all.type = 'button'; all.dataset.color0 = '1'; all.setAttribute('aria-pressed', String(!MC.color)); if(!MC.color) all.classList.add('active'); all.addEventListener('click', function(){ MC.color = ''; mcPaintFilters(); mcPaintGrid(); }); chips.appendChild(all);
+    ['Blue','Green','Red','Purple','White'].forEach(function(c){ var b = el('button','tag chip', t().colors[c] || c); b.type = 'button'; b.dataset.color = c; b.setAttribute('aria-pressed', String(MC.color === c)); if(MC.color === c) b.classList.add('active');
+      b.addEventListener('click', function(){ MC.color = MC.color === c ? '' : c; mcPaintFilters(); mcPaintGrid(); }); chips.appendChild(b); });
+    if(MC.kind === 'UNIT'){ var lr = el('button','tag chip', M.onlyLR); lr.type = 'button'; lr.id = 'mcLR'; lr.setAttribute('aria-pressed', String(MC.lr)); if(MC.lr) lr.classList.add('active'); lr.addEventListener('click', function(){ MC.lr = !MC.lr; mcPaintFilters(); mcPaintGrid(); }); chips.appendChild(lr); }
+    box.appendChild(chips);
+    var lab = el('label','cx-search'), inp = document.createElement('input'); inp.type = 'search'; inp.id = 'mcQuery'; inp.placeholder = M.search; inp.setAttribute('aria-label', M.searchAria); inp.autocomplete = 'off'; inp.value = MC.q;
+    inp.addEventListener('input', function(){ MC.q = inp.value; mcPaintGrid(); }); lab.appendChild(inp); box.appendChild(lab);
+  }
+  function mcRefresh(){ mcPaintTray(); mcPaintNote(); mcPaintGo(); mcPaintLinks(); mcMarkTiles(); }
+  function mcPick(panel){
+    var M = t().mc, C = t().cx;
+    var back = el('button','dp-btn gd-back', '← '+(MC.from === 'coll' ? M.backColl : C.backHome)); back.type = 'button'; back.id = 'mcBack'; back.addEventListener('click', cxBack); panel.appendChild(back);
+    var root = el('div','mc'); root.id = 'mcRoot';
+    var h = el('h2','comp-h cx-title', M.title); h.tabIndex = -1; h.style.marginTop = '10px'; root.appendChild(h); root.appendChild(el('p','mc-intro', M.intro));
+    var tray = el('div','mc-tray'); tray.id = 'mcTray'; root.appendChild(tray);
+    var note = el('p','mc-note'); note.id = 'mcNote'; note.setAttribute('role','status'); root.appendChild(note);
+    var go = el('button','dp-btn dp-btn-primary mc-go', M.searchBtn); go.type = 'button'; go.id = 'mcSearch'; go.addEventListener('click', function(){ if(!MC.sel.length) return; MC.partial = false; MC.shown = 20; cxGo({ mine:true, view:'res', arch:'', list:'' }); }); root.appendChild(go);
+    var links = el('div'); links.id = 'mcLinks'; root.appendChild(links);
+    var fl = el('div','mc-filters'); fl.id = 'mcFilters'; root.appendChild(fl);
+    var empty = el('div'); empty.id = 'mcEmpty'; root.appendChild(empty);
+    var grid = el('div','mc-grid'); grid.id = 'mcGrid'; root.appendChild(grid);
+    panel.appendChild(root);
+    mcPaintFilters(); mcPaintGrid(); mcRefresh();
+  }
+  function mcResultCard(D, m){
+    var M = t().mc, C = t().cx, e = D.byList[m.key], A = e.A, it = e.it;
+    var b = el('button','cx-list'); b.type = 'button'; b.dataset.list = it.key; b.setAttribute('aria-label', C.openList(A.name, it.date ? fmtDate(it.date) : '')+' · '+M.openList);
+    var head = el('div','cx-name'); head.style.padding = '0'; head.appendChild(cxDual(A.colors)); head.appendChild(el('span', null, A.name)); b.appendChild(head);
+    var th = el('div','cx-thumbs'), seen = {}, pick = [];
+    m.hit.forEach(function(n){ var cd = mcCard(n); if(cd && pick.length < 4){ pick.push({ n:n, cd:cd }); seen[n] = 1; } });
+    cxThumbCards(it, A).forEach(function(x){ if(pick.length < 4 && !seen[x.n]){ pick.push({ n:x.n, cd:x.cd }); seen[x.n] = 1; } });
+    pick.forEach(function(x){ var w = el('div','cx-img'); cxImg(x.n, x.cd.name, w); th.appendChild(w); }); b.appendChild(th);
+    var chips = el('div','mc-chipline');
+    m.hit.forEach(function(n){ chips.appendChild(el('span','mc-ok', '✓ '+((mcCard(n) || {}).name || n))); });
+    m.miss.forEach(function(n){ var s = el('span','mc-miss', '✗ '+((mcCard(n) || {}).name || n)); s.title = M.lacks((mcCard(n) || {}).name || n); chips.appendChild(s); });
+    b.appendChild(chips);
+    var ft = el('div','cx-foot'); ft.appendChild(el('span', null, cxDateLabel(it)+(it.set ? ' · '+it.set : '')));
+    ft.insertAdjacentHTML('beforeend', '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'); b.appendChild(ft);
+    b.addEventListener('click', function(){ cxGo({ mine:true, view:'list', arch:'', list:it.key }); });
+    return b;
+  }
+  function mcRes(panel, D){
+    var M = t().mc;
+    if(!MC.sel.length){ GD.cx = { mine:true, view:'pick', arch:'', list:'' }; gdSyncUrl(); mcPick(panel); return; }   // un enlace sin criterios vuelve a elegir
+    var back = el('button','dp-btn gd-back', '← '+M.backPick); back.type = 'button'; back.id = 'mcBack'; back.addEventListener('click', cxBack); panel.appendChild(back);
+    var h = el('h2','comp-h cx-title', M.resultsTitle); h.tabIndex = -1; h.style.marginTop = '10px'; panel.appendChild(h);
+    var crit = el('div','mc-crit'); MC.sel.forEach(function(c){ var cd = mcCard(c.n) || { name:c.n }; crit.appendChild(el('span', c.prio === 'must' ? 'mc-ok' : 'mc-miss', M.crit(c.prio === 'must')+': '+cd.name)); }); panel.appendChild(crit);
+    var res = CompStats.matchLists(D.arches.reduce(function(a, A){ return a.concat(A.lists); }, []), MC.sel);
+    var show = MC.partial ? res.partial : res.exact, st = el('p','comp-note cx-note'); st.id = 'mcStatus'; st.setAttribute('role','status');
+    if(!MC.partial){
+      if(res.exact.length) st.textContent = M.exactCount(res.exact.length);
+      else { st.textContent = M.exactNone; panel.appendChild(st); var pb = el('button','dp-btn mc-more', M.partialBtn+(res.partial.length ? ' ('+res.partial.length+')' : '')); pb.type = 'button'; pb.id = 'mcPartial'; pb.disabled = !res.partial.length;
+        pb.addEventListener('click', function(){ MC.partial = true; MC.shown = 20; gdSyncUrl(); renderComp(); }); panel.appendChild(pb); st = null; }
+    } else { st.textContent = M.partialCount(res.partial.length); }
+    if(st && MC.partial){ var bn = el('p','mc-banner', M.partialNote); bn.id = 'mcBanner'; panel.appendChild(bn); }
+    if(st) panel.appendChild(st);
+    var box = el('div','cx-lists'); box.id = 'mcResults';
+    show.slice(0, MC.shown).forEach(function(m){ box.appendChild(mcResultCard(D, m)); }); panel.appendChild(box);
+    if(show.length > MC.shown){ var mb = el('button','dp-btn mc-more', M.more(show.length - MC.shown)); mb.type = 'button'; mb.addEventListener('click', function(){ MC.shown += 20; renderComp(); }); panel.appendChild(mb); }
+    panel.appendChild(el('p','comp-note cx-note', D.total < 10 ? M.lowCoverage(D.total) : M.coverage(D.total)));
+  }
+  function mcRender(panel, D, st){
+    var M = t().mc;
+    if(st.view === 'list'){ var e = D.byList[st.list]; if(e){ cxList(panel, D, e.A, e.it, { backLabel:M.backRes, owned:true }); return; } GD.cx = { mine:true, view:MC.sel.length ? 'res' : 'pick', arch:'', list:'' }; gdSyncUrl(); }
+    if(GD.cx.view === 'res') mcRes(panel, D); else mcPick(panel);
+  }
+  function cxRender(panel){
+    var C = t().cx, st = GD.cx, home = st.view === 'home';
+    document.getElementById('compScope').hidden = true; var tabs = document.getElementById('compTabs'); tabs.innerHTML = ''; tabs.hidden = true;
+    document.getElementById('compBack').hidden = !home;
+    var sub = document.getElementById('compSub'); sub.textContent = C.sub; sub.hidden = !home;
+    if(DL.status === 'idle') loadDecklists();   // con error no se vuelve a pedir solo (el botón «Reintentar» lo reinicia): evita un bucle de peticiones
+    if(GD.status === 'error' || DL.status === 'error'){ gdRetry(panel, C.error+(navigator.onLine === false ? ' '+C.offline : ''), function(){ if(GD.status === 'error') GD.status = 'idle'; if(DL.status === 'error') DL.status = 'idle'; CX.cache = null; renderComp(); }); return; }
+    var D = cxData(); if(!D){ gdNote(panel, C.loading, 'gd-loading'); return; }
+    if(st.mine){ mcRender(panel, D, st); return; }
+    var A = st.arch ? D.by[st.arch] : null, it = A && st.list ? A.lists.filter(function(x){ return x.key === st.list; })[0] : null;
+    if(st.view === 'list' && it) cxList(panel, D, A, it);
+    else if(st.view !== 'home' && A && !st.list) cxArch(panel, D, A);
+    else { if(st.view !== 'home'){ GD.cx = { view:'home', arch:'', list:'' }; sub.textContent = C.sub; sub.hidden = false; document.getElementById('compBack').hidden = false; gdSyncUrl(); } cxHome(panel, D); }   // enlace a algo que ya no existe: se vuelve a la portada
+  }
   function renderComp(){
     var L = t(), G = L.gd, top = compPage.scrollTop, panel = document.getElementById('compPanel');
     loadGd();
@@ -7084,6 +7618,7 @@ var EFFECT_CONFIG = {
     document.getElementById('compBack').hidden = !!GD.detail;
     panel.innerHTML = ''; panel.classList.add('has-data');
     if(compState.animate){ compState.animate = false; enter(panel, compState.dir || 'forward'); }
+    if(GD.cx){ cxRender(panel); if(GD.status === 'ok') compPage.scrollTop = top; return; }   // Explorar mazos (V1): ver cxRender
     if(GD.status === 'idle' || GD.status === 'loading'){
       document.getElementById('compScope').hidden = true; document.getElementById('compTabs').innerHTML = '';
       gdNote(panel, G.loading, 'gd-loading'); return;
@@ -7108,7 +7643,7 @@ var EFFECT_CONFIG = {
   }
   function openCompPage(fromUrl){
     closeSidebar(); closeDeckView();
-    if(fromUrl !== true) GD.detail = null;
+    if(fromUrl !== true){ GD.detail = null; GD.cx = COMP_V1 ? { view:'home', arch:'', list:'' } : null; GD.cxq = ''; }   // desde el menú se entra en «Explorar mazos»
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
     renderComp();
@@ -7178,6 +7713,7 @@ var EFFECT_CONFIG = {
     else { fallbackCopy(txt); done(); }
   });
   document.getElementById('collStarters').addEventListener('click', function(){ collView = 'starters'; renderColl(); collPage.scrollTop = 0; });
+  document.getElementById('collBuilder').addEventListener('click', function(){ mcOpen('coll'); });
 
   /* ---- filtros y orden: el constructor es el del catálogo (buildFiltersFor), aquí con las cartas que tienes ---- */
   var COLL_FILTERS = {
@@ -7373,6 +7909,7 @@ var EFFECT_CONFIG = {
     document.getElementById('lblCollBack').textContent = C.collBack;
     document.getElementById('collTitle').textContent = C.collTitle;
     document.getElementById('collStarters').textContent = C.collStarters;
+    document.getElementById('lblCollBuilder').textContent = C.mc.entry; document.getElementById('lblCollBuilderSub').textContent = C.mc.entrySub; document.getElementById('collBuilderWrap').hidden = starters;
     document.getElementById('collCopy').hidden = starters || ownedKnown().length === 0; if(!collCopyTimer) paintCopyBtn(false);
     document.getElementById('collBar').hidden = starters;
     document.getElementById('collLayout').classList.toggle('is-starters', starters);
