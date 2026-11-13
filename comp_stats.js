@@ -318,7 +318,48 @@
     return { state: 'configured', requiredCopies: required, coveredCopies: covered, missingCopies: required - covered, coveragePct: required ? covered / required * 100 : 0, missingByCard: missing };
   }
 
+  /* ---- «Crear desde mi colección»: criterios (1–3 cartas) y búsqueda en listas completas ----
+   * Un criterio es { n:código, prio:'must'|'want' }: imprescindible (debe figurar) o deseada (solo prioriza). Siempre por código exacto, nunca por nombre. */
+  var MAX_CRITERIA = 3;
+  function toggleCriterion(sel, n, prio, max) {
+    var m = max || MAX_CRITERIA;
+    if (sel.some(function (x) { return x.n === n; })) return { sel: sel.filter(function (x) { return x.n !== n; }), blocked: false };
+    if (sel.length >= m) return { sel: sel.slice(), blocked: true };   // la cuarta no entra y no se borra nada
+    return { sel: sel.concat([{ n: n, prio: prio === 'want' ? 'want' : 'must' }]), blocked: false };
+  }
+  function setCriterionPrio(sel, n, prio) {
+    if ((prio !== 'must' && prio !== 'want') || !sel.some(function (x) { return x.n === n; })) return sel;
+    return sel.map(function (x) { return x.n === n ? { n: x.n, prio: prio } : x; });
+  }
+  function criteriaToString(sel) { return sel.map(function (x) { return x.n + '.' + (x.prio === 'want' ? 'w' : 'm'); }).join(','); }
+  function criteriaFromString(s) {
+    var out = [], seen = {};
+    String(s || '').split(',').forEach(function (p) { var m = /^([A-Za-z0-9-]+)\.([mw])$/.exec(p.trim()); if (!m || seen[m[1]] || out.length >= MAX_CRITERIA) return; seen[m[1]] = 1; out.push({ n: m[1], prio: m[2] === 'w' ? 'want' : 'must' }); });
+    return out;
+  }
+  /* lists: [{ key, cards, date }] (solo listas completas). Devuelve { exact, partial }:
+   *  exact   = traen TODAS las imprescindibles (y alguna carta pedida); orden: más deseadas, luego la más reciente (sin fecha, al final)
+   *  partial = traen alguna carta pedida pero no todas las imprescindibles (NO se mezcla con exact: relajar los criterios es una decisión de la persona); orden: más imprescindibles, deseadas, fecha
+   * Cada elemento: { key, list, hit:[códigos], miss:[códigos], mustHit, mustTotal, wantHit, wantTotal }. No modifica nada de lo que recibe. */
+  function matchLists(lists, crit) {
+    var must = crit.filter(function (c) { return c.prio === 'must'; }).length, want = crit.length - must;
+    if (!crit.length) return { exact: [], partial: [] };
+    var seen = {}, exact = [], partial = [];
+    lists.forEach(function (l) {
+      if (seen[l.key]) return; seen[l.key] = 1;
+      var hit = [], miss = [], mh = 0, wh = 0;
+      crit.forEach(function (c) { if ((l.cards[c.n] || 0) > 0) { hit.push(c.n); if (c.prio === 'must') mh++; else wh++; } else miss.push(c.n); });
+      var info = { key: l.key, list: l, hit: hit, miss: miss, mustHit: mh, mustTotal: must, wantHit: wh, wantTotal: want };
+      if (mh === must && (must > 0 || wh > 0)) exact.push(info); else if (mh + wh > 0) partial.push(info);
+    });
+    function byDate(a, b) { var da = a.list.date || '', db = b.list.date || ''; return (da ? 0 : 1) - (db ? 0 : 1) || db.localeCompare(da) || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0); }
+    exact.sort(function (a, b) { return (b.wantHit - a.wantHit) || byDate(a, b); });
+    partial.sort(function (a, b) { return (b.mustHit - a.mustHit) || (b.wantHit - a.wantHit) || byDate(a, b); });
+    return { exact: exact, partial: partial };
+  }
+
   return {
+    MAX_CRITERIA: MAX_CRITERIA, toggleCriterion: toggleCriterion, setCriterionPrio: setCriterionPrio, criteriaToString: criteriaToString, criteriaFromString: criteriaFromString, matchLists: matchLists,
     UNCLASSIFIED: UNCLASSIFIED, DECK_SIZE: DECK_SIZE, MIN_LISTS_FOR_CARDS: MIN_LISTS_FOR_CARDS,
     normText: normText, canonUrl: canonUrl, altKey: altKey, sameEvent: sameEvent, dedupeEvents: dedupeEvents,
     deckStatus: deckStatus, resultKey: resultKey, sanitizeResult: sanitizeResult, originOf: originOf, parseDeckExport: parseDeckExport, RESULT_FIELDS: RESULT_FIELDS, dedupeResults: dedupeResults,
