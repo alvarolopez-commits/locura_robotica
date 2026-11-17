@@ -62,6 +62,34 @@ class Parser(unittest.TestCase):
         self.assertEqual((p4["cards"], p4["deckCount"]), ({}, 0))
         self.assertNotIn("sampleBased", p4)
 
+    def test_un_perfil_por_set_sin_mezclar_sets(self):
+        w = [win("GD05", 40, cons=(30, {"ST01-001": [0, 0, 30, 0]})), win("GD06", 9, cons=(9, {"ST01-001": [0, 9, 0, 0]}))]
+        p = bm.profile("x", page(w), [], ["GD05", "GD06"])
+        self.assertEqual(sorted(p["profiles"]), ["GD05", "GD06"])
+        self.assertEqual((p["profiles"]["GD05"]["cards"]["ST01-001"]["avgCopies"], p["profiles"]["GD06"]["cards"]["ST01-001"]["avgCopies"]), (3.0, 2.0))
+        self.assertEqual((p["profiles"]["GD05"]["basis"], p["profiles"]["GD06"]["basis"]), ("consensus", "consensus"))
+        self.assertEqual((p["era"], p["cards"]["ST01-001"]["avgCopies"]), ("GD06", 2.0), "el perfil «actual» (COMPARAR) es el del set más reciente")
+
+    def test_un_set_sin_consenso_no_toma_el_de_otro_set(self):
+        p = bm.profile("x", page([win("GD05", 40, cons=(30, {"ST01-001": [0, 0, 30, 0]})), win("GD06", 9)]), [], ["GD05", "GD06"])
+        self.assertEqual(sorted(p["profiles"]), ["GD05"], "GD06 no hereda el consenso de GD05")
+
+    def test_la_base_de_cada_perfil_se_distingue(self):
+        p = bm.profile("x", page([win("GD05", 40, cons=(30, {"ST01-001": [0, 0, 30, 0]})), win("GD06", 7)]), SAMPLES("GD06", 5), ["GD05", "GD06"])
+        self.assertEqual((p["profiles"]["GD05"]["basis"], p["profiles"]["GD06"]["basis"]), ("consensus", "sample"))
+
+    def test_validacion_todo_o_nada(self):
+        a1 = {"id": "a", "name": "A", "eraDecks": {"GD06": 600}}; a2 = {"id": "b", "name": "B", "eraDecks": {"GD06": 300}}
+        dl = {"archetypes": [{"id": "a", "name": "A"}], "snapshot": {"sets": {"GD06": {"total": 848}}}}
+        with self.assertRaises(RuntimeError) as cm:
+            bm.check_consistency([a1, a2], dl)
+        self.assertIn("duplicadas", str(cm.exception))
+        with self.assertRaises(RuntimeError):
+            bm.check_consistency([a1, dict(a1)], dl)                                  # id repetido
+        with self.assertRaises(RuntimeError):
+            bm.check_consistency([dict(a1, name="Otro")], dict(dl, archetypes=[{"id": "a", "name": "A"}]))   # mismo id, otro nombre
+        bm.check_consistency([a1], dl)                                                # coherente: no falla
+
     def test_sin_ventanas_por_set_falla(self):
         with self.assertRaises(ValueError):
             bm.profile("x", page([win("otra", 3)]), [], ["GD06"])

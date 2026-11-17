@@ -19,6 +19,7 @@ from datetime import datetime, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "data", "meta", "raw", "arch")
 OUT = os.path.join(ROOT, "data", "decklists.json")
+HIST = os.path.join(ROOT, "data", "decklists_hist.json")   # listas de importaciones anteriores que ya no vienen en la fuente (se acumulan, nunca se borran)
 BASE = "https://side-6.com"
 UA = "LocuraRobotica/1.0 (personal, non-commercial)"
 PAUSE = 2.5
@@ -294,17 +295,65 @@ def build(offline=False, log=print):
     }
 
 
+def check_against_previous(new, old, accept_reduction=False, accept_taxonomy=False):
+    """Protección contra importaciones anómalas: no se sobrescribe un archivo válido si la cobertura cae a menos de la mitad o si casi todos los
+    identificadores de arquetipo cambian, salvo que se pida expresamente (--accept-reduction, --accept-new-taxonomy)."""
+    if not old or not old.get("archetypes"):
+        return
+    n_new = sum(len(a["decks"]) for a in new["archetypes"]); n_old = sum(len(a["decks"]) for a in old["archetypes"])
+    if n_new < 0.5 * n_old and not accept_reduction:
+        raise RuntimeError("la cobertura cae de %d a %d listas (menos de la mitad): revisa la fuente o usa --accept-reduction" % (n_old, n_new))
+    ids_new = {a["id"] for a in new["archetypes"]}; ids_old = {a["id"] for a in old["archetypes"]}
+    if ids_old and len(ids_old & ids_new) < 0.5 * len(ids_old) and not accept_taxonomy:
+        raise RuntimeError("cambian más de la mitad de los identificadores de arquetipo (%d de %d siguen): taxonomía nueva, usa --accept-new-taxonomy" % (len(ids_old & ids_new), len(ids_old)))
+
+
+def update_history(old, new, hist):
+    """Añade al histórico las listas del archivo anterior que la fuente ya no trae (mismo hash = misma lista, no se duplica ni se pisa). Conserva
+    su arquetipo con el nombre que tenía entonces, su set y la fecha de importación de origen. Devuelve el histórico (nuevo o el mismo)."""
+    hist = hist or {"snapshot": {"note": "Listas de importaciones anteriores de Side-6 con la clasificación de arquetipos de su momento. No se usan en Meta."}, "archetypes": []}
+    have = {d["h"] for a in new["archetypes"] for d in a["decks"]} | {d["h"] for a in hist["archetypes"] for d in a["decks"]}
+    when = ((old or {}).get("snapshot") or {}).get("retrievedAt", "")[:10]
+    by_id = {a["id"]: a for a in hist["archetypes"]}
+    for a in (old or {}).get("archetypes", []):
+        keep = [dict(d, set=d.get("set") or "GD05", importedFrom=when) for d in a["decks"] if d["h"] not in have]
+        if not keep:
+            continue
+        h = by_id.get(a["id"])
+        if not h:
+            h = {"id": a["id"], "name": a["name"], "colors": a.get("colors", []), "style": a.get("style"), "decks": []}
+            hist["archetypes"].append(h); by_id[a["id"]] = h
+        h["decks"].extend(keep)
+        for d in keep:
+            have.add(d["h"])
+    for a in hist["archetypes"]:
+        a["decks"].sort(key=lambda d: (d["event"]["date"] or "", -(d["place"] or 99)), reverse=True)
+    return hist
+
+
+def write_json_atomic(path, data):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    return tmp
+
+
 def main():
     offline = "--offline" in sys.argv
     data = build(offline)
     total = sum(len(a["decks"]) for a in data["archetypes"])
     if total < 100:
         raise RuntimeError("solo %d listas: algo ha cambiado en la fuente, no se escribe nada" % total)
-    tmp = OUT + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
-    os.replace(tmp, OUT)
+    old = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else None
+    check_against_previous(data, old, "--accept-reduction" in sys.argv, "--accept-new-taxonomy" in sys.argv)
+    hist = json.load(open(HIST, encoding="utf-8")) if os.path.exists(HIST) else None
+    hist = update_history(old, data, hist) if old else hist
+    tmps = [(write_json_atomic(OUT, data), OUT)] + ([(write_json_atomic(HIST, hist), HIST)] if hist else [])   # primero se escribe todo a temporales; solo si todo va bien se sustituye
+    for tmp, dest in tmps:
+        os.replace(tmp, dest)
     print("%d arquetipos, %d listas (%s → %s), %d KB" % (len(data["archetypes"]), total, data["snapshot"]["from"], data["snapshot"]["to"], os.path.getsize(OUT) // 1024))
+    if hist:
+        print("histórico: %d listas en %d arquetipos" % (sum(len(a["decks"]) for a in hist["archetypes"]), len(hist["archetypes"])))
     if data["unknownCards"]:
         print("cartas que no están en el catálogo:", ", ".join(data["unknownCards"]))
 

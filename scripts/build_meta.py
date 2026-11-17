@@ -48,6 +48,27 @@ def merge_consensus(windows):
     return decks, cards
 
 
+def sample_profile(samples):
+    """Perfil a partir de listas de ejemplo (no de un consenso): adopción = listas con la carta / listas; copias medias entre las que la llevan."""
+    tot = {}
+    for d in samples:
+        for n, q in d["cards"].items():
+            t = tot.setdefault(n, [0, 0]); t[0] += 1; t[1] += q
+    return len(samples), {n: {"adoption": round(t[0] / len(samples), 4), "avgCopies": round(t[1] / t[0], 2)} for n, t in tot.items()}
+
+
+def era_profile(windows, samples):
+    """Perfil de UN set: consenso de Side-6 si lo hay; si no, las listas de ejemplo de ese set (al menos 5, marcado `basis: sample`); si no, None.
+    Nunca se mezclan sets: un consenso de GD06 no describe a GD05."""
+    decks, cards = merge_consensus(windows)
+    basis = "consensus"
+    if not (decks and cards):
+        if len(samples) < MIN_SAMPLE_PROFILE:
+            return None
+        decks, cards = sample_profile(samples); basis = "sample"
+    return {"deckCount": decks, "cutoff": min((v["adoption"] for v in cards.values()), default=0), "basis": basis, "cards": cards}
+
+
 def profile(slug, html, samples, recent):
     base = bd.parse_archetype(html, slug)              # nombre, colores, estilo y ventanas
     text = bd.unescape(html)
@@ -60,33 +81,44 @@ def profile(slug, html, samples, recent):
     era_decks = {k: v for k, v in era_decks.items() if v}
     if not era_decks:
         raise ValueError("sin ventanas por set en " + slug)
-    pool_decks, cards, era, sample_based = 0, {}, None, False
-    for st in sorted((x for x in by_set if x in recent), reverse=True):   # el perfil solo mira los dos sets más recientes: un consenso de GD03 no describe el meta de hoy
-        pool_decks, cards = merge_consensus(by_set[st])
-        if pool_decks and cards:
-            era = st
-            break
-    if not era:   # sin consenso en ningún set: listas de ejemplo de los sets recientes
+    profiles = {}
+    for st in recent:                                  # solo los dos sets más recientes: un consenso de GD03 no describe el meta de hoy
+        pr = era_profile(by_set.get(st, []), [d for d in samples if d.get("set") == st])
+        if pr:
+            profiles[st] = pr
+    era = max(profiles, key=lambda x: int(ERA_RE.match(x).group(2))) if profiles else None   # el perfil «actual» (COMPARAR) es el del set más reciente que lo tenga
+    cur = profiles.get(era) or {"deckCount": 0, "cutoff": 0, "basis": None, "cards": {}}
+    if not profiles:   # solo para COMPARAR (perfil «actual»): con ≥5 listas de ejemplo de los sets recientes aunque sean de sets distintos. No entra en `profiles`: las estimaciones por temporada no lo usan
         rs = [d for d in samples if d.get("set") in recent]
         if len(rs) >= MIN_SAMPLE_PROFILE:
-            era = max(d["set"] for d in rs)
-            use = [d for d in rs if d["set"] == era] if sum(1 for d in rs if d["set"] == era) >= MIN_SAMPLE_PROFILE else rs
-            pool_decks, sample_based = len(use), True
-            tot = {}
-            for d in use:
-                for n, q in d["cards"].items():
-                    t = tot.setdefault(n, [0, 0]); t[0] += 1; t[1] += q
-            cards = {n: {"adoption": round(t[0] / pool_decks, 4), "avgCopies": round(t[1] / t[0], 2)} for n, t in tot.items()}
+            era = max(d["set"] for d in rs); decks, cards = sample_profile(rs)
+            cur = {"deckCount": decks, "cutoff": min((v["adoption"] for v in cards.values()), default=0), "basis": "sample", "cards": cards}
     out = {"id": slug, "name": base["name"], "colors": [bd_letter(x) for x in base["colors"]], "style": base["style"],
-           "deckCount": pool_decks, "eraDecks": era_decks, "era": era or max(era_decks, key=lambda x: int(ERA_RE.match(x).group(2))),
-           "cutoff": min((v["adoption"] for v in cards.values()), default=0), "sourceUrl": "%s/en/archetypes/%s/" % (bd.BASE, slug), "cards": cards}
-    if sample_based:
+           "deckCount": cur["deckCount"], "eraDecks": era_decks, "era": era or max(era_decks, key=lambda x: int(ERA_RE.match(x).group(2))),
+           "cutoff": cur["cutoff"], "sourceUrl": "%s/en/archetypes/%s/" % (bd.BASE, slug), "cards": cur["cards"], "profiles": profiles}
+    if cur["basis"] == "sample":
         out["sampleBased"] = True
     return out
 
 
 def bd_letter(color):
     return {"Blue": "B", "Green": "G", "Red": "R", "Purple": "P", "White": "W"}[color]
+
+
+def check_consistency(archetypes, decklists):
+    """Todo o nada: si algo no cuadra no se escribe data/meta.json (se conserva el anterior)."""
+    ids = [a["id"] for a in archetypes]
+    if len(ids) != len(set(ids)) or len({a["name"].lower() for a in archetypes}) != len(ids):
+        raise RuntimeError("identificadores o nombres de arquetipo repetidos")
+    dl = {a["id"]: a["name"] for a in decklists["archetypes"]}
+    for i, n in dl.items():
+        m = next((a for a in archetypes if a["id"] == i), None)
+        if not m or m["name"] != n:
+            raise RuntimeError("el arquetipo %s de decklists.json no coincide con meta.json" % i)
+    for st, info in decklists["snapshot"].get("sets", {}).items():
+        used = sum(a["eraDecks"].get(st, 0) for a in archetypes)
+        if used > info["total"]:
+            raise RuntimeError("%s: los arquetipos suman %d puestos y la ventana solo %d (¿ventanas duplicadas?)" % (st, used, info["total"]))
 
 
 def build():
@@ -111,6 +143,7 @@ def build():
         best = sorted(samples.get(slug, []), key=lambda d: (d["place"] or 99, d["event"]["date"] or ""))[:SAMPLES_PER_ARCHETYPE]
         a["sampleDecks"] = [{"placement": d["place"], "sourceUrl": "%s/en/decklists/%s/" % (bd.BASE, d["h"]), "cards": d["cards"]} for d in best]
         archetypes.append(a)
+    check_consistency(archetypes, decklists)
     today = datetime.now(timezone.utc)
     sets = decklists["snapshot"].get("sets", {})
     eras = sorted({e for a in archetypes for e in a["eraDecks"]})

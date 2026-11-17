@@ -21,13 +21,14 @@ await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-m
 /* ---- lo que debería salir, calculado aparte con los mismos datos y reglas ---- */
 const S = require('../comp_stats.js'); const { loadCatalog } = require('../scripts/import_deck_export.js');
 const cat = loadCatalog(), has = (n) => !!cat[n];
-const DL = JSON.parse(fs.readFileSync('data/decklists.json', 'utf8')), EV = JSON.parse(fs.readFileSync('data/competition_events.json', 'utf8')), AL = JSON.parse(fs.readFileSync('data/archetype_aliases.json', 'utf8'));
+const HIST = JSON.parse(fs.readFileSync('data/decklists_hist.json', 'utf8')), DL = JSON.parse(fs.readFileSync('data/decklists.json', 'utf8')), EV = JSON.parse(fs.readFileSync('data/competition_events.json', 'utf8')), AL = JSON.parse(fs.readFileSync('data/archetype_aliases.json', 'utf8'));
 const table = { archetypes: AL.archetypes, byId: AL.archetypes.reduce((m, x) => { m[x.id] = x.name; return m; }, {}) };
 const slug = (n, set) => S.normText(n).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.' + String(set || '').toLowerCase();
 function esperado(extra) {
   const lists = [], seen = {};
   const push = (it) => { if (!it.name || !it.cards || seen[it.key] || S.deckStatus({ cards: it.cards }, has) !== 'complete') return; seen[it.key] = 1; it.arch = slug(it.name, it.set); lists.push(it); };
   (extra || DL).archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, set: d.set || 'GD05', date: (d.event || {}).date || '', cards: d.cards })));
+  if (!extra) HIST.archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, set: d.set || 'GD05', date: (d.event || {}).date || '', cards: d.cards })));   // las importaciones anteriores también se pueden explorar
   const evs = {}; EV.events.forEach((e) => { evs[e.id] = e; });
   EV.results.forEach((r) => { if (S.originOf(r) !== 'tournament' || !r.cards) return; const e = evs[r.eventId] || {}, res = S.resolveArchetype(r.archetype, table); push({ key: r.id, name: res.id ? res.name : r.archetype, set: e.set || r.set, date: e.date || '', cards: r.cards }); });
   const by = {}; lists.forEach((l) => { (by[l.arch] = by[l.arch] || { key: l.arch, name: l.name, lists: [] }).lists.push(l); });
@@ -187,7 +188,7 @@ check('si falta la imagen, la tarjeta sale con un recuadro con el nombre y no se
 await send('Network.setBlockedURLs', { urls: [] });
 
 // sin listas
-await abrir(390, 844, { mod: `if (s.indexOf('data/decklists.json') >= 0) return Promise.resolve(new Response(JSON.stringify({ snapshot:{ source:{name:'x',url:'https://x.test'} }, archetypes:[], unknownCards:[] }), { status:200, headers:{'Content-Type':'application/json'} })); if (s.indexOf('data/competition_events.json') >= 0) return Promise.resolve(new Response(JSON.stringify({ version:1, events:[], results:[], review:[] }), { status:200, headers:{'Content-Type':'application/json'} }));` });
+await abrir(390, 844, { mod: `if (s.indexOf('decklists_hist.json') >= 0) return Promise.resolve(new Response('', { status:404 })); if (s.indexOf('data/decklists.json') >= 0) return Promise.resolve(new Response(JSON.stringify({ snapshot:{ source:{name:'x',url:'https://x.test'} }, archetypes:[], unknownCards:[] }), { status:200, headers:{'Content-Type':'application/json'} })); if (s.indexOf('data/competition_events.json') >= 0) return Promise.resolve(new Response(JSON.stringify({ version:1, events:[], results:[], review:[] }), { status:200, headers:{'Content-Type':'application/json'} }));` });
 await porMenu();
 check('sin listas completas: estado vacío claro y ninguna tarjeta inventada', (await count('.cx-card')) === 0 && /Todavía no hay listas completas disponibles/.test(await txt('.cx-note')));
 

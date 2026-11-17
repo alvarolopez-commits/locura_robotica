@@ -29,6 +29,7 @@ const table = { archetypes: AL.archetypes, byId: AL.archetypes.reduce((m, x) => 
 const lists = [], seen = {};
 const push = (it) => { if (!it.name || !it.cards || seen[it.key] || S.deckStatus({ cards: it.cards }, has) !== 'complete') return; seen[it.key] = 1; lists.push(it); };
 DLd.archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, date: (d.event || {}).date || '', cards: d.cards })));
+JSON.parse(fs.readFileSync('data/decklists_hist.json', 'utf8')).archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, date: (d.event || {}).date || '', cards: d.cards })));   // listas de importaciones anteriores
 { const evs = {}; EV.events.forEach((e) => { evs[e.id] = e; }); EV.results.forEach((r) => { if (S.originOf(r) !== 'tournament' || !r.cards) return; const e = evs[r.eventId] || {}, res = S.resolveArchetype(r.archetype, table); push({ key: r.id, name: res.id ? res.name : r.archetype, date: e.date || '', cards: r.cards }); }); }
 const freq = {}; lists.forEach((l) => Object.keys(l.cards).forEach((n) => { freq[n] = (freq[n] || 0) + 1; }));
 const pilotsTop = Object.keys(freq).filter((n) => by[n] && by[n].type === 'PILOT' && n !== 'ST01-010').sort((a, b) => freq[b] - freq[a]).slice(0, 4);

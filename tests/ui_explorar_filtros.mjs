@@ -50,7 +50,7 @@ await click('#cxClear', 500);
 check('«Limpiar filtros» devuelve todo, quita la insignia y limpia la URL', (await count('.cx-card')) === total && (await count('.cx-badge')) === 0 && !/[?&](c|st)=/.test(await hashNow()), [await count('.cx-card'), await hashNow()]);
 // orden A-Z
 await ev(`(function(){ var s = document.getElementById('cxSort'); s.value = 'az'; s.dispatchEvent(new Event('change')); })()`); await sleep(400);
-const names = await ev(`Array.prototype.map.call(document.querySelectorAll('.cx-card .cx-name span:last-child'), function(e){ return e.textContent; })`);
+const names = await ev(`Array.prototype.map.call(document.querySelectorAll('.cx-card .cx-name'), function(e){ var n = e.querySelector('span:not(.cx-histtag):not(.cx-dual):last-of-type'); return Array.prototype.filter.call(e.children, function(c){ return !c.classList.contains('cx-histtag') && !c.classList.contains('cx-dual'); }).pop().textContent; })`);
 const sorted = names.slice().sort((a, b) => a.localeCompare(b));
 check('orden A–Z ordena por nombre y la URL lleva o=az', JSON.stringify(names) === JSON.stringify(sorted) && /o=az/.test(await hashNow()), [names.slice(0, 4), await hashNow()]);
 

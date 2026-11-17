@@ -201,18 +201,23 @@ if (!fs.existsSync(realMeta)) {
     const cm = {}; all.forEach((c) => { cm[c.number] = c; });
     const withSample = real.archetypes.filter((a) => a.sampleDecks && a.sampleDecks.length && a.deckCount >= 30);
     ok(withSample.length > 0, 'ningún arquetipo trae lista de ejemplo');
-    let n = 0, top1 = 0, top3 = 0, sameColors = 0;
+    let n = 0, top1 = 0, top3 = 0, sameColors = 0, sharesOne = 0;
     withSample.forEach((a) => a.sampleDecks.forEach((d) => {
       const r = M.rankArchetypes(d.cards, real.archetypes), ids = r.top.map((x) => x.archetypeId), first = real.archetypes.find((x) => x.id === ids[0]);
       n++; if (ids[0] === a.id) top1++; if (ids.slice(0, 3).indexOf(a.id) !== -1) top3++;
       if (first.colors.slice().sort().join('') === a.colors.slice().sort().join('')) sameColors++;
+      if (first.colors.some((c) => a.colors.indexOf(c) !== -1)) sharesOne++;
     }));
     // Un arquetipo de Side-6 comparte casi todas sus cartas con los otros estilos del mismo par de colores (Aggro/Midrange/Control):
     // por eso el primero a veces es el vecino. Lo exigible es que el propio salga entre los 3 mejores y el par de colores sea el correcto.
     ok(top1 / n >= 0.6, 'primero: ' + top1 + '/' + n);
     ok(top3 / n >= 0.9, 'entre los 3 primeros: ' + top3 + '/' + n);
-    // Desde nov 2026 Side-6 define los arquetipos por personaje ("Strike Freedom", "Aile Strike Kira") y con cubos «XY Other» por par de colores, no por par de colores + estilo:
-    // dos arquetipos de colores distintos pueden compartir muchas cartas. Se mide 0,80 (con los datos nuevos sale ≈0,84); si baja de ahí, el motor o los datos han cambiado de verdad.
+    // Revisión (17 nov 2026): el umbral de «mismo par de colores» bajó de 0,95 a 0,80 al pasar a la clasificación por personaje. No oculta una mala clasificación DE LOS DATOS:
+    // tests/datos_side6.test.js comprueba que el 100 % de las listas tiene el par de colores de su arquetipo. Lo que baja es la afinidad del MOTOR de similitud con los cubos
+    // «XY Other» (agrupan por par de colores y su perfil es difuso: similitud propia 0,2–0,4) y con arquetipos que comparten un color y muchas cartas. Por eso se mide lo que sí
+    // sigue siendo exigible: (1) la primera sugerencia comparte SIEMPRE al menos un color con el arquetipo real (ninguna acaba en un par totalmente distinto) y (2) el par exacto
+    // coincide en ≥ 0,80 (hoy ≈ 0,84). Si (2) baja de ahí o (1) deja de cumplirse, el motor o los datos han cambiado de verdad.
+    ok(sharesOne / n === 1, 'la primera sugerencia sin ningún color en común: ' + sharesOne + '/' + n);
     ok(sameColors / n >= 0.8, 'mismo par de colores: ' + sameColors + '/' + n);
   });
 }

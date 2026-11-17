@@ -76,7 +76,7 @@ await ev(`history.back()`); await sleep(600);
 check('de la ficha de un torneo, "atrás" vuelve a Torneos', (await ev(`document.getElementById('compTab-torneos').getAttribute('aria-selected')`)) === 'true' && (await count('.gd-event')) === 5);
 const MAZOS = JSON.stringify({ d1: { name: 'Mazo de prueba', cards: { 'ST01-001': 4, 'ST01-002': 3 } } });
 await abrir(390, 844, '#competicion', { fallo: true, store: { msa_decks: MAZOS } });
-check('si los datos fallan (503): mensaje claro con "Reintentar", sin pantalla en blanco y la otra temporada sigue usable', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD0[56] · Side-6/.test(await txt('.gd-scope')), await txt('.gd-error'));   // sin el archivo, las temporadas salen de Side-6
+check('si los datos fallan (503): mensaje claro con "Reintentar", sin pantalla en blanco y la otra temporada sigue usable', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD0[56] · Side-6/.test(await txt('.gd-cover')), await txt('.gd-error'));   // sin el archivo, las temporadas salen de Side-6
 await ev(`window.__fallo = false; 1`);
 await toque('.gd-retry', 1800);
 check('al volver los datos, "Reintentar" recupera GD06 sin recargar ni duplicar nada', (await count('#gdSeason-GD06')) === 1 && (await count('.gd-retry')) === 0, await txt('.gd-scope'));

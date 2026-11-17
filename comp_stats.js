@@ -429,19 +429,24 @@
       .sort(function (a, b) { return (b.lists - a.lists) || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0); });
     return { total: total, rows: limit ? rows.slice(0, limit) : rows };
   }
-  /* Cartas más usadas cuando solo hay totales por arquetipo: lista estimada = puestos del arquetipo × adopción de la carta en su perfil. Los arquetipos sin perfil
-   * cuentan en el total pero no aportan cartas, y lo que un perfil no recoge (por debajo de su corte) cuenta 0: es una estimación a la baja, no un recuento. */
-  function estimateTopCards(profiles, counts, limit, keep) {
-    var total = 0, covered = 0, lists = {}, byName = {};
+  /* Cartas más usadas cuando solo hay totales por arquetipo: lista estimada = puestos del arquetipo × adopción de la carta en su perfil DEL MISMO SET (era).
+   * Sin perfil de ese set el arquetipo cuenta en el total pero no aporta cartas (nunca se usa el perfil de otro set). Lo que un perfil no recoge cuenta 0:
+   * es una estimación a la baja, no un recuento. basis = puestos cubiertos por consenso, por listas de ejemplo y sin perfil; sampleShare = parte de la estimación
+   * de cada carta que se apoya en listas de ejemplo (0–1). Sin `era`, o con perfiles sin `profiles` (COMPARAR), se usa el perfil «actual» del arquetipo. */
+  function estimateTopCards(profiles, counts, limit, keep, era) {
+    var total = 0, basis = { consensus: 0, sample: 0, none: 0 }, lists = {}, fromSample = {}, byName = {};
     (profiles || []).forEach(function (p) { byName[p.name] = p; });
     Object.keys(counts || {}).forEach(function (name) {
       var n = counts[name]; if (!(n > 0)) return; total += n;
-      var p = byName[name], cards = p && p.cards ? Object.keys(p.cards) : []; if (!cards.length) return; covered += n;
-      cards.forEach(function (c) { if (!keep || keep(c)) lists[c] = (lists[c] || 0) + n * (Number(p.cards[c].adoption) || 0); });
+      var p = byName[name], pr = !p ? null : era && p.profiles ? p.profiles[era] : p;
+      var isSample = pr && (pr.basis === 'sample' || (pr.basis === undefined && p.sampleBased)), cards = pr && pr.cards ? Object.keys(pr.cards) : [];
+      if (!cards.length) { basis.none += n; return; }
+      basis[isSample ? 'sample' : 'consensus'] += n;
+      cards.forEach(function (c) { if (keep && !keep(c)) return; var v = n * (Number(pr.cards[c].adoption) || 0); lists[c] = (lists[c] || 0) + v; if (isSample) fromSample[c] = (fromSample[c] || 0) + v; });
     });
-    var rows = Object.keys(lists).filter(function (c) { return lists[c] > 0; }).map(function (c) { return { n: c, lists: lists[c], pct: total ? lists[c] / total * 100 : 0 }; })
+    var rows = Object.keys(lists).filter(function (c) { return lists[c] > 0; }).map(function (c) { return { n: c, lists: lists[c], pct: total ? lists[c] / total * 100 : 0, sampleShare: (fromSample[c] || 0) / lists[c] }; })
       .sort(function (a, b) { return (b.lists - a.lists) || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0); });
-    return { total: total, covered: covered, rows: limit ? rows.slice(0, limit) : rows };
+    return { total: total, covered: basis.consensus + basis.sample, basis: basis, rows: limit ? rows.slice(0, limit) : rows };
   }
   function podium(results) {
     return (results || []).map(function (r, i) { return { r: r, i: i }; }).filter(function (x) { return x.r && typeof x.r.placement === 'number' && x.r.placement >= 1; })

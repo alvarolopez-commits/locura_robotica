@@ -61,7 +61,26 @@ test('estimateTopCards respeta límite y filtro, y sin datos devuelve vacío', (
   const profiles = [{ name: 'A', cards: { X: { adoption: 1 }, T: { adoption: 1 }, Y: { adoption: 0.5 } } }];
   eq(S.estimateTopCards(profiles, { A: 10 }, 1).rows.map((r) => r.n), ['T']);
   eq(S.estimateTopCards(profiles, { A: 10 }, 10, (n) => n !== 'T').rows.map((r) => r.n), ['X', 'Y']);
-  eq(S.estimateTopCards([], {}, 5), { total: 0, covered: 0, rows: [] }); eq(S.estimateTopCards(profiles, { Q: 5 }, 5), { total: 5, covered: 0, rows: [] });
+  eq(S.estimateTopCards([], {}, 5), { total: 0, covered: 0, basis: { consensus: 0, sample: 0, none: 0 }, rows: [] });
+  eq(S.estimateTopCards(profiles, { Q: 5 }, 5), { total: 5, covered: 0, basis: { consensus: 0, sample: 0, none: 5 }, rows: [] });
+});
+test('estimateTopCards usa el perfil del MISMO set y nunca el de otro (sin mezclar temporadas)', () => {
+  const profiles = [{ name: 'A', cards: { X: { adoption: 0.9 } }, profiles: { GD05: { basis: 'consensus', cards: { X: { adoption: 0.4 } } }, GD06: { basis: 'consensus', cards: { X: { adoption: 0.8 } } } } },
+    { name: 'B', cards: { X: { adoption: 1 } }, profiles: { GD06: { basis: 'consensus', cards: { X: { adoption: 1 } } } } }];
+  const g5 = S.estimateTopCards(profiles, { A: 100, B: 100 }, 5, null, 'GD05'), g6 = S.estimateTopCards(profiles, { A: 100, B: 100 }, 5, null, 'GD06');
+  near(g5.rows[0].lists, 40, 'GD05: solo A (0,4 × 100); B no tiene perfil de GD05'); eq(g5.basis, { consensus: 100, sample: 0, none: 100 });
+  near(g6.rows[0].lists, 180); eq(g6.basis, { consensus: 200, sample: 0, none: 0 });
+});
+test('estimateTopCards distingue consenso de listas de ejemplo y marca las cartas apoyadas en ejemplos', () => {
+  const profiles = [{ name: 'A', profiles: { GD06: { basis: 'consensus', cards: { X: { adoption: 1 }, Y: { adoption: 1 } } } } }, { name: 'B', profiles: { GD06: { basis: 'sample', cards: { Y: { adoption: 1 } } } } }];
+  const t = S.estimateTopCards(profiles, { A: 50, B: 50 }, 5, null, 'GD06');
+  eq(t.basis, { consensus: 50, sample: 50, none: 0 }); eq(t.covered, 100);
+  const y = t.rows.find((r) => r.n === 'Y'), x = t.rows.find((r) => r.n === 'X');
+  near(y.sampleShare, 0.5, 'la mitad de Y viene de listas de ejemplo'); near(x.sampleShare, 0, 'X solo de consenso');
+});
+test('estimateTopCards sigue aceptando perfiles sin `profiles` (COMPARAR): sampleBased cuenta como ejemplo', () => {
+  const t = S.estimateTopCards([{ name: 'A', sampleBased: true, cards: { X: { adoption: 1 } } }], { A: 10 }, 5);
+  eq(t.basis, { consensus: 0, sample: 10, none: 0 }); near(t.rows[0].sampleShare, 1);
 });
 
 console.log('\n== podio de un torneo ==');

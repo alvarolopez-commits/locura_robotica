@@ -100,6 +100,51 @@ class Parser(unittest.TestCase):
         self.assertEqual((r[0], r[1], r[2], r[3]), (3, "9001", "Evento de prueba", "2026-10-18"))
 
 
+def archivo(ids, n_por_arquetipo, prefijo="h", fecha="2026-10-18", retrieved="2026-10-28T10:00:00Z"):
+    return {"snapshot": {"retrievedAt": retrieved}, "archetypes": [
+        {"id": i, "name": i.upper(), "colors": ["Blue"], "style": None,
+         "decks": [{"h": "%s%s%d" % (prefijo, i, k), "place": 1, "set": None, "event": {"id": "1", "title": "E", "date": fecha, "country": "JP"}, "cards": {"ST01-001": 50}} for k in range(n_por_arquetipo)]}
+        for i in ids]}
+
+
+class Proteccion(unittest.TestCase):
+    def test_no_se_sobrescribe_si_la_cobertura_cae_a_menos_de_la_mitad(self):
+        old, new = archivo(["a", "b"], 50), archivo(["a", "b"], 20)
+        with self.assertRaises(RuntimeError) as cm:
+            bd.check_against_previous(new, old)
+        self.assertIn("cobertura", str(cm.exception))
+        bd.check_against_previous(new, old, accept_reduction=True)
+        bd.check_against_previous(archivo(["a", "b"], 30), old)          # 60 de 100: caída normal
+
+    def test_no_se_sobrescribe_si_cambian_casi_todos_los_identificadores(self):
+        old, new = archivo(["a", "b", "c", "d"], 10), archivo(["x", "y", "z", "d"], 10)
+        with self.assertRaises(RuntimeError) as cm:
+            bd.check_against_previous(new, old)
+        self.assertIn("identificadores", str(cm.exception))
+        bd.check_against_previous(new, old, accept_taxonomy=True)
+        bd.check_against_previous(archivo(["a", "b", "c", "x"], 10), old)   # cambia 1 de 4: normal
+
+    def test_sin_archivo_anterior_no_hay_nada_que_comparar(self):
+        bd.check_against_previous(archivo(["a"], 5), None)
+        bd.check_against_previous(archivo(["a"], 5), {"archetypes": []})
+
+    def test_el_historico_conserva_lo_que_la_fuente_ya_no_trae_sin_duplicar(self):
+        old, new = archivo(["a"], 3), archivo(["n"], 2)
+        new["archetypes"][0]["decks"][0]["h"] = "ha0"                        # una lista que sigue en la fuente, ahora en otro arquetipo
+        hist = bd.update_history(old, new, None)
+        hs = sorted(d["h"] for a in hist["archetypes"] for d in a["decks"])
+        self.assertEqual(hs, ["ha1", "ha2"], "ha0 sigue en la fuente: no se duplica")
+        d = hist["archetypes"][0]["decks"][0]
+        self.assertEqual((hist["archetypes"][0]["name"], d["set"], d["importedFrom"]), ("A", "GD05", "2026-10-28"))
+        self.assertEqual(sorted(x["h"] for a in bd.update_history(old, new, hist)["archetypes"] for x in a["decks"]), hs, "repetir la actualización no duplica")
+
+    def test_el_historico_se_acumula_entre_importaciones(self):
+        h1 = bd.update_history(archivo(["a"], 2), archivo(["n"], 2), None)
+        h2 = bd.update_history(archivo(["n"], 2, prefijo="g", retrieved="2026-11-20T00:00:00Z"), archivo(["m"], 2), h1)
+        self.assertEqual(sorted(a["id"] for a in h2["archetypes"]), ["a", "n"])
+        self.assertEqual(sum(len(a["decks"]) for a in h2["archetypes"]), 4)
+
+
 @unittest.skipUnless(os.path.exists(DATA_PATH), "aún no existe data/decklists.json (python -I scripts/build_decklists.py)")
 class Datos(unittest.TestCase):
     @classmethod
