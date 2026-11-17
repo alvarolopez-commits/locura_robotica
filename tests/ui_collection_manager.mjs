@@ -80,7 +80,8 @@ for (const W of [1440, 390, 820]) {
   check('cada carta lleva la etiqueta TENGO sobre la imagen, sin fila "En mi colección"', tg.txt === 'TENGO' && tg.dentro && !tg.fila && tg.todas, tg);
   check('hay controles − y + por carta', first.plus && first.minus, first);
   const RANGO = { UNIT: 0, PILOT: 1, COMMAND: 2, BASE: 3 }, rango = (n) => (RANGO[cat[n].type] != null ? RANGO[cat[n].type] : 9);
-  check('el orden por defecto es por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por código', eq(await cards(), [...OWNED].sort((a, b) => rango(a) - rango(b) || a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
+  const COL = ['Blue', 'Green', 'Red', 'White', 'Purple'], colr = (n) => { const i = COL.indexOf(cat[n].color); return i < 0 ? 99 : i; }, dg = (v) => { const m = String(v == null ? '' : v).match(/\d+/); return m ? parseInt(m[0], 10) : -1; };
+  check('el orden por defecto es por color (azul, verde, rojo, blanco, morado), tipo (Unidades, Pilotos, Comandos, Bases) y de menor a mayor (nivel, coste, AP, código)', eq(await cards(), [...OWNED].sort((a, b) => colr(a) - colr(b) || rango(a) - rango(b) || dg(cat[a].lv) - dg(cat[b].lv) || dg(cat[a].cost) - dg(cat[b].cost) || dg(cat[a].ap) - dg(cat[b].ap) || a.localeCompare(b, undefined, { numeric: true }))), (await cards()).slice(0, 4));
 
   // ---- barra de búsqueda / orden / añadir
   check('hay buscador y botón "Añadir cartas"', (await vis('#collSearch')) && !(await ev(`!!document.getElementById('collSort')`)) && (await vis('#collAdd')) && /Añadir cartas/.test(await text('#collAdd')), null);

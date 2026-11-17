@@ -6020,6 +6020,10 @@ var EFFECT_CONFIG = {
     if(wasHome) scrollTopSmart();
   });
   document.getElementById('tbFilters').addEventListener('click', function(){
+    if(!collPage.hidden){   // en Mi colección, «Filtros» son los filtros de tus cartas (no los del catálogo)
+      var cf = document.getElementById('collFilters'); if(cf.classList.contains('open')) closeCollFilters(); else openCollFilters();
+      return;
+    }
     if(sidebar.classList.contains('open')){ closeSidebar(); return; }
     closeCompPage(); closeDeckView();
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
@@ -8196,7 +8200,11 @@ var EFFECT_CONFIG = {
   };
   function collFilterCount(){ var s = collState; return s.sets.size + s.colors.size + s.types.size + s.kws.size + s.fxs.size + s.traits.size; }
   function byNumber(a, b){ return a.number.localeCompare(b.number, undefined, { numeric:true }); }
-  function collFiltered(){ var out = ownedCards().filter(function(c){ return matchesWith(c, collState); }); return out.sort(function(a, b){ return (isToken(a) - isToken(b)) || (typeRank(a) - typeRank(b)) || (filtersOn(collState) ? byLevelThenAp(a, b) : 0) || byNumber(a, b); }); }   /* por tipo: Unidades, Pilotos, Comandos, Bases (tokens al final); dentro de cada tipo, por número o, con filtros, por nivel y ataque */
+  var COLL_COLOR_ORDER = ['Blue', 'Green', 'Red', 'White', 'Purple'];   /* el orden de Mi colección: azul, verde, rojo, blanco, morado */
+  function collColorRank(c){ var i = COLL_COLOR_ORDER.indexOf(c.color); return i === -1 ? 99 : i; }
+  /* color → tipo (Unidades, Pilotos, Comandos, Bases) → de menor a mayor nivel, coste y AP → código. Con o sin filtros el orden es el mismo, para encontrar siempre las cartas en el mismo sitio */
+  function collCompare(a, b){ return (isToken(a) - isToken(b)) || (collColorRank(a) - collColorRank(b)) || (typeRank(a) - typeRank(b)) || (digitsOf(a.lv) - digitsOf(b.lv)) || (digitsOf(a.cost) - digitsOf(b.cost)) || (digitsOf(a.ap) - digitsOf(b.ap)) || byNumber(a, b); }
+  function collFiltered(){ return ownedCards().filter(function(c){ return matchesWith(c, collState); }).sort(collCompare); }
   /* quita de la selección lo que ya no existe entre tus cartas (p. ej. tras quitar la última carta roja) */
   function pruneCollState(pool){
     var m = { sets:{}, colors:{}, types:{}, kws:{}, fxs:{}, traits:{} };

@@ -55,10 +55,13 @@ check('al quitar los filtros vuelve el orden de siempre', (await nums())[0] === 
 await send('Page.navigate', { url: 'http://localhost:8766/#coleccion' }); await sleep(300); await send('Page.reload'); await sleep(4000);
 const c0 = await ev(`Array.from(document.querySelectorAll('#collGrid .cc')).map(function(c){ return c.dataset.number })`);
 const RT = { UNIT: 0, PILOT: 1, COMMAND: 2, BASE: 3 }, rk = (n) => (RT[cat[n].type] != null ? RT[cat[n].type] : 9);
-check('Mi colección sin filtros va por tipo (Unidades, Pilotos, Comandos, Bases) y, dentro de cada tipo, por número', c0.length > 3 && c0.every((n, i) => i === 0 || rk(c0[i - 1]) < rk(n) || (rk(c0[i - 1]) === rk(n) && c0[i - 1].localeCompare(n, undefined, { numeric: true }) <= 0)), c0.slice(0, 6));
+const CO = ['Blue', 'Green', 'Red', 'White', 'Purple'], cr = (n) => { const i = CO.indexOf(cat[n].color); return i < 0 ? 99 : i; };
+const claveOrden = (n) => [cr(n), rk(n), dig(cat[n].lv), dig(cat[n].cost), dig(cat[n].ap)], menorIgual = (x, y) => { for (let i = 0; i < x.length; i++) { if (x[i] !== y[i]) return x[i] < y[i]; } return true; };
+const ordenColeccion = (l) => l.length > 3 && l.every((n, i) => i === 0 || menorIgual(claveOrden(l[i - 1]), claveOrden(n)));
+check('Mi colección sin filtros va por color (azul, verde, rojo, blanco, morado), tipo (Unidades, Pilotos, Comandos, Bases) y de menor a mayor', ordenColeccion(c0), c0.slice(0, 6));
 await ev(`document.querySelector('#cf-color .tag.chip[data-color="Blue"]').click(); 1`); await sleep(600);
 const c1 = await ev(`Array.from(document.querySelectorAll('#collGrid .cc')).map(function(c){ return c.dataset.number })`);
-check('Mi colección con un filtro va por tipo y, dentro de cada tipo, por nivel y ataque', c1.length > 3 && c1.every((n, i) => i === 0 || rk(c1[i - 1]) < rk(n) || (rk(c1[i - 1]) === rk(n) && nonDecreasing([c1[i - 1], n]))), c1.slice(0, 6));
+check('Mi colección con un filtro mantiene el mismo orden (color, tipo, de menor a mayor)', ordenColeccion(c1), c1.slice(0, 6));
 
 // ventana del mazo y detalle en Mis mazos: dentro de cada tipo, por nivel y después por ataque
 const decklists = JSON.parse(fs.readFileSync(new URL('../data/decklists.json', import.meta.url), 'utf8'));
