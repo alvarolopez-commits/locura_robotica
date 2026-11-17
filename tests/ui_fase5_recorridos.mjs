@@ -26,7 +26,7 @@ async function abrir(W, H, hash, { store = {}, fallo = false } = {}) {
   hookId = (await send('Page.addScriptToEvaluateOnNewDocument', { source: `(function(){ var of = window.fetch; window.__fallo = ${fallo}; window.fetch = function(u){ if (String(u).indexOf('competition_events.json') >= 0) { if (window.__fallo) return Promise.resolve(new Response('', {status:503})); return Promise.resolve(new Response(${JSON.stringify(body)}, {status:200, headers:{'content-type':'application/json'}})); } return of.apply(this, arguments); }; })();` })).result.identifier;
   await send('Page.navigate', { url: 'about:blank' }); await sleep(150);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
-  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
+  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_comp_src','file'); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300); await send('Page.reload'); await sleep(3500);
   if (store.msa_active_deck) { await ev(elegirMazoJS(store.msa_active_deck, { building: store.msa_building === '1' })); await sleep(300); }
 }
@@ -76,7 +76,7 @@ await ev(`history.back()`); await sleep(600);
 check('de la ficha de un torneo, "atrás" vuelve a Torneos', (await ev(`document.getElementById('compTab-torneos').getAttribute('aria-selected')`)) === 'true' && (await count('.gd-event')) === 5);
 const MAZOS = JSON.stringify({ d1: { name: 'Mazo de prueba', cards: { 'ST01-001': 4, 'ST01-002': 3 } } });
 await abrir(390, 844, '#competicion', { fallo: true, store: { msa_decks: MAZOS } });
-check('si los datos fallan (503): mensaje claro con "Reintentar", sin pantalla en blanco y la otra temporada sigue usable', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD05/.test(await txt('.gd-scope')), await txt('.gd-error'));
+check('si los datos fallan (503): mensaje claro con "Reintentar", sin pantalla en blanco y la otra temporada sigue usable', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD0[56] · Side-6/.test(await txt('.gd-scope')), await txt('.gd-error'));   // sin el archivo, las temporadas salen de Side-6
 await ev(`window.__fallo = false; 1`);
 await toque('.gd-retry', 1800);
 check('al volver los datos, "Reintentar" recupera GD06 sin recargar ni duplicar nada', (await count('#gdSeason-GD06')) === 1 && (await count('.gd-retry')) === 0, await txt('.gd-scope'));

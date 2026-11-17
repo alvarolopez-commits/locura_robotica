@@ -27,7 +27,7 @@ const slug = (n, set) => S.normText(n).replace(/[^a-z0-9]+/g, '-').replace(/^-+|
 function esperado(extra) {
   const lists = [], seen = {};
   const push = (it) => { if (!it.name || !it.cards || seen[it.key] || S.deckStatus({ cards: it.cards }, has) !== 'complete') return; seen[it.key] = 1; it.arch = slug(it.name, it.set); lists.push(it); };
-  (extra || DL).archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, set: 'GD05', date: (d.event || {}).date || '', cards: d.cards })));
+  (extra || DL).archetypes.forEach((a) => a.decks.forEach((d) => push({ key: d.h, name: a.name, set: d.set || 'GD05', date: (d.event || {}).date || '', cards: d.cards })));
   const evs = {}; EV.events.forEach((e) => { evs[e.id] = e; });
   EV.results.forEach((r) => { if (S.originOf(r) !== 'tournament' || !r.cards) return; const e = evs[r.eventId] || {}, res = S.resolveArchetype(r.archetype, table); push({ key: r.id, name: res.id ? res.name : r.archetype, set: e.set || r.set, date: e.date || '', cards: r.cards }); });
   const by = {}; lists.forEach((l) => { (by[l.arch] = by[l.arch] || { key: l.arch, name: l.name, lists: [] }).lists.push(l); });

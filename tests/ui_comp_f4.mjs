@@ -28,7 +28,7 @@ async function abrir(W, H, { data, keep = false, store = {}, hash = '#competicio
   await send('Page.navigate', { url: 'about:blank' }); await sleep(150);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
   if (!keep) await ev(`localStorage.clear(); 1`);
-  await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
+  await ev(`sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_comp_src','file'); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300);
   if (!keep) await ev(`localStorage.removeItem('msa_comp_seen'); 1`);   // el cambio de hash ya pinta la pantalla: la visita que cuenta es la de después de recargar
   await send('Page.reload'); await sleep(3600);
@@ -68,7 +68,7 @@ await click('#gdBack', 450);
 check('volver desde la ficha deja Para ti como estaba', (await count('.gd-fav')) === 2);
 await click('#gdSeason-GD05', 1400);
 check('en GD05 los favoritos de GD06 no se mezclan, no se borran y se avisa', (await count('.gd-fav')) === 0 && /2 favoritos en GD06/.test(await txt('.gd-fav-other')) && (await favsLS()).length === 2, await txt('.gd-fav-other'));
-await click('.gd-rows .gd-star[data-where="rank"]');
+await ev(`Array.from(document.querySelectorAll('.gd-arow-wrap')).filter(function(w){ return /Mikazuki Tekkadan/.test(w.textContent); })[0].querySelector('.gd-star[data-where="rank"]').click(); 1`); await sleep(500);   // un arquetipo que ya existía en GD04: así hay evolución comparable
 check('un favorito de GD05 convive con los de GD06, con su evolución comparable', (await count('.gd-fav')) === 1 && (await favsLS()).length === 3 && /pts · GD04 → GD05/.test(await txt('.gd-fav')), await txt('.gd-fav'));
 await click('.gd-fav-other', 500);
 check('el aviso lleva a la temporada de esos favoritos', (await count('.gd-fav')) === 2);
@@ -107,7 +107,8 @@ console.log('\n== novedades ==');
 
 console.log('\n== construibles (colecciones de prueba) ==');
 {
-  const deck = dl.archetypes[0].decks[0].cards, arch0 = dl.archetypes[0].name;
+  const g5 = dl.archetypes.map((a) => ({ a, d: a.decks.find((x) => (x.set || 'GD05') === 'GD05') })).find((x) => x.d);   // una lista de GD05: es la temporada que se abre abajo
+  const deck = g5.d.cards, arch0 = g5.a.name;
   await abrir(390, 844);
   check('GD06 sin listas completas: lo dice y no calcula nada', /Todavía no hay listas completas verificadas/.test(await txt('.gd-buildsec .gd-pending')) && (await count('.gd-build')) === 0);
   await abrir(390, 844, { hash: '#competicion?s=GD05' }); await sleep(900);

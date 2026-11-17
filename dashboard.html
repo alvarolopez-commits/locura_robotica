@@ -3152,7 +3152,7 @@ var EFFECT_CONFIG = {
         fTop:'Posiciones', allTop:'Todas las publicadas', top:function(n){ return 'Top '+n; }, clear:'Limpiar',
         severalCountries:'Varios países', events:function(n){ return n === 1 ? '1 torneo' : n+' torneos'; }, listsPub:function(n){ return String(n) === '1' ? '1 lista publicada' : n+' listas publicadas'; },
         side6Scope:'Side-6, todas las regiones', side6NoFilters:'En esta temporada la fuente solo da totales: el ranking no se puede filtrar por país ni fecha.',
-        side6Sample:'Muestra de listas completas de los mejores puestos: hasta 40 por arquetipo, no todos los torneos de la temporada.',
+        side6Sample:'Muestra de listas completas de los mejores puestos de cada arquetipo, no todos los torneos de la temporada.',
         shareTitle:function(n, cut){ return 'Presencia entre listas publicadas'+(cut ? ' '+cut : '')+' · n\u00a0=\u00a0'+n; },
         shareTitleAll:function(n){ return 'Presencia entre TODAS las listas publicadas (mezcla cortes distintos) · n\u00a0=\u00a0'+n; },
         fCov:'Cobertura de la muestra', covMain:'Corte completo (por defecto)', covAll:'Todas las listas (mezcla cortes)',
@@ -3187,6 +3187,8 @@ var EFFECT_CONFIG = {
         colorTitle:'Cuota por color', colorNote:function(n){ return 'Sobre '+n+' listas con colores conocidos. Cada lista reparte su peso entre sus colores, así que la suma es 100 %.'; }, colorAria:function(c, p, n){ return c+': '+p+' ('+n+' listas lo llevan)'; },
         topTitle:'Cartas más usadas', topNote:function(n){ return 'Porcentaje de las '+n+' listas con las 50 cartas conocidas que incluyen cada carta.'; },
         cardsInc:function(a, b, p){ return a+' / '+b+' listas · '+p+' de inclusión'; }, cardAria:function(i, nm, a, b, p){ return i+'. '+nm+': '+a+' de '+b+' listas, '+p+' de inclusión. Ver carta.'; }, cardsMore:function(n){ return 'Ver las '+n+' primeras'; },
+        cardsNoteProfile:function(era, n, sample){ return 'Perfil de Side-6 ('+era+'): '+n+' listas del arquetipo'+(sample ? ' (solo listas de ejemplo)' : '')+'. Copias de media: entre las listas que la incluyen.'; },
+        topNoteEst:function(n, c){ return 'Estimado a partir del perfil de cartas de cada arquetipo y sus '+n+' puestos ('+c+' con perfil). Es una cifra a la baja: lo que un perfil no recoge cuenta 0.'; }, cardsIncEst:function(a, b, p){ return '≈ '+a+' de '+b+' · '+p+' de inclusión'; },
         podium:'Podio',
         recent:'Torneos recientes', allEvents:'Ver todos los torneos', updated:function(d){ return 'Datos actualizados el '+d+'.'; },
         players:function(n){ return n === 1 ? 'participante' : 'participantes'; }, published:function(n){ return n === 1 ? 'lista publicada' : 'listas publicadas'; }, inSample:function(n){ return n === 1 ? 'lista en la muestra' : 'listas en la muestra'; }, onlyCut:function(c){ return 'Solo '+c; }, noEvents:'No hay torneos con estos filtros.',
@@ -3491,7 +3493,7 @@ var EFFECT_CONFIG = {
         fTop:'Placements', allTop:'All published', top:function(n){ return 'Top '+n; }, clear:'Clear',
         severalCountries:'Several countries', events:function(n){ return n === 1 ? '1 tournament' : n+' tournaments'; }, listsPub:function(n){ return String(n) === '1' ? '1 published list' : n+' published lists'; },
         side6Scope:'Side-6, all regions', side6NoFilters:'For this season the source only gives totals: the ranking cannot be filtered by country or date.',
-        side6Sample:'A sample of complete top-placing lists: up to 40 per archetype, not every tournament of the season.',
+        side6Sample:'A sample of complete top-placing lists for each archetype, not every tournament of the season.',
         shareTitle:function(n, cut){ return 'Presence among published'+(cut ? ' '+cut : '')+' lists · n\u00a0=\u00a0'+n; },
         shareTitleAll:function(n){ return 'Presence among ALL published lists (mixed cuts) · n\u00a0=\u00a0'+n; },
         fCov:'Sample coverage', covMain:'Full cut (default)', covAll:'All lists (mixes cuts)',
@@ -3526,6 +3528,8 @@ var EFFECT_CONFIG = {
         colorTitle:'Share by color', colorNote:function(n){ return 'Out of '+n+' lists with known colors. Each list splits its weight across its colors, so the total is 100%.'; }, colorAria:function(c, p, n){ return c+': '+p+' ('+n+' lists play it)'; },
         topTitle:'Most played cards', topNote:function(n){ return 'Share of the '+n+' lists with all 50 cards known that include each card.'; },
         cardsInc:function(a, b, p){ return a+' / '+b+' lists · '+p+' inclusion'; }, cardAria:function(i, nm, a, b, p){ return i+'. '+nm+': '+a+' of '+b+' lists, '+p+' inclusion. View card.'; }, cardsMore:function(n){ return 'See the top '+n; },
+        cardsNoteProfile:function(era, n, sample){ return 'Side-6 profile ('+era+'): '+n+' lists of the archetype'+(sample ? ' (example lists only)' : '')+'. Average copies: among the lists that include it.'; },
+        topNoteEst:function(n, c){ return 'Estimated from each archetype’s card profile and its '+n+' placements ('+c+' have a profile). It is a lower bound: whatever a profile does not list counts as 0.'; }, cardsIncEst:function(a, b, p){ return '≈ '+a+' of '+b+' · '+p+' inclusion'; },
         podium:'Podium',
         recent:'Recent tournaments', allEvents:'See all tournaments', updated:function(d){ return 'Data updated on '+d+'.'; },
         players:function(n){ return n === 1 ? 'player' : 'players'; }, published:function(n){ return n === 1 ? 'published list' : 'published lists'; }, inSample:function(n){ return n === 1 ? 'list in the sample' : 'lists in the sample'; }, onlyCut:function(c){ return c+' only'; }, noEvents:'No tournaments match these filters.',
@@ -6638,7 +6642,7 @@ var EFFECT_CONFIG = {
    * Presencia = listas publicadas del arquetipo / listas publicadas de la muestra filtrada (CompStats); nunca los inscritos.
    * El estado (pestaña, filtros, ficha) vive en la URL: #competicion[/torneos|/arquetipo/x|/torneo/x][?s=…&c=…]. */
   var GD_ISO = { 'Japan':'JP', 'Philippines':'PH', 'Indonesia':'ID', 'United States':'US', 'Germany':'DE', 'France':'FR', 'Spain':'ES', 'Italy':'IT', 'United Kingdom':'GB', 'Canada':'CA', 'Mexico':'MX', 'Brazil':'BR', 'Korea':'KR', 'Taiwan':'TW', 'Singapore':'SG', 'Thailand':'TH', 'Malaysia':'MY' };
-  var GD_SIDE6_SET = 'GD05', GD_MIN_TREND = 30, GD_ARCH_FIRST = 7;
+  var GD_SIDE6_SETS = ['GD06', 'GD05'], GD_SIDE6_DEFAULT_SET = 'GD05', GD_MIN_TREND = 30, GD_ARCH_FIRST = 7;   // temporadas que salen de Side-6 (la más reciente primero); una lista sin set es de GD05
   var GD_SIZES = { s:{ sizeMax:32 }, m:{ sizeMin:33, sizeMax:64 }, l:{ sizeMin:65 } };
   function gdNoFilters(){ return { country:'', from:'', to:'', format:'', size:'', topN:0, cov:'' }; }
   var GD = { status:'idle', table:null, data:null, cache:{}, season:null, tab:'meta', detail:null, f:gdNoFilters(), q:'', more:false, allArch:false, listShown:12, evShown:10, open:{}, scroll:{}, tabScroll:{}, nav:0, depth:0 };
@@ -6655,24 +6659,30 @@ var EFFECT_CONFIG = {
     var last = {}; if(GD.data) GD.data.events.forEach(function(e){ if(e.set && (!last[e.set] || e.date > last[e.set])) last[e.set] = e.date; });
     return Object.keys(last).sort(function(a, b){ return String(last[b]).localeCompare(last[a]); });
   }
-  function gdSeasons(){ var s = gdFileSets(); return s.indexOf(GD_SIDE6_SET) >= 0 ? s : s.concat([GD_SIDE6_SET]); }
+  /* Side-6 manda en los sets que cubre y el archivo de torneos aporta los demás. «Modo archivo» (localStorage msa_comp_src = 'file'): el archivo manda donde tiene torneos y Side-6 solo
+   * rellena el resto; sirve para probar y diagnosticar la lógica de temporadas de archivo con datos reales, no es una opción del producto. */
+  function gdFileFirst(){ try{ return localStorage.getItem('msa_comp_src') === 'file'; }catch(e){ return false; } }
+  function gdSideSets(){ return gdFileFirst() ? GD_SIDE6_SETS.filter(function(x){ return gdFileSets().indexOf(x) < 0; }) : GD_SIDE6_SETS; }
+  function gdSeasons(){ var side = gdSideSets(), file = gdFileSets().filter(function(x){ return side.indexOf(x) < 0; }); return gdFileFirst() ? file.concat(side) : side.concat(file); }
   function gdSeason(){ var all = gdSeasons(); return all.indexOf(GD.season) >= 0 ? GD.season : all[0]; }
-  function gdIsSide6(s){ return s === GD_SIDE6_SET && gdFileSets().indexOf(s) < 0; }
+  function gdIsSide6(s){ return gdSideSets().indexOf(s) >= 0; }
+  function gdSetOfDeck(d){ return d.set || GD_SIDE6_DEFAULT_SET; }
   /* decklists.json (listas completas por arquetipo) con la misma forma que el archivo de torneos */
-  function gdFromSide6(){
+  function gdFromSide6(season){
     var evs = {}, results = [], src = DL.data.snapshot.source || { name:'Side-6', url:BASE_SIDE6 };
     DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){
+      if(gdSetOfDeck(d) !== season) return;
       var e = d.event || {}, id = 'side6:'+(e.id || d.h);
-      if(!evs[id]) evs[id] = { id:id, date:e.date || '', name:e.title || t().dl.noEvent, venue:'', country:e.country || '', format:'', set:GD_SIDE6_SET, type:CompStats.eventType(e.title), playersTotal:null, listsPublished:null,
+      if(!evs[id]) evs[id] = { id:id, date:e.date || '', name:e.title || t().dl.noEvent, venue:'', country:e.country || '', format:'', set:season, type:CompStats.eventType(e.title), playersTotal:null, listsPublished:null,
         sources:[{ provider:'side6', id:e.id, url:src.url, label:src.name, primary:true }] };
-      results.push({ id:'side6:'+d.h, eventId:id, placement:d.place || null, archetype:a.name, colors:a.colors || [], set:GD_SIDE6_SET, country:e.country || '', sourceUrl:BASE_SIDE6+'/en/decklists/'+d.h+'/', cards:d.cards });
+      results.push({ id:'side6:'+d.h, eventId:id, placement:d.place || null, archetype:a.name, colors:a.colors || [], set:season, country:e.country || '', sourceUrl:BASE_SIDE6+'/en/decklists/'+d.h+'/', cards:d.cards });
     }); });
     return { events:Object.keys(evs).map(function(k){ return evs[k]; }), results:results, aggregate:true, updated:(DL.data.snapshot.retrievedAt || '').slice(0, 10) };
   }
   function gdData(){
     var s = gdSeason(), c = GD.cache[s];
     if(c) return c;
-    if(gdIsSide6(s)){ if(DL.status !== 'ok') return null; c = gdFromSide6(); }
+    if(gdIsSide6(s)){ if(DL.status !== 'ok') return null; c = gdFromSide6(s); }
     else {
       var ids = {}; c = { events:GD.data.events.filter(function(e){ if(e.set !== s) return false; ids[e.id] = 1; return true; }), aggregate:false, updated:GD.data.updatedAt };
       c.results = GD.data.results.filter(function(r){ return CompStats.originOf(r) === 'tournament' && ids[r.eventId]; });
@@ -6692,7 +6702,7 @@ var EFFECT_CONFIG = {
     return f;
   }
   function gdEraCounts(era){ var out = {}; ML.data.archetypes.forEach(function(a){ var n = a.eraDecks && a.eraDecks[era]; if(n) out[a.name] = n; }); return out; }
-  function gdPresence(c){ return c.aggregate ? CompStats.presenceFromCounts(gdEraCounts(ML.data.snapshot.era)) : CompStats.presence(c.results, c.events, gdF(), GD.table); }
+  function gdPresence(c){ return c.aggregate ? CompStats.presenceFromCounts(gdEraCounts(gdSeason())) : CompStats.presence(c.results, c.events, gdF(), GD.table); }
   function gdNum(x){ try{ return new Intl.NumberFormat(LANG === 'es' ? 'es-ES' : 'en-US').format(x); }catch(e){ return String(x); } }
   function gdPct(x){ var s = x.toFixed(1); return LANG === 'es' ? s.replace('.', ',')+' %' : s+'%'; }
   function gdIso(c){ return GD_ISO[c] || (/^[A-Z]{2}$/.test(c || '') ? c : ''); }
@@ -6847,7 +6857,7 @@ var EFFECT_CONFIG = {
   /* ---- Meta ---- */
   function gdTrend(c){
     if(!c.aggregate) return CompStats.compareShares({ seg:'file', counts:{} }, null);
-    var eras = ML.data.snapshot.eras || [], cur = ML.data.snapshot.era, prev = eras[eras.indexOf(cur) - 1];
+    var eras = ML.data.snapshot.eras || [], cur = gdSeason(), prev = eras[eras.indexOf(cur) - 1];
     if(!prev) return CompStats.compareShares({ seg:'side6', counts:{} }, null);
     return CompStats.compareShares({ label:cur, seg:'side6', counts:gdEraCounts(cur) }, { label:prev, seg:'side6', counts:gdEraCounts(prev) }, GD_MIN_TREND);
   }
@@ -6857,8 +6867,8 @@ var EFFECT_CONFIG = {
   function gdMetaView(panel, c){
     var G = t().gd, p = gdPresence(c);
     if(c.aggregate){
-      var sn = ML.data.snapshot;
-      gdNote(panel, [gdSeason(), G.side6Scope, gdPeriod(sn.windowFrom, sn.windowTo), G.listsPub(gdNum(p.n))].join(' · '), 'gd-scope');
+      var sn = ML.data.snapshot, wn = (sn.windows || {})[gdSeason()] || { from:sn.windowFrom, to:sn.windowTo };
+      gdNote(panel, [gdSeason(), G.side6Scope, gdPeriod(wn.from, wn.to), G.listsPub(gdNum(p.n))].join(' · '), 'gd-scope');
       gdNote(panel, G.side6NoFilters);
     } else {
       var ev = {}, list = CompStats.filterResults(c.results, c.events, gdF()); list.forEach(function(r){ ev[r.eventId] = c.ev[r.eventId]; });
@@ -6894,7 +6904,8 @@ var EFFECT_CONFIG = {
     var go2 = el('button','dp-btn gd-all', G.toExplore); go2.type = 'button'; go2.id = 'gdToExplore'; go2.addEventListener('click', gdToExplore); sec.appendChild(go2);
     gdSummary(panel, p);
     var smp = c.aggregate ? c.results : CompStats.filterResults(c.results, c.events, gdF());
-    gdColorShare(panel, smp); gdTopCards(panel, smp);
+    gdColorShare(panel, c.aggregate ? gdWeightedColors(c, p) : smp);
+    gdTopCards(panel, c.aggregate ? gdEstimatedCards(p) : CompStats.topCards(smp, GD_TOPCARDS_MAX, gdKeepCard), c.aggregate);
     /* cambios recientes: solo con periodos comparables */
     var ch = el('section','comp-sec'), tr2 = gdTrend(c); gdH(ch, G.changes);
     if(tr2.comparable){
@@ -6936,9 +6947,30 @@ var EFFECT_CONFIG = {
     });
     sec.appendChild(row); panel.appendChild(sec);
   }
+  var GD_LETTER_COLOR = { B:'Blue', G:'Green', R:'Red', P:'Purple', W:'White' };
+  /* temporadas agregadas: cada arquetipo pesa por sus puestos (no por las listas de ejemplo) */
+  function gdWeightedColors(c, p){
+    var prof = {}; ML.data.archetypes.forEach(function(a){ prof[a.name] = a; });
+    return p.rows.map(function(r){
+      var cs = gdArchColors(c.results, r.archetype); if(!cs.length && prof[r.archetype]) cs = (prof[r.archetype].colors || []).map(function(x){ return GD_LETTER_COLOR[x]; }).filter(Boolean);
+      return { colors:cs, weight:r.lists };
+    });
+  }
+  function gdKeepCard(n){ var cd = cardByNumber(n); return !!cd && !cd.token; }
+  function gdEstimatedCards(p){
+    var counts = {}; p.rows.forEach(function(r){ counts[r.archetype] = r.lists; });
+    return CompStats.estimateTopCards(ML.data.archetypes, counts, GD_TOPCARDS_MAX, gdKeepCard);
+  }
+  /* temporadas agregadas: las cartas del arquetipo salen del perfil de Side-6 (cientos de listas), no de las pocas listas de ejemplo */
+  function gdProfileOf(name){ return ML.data.archetypes.filter(function(a){ return a.name === name && a.cards && Object.keys(a.cards).length; })[0] || null; }
+  function gdProfileRows(a){
+    var rows = Object.keys(a.cards).filter(function(n){ return !!cardByNumber(n); }).map(function(n){ var x = a.cards[n]; return { number:n, pct:x.adoption * 100, lists:Math.round(x.adoption * a.deckCount), avgCopies:x.avgCopies }; })
+      .sort(function(x, y){ return (y.pct - x.pct) || (x.number < y.number ? -1 : 1); });
+    return { n:a.deckCount, rows:rows };
+  }
   function gdColorShare(panel, results){
     var G = t().gd, rows = CompStats.colorShare(results); if(!rows.length) return;
-    var n = results.filter(function(r){ return (r.colors || []).length; }).length, sec = el('section','comp-sec gd-colors'); sec.id = 'gdColors';
+    var n = results.reduce(function(sum, r){ return sum + ((r.colors || []).length ? (r.weight === undefined ? 1 : (r.weight > 0 ? r.weight : 0)) : 0); }, 0), sec = el('section','comp-sec gd-colors'); sec.id = 'gdColors';
     gdH(sec, G.colorTitle); gdNote(sec, G.colorNote(gdNum(n)));
     var max = rows[0].pct || 1, box = el('div','gd-crows');
     rows.forEach(function(r){
@@ -6950,17 +6982,17 @@ var EFFECT_CONFIG = {
     sec.appendChild(box); panel.appendChild(sec);
   }
   var GD_TOPCARDS = 10, GD_TOPCARDS_MAX = 30;
-  function gdTopCards(panel, results){
-    var G = t().gd, T = CompStats.topCards(results, GD_TOPCARDS_MAX, function(n){ var cd = cardByNumber(n); return !!cd && !cd.token; });
+  function gdTopCards(panel, T, estimated){
+    var G = t().gd;
     if(!T.total || !T.rows.length) return;
-    var sec = el('section','comp-sec gd-topcards'); sec.id = 'gdTopCards'; gdH(sec, G.topTitle); gdNote(sec, G.topNote(gdNum(T.total)));
+    var sec = el('section','comp-sec gd-topcards'); sec.id = 'gdTopCards'; gdH(sec, G.topTitle); gdNote(sec, estimated ? G.topNoteEst(gdNum(T.total), gdNum(T.covered)) : G.topNote(gdNum(T.total)));
     var list = el('ol','gd-tclist'), shown = GD.allCards ? T.rows : T.rows.slice(0, GD_TOPCARDS);
     shown.forEach(function(x, i){
       var cd = cardByNumber(x.n), li = el('li'), b = el('button','gd-tcard'); b.type = 'button'; b.dataset.number = x.n;
-      b.setAttribute('aria-label', G.cardAria(i + 1, cd.name, gdNum(x.lists), gdNum(T.total), gdPct(x.pct)));
+      b.setAttribute('aria-label', G.cardAria(i + 1, cd.name, gdNum(Math.round(x.lists)), gdNum(T.total), gdPct(x.pct)));
       b.appendChild(el('span','gd-trank', String(i + 1)));
       var w = el('span','gd-timg'), im = cxImg(x.n, cd.name, w); b.appendChild(w);
-      var tx = el('span','gd-ttext'); tx.appendChild(el('b', null, cd.name)); tx.appendChild(el('small', null, G.cardsInc(gdNum(x.lists), gdNum(T.total), gdPct(x.pct)))); b.appendChild(tx);
+      var tx = el('span','gd-ttext'); tx.appendChild(el('b', null, cd.name)); tx.appendChild(el('small', null, estimated ? G.cardsIncEst(gdNum(Math.round(x.lists)), gdNum(T.total), gdPct(x.pct)) : G.cardsInc(gdNum(x.lists), gdNum(T.total), gdPct(x.pct)))); b.appendChild(tx);
       b.addEventListener('click', function(){ openDetail(cd, im); });
       li.appendChild(b); list.appendChild(li);
     });
@@ -7121,10 +7153,10 @@ var EFFECT_CONFIG = {
       best.appendChild(bl); panel.appendChild(best);
     }
     /* cartas populares: solo con listas de 50 cartas verificadas, con su propio denominador */
-    var inc = CompStats.inclusion(rs, c.events, {}, gdCatalogHas), cs = el('section','comp-sec'); gdH(cs, G.cardsTitle);
+    var prof = c.aggregate ? gdProfileOf(name) : null, inc = prof ? gdProfileRows(prof) : CompStats.inclusion(rs, c.events, {}, gdCatalogHas), cs = el('section','comp-sec'); gdH(cs, G.cardsTitle);
     if(inc.n < CompStats.MIN_LISTS_FOR_CARDS) gdNote(cs, G.cardsPending(inc.n), 'gd-pending');
     else {
-      gdNote(cs, G.cardsNote(inc.n));
+      gdNote(cs, prof ? G.cardsNoteProfile(prof.era, inc.n, !!prof.sampleBased) : G.cardsNote(inc.n));
       var cl = el('div','gd-cards'); inc.rows.slice(0, 15).forEach(function(r){ cl.appendChild(cpCardRow(r.number, gdPct(r.pct)+' · '+G.inLists(r.lists, inc.n), G.avgCopies(r.avgCopies))); }); cs.appendChild(cl);
     }
     panel.appendChild(cs);
@@ -7174,7 +7206,7 @@ var EFFECT_CONFIG = {
     try{ localStorage.setItem('msa_comp_seen', JSON.stringify(all)); }catch(e){}
   }
   function gdCurrentSnap(c, f){
-    if(c.aggregate){ var ctr = gdEraCounts(ML.data.snapshot.era); return CompStats.snapshotOf(CompStats.contextKey({ set:gdSeason() }), ML.data.snapshot.dataDate, ctr); }
+    if(c.aggregate){ var ctr = gdEraCounts(gdSeason()); return CompStats.snapshotOf(CompStats.contextKey({ set:gdSeason() }), ML.data.snapshot.dataDate, ctr); }
     var list = CompStats.filterResults(c.results, c.events, f), counts = {}, ev = {};
     list.forEach(function(r){ var a = r.archetype || CompStats.UNCLASSIFIED; counts[a] = (counts[a] || 0) + 1; ev[r.eventId] = 1; });
     return CompStats.snapshotOf(CompStats.contextKey(f), c.updated, counts, Object.keys(ev), list.map(function(r){ return r.id; }));
@@ -7483,7 +7515,7 @@ var EFFECT_CONFIG = {
     }
     DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){
       var e = d.event || {};
-      push({ key:d.h, name:a.name, style:a.style || '', colors:a.colors || [], set:GD_SIDE6_SET, date:e.date || '', cards:d.cards, eventTitle:e.title || '', label:d.urlLabel || t().dl.original, url:d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/' });
+      push({ key:d.h, name:a.name, style:a.style || '', colors:a.colors || [], set:gdSetOfDeck(d), date:e.date || '', cards:d.cards, eventTitle:e.title || '', label:d.urlLabel || t().dl.original, url:d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/' });
     }); });
     var evs = {}; GD.data.events.forEach(function(e){ evs[e.id] = e; });
     GD.data.results.forEach(function(r){

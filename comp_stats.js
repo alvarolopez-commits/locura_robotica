@@ -411,8 +411,9 @@
     var w = {}, l = {}, total = 0;
     (results || []).forEach(function (r) {
       var cs = ((r && r.colors) || []).filter(function (c, i, a) { return COLOR_ORDER.indexOf(c) >= 0 && a.indexOf(c) === i; });
-      if (!cs.length) return; total++;
-      cs.forEach(function (c) { w[c] = (w[c] || 0) + 1 / cs.length; l[c] = (l[c] || 0) + 1; });
+      var wt = !r || r.weight === undefined ? 1 : (typeof r.weight === 'number' && r.weight > 0 ? r.weight : 0);   // weight: cuántas listas representa la fila (totales por arquetipo)
+      if (!cs.length || !wt) return; total += wt;
+      cs.forEach(function (c) { w[c] = (w[c] || 0) + wt / cs.length; l[c] = (l[c] || 0) + wt; });
     });
     if (!total) return [];
     return COLOR_ORDER.filter(function (c) { return w[c]; }).map(function (c) { return { color: c, pct: w[c] / total * 100, lists: l[c] }; })
@@ -428,13 +429,27 @@
       .sort(function (a, b) { return (b.lists - a.lists) || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0); });
     return { total: total, rows: limit ? rows.slice(0, limit) : rows };
   }
+  /* Cartas más usadas cuando solo hay totales por arquetipo: lista estimada = puestos del arquetipo × adopción de la carta en su perfil. Los arquetipos sin perfil
+   * cuentan en el total pero no aportan cartas, y lo que un perfil no recoge (por debajo de su corte) cuenta 0: es una estimación a la baja, no un recuento. */
+  function estimateTopCards(profiles, counts, limit, keep) {
+    var total = 0, covered = 0, lists = {}, byName = {};
+    (profiles || []).forEach(function (p) { byName[p.name] = p; });
+    Object.keys(counts || {}).forEach(function (name) {
+      var n = counts[name]; if (!(n > 0)) return; total += n;
+      var p = byName[name], cards = p && p.cards ? Object.keys(p.cards) : []; if (!cards.length) return; covered += n;
+      cards.forEach(function (c) { if (!keep || keep(c)) lists[c] = (lists[c] || 0) + n * (Number(p.cards[c].adoption) || 0); });
+    });
+    var rows = Object.keys(lists).filter(function (c) { return lists[c] > 0; }).map(function (c) { return { n: c, lists: lists[c], pct: total ? lists[c] / total * 100 : 0 }; })
+      .sort(function (a, b) { return (b.lists - a.lists) || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0); });
+    return { total: total, covered: covered, rows: limit ? rows.slice(0, limit) : rows };
+  }
   function podium(results) {
     return (results || []).map(function (r, i) { return { r: r, i: i }; }).filter(function (x) { return x.r && typeof x.r.placement === 'number' && x.r.placement >= 1; })
       .sort(function (a, b) { return (a.r.placement - b.r.placement) || (a.i - b.i); }).slice(0, 3).map(function (x) { return x.r; });
   }
 
   return {
-    metaSummary: metaSummary, colorShare: colorShare, topCards: topCards, podium: podium,
+    metaSummary: metaSummary, colorShare: colorShare, topCards: topCards, estimateTopCards: estimateTopCards, podium: podium,
     EXPLORE_COLORS: EXPLORE_COLORS, EXPLORE_STYLES: EXPLORE_STYLES, MAX_EXPLORE_CARDS: MAX_EXPLORE_CARDS, exploreFromQuery: exploreFromQuery, exploreToQuery: exploreToQuery, exploreActiveCount: exploreActiveCount,
     exploreArchOk: exploreArchOk, exploreListOk: exploreListOk, periodCutoff: periodCutoff,
     MAX_CRITERIA: MAX_CRITERIA, toggleCriterion: toggleCriterion, setCriterionPrio: setCriterionPrio, criteriaToString: criteriaToString, criteriaFromString: criteriaFromString, matchLists: matchLists,

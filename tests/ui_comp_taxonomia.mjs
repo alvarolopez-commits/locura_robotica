@@ -31,7 +31,7 @@ async function abrir(hash, data, tabla) {
   hookId = (await send('Page.addScriptToEvaluateOnNewDocument', { source: `(function(){ var of = window.fetch; window.fetch = function(u){ var s = String(u); if (s.indexOf('competition_events.json') >= 0) return Promise.resolve(new Response(${JSON.stringify(JSON.stringify(data))}, {status:200, headers:{'content-type':'application/json'}})); if (s.indexOf('archetype_aliases.json') >= 0) return ${tabla === null ? "Promise.resolve(new Response('', {status:404}))" : `Promise.resolve(new Response(${JSON.stringify(JSON.stringify(tabla))}, {status:200, headers:{'content-type':'application/json'}}))`}; return of.apply(this, arguments); }; })();` })).result.identifier;
   await send('Page.navigate', { url: 'about:blank' }); await sleep(150);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
-  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); 1`);
+  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_comp_src','file'); localStorage.setItem('msa_lang','es'); 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300); await send('Page.reload'); await sleep(3500);
 }
 const txt = (sel) => ev(`(function(){ var e=document.querySelector(${JSON.stringify(sel)}); return e ? e.textContent.trim().replace(/\\s+/g,' ') : null })()`);

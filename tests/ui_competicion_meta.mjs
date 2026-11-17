@@ -31,13 +31,16 @@ async function abrir(W, H, hash, lang = 'es') {
   await send('Page.reload'); await sleep(3800);   // el cambio de hash no recarga: así el idioma guardado y la ruta se leen desde cero
 }
 
-/* ---- datos de referencia calculados aparte ---- */
+/* ---- datos de referencia calculados aparte (totales por arquetipo de meta.json + colores de decklists.json) ---- */
 const S = require('../comp_stats.js'); const { loadCatalog } = require('../scripts/import_deck_export.js'); const cat = loadCatalog();
-const DL = JSON.parse(fs.readFileSync('data/decklists.json', 'utf8'));
-const inc = {}; let nDecks = 0; const colorsOf = [];
-DL.archetypes.forEach((a) => a.decks.forEach((d) => { nDecks++; colorsOf.push({ colors: a.colors || [] }); Object.keys(d.cards).forEach((n) => { if (d.cards[n] > 0 && cat[n] && !cat[n].token) inc[n] = (inc[n] || 0) + 1; }); }));
-const topRef = Object.keys(inc).map((n) => ({ n, lists: inc[n] })).sort((a, b) => b.lists - a.lists || (a.n < b.n ? -1 : 1));
-const colorRef = S.colorShare(colorsOf);
+const DL = JSON.parse(fs.readFileSync('data/decklists.json', 'utf8')), ML = JSON.parse(fs.readFileSync('data/meta.json', 'utf8'));
+const colorsOfName = {}; DL.archetypes.forEach((a) => { colorsOfName[a.name] = a.colors || []; });
+const LETTER = { B: 'Blue', G: 'Green', R: 'Red', P: 'Purple', W: 'White' };
+const conteo = (era) => { const o = {}; ML.archetypes.forEach((a) => { if (a.eraDecks[era]) o[a.name] = a.eraDecks[era]; }); return o; };
+const colorRefOf = (era) => S.colorShare(Object.entries(conteo(era)).map(([name, n]) => ({ colors: colorsOfName[name] || (ML.archetypes.find((a) => a.name === name).colors || []).map((x) => LETTER[x]), weight: n })));
+const topRefOf = (era) => S.estimateTopCards(ML.archetypes, conteo(era), 30, (n) => cat[n] && !cat[n].token);
+const totalOf = (era) => Object.values(conteo(era)).reduce((s, x) => s + x, 0);
+const colorRef = colorRefOf('GD05'), topRef = topRefOf('GD05').rows, nDecks = topRefOf('GD05').total;
 
 console.log('\n== el menú abre Meta (390 px) ==');
 await abrir(390, 844);
@@ -49,7 +52,7 @@ await abrir(390, 844, '#competicion?s=GD05');
 check('el ranking sigue siendo lo primero que se ve', (await ev(`(function(){ var a=document.querySelector('.gd-arow').getBoundingClientRect(); return a.bottom <= innerHeight - 60 })()`)) === true);
 check('resumen: tres cifras (listas, arquetipos, cuota del top 3) con valores', (await count('.gd-stat')) === 3 && /\d/.test((await txt('.gd-stat .v')) || '') && /%/.test(await ev(`document.querySelectorAll('.gd-stat .v')[2].textContent`)), await ev(`Array.prototype.map.call(document.querySelectorAll('.gd-stat'), function(e){ return e.textContent; })`));
 const arq = Number(await ev(`document.querySelectorAll('.gd-stat .v')[1].textContent`));
-check('el número de arquetipos coincide con los datos', arq === DL.archetypes.length, [arq, DL.archetypes.length]);
+check('el número de arquetipos coincide con los datos', arq === Object.keys(conteo('GD05')).length, [arq, Object.keys(conteo('GD05')).length]);
 check('cuota por color: 5 filas en orden descendente y con la suma de 100 %', (await count('.gd-crow')) === 5, await count('.gd-crow'));
 const cv = await ev(`Array.prototype.map.call(document.querySelectorAll('.gd-crow .gd-cval'), function(e){ return parseFloat(e.textContent.replace(',', '.')); })`);
 check('los valores suman 100 (±0,3 por redondeo) y no crecen', Math.abs(cv.reduce((s, x) => s + x, 0) - 100) < 0.3 && cv.every((x, i) => i === 0 || x <= cv[i - 1] + 1e-9), cv);
@@ -60,7 +63,7 @@ check('cartas más usadas: 10 filas con imagen, ranking y porcentaje', (await co
 const first = await ev(`${q('.gd-tcard')}.dataset.number`);
 check('la carta número 1 es la más incluida según los datos (' + topRef[0].n + ')', first === topRef[0].n, [first, topRef[0]]);
 const pct1 = parseFloat((await txt('.gd-ttext small')).match(/([\d,]+) % de inclusión/)[1].replace(',', '.'));
-check('su porcentaje es listas con la carta / listas del muestreo', Math.abs(pct1 - topRef[0].lists / nDecks * 100) < 1.5, [pct1, topRef[0].lists / nDecks * 100]);
+check('su porcentaje es la estimación (puestos × adopción del perfil) / total de puestos', Math.abs(pct1 - topRef[0].pct) < 0.06, [pct1, topRef[0].pct]);
 check('cada fila es un botón de al menos 44 px', (await ev(`Array.prototype.every.call(document.querySelectorAll('.gd-tcard'), function(b){ return b.getBoundingClientRect().height >= 44; })`)) === true);
 await click('#gdAllCards', 500);
 check('«Ver las 30 primeras» amplía la lista a 30 y vuelve a 10', (await count('.gd-tcard')) === 30 && (await ev(`${q('#gdAllCards')}.getAttribute('aria-expanded')`)) === 'true');
@@ -77,10 +80,10 @@ check('lleva a la portada de Explorar con arquetipos', (await hashNow()).startsW
 await ev('history.back(); 1'); await sleep(1200);
 check('«atrás» devuelve a Meta', (await count('#compTabs button')) === 2 && (await count('.gd-stat')) === 3, [await count('#compTabs button'), await count('.gd-stat')]);
 
-console.log('\n== Meta GD06 (WinDecks) ==');
+console.log('\n== Meta GD06 (Side-6) ==');
 await abrir(390, 844, '#competicion?s=GD06');
 const n06 = Number(String(await ev(`document.querySelectorAll('.gd-stat .v')[0].textContent`)).replace(/\D/g, ''));
-check('el resumen cuenta las listas de la muestra de la temporada', n06 > 10 && n06 < 200, n06);
+check('el resumen cuenta los puestos de la temporada (totales de Side-6)', n06 === totalOf('GD06'), [n06, totalOf('GD06')]);
 const cv6 = await ev(`Array.prototype.map.call(document.querySelectorAll('.gd-crow .gd-cval'), function(e){ return parseFloat(e.textContent.replace(',', '.')); })`);
 check('cuota por color suma 100 también en GD06', cv6.length >= 3 && Math.abs(cv6.reduce((s, x) => s + x, 0) - 100) < 0.3, cv6);
 

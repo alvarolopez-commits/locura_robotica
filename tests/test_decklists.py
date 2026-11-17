@@ -13,39 +13,64 @@ CATALOG = {c["number"] for c in json.load(open(os.path.join(ROOT, "data", "all_c
 DATA_PATH = os.path.join(ROOT, "data", "decklists.json")
 
 
-def page(decklists, heading="BP Aggro", obj=None):
-    """Imita cómo Side-6 incrusta los datos: JSON dentro de una cadena, con las comillas escapadas."""
-    payload = json.dumps(obj if obj is not None else {"heading": heading, "decklists": decklists}, ensure_ascii=False, separators=(",", ":"))
-    return "<html><body><script>self.__next_f.push([1,\"" + payload.replace("\\", "\\\\").replace('"', '\\"') + "\"])</script></body></html>"
+def page(decks, heading="BP Aggro", obj=None, windows=None):
+    """Imita el formato web de Side-6 (nov 2026): <h1> con el nombre y JSON dentro de una cadena, con las comillas escapadas.
+    `decks` es una lista; el formato real los guarda en un diccionario por hash."""
+    body = obj if obj is not None else {"decks": {d["hash"]: d for d in decks}, "windows": windows or []}
+    payload = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+    return "<html><body><h1 class=\"x\">" + heading + "</h1><script>self.__next_f.push([1,\"" + payload.replace("\\", "\\\\").replace('"', '\\"') + "\"])</script></body></html>"
 
 
-def deck(h, cards, place=1, eid="9001", title="Evento de prueba", date="2026-10-18T13:00:00.000Z", colors="BLUE_PURPLE"):
-    return {"hash": h * 64 if len(h) == 1 else h, "colorCombination": colors, "archetype": {"strategy": "AGGRO"},
+def deck(h, cards, place=1, eid="9001", title="Evento de prueba", date="2026-10-18T13:00:00.000Z", colors="BLUE_PURPLE", window="GD05"):
+    return {"hash": h * 64 if len(h) == 1 else h, "colorCombination": colors,
             "mainboard": [{"cardNumber": n, "number": q} for n, q in cards.items()],
-            "placements": [{"placement": place, "playerName": "NO DEBE GUARDARSE", "tournament": {"id": "t1", "event": {"id": eid, "startDate": date, "title": {"text": {"en": title}} if title else {}}}}]}
+            "placements": [{"id": eid + "-" + str(place), "placement": place, "playerName": "NO DEBE GUARDARSE",
+                            "tournament": {"id": eid, "event": {"id": eid, "startDate": date, "title": {"text": {"en": title}} if title else {}}, "windowID": window}}]}
 
 
 class Parser(unittest.TestCase):
     def test_lista_basica(self):
-        a = bd.parse_archetype(page([deck("a", {"ST01-001": 4, "ST01-002": 46})]), "bp-aggro")
-        self.assertEqual((a["name"], a["colors"], a["style"]), ("BP Aggro", ["Blue", "Purple"], "Aggro"))
+        a = bd.parse_archetype(page([deck("a", {"ST01-001": 4, "ST01-002": 46})], "BP Aggro"), "bp-aggro")
+        self.assertEqual((a["name"], a["colors"]), ("BP Aggro", ["Blue", "Purple"]))
         d = a["decks"][0]
-        self.assertEqual((d["place"], d["event"]["title"], d["event"]["date"]), (1, "Evento de prueba", "2026-10-18"))
+        self.assertEqual((d["place"], d["event"]["title"], d["event"]["date"], d["set"]), (1, "Evento de prueba", "2026-10-18", "GD05"))
         self.assertEqual(sum(d["cards"].values()), 50)
+
+    def test_estilo_y_ventanas(self):
+        win = [{"id": "GD05:ST11-14", "startDate": "2026-10-02T00:00:00.000Z", "endDate": "2026-11-06T00:00:00.000Z", "windowPlacements": 3472, "placements": 5, "lists": 4},
+               {"id": "GD06", "startDate": "2026-11-06T00:00:00.000Z", "endDate": "2027-02-05T00:00:00.000Z", "windowPlacements": 848, "placements": 7, "lists": 7}]
+        body = {"tempoMix": [{"strategy": "MIDRANGE", "share": 1}], "decks": {"a" * 64: deck("a", {"ST01-001": 50})}, "windows": win}
+        a = bd.parse_archetype(page(None, obj=body), "x")
+        self.assertEqual(a["style"], "Midrange")
+        self.assertEqual([(w["id"], w["total"], w["placements"], w["from"]) for w in a["windows"]], [("GD05:ST11-14", 3472, 5, "2026-10-02"), ("GD06", 848, 7, "2026-11-06")])
+
+    def test_el_set_sale_de_la_ventana_y_las_ventanas_intermedias_cuentan_para_su_set(self):
+        self.assertEqual((bd.set_of_window("GD05:ST11-14"), bd.set_of_window("GD04:EB01_ST10"), bd.set_of_window("GD06"), bd.set_of_window(None)), ("GD05", "GD04", "GD06", None))
+        r = bd.parse_archetype(page([deck("a", {"ST01-001": 50}, window="GD06", date="2026-11-10T00:00:00.000Z")]), "x")["decks"][0]
+        self.assertEqual(r["set"], "GD06")
 
     def test_no_se_guardan_nombres_de_jugadores(self):
         a = bd.parse_archetype(page([deck("a", {"ST01-001": 50})]), "x")
         self.assertNotIn("NO DEBE GUARDARSE", json.dumps(a))
 
-    def test_mejor_puesto_si_hay_varios(self):
+    def test_puesto_mas_reciente_dentro_de_la_ventana(self):
         d = deck("a", {"ST01-001": 50}, place=9)
-        d["placements"].append({"placement": 2, "tournament": {"event": {"id": "9002", "startDate": "2026-10-20T00:00:00.000Z", "title": {"text": {"en": "Otro"}}}}})
+        d["placements"].append({"id": "9002-2", "placement": 2, "tournament": {"id": "9002", "event": {"id": "9002", "startDate": "2026-10-20T00:00:00.000Z", "title": {"text": {"en": "Otro"}}}, "windowID": "GD05"}})
+        d["placements"].append({"id": "9000-1", "placement": 1, "tournament": {"id": "9000", "event": {"id": "9000", "startDate": "2026-03-01T00:00:00.000Z", "title": {"text": {"en": "Antiguo"}}}, "windowID": "GD03"}})
         r = bd.parse_archetype(page([d]), "x")["decks"][0]
-        self.assertEqual((r["place"], r["event"]["id"]), (2, "9002"))
+        self.assertEqual((r["place"], r["event"]["id"], r["set"]), (2, "9002", "GD05"), "el más reciente dentro de la ventana, no el mejor puesto histórico")
+
+    def test_evento_repetido_como_referencia_se_resuelve_con_el_mismo_torneo(self):
+        a = deck("a", {"ST01-001": 50}, eid="9001", title="Mismo evento")
+        b = deck("b", {"ST01-001": 50}, eid="9001", place=4)
+        b["placements"][0]["tournament"] = "$b:props:children:3:props:model:decks:" + b["hash"] + ":placements:0:tournament"   # así lo serializa el formato
+        r = bd.parse_archetype(page([a, b]), "x")
+        self.assertEqual({d["event"]["title"] for d in r["decks"]}, {"Mismo evento"})
+        self.assertEqual({d["event"]["date"] for d in r["decks"]}, {"2026-10-18"})
 
     def test_evento_sin_titulo_se_completa_con_otra_lista_del_mismo_evento(self):
         a = bd.parse_archetype(page([deck("a", {"ST01-001": 50}, title="Mismo evento"), deck("b", {"ST01-001": 50}, title=None)]), "x")
-        self.assertEqual({d["event"]["title"] for d in a["decks"]}, {"Mismo evento"})
+        self.assertEqual({d["event"]["id"] for d in a["decks"]}, {"9001"})
 
     def test_sin_listas_falla_con_el_nombre_del_arquetipo(self):
         with self.assertRaises(ValueError) as cm:
@@ -53,8 +78,8 @@ class Parser(unittest.TestCase):
         self.assertIn("rg-midrange", str(cm.exception))
 
     def test_indice_solo_devuelve_arquetipos_validos(self):
-        html = '<a href="/en/archetypes/bp-aggro">x</a><a href="/en/archetypes/rg-midrange/">y</a><a href="/en/archetypes/other-page">z</a><a href="/en/archetypes/bp-aggro">dup</a>'
-        self.assertEqual(bd.parse_index(html), ["bp-aggro", "rg-midrange"])
+        html = '<a href="/en/archetypes/mikazuki-barbatos/">x</a><a href="/en/archetypes/rg-other/">y</a><a href="/en/archetypes/">índice</a><a href="/en/archetypes/rg-other/">dup</a><a href="/en/decklists/abc/">no</a>'
+        self.assertEqual(bd.parse_index(html), ["mikazuki-barbatos", "rg-other"])
 
     def test_titulo_sin_held_in(self):
         self.assertEqual(bd.clean_title("Gundam Card Game Serial Card Challenge (Held in October)"), "Gundam Card Game Serial Card Challenge")
@@ -70,7 +95,7 @@ class Parser(unittest.TestCase):
         self.assertIsNone(bd.parse_event_country(page("<div>Calle sin país</div>")))
 
     def test_evento_de_una_lista_concreta(self):
-        html = page(None, obj={"placements": deck("a", {"ST01-001": 50}, place=3)["placements"]})
+        html = page(None, obj={"placements": deck("a", {"ST01-001": 50}, place=3)["placements"]})   # página de una lista concreta
         r = bd.parse_deck_event(html)
         self.assertEqual((r[0], r[1], r[2], r[3]), (3, "9001", "Evento de prueba", "2026-10-18"))
 

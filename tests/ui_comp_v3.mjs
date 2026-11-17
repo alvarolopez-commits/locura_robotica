@@ -26,7 +26,7 @@ async function abrir(W, H, { data, lang = 'es', hash = '#competicion', fail = fa
   }
   await send('Page.navigate', { url: 'about:blank' }); await sleep(200);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(800);
-  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','${lang}'); 1`);
+  await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_comp_src','file'); localStorage.setItem('msa_lang','${lang}'); 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(400); await send('Page.reload'); await sleep(4200);
 }
 const txt = (sel) => ev(`(function(){ var e=document.querySelector(${JSON.stringify(sel)}); return e ? e.textContent.trim().replace(/\\s+/g,' ') : null })()`);
@@ -126,16 +126,16 @@ for (const [W, H] of [[360, 760], [390, 844], [430, 900], [768, 1024], [1440, 90
 
   // GD05 (Side-6)
   await click('#gdSeason-GD05', 1500);
-  check('GD05: mismas dos pestañas y n de Side-6, sin mezclar GD06', JSON.stringify(await tabs()) === JSON.stringify(['Meta', 'Torneos']) && /n = 8\.?219/.test(await title()) && /^GD05 · Side-6/.test(await txt('.gd-scope')), [await title(), await txt('.gd-scope')]);
+  check('GD05: mismas dos pestañas y n de Side-6, sin mezclar GD06', JSON.stringify(await tabs()) === JSON.stringify(['Meta', 'Torneos']) && /n = 11\.?568/.test(await title()) && /^GD05 · Side-6/.test(await txt('.gd-scope')), [await title(), await txt('.gd-scope')]);
   check('GD05: el ranking no ofrece filtros que la fuente no permite y lo explica', (await count('#gdCountry')) === 0 && /solo da totales/.test(await panel()));
-  check('GD05: cambios frente a GD04 con la n de cada periodo', (await count('.gd-mover')) > 0 && /GD05 \(n = 8\.?219\) frente a GD04 \(n = 3\.?907\)/.test(await panel()));
+  check('GD05: cambios frente a GD04 con la n de cada periodo', (await count('.gd-mover')) > 0 && /GD05 \(n = 11\.?568\) frente a GD04 \(n = 3\.?578\)/.test(await panel()));
   await click('.gd-rows .gd-arow', 700);
-  check('GD05: ficha de arquetipo con evolución por periodo y cartas populares con su propio n', (await count('.gd-era')) === 3 && (await count('.gd-cards .ml-row')) > 0 && /Sobre \d+ listas con las 50 cartas verificadas/.test(await panel()), await count('.gd-cards .ml-row'));
+  check('GD05: ficha de arquetipo con evolución por periodo y cartas populares con su propio n', (await count('.gd-era')) === 4 && (await count('.gd-cards .ml-row')) > 0 && /Perfil de Side-6 \(GD0[56]\): \d+ listas del arquetipo/.test(await panel()), await count('.gd-cards .ml-row'));
   const conLista = await clickTxt('.gd-res .gd-open', '/Ver lista/', 500);
   check('GD05: una lista completa se abre con copiar y ver cartas (función existente)', conLista && /Copiar mazo/.test(await txt('.gd-deck .dl-actions')) && (await count('.gd-deck .dl-cards')) === 1);
   check('GD05: ficha sin scroll horizontal', await noHScroll());
   await click('#gdBack', 400); await click('#compTab-torneos', 500);
-  check('GD05 Torneos: se distinguen los torneos por su id (más de 100 en la muestra)', /· 400 torneos/.test(await txt('.gd-scope')) && (await count('.gd-event')) === 10, await txt('.gd-scope'));
+  check('GD05 Torneos: se distinguen los torneos por su id (más de 100 en la muestra)', /· 1\d\d torneos/.test(await txt('.gd-scope')) && (await count('.gd-event')) === 10, await txt('.gd-scope'));
   check('GD05 Torneos: sin scroll horizontal; objetivos de 44 px', (await noHScroll()) && (await small(INTER)).length === 0, await small(INTER));
   check('sin errores de consola (' + W + ')', errs.length === 0, errs);
 }
@@ -154,11 +154,11 @@ console.log('\n== listas completas, sin clasificar, datos ausentes, enlaces e id
   check('el enlace de la lista va a su fuente, no a otra web', mf === '' || mf.indexOf('https://metasheep.gg/') === 0, mf);
 
   await abrir(390, 844, { data: { version: 1, updatedAt: '2026-11-04', events: [], results: [], review: [] } });
-  check('sin torneos en el archivo: se abre GD05 de Side-6, con una sola temporada no hay selector', (await ev(`document.getElementById('compScope').hidden`)) === true && /^GD05/.test(await txt('.gd-scope')), await txt('.gd-scope'));
+  check('sin torneos en el archivo: se abre GD06 de Side-6 y Side-6 sigue dando dos temporadas (hay selector)', (await ev(`document.getElementById('compScope').hidden`)) === false && (await count('#gdSeason-GD05')) === 1 && /^GD06/.test(await txt('.gd-scope')), [await ev(`document.getElementById('compScope').hidden`), await count('#gdSeason-GD05'), await txt('.gd-scope'), String(await ev(`document.getElementById('compPanel').innerText.slice(0,120)`))]);
 
   await abrir(390, 844, { fail: true });
   await sleep(800);
-  check('error del archivo: mensaje con reintento, GD05 sigue disponible y no hay bucle de peticiones', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD05/.test(await txt('.gd-scope')), await txt('.gd-error'));
+  check('error del archivo: mensaje con reintento, Side-6 sigue disponible y no hay bucle de peticiones', /No se pudieron cargar los torneos/.test(await txt('.gd-error')) && (await count('.gd-retry')) === 1 && /^GD06/.test(await txt('.gd-scope')), await txt('.gd-error'));
 
   await abrir(390, 844, { hash: '#competicion/arquetipo/Mobile%20Fighter?top=8' });
   check('enlace directo a una ficha con filtros: la abre y calcula con ellos (n = 40)', /Mobile Fighter/.test(await txt('.gd-title')) && /de 40 listas publicadas/.test(await txt('.gd-metric-n')), await txt('.gd-metric-n'));

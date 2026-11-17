@@ -41,6 +41,29 @@ test('empates: por código; cantidades a 0 no cuentan; filtro opcional de cartas
   eq(S.topCards([], 10), { total: 0, rows: [] });
 });
 
+console.log('\n== con totales por arquetipo (temporadas que la fuente da agregadas) ==');
+test('colorShare admite peso por fila: un arquetipo con 3 puestos pesa el triple que uno con 1', () => {
+  const r = S.colorShare([{ colors: ['Blue'], weight: 3 }, { colors: ['Red'], weight: 1 }]);
+  eq(r.map((x) => x.color), ['Blue', 'Red']); near(r[0].pct, 75); near(r[1].pct, 25); eq(r[0].lists, 3, 'lists = peso, no filas');
+});
+test('colorShare descarta las filas con peso no válido (0, negativo, texto) y da 1 a las que no traen peso', () => {
+  const r = S.colorShare([{ colors: ['Blue'], weight: 0 }, { colors: ['Red'], weight: -2 }, { colors: ['Green'], weight: 'x' }, { colors: ['White'] }]);
+  eq(r.map((x) => x.color), ['White'], 'solo la fila sin peso (vale 1) cuenta'); near(r[0].pct, 100);
+});
+test('estimateTopCards pondera la adopción de cada perfil por los puestos del arquetipo', () => {
+  const profiles = [{ name: 'A', cards: { X: { adoption: 1 }, Y: { adoption: 0.5 } } }, { name: 'B', cards: { X: { adoption: 0.5 }, Z: { adoption: 1 } } }, { name: 'C', cards: {} }];
+  const t = S.estimateTopCards(profiles, { A: 60, B: 40, C: 100 }, 10);
+  eq(t.total, 200, 'incluye los arquetipos sin perfil en el total'); eq(t.covered, 100, 'puestos con perfil');
+  eq(t.rows.map((r) => r.n), ['X', 'Z', 'Y']);
+  near(t.rows[0].lists, 80); near(t.rows[0].pct, 40, 'X: 60 + 20 = 80 de 200'); near(t.rows[1].lists, 40); near(t.rows[2].lists, 30);
+});
+test('estimateTopCards respeta límite y filtro, y sin datos devuelve vacío', () => {
+  const profiles = [{ name: 'A', cards: { X: { adoption: 1 }, T: { adoption: 1 }, Y: { adoption: 0.5 } } }];
+  eq(S.estimateTopCards(profiles, { A: 10 }, 1).rows.map((r) => r.n), ['T']);
+  eq(S.estimateTopCards(profiles, { A: 10 }, 10, (n) => n !== 'T').rows.map((r) => r.n), ['X', 'Y']);
+  eq(S.estimateTopCards([], {}, 5), { total: 0, covered: 0, rows: [] }); eq(S.estimateTopCards(profiles, { Q: 5 }, 5), { total: 5, covered: 0, rows: [] });
+});
+
 console.log('\n== podio de un torneo ==');
 test('los tres mejores puestos por posición, sin puesto al final y como mucho 3', () => {
   const r = S.podium([{ id: 'x', placement: 3 }, { id: 'y', placement: 1 }, { id: 'z', placement: null }, { id: 'w', placement: 2 }, { id: 'v', placement: 4 }]);

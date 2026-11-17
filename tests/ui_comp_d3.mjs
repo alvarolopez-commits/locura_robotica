@@ -46,7 +46,7 @@ async function abrir(W, H, { data, store = {}, cloud, hash = '#competicion', kee
   await send('Page.navigate', { url: 'about:blank' }); await sleep(150);
   await send('Page.navigate', { url: 'http://localhost:8766/' }); await sleep(600);
   if (!keep) await ev(`localStorage.clear(); 1`);
-  await ev(`sessionStorage.setItem('msa_splash','1'); ${cloud ? `sessionStorage.setItem('__cloud', ${JSON.stringify(JSON.stringify(cloud))});` : ''} localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
+  await ev(`sessionStorage.setItem('msa_splash','1'); ${cloud ? `sessionStorage.setItem('__cloud', ${JSON.stringify(JSON.stringify(cloud))});` : ''} localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_comp_src','file'); localStorage.setItem('msa_lang','es'); ${Object.entries(store).map(([k, v]) => `localStorage.setItem(${JSON.stringify(k)}, ${JSON.stringify(v)});`).join(' ')} 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300); await send('Page.reload'); await sleep(3300);
 }
 const txt = (sel) => ev(`(function(){ var e=document.querySelector(${JSON.stringify(sel)}); return e ? e.textContent.trim().replace(/\\s+/g,' ') : null })()`);

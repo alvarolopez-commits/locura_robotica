@@ -3,8 +3,8 @@
   python -I scripts/build_decklists.py            descarga las páginas de arquetipo de Side-6 (≈2,5 s entre peticiones) y genera el JSON
   python -I scripts/build_decklists.py --offline  reutiliza las páginas ya guardadas en data/meta/raw/arch/ (solo local)
 
-Cada página de arquetipo de Side-6 lleva incrustadas sus mejores listas (puestos altos de los eventos recientes) con las 50
-cartas. Se guardan por arquetipo con su puesto, evento y fecha, y el enlace a la lista original. NO se guardan nombres de jugadores.
+Cada página de arquetipo de Side-6 lleva incrustadas listas de ejemplo (de los puestos altos) con las 50 cartas y, por ventana de set
+(GD05, GD05:ST11-14, GD06…), cuántos puestos y listas tuvo el arquetipo frente al total de la ventana (formato web de nov 2026: `decks`, `windows`). Se guardan por arquetipo con su puesto, evento y fecha, y el enlace a la lista original. NO se guardan nombres de jugadores.
 Todo o nada: si falla un arquetipo no se escribe nada. Las páginas descargadas quedan en data/meta/raw/arch/ (ignorada por git).
 Cortesía con la fuente: User-Agent propio, pausa entre peticiones, caché de 12 horas y sin paralelismo."""
 import json
@@ -12,6 +12,7 @@ import os
 import re
 import sys
 import time
+import html as htmllib
 import urllib.request
 from datetime import datetime, timezone
 
@@ -23,7 +24,7 @@ UA = "LocuraRobotica/1.0 (personal, non-commercial)"
 PAUSE = 2.5
 CACHE_HOURS = 12
 COLORS = {"BLUE": "Blue", "GREEN": "Green", "RED": "Red", "PURPLE": "Purple", "WHITE": "White"}
-SLUG_RE = re.compile(r"^[a-z]{2}-(aggro|control|midrange)$")
+SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")   # taxonomía nueva: p. ej. «mikazuki-barbatos» (la antigua era «bg-aggro»)
 # Series de tiendas de Bandai Japón (comprobado en las páginas de evento: todas en Japón). El resto de eventos se mira uno a uno.
 SERIES_JP_RE = re.compile(r"^(Gundam Card Game Serial Card Challenge|Newtype Challenge 2026 MISSION)")
 COUNTRIES = {"Japan": "JP", "Philippines": "PH", "Indonesia": "ID", "United States": "US", "Germany": "DE", "France": "FR", "Spain": "ES", "Italy": "IT",
@@ -49,8 +50,8 @@ def parse_event_country(html):
             return COUNTRIES[name]
     return None
 
-# solo las listas de los eventos del formato actual (la ventana de datos de Side-6 empieza el 3 de agosto de 2026)
-FROM_DATE = "2026-08-03"
+# solo las listas de los eventos del formato actual (la ventana GD05 de Side-6 empieza el 31 de julio de 2026)
+FROM_DATE = "2026-07-31"
 
 
 def unescape(html):
@@ -59,7 +60,7 @@ def unescape(html):
 
 
 def parse_index(html):
-    slugs = sorted({m for m in re.findall(r"/en/archetypes/([a-z]{2}-[a-z]+)", html) if SLUG_RE.match(m)})
+    slugs = sorted({m for m in re.findall(r"/en/archetypes/([a-z0-9-]+)/", html) if SLUG_RE.match(m)})
     return slugs
 
 
@@ -71,18 +72,15 @@ def _get(o, *keys):
     return o
 
 
-def find_decklists(html):
-    """Primer array "decklists" cuyos elementos traen mainboard."""
-    text = unescape(html)
-    dec = json.JSONDecoder()
-    for m in re.finditer(r'"decklists":', text):
-        try:
-            arr, _ = dec.raw_decode(text[m.end():])
-        except ValueError:
-            continue
-        if isinstance(arr, list) and arr and isinstance(arr[0], dict) and "mainboard" in arr[0]:
-            return arr, text
-    return None, text
+def _object_after(text, key):
+    """Objeto o lista JSON que sigue a `key` (p. ej. '"decks":'); None si no está o no se puede leer."""
+    i = text.find(key)
+    if i < 0:
+        return None
+    try:
+        return json.JSONDecoder().raw_decode(text[i + len(key):])[0]
+    except ValueError:
+        return None
 
 
 def event_title(ev):
@@ -90,44 +88,68 @@ def event_title(ev):
     return t if isinstance(t, str) and t.strip() else None
 
 
+def set_of_window(wid):
+    """'GD05:ST11-14' -> 'GD05'; 'GD04:EB01_ST10' -> 'GD04'. Las ventanas intermedias (productos sueltos) cuentan para el set de la ventana principal."""
+    return (wid or "").split(":")[0] or None
+
+
 def parse_archetype(html, slug):
-    """-> dict con id, name, colors, style y decks; decks = [{h, place, event:{id,title,date}, cards:{num:qty}}]. ValueError si no hay listas."""
-    arr, text = find_decklists(html)
-    if not arr:
+    """-> dict con id, name, colors, style, windows y decks; decks = [{h, place, set, event:{id,title,date}, cards:{num:qty}}]. ValueError si no hay listas.
+    Para cada lista se toma su puesto más reciente DENTRO de la ventana de datos (desde FROM_DATE); si no tiene ninguno, queda sin fecha y se descarta después."""
+    text = unescape(html)
+    decks = _object_after(text, '"decks":')
+    if not isinstance(decks, dict) or not decks:
         raise ValueError("sin listas en la página de " + slug)
-    m = re.search(r'"heading":"([^"]+)","decklists"', text)
-    name = m.group(1) if m else slug
-    colors, style, decks = [], None, []
-    titles = {}
-    for d in arr:
-        for p in d.get("placements") or []:
-            ev = _get(p, "tournament", "event")
-            if isinstance(ev, dict) and ev.get("id") and event_title(ev):
-                titles[str(ev["id"])] = event_title(ev)
-    for d in arr:
-        if not isinstance(d, dict) or not d.get("hash"):
+    h1 = re.search(r"<h1[^>]*>([^<]+)</h1>", html)
+    name = htmllib.unescape(h1.group(1)).strip() if h1 else slug
+    st = re.search(r'"strategy":"([A-Z]+)"', text)
+    style = st.group(1).capitalize() if st else None
+    # el formato serializa un evento repetido como referencia ("$b:props:…"): se resuelve con los demás puestos del mismo torneo y con los resultados de las variantes
+    tmap = {}
+    for d in decks.values():
+        for p in (d.get("placements") or []) if isinstance(d, dict) else []:
+            t = p.get("tournament") if isinstance(p, dict) else None
+            if isinstance(t, dict) and isinstance(t.get("event"), dict) and t["event"].get("id"):
+                tmap[str(t["event"]["id"])] = {"event": t["event"], "windowID": t.get("windowID") or t["event"].get("windowID")}
+    for m in re.finditer(r'"date":"([^"]+)","rank":\d+,"cutSize":\d+,"eventId":"(\d+)","eventWindowId":"([^"]+)","eventTitle":"([^"]*)"', text):
+        tmap.setdefault(m.group(2), {"event": {"id": m.group(2), "startDate": m.group(1), "title": {"text": {"en": m.group(4)}}}, "windowID": m.group(3)})
+    combos, out = {}, []
+    for d in decks.values():
+        if not isinstance(d, dict) or not d.get("hash") or not isinstance(d.get("mainboard"), list):
             continue
         cc = d.get("colorCombination") or ""
-        if cc and not colors:
-            colors = [COLORS[x] for x in cc.split("_") if x in COLORS]
-        style = style or _get(d, "archetype", "strategy")
+        if cc:
+            combos[cc] = combos.get(cc, 0) + 1
         cards = {}
         for c in d["mainboard"]:
             if isinstance(c, dict) and c.get("cardNumber") and isinstance(c.get("number"), int) and c["number"] > 0:
                 cards[c["cardNumber"]] = cards.get(c["cardNumber"], 0) + c["number"]
         best = None
         for p in d.get("placements") or []:
-            if isinstance(p, dict) and isinstance(p.get("placement"), int) and (best is None or p["placement"] < best["placement"]):
-                best = p
-        ev = _get(best, "tournament", "event") if best else None
-        eid = str(ev["id"]) if isinstance(ev, dict) and ev.get("id") else None
-        date = (ev.get("startDate") or "")[:10] if isinstance(ev, dict) else ""
-        decks.append({
-            "h": d["hash"], "place": best["placement"] if best else None,
-            "event": {"id": eid, "title": titles.get(eid) or (event_title(ev) if ev else None), "date": date or None},
-            "cards": dict(sorted(cards.items())),
-        })
-    return {"id": slug, "name": name, "colors": colors, "style": (style or "").capitalize() or None, "decks": decks}
+            t = p.get("tournament") if isinstance(p, dict) else None
+            if isinstance(t, str) and isinstance(p, dict):   # referencia: el id del torneo es el prefijo del id del puesto ("8489229-11")
+                t = tmap.get(str(p.get("id", "")).split("-")[0])
+            ev = t.get("event") if isinstance(t, dict) else None
+            if not isinstance(ev, dict) or not ev.get("id") or not isinstance(p.get("placement"), int):
+                continue
+            date = (ev.get("startDate") or "")[:10]
+            key = (date >= FROM_DATE, date, -p["placement"])       # dentro de la ventana, el más reciente; a igualdad, el mejor puesto
+            if best is None or key > best[0]:
+                best = (key, p, ev, date, t.get("windowID") or ev.get("windowID"))
+        p, ev, date, wid = (best[1], best[2], best[3], best[4]) if best else (None, None, "", None)
+        out.append({"h": d["hash"], "place": p["placement"] if p else None, "set": set_of_window(wid),
+                    "event": {"id": str(ev["id"]) if ev else None, "title": event_title(ev) if ev else None, "date": date or None},
+                    "cards": dict(sorted(cards.items()))})
+    colors = []
+    if combos:
+        top = sorted(combos.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+        colors = [COLORS[x] for x in top.split("_") if x in COLORS]
+    windows = []
+    for w in _object_after(text, '"windows":') or []:
+        if isinstance(w, dict) and w.get("id"):
+            windows.append({"id": w["id"], "from": (w.get("startDate") or "")[:10], "to": (w.get("endDate") or "")[:10],
+                            "total": w.get("windowPlacements"), "placements": w.get("placements"), "lists": w.get("lists")})
+    return {"id": slug, "name": name, "colors": colors, "style": style, "windows": windows, "decks": out}
 
 
 def parse_deck_event(html):
@@ -162,6 +184,37 @@ def fetch(url, cache_name, offline):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w", encoding="utf-8").write(html)
     return html
+
+
+def prior_countries():
+    """id de evento -> país del data/decklists.json anterior (un evento no cambia de país)."""
+    try:
+        old = json.load(open(OUT, encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {d["event"]["id"]: d["event"].get("country") for a in old.get("archetypes", []) for d in a.get("decks", []) if d.get("event", {}).get("country")}
+
+
+def set_totals(archetypes):
+    """Por set: total de puestos de todas las ventanas del set (mismo total en todos los arquetipos), y primera/última fecha de las listas."""
+    wins, sets = {}, {}
+    for a in archetypes:
+        for w in a.get("windows", []):
+            wins[w["id"]] = w
+    for wid, w in wins.items():
+        st = set_of_window(wid)
+        x = sets.setdefault(st, {"from": w["from"], "to": w["to"], "total": 0, "windows": []})
+        x["from"] = min(x["from"], w["from"]) if w["from"] else x["from"]
+        x["total"] += w["total"] or 0
+        x["windows"].append(wid)
+    for a in archetypes:
+        for d in a["decks"]:
+            x = sets.get(d.get("set"))
+            if x:
+                x["dataTo"] = max(x.get("dataTo", ""), d["event"]["date"] or "")
+    for x in sets.values():
+        x["windows"].sort()
+    return dict(sorted(sets.items()))
 
 
 def build(offline=False, log=print):
@@ -213,7 +266,7 @@ def build(offline=False, log=print):
         for d in a["decks"]:
             if d["event"]["id"] and not d["event"]["title"]:
                 d["event"]["title"] = titles.get(d["event"]["id"])
-    countries = {}
+    countries = prior_countries()   # los países ya conocidos no se vuelven a pedir
     for a in archetypes:
         for d in a["decks"]:
             e = d["event"]; eid = e["id"]
@@ -233,9 +286,10 @@ def build(offline=False, log=print):
             "retrievedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "source": {"id": "side6", "name": "Side-6", "url": BASE + "/en/archetypes/"},
             "from": dates[0] if dates else None, "to": dates[-1] if dates else None,
-            "note": "Mejores puestos de los eventos recientes por arquetipo. Sin nombres de jugadores.",
+            "sets": set_totals(archetypes),
+            "note": "Listas de ejemplo de los puestos altos por arquetipo, con su set. Sin nombres de jugadores.",
         },
-        "archetypes": [a for a in archetypes if a["decks"]],
+        "archetypes": [{k: v for k, v in a.items() if k != "windows"} for a in archetypes if a["decks"]],
         "unknownCards": sorted(unknown),
     }
 
