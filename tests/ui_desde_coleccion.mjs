@@ -51,7 +51,8 @@ async function abrir(W, H, { hash = '', col = COLJ, lang = 'es' } = {}) {
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','${lang}'); localStorage.setItem('msa_decks', ${JSON.stringify(JSON.stringify(MAZOS))}); ${col ? `localStorage.setItem('msa_collection', ${JSON.stringify(col)});` : ''} 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300); await send('Page.reload'); await sleep(3800);
 }
-const porColeccion = async () => { await ev(`document.getElementById('tbCollection').click(); 1`); await sleep(1500); await ev(`document.getElementById('collBuilder').click(); 1`); await sleep(2500); };
+const abrirMazos = async (W) => { if (W >= 900) await ev(`document.getElementById('btnMyDecks').click(); 1`); else await ev(`document.getElementById('tbDecks').click(); 1`); await sleep(1500); };
+const porColeccion = async () => { await abrirMazos(390); await ev(`document.getElementById('dpBuild').click(); 1`); await sleep(2500); };   // (nombre histórico) entrada: Mazos → «Crear mazo»
 const txt = (sel) => ev(`(function(){ var e=document.querySelector(${JSON.stringify(sel)}); return e ? e.textContent.trim().replace(/\\s+/g,' ') : null })()`);
 const count = (sel) => ev(`document.querySelectorAll(${JSON.stringify(sel)}).length`);
 const hs = () => ev('document.documentElement.scrollWidth <= innerWidth + 1');
@@ -64,25 +65,28 @@ const coleccion = () => ev(`localStorage.getItem('msa_collection')`);
 
 for (const [W, H] of [[390, 844], [320, 640], [1280, 900]]) {
   console.log('\n== ' + W + ' px ==');
-  await abrir(W, H); await ev(`document.getElementById('tbCollection') && document.getElementById('tbCollection').click(); 1`); await sleep(1500);
-  if (W >= 900) { await ev(`document.getElementById('menuBtn').click(); 1`); await sleep(300); await ev(`document.getElementById('pmCollection').click(); 1`); await sleep(1500); }
-  // 1 · entrada
-  const b = await ev(`(function(){ var el=document.getElementById('collBuilder'), cs=getComputedStyle(el), r=el.getBoundingClientRect(), im=el.querySelector('img'), ir=im.getBoundingClientRect(); return { bg:cs.backgroundColor, color:cs.color, h:Math.round(r.height), w:Math.round(r.width), vis:r.width>0 && !document.getElementById('collBuilderWrap').hidden, src:im.getAttribute('src'), nat:im.naturalWidth, iw:Math.round(ir.width), txt:el.querySelector('b').textContent, sub:el.querySelector('small').textContent, tok:getComputedStyle(document.documentElement).getPropertyValue('--collection-builder').trim().toLowerCase() } })()`);
-  check('Mi colección tiene el botón «Crear desde mi colección» con su descripción', b.vis && b.txt === 'Crear desde mi colección' && b.sub === 'Encuentra mazos con tus cartas', b);
-  check('fondo #CD9FC8 por el token --collection-builder y texto navy de alto contraste', b.bg === 'rgb(205, 159, 200)' && b.tok === '#cd9fc8' && b.color === 'rgb(34, 30, 65)', b);
-  check('tamaño cómodo para móvil (≥44 px de alto) sin desbordar', b.h >= 44 && (await hs()), b);
-  check('icono: el PNG suministrado, cargado y a tamaño visible', /icons\/avatar-de-perfil\.png$/.test(b.src) && b.nat === 512 && b.iw >= 24, b);
+  await abrir(W, H); await abrirMazos(W);
+  // 1 · las dos cajas de Mazos
+  const b = await ev(String.raw`(function(){ var el=document.getElementById('dpBuild'), ex=document.getElementById('dpExplore'), cs=getComputedStyle(el), ce=getComputedStyle(ex), r=el.getBoundingClientRect(), re=ex.getBoundingClientRect(), im=el.querySelector('img'), ir=im.getBoundingClientRect(), titulo=document.getElementById('lblDpTitle').getBoundingClientRect(), grid=document.getElementById('dpGrid').getBoundingClientRect(); return { bg:cs.backgroundColor, bgEx:ce.backgroundColor, color:cs.color, colorEx:ce.color, h:Math.round(r.height), hEx:Math.round(re.height), vis:r.width>0 && re.width>0 && !document.getElementById('decksPage').hidden, src:im.getAttribute('src'), nat:im.naturalWidth, iw:Math.round(ir.width), txt:el.querySelector('b').textContent, sub:el.querySelector('small').textContent, txtEx:ex.querySelector('b').textContent, subEx:ex.querySelector('small').textContent, tok:getComputedStyle(document.documentElement).getPropertyValue('--collection-builder').trim().toLowerCase(), tokEx:getComputedStyle(document.documentElement).getPropertyValue('--deck-explorer').trim().toLowerCase(), debajoDelTitulo:r.top >= titulo.bottom, antesDeLosMazos:r.bottom <= grid.top + 1, lado:Math.abs(r.top - re.top) < 2 && re.left >= r.right - 1 } })()`);
+  check('Mazos tiene dos cajas bajo el título: «Crear mazo» y «Explorar mazos», una al lado de la otra, antes de la lista de mazos', b.vis && b.txt === 'Crear mazo' && b.txtEx === 'Explorar mazos' && b.debajoDelTitulo && b.antesDeLosMazos && b.lado, b);
+  check('cada caja con su descripción corta', b.sub === 'Encuentra mazos con tus cartas' && b.subEx === 'Descubre qué se está jugando', b);
+  check('«Crear mazo» es rosa #CD9FC8 (token --collection-builder) y «Explorar» albaricoque #E7B685 (token --deck-explorer), con texto navy', b.bg === 'rgb(205, 159, 200)' && b.tok === '#cd9fc8' && b.bgEx === 'rgb(231, 182, 133)' && b.tokEx === '#e7b685' && b.color === 'rgb(34, 30, 65)' && b.colorEx === 'rgb(34, 30, 65)', b);
+  check('ninguna es azul ni de los cinco colores de carta (el rosa y el albaricoque no se parecen a Blue/Green/Red/Purple/White)', ['rgb(59, 110, 165)', 'rgb(74, 122, 82)', 'rgb(181, 84, 74)', 'rgb(122, 91, 156)', 'rgb(174, 180, 194)', 'rgb(139, 205, 255)', 'rgb(62, 112, 124)'].every((c) => c !== b.bg && c !== b.bgEx), b);
+  check('tamaño cómodo para móvil (≥44 px de alto) y sin desbordar', b.h >= 44 && b.hEx >= 44 && (await hs()), b);
+  check('icono de «Crear mazo»: el PNG suministrado, cargado y a tamaño visible', /icons\/avatar-de-perfil\.png$/.test(b.src) && b.nat === 512 && b.iw >= 24, b);
   const hashPag = await ev(`fetch('icons/avatar-de-perfil.png').then(function(r){ return r.arrayBuffer() }).then(function(buf){ return crypto.subtle.digest('SHA-256', buf) }).then(function(d){ return Array.from(new Uint8Array(d)).map(function(x){ return x.toString(16).padStart(2,'0') }).join('') })`);
   check('el icono servido es idéntico byte a byte al del repositorio', hashPag === sha('icons/avatar-de-perfil.png'), hashPag);
   const orig = 'C:/Users/34656/Downloads/avatar-de-perfil.png';
   if (W === 390 && fs.existsSync(orig)) check('y al archivo original suministrado', sha(orig) === sha('icons/avatar-de-perfil.png'));
   const html = fs.readFileSync('dashboard.html', 'utf8');
-  if (W === 390) check('el hex #CD9FC8 aparece una sola vez (token), no disperso', (html.match(/#CD9FC8/gi) || []).length === 1, (html.match(/#CD9FC8/gi) || []).length);
-  check('el catálogo propio y «Mazos iniciales» siguen en Mi colección', (await count('#collStarters')) === 1 && (await count('#collBar')) === 1);
+  if (W === 390) check('cada hex de color de caja aparece una sola vez (token), no disperso', (html.match(/#CD9FC8/gi) || []).length === 1 && (html.match(/#E7B685/gi) || []).length === 1, [(html.match(/#CD9FC8/gi) || []).length, (html.match(/#E7B685/gi) || []).length]);
+  check('Mis mazos sigue siendo lo principal: la lista de mazos y sus acciones siguen ahí', (await count('#dpGrid .dp-deck')) === Object.keys(MAZOS).length && (await count('#dpCopyBar')) === 1);
+  check('Mi colección ya no tiene el botón (se mudó a Mazos)', await (async () => { await ev(`document.getElementById('tbCollection').click(); 1`); await sleep(1200); return (await count('#collBuilder')) === 0 && (await count('#collStarters')) === 1 && (await count('#collBar')) === 1; })());
+  await abrirMazos(W);
 
   // 2 · pantalla de selección
   const antesMazos = JSON.stringify(await mazos()), antesCol = await coleccion();
-  await click('#collBuilder', 2500);
+  await click('#dpBuild', 2500);
   check('se abre «Crear desde mis cartas» (ruta #competicion/mias) con su título y bajada', (await hashNow()) === '#competicion/mias' && (await txt('.cx-title')) === 'Crear desde mis cartas' && (await txt('.mc-intro')) === 'Elige las cartas con las que quieres jugar y encuentra listas que las utilizan', [await hashNow(), await txt('.cx-title')]);
   const tiles = await ev(`Array.from(document.querySelectorAll('.mc-tile')).map(function(b){ return b.dataset.number })`);
   const pilotosPropios = Object.keys(COL).filter((n) => by[n].type === 'PILOT').sort();
@@ -194,6 +198,7 @@ check('recargar en la ruta de resultados la recupera (criterios y modo parcial e
 console.log('\n== el mismo flujo desde Competición → «Desde mis cartas» ==');
 await abrir(390, 844);
 await ev(`document.getElementById('menuBtn').click(); 1`); await sleep(300); await ev(`document.getElementById('pmCompetition').click(); 1`); await sleep(2500);
+await click('#gdToExplore', 1500);   // el menú abre Meta; «Desde mis cartas» está en Explorar mazos
 check('Competición ofrece «Desde mis cartas»', (await txt('#cxMine')) === 'Desde mis cartas');
 await click('#cxMine', 1800);
 const tilesC = await ev(`Array.from(document.querySelectorAll('.mc-tile')).map(function(b){ return b.dataset.number })`);
@@ -204,13 +209,29 @@ check('y encuentra las mismas listas', JSON.stringify(await ev(`Array.from(docum
 await ev(`history.back(); 1`); await sleep(700); await ev(`history.back(); 1`); await sleep(800);
 check('«atrás» vuelve a la portada de Competición', (await hashNow()) === '#competicion/mazos');
 
+console.log('\n== las dos cajas de Mazos: navegación de ida y vuelta (390 px) ==');
+await abrir(390, 844); await abrirMazos(390);
+await click('#dpBuild', 2200);
+check('«Crear mazo» abre «Crear desde mis cartas» y su botón de vuelta dice «Mazos»', (await hashNow()) === '#competicion/mias' && (await txt('#mcBack')) === '← Mazos', [await hashNow(), await txt('#mcBack')]);
+await click('#mcBack', 1500);
+check('«← Mazos» vuelve a Mazos (Mis mazos) con las dos cajas', (await ev(`!document.getElementById('decksPage').hidden`)) === true && (await count('#dpDoors .dp-door')) === 2 && (await ev(`document.getElementById('compPage').hidden`)) === true);
+await click('#dpExplore', 2500);
+check('«Explorar mazos» abre la portada de listas completas y su botón de vuelta dice «Mazos»', (await hashNow()) === '#competicion/mazos' && (await count('.cx-card')) > 10 && (await txt('#lblCompBack')) === 'Mazos', [await hashNow(), await count('.cx-card'), await txt('#lblCompBack')]);
+await click('.cx-card', 900);
+check('dentro de Explorar, abrir un arquetipo sigue funcionando', (await count('.cx-list')) >= 1);
+await ev(`history.back(); 1`); await sleep(800);
+await click('#compBack', 1500);
+check('«← Mazos» desde la portada de Explorar vuelve a Mazos', (await ev(`!document.getElementById('decksPage').hidden`)) === true && (await ev(`document.getElementById('compPage').hidden`)) === true);
+await ev(`document.getElementById('menuBtn').click(); 1`); await sleep(300); await ev(`document.getElementById('pmCompetition').click(); 1`); await sleep(2200);
+check('entrando a Competición por el menú, el botón de vuelta sigue siendo «Catálogo» (no hereda lo de Mazos)', (await txt('#lblCompBack')) === 'Catálogo', await txt('#lblCompBack'));
+
 console.log('\n== colección vacía, inglés y catálogo intacto ==');
 await abrir(390, 844, { col: '' }); await porColeccion();
 check('sin Pilots: estado vacío amable, acceso a Mi colección y opción de explorar Units', /Todavía no tienes Pilots registrados/.test(await txt('#mcEmpty')) && (await count('#mcGoColl')) === 1 && (await count('#mcOther')) === 1 && (await count('.mc-tile')) === 0);
 await click('#mcOther', 400);
 check('y sin Units tampoco inventa nada', /Todavía no tienes Units registradas/.test(await txt('#mcEmpty')));
 await click('#mcGoColl', 1500);
-check('«Ir a Mi colección» vuelve a Mi colección', (await ev(`!document.getElementById('collPage').hidden`)) === true);
+check('«Ir a Mi colección» abre Mi colección', (await ev(`!document.getElementById('collPage').hidden`)) === true);
 await abrir(390, 844, { lang: 'en' }); await porColeccion();
 check('textos en inglés', (await txt('.cx-title')) === 'Build from my cards' && (await ev(`document.getElementById('mcSearch').textContent`)) === 'Find decks');
 await abrir(390, 844);

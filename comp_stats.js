@@ -358,7 +358,85 @@
     return { exact: exact, partial: partial };
   }
 
+  /* ---- Explorar mazos: filtros y su estado en la URL ----
+   * f = { colors:[…], style:'', cards:[…≤10], sort:'recent'|'az', period:''|'30' }. Los colores y el estilo filtran ARQUETIPOS; las cartas y el periodo filtran LISTAS.
+   * Nada se afirma sin dato: una lista sin fecha no pasa «últimos 30 días» y un arquetipo sin estilo conocido no pasa un filtro de estilo. */
+  var EXPLORE_COLORS = ['Blue', 'Green', 'Red', 'Purple', 'White'], EXPLORE_STYLES = ['Aggro', 'Control', 'Midrange'], MAX_EXPLORE_CARDS = 10;
+  function exploreFromQuery(get) {
+    var f = { colors: [], style: '', cards: [], sort: 'recent', period: '' };
+    String(get('c') || '').split(',').forEach(function (c) { if (EXPLORE_COLORS.indexOf(c) >= 0 && f.colors.indexOf(c) < 0) f.colors.push(c); });
+    if (EXPLORE_STYLES.indexOf(get('st')) >= 0) f.style = get('st');
+    String(get('cards') || '').split(',').forEach(function (n) { n = n.trim(); if (/^[A-Za-z0-9-]+$/.test(n) && f.cards.indexOf(n) < 0 && f.cards.length < MAX_EXPLORE_CARDS) f.cards.push(n); });
+    if (get('o') === 'az') f.sort = 'az';
+    if (get('p') === '30') f.period = '30';
+    return f;
+  }
+  function exploreToQuery(f) {
+    var out = [];
+    if (f.colors.length) out.push('c=' + f.colors.join(','));
+    if (f.style) out.push('st=' + f.style);
+    if (f.cards.length) out.push('cards=' + f.cards.join(','));
+    if (f.sort === 'az') out.push('o=az');
+    if (f.period) out.push('p=' + f.period);
+    return out;
+  }
+  function exploreActiveCount(f) { return f.colors.length + (f.style ? 1 : 0) + f.cards.length + (f.period ? 1 : 0); }
+  function exploreArchOk(A, f) {
+    if (f.colors.length && !f.colors.every(function (c) { return (A.colors || []).indexOf(c) >= 0; })) return false;
+    if (f.style && A.style !== f.style) return false;
+    return true;
+  }
+  function exploreListOk(l, f, cutoff) {
+    if (cutoff && !(l.date && l.date >= cutoff)) return false;
+    return f.cards.every(function (n) { return (l.cards[n] || 0) > 0; });
+  }
+  /* fecha ISO de hoy menos N días (UTC, sin depender de la zona horaria del dispositivo); '' si no hay periodo */
+  function periodCutoff(todayISO, days) {
+    if (!days) return '';
+    var p = String(todayISO).split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    d.setUTCDate(d.getUTCDate() - days); return d.toISOString().slice(0, 10);
+  }
+
+  /* ---- Resumen del meta (al estilo de las webs de meta, sin dinero) ----
+   * metaSummary(p): cifras de la cabecera a partir de la presencia { n, rows:[{archetype, lists, pct}] }.
+   * colorShare(results): cada lista reparte 1 entre sus colores, así la suma es 100 %. lists = listas que llevan ese color.
+   * topCards(results, limit, keep): inclusión = listas que llevan la carta / listas con composición conocida.
+   * podium(results): los 3 mejores puestos conocidos de un torneo; sin puesto no se inventa. */
+  var COLOR_ORDER = ['Blue', 'Green', 'Red', 'Purple', 'White'];
+  function metaSummary(p) {
+    var rows = (p && p.rows) || [];
+    return { lists: (p && p.n) || 0, archetypes: rows.length, top3: rows.slice(0, 3).reduce(function (s, r) { return s + (r.pct || 0); }, 0) };
+  }
+  function colorShare(results) {
+    var w = {}, l = {}, total = 0;
+    (results || []).forEach(function (r) {
+      var cs = ((r && r.colors) || []).filter(function (c, i, a) { return COLOR_ORDER.indexOf(c) >= 0 && a.indexOf(c) === i; });
+      if (!cs.length) return; total++;
+      cs.forEach(function (c) { w[c] = (w[c] || 0) + 1 / cs.length; l[c] = (l[c] || 0) + 1; });
+    });
+    if (!total) return [];
+    return COLOR_ORDER.filter(function (c) { return w[c]; }).map(function (c) { return { color: c, pct: w[c] / total * 100, lists: l[c] }; })
+      .sort(function (a, b) { return (b.pct - a.pct) || (COLOR_ORDER.indexOf(a.color) - COLOR_ORDER.indexOf(b.color)); });
+  }
+  function topCards(results, limit, keep) {
+    var inc = {}, total = 0;
+    (results || []).forEach(function (r) {
+      if (!r || !r.cards) return; total++;
+      Object.keys(r.cards).forEach(function (n) { if (r.cards[n] > 0 && (!keep || keep(n))) inc[n] = (inc[n] || 0) + 1; });
+    });
+    var rows = Object.keys(inc).map(function (n) { return { n: n, lists: inc[n], pct: inc[n] / total * 100 }; })
+      .sort(function (a, b) { return (b.lists - a.lists) || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0); });
+    return { total: total, rows: limit ? rows.slice(0, limit) : rows };
+  }
+  function podium(results) {
+    return (results || []).map(function (r, i) { return { r: r, i: i }; }).filter(function (x) { return x.r && typeof x.r.placement === 'number' && x.r.placement >= 1; })
+      .sort(function (a, b) { return (a.r.placement - b.r.placement) || (a.i - b.i); }).slice(0, 3).map(function (x) { return x.r; });
+  }
+
   return {
+    metaSummary: metaSummary, colorShare: colorShare, topCards: topCards, podium: podium,
+    EXPLORE_COLORS: EXPLORE_COLORS, EXPLORE_STYLES: EXPLORE_STYLES, MAX_EXPLORE_CARDS: MAX_EXPLORE_CARDS, exploreFromQuery: exploreFromQuery, exploreToQuery: exploreToQuery, exploreActiveCount: exploreActiveCount,
+    exploreArchOk: exploreArchOk, exploreListOk: exploreListOk, periodCutoff: periodCutoff,
     MAX_CRITERIA: MAX_CRITERIA, toggleCriterion: toggleCriterion, setCriterionPrio: setCriterionPrio, criteriaToString: criteriaToString, criteriaFromString: criteriaFromString, matchLists: matchLists,
     UNCLASSIFIED: UNCLASSIFIED, DECK_SIZE: DECK_SIZE, MIN_LISTS_FOR_CARDS: MIN_LISTS_FOR_CARDS,
     normText: normText, canonUrl: canonUrl, altKey: altKey, sameEvent: sameEvent, dedupeEvents: dedupeEvents,

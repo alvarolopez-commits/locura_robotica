@@ -45,7 +45,7 @@ check('Kshatriya Banshee y Kshatriya + Strike Freedom Gundam tienen identidades 
 console.log('\n== interfaz ==');
 await abrir('#competicion', real, table);
 let f = await filas();
-check('el ranking sigue igual con la tabla (Mobile Fighter 16 de 56) y Kshatriya Banshee aparece solo', f[0] === 'Mobile Fighter|16 de 56 listas' && !(await ev(`document.getElementById('compPanel').textContent`)).includes('Strike Freedom'));
+check('el ranking sigue igual con la tabla (Mobile Fighter 16 de 56) y Kshatriya Banshee aparece solo', f[0] === 'Mobile Fighter|16 de 56 listas' && !(await ev(`document.querySelector('.gd-rows').textContent`)).includes('Strike Freedom'));
 await abrir('#competicion/arquetipo/Kshatriya%20Banshee', real, table);
 check('un enlace antiguo por nombre sigue funcionando', /Kshatriya Banshee/.test(await txt('.gd-title')) && /de 56 listas publicadas/.test(await txt('.gd-metric-n')), await txt('.gd-title'));
 await abrir('#competicion/arquetipo/' + encodeURIComponent('Kshatriya + Strike Freedom Gundam'), real, table);

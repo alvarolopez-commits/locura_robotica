@@ -50,7 +50,9 @@ async function abrir(W, H, { hash = '', mod = '', lang = 'es', seed = true } = {
   await ev(`localStorage.clear(); sessionStorage.setItem('msa_splash','1'); localStorage.setItem('msa_install_dismissed',String(Date.now())); localStorage.setItem('msa_lang','${lang}'); ${seed ? `localStorage.setItem('msa_decks', ${JSON.stringify(JSON.stringify(MAZOS))});` : ''} 1`);
   await send('Page.navigate', { url: 'http://localhost:8766/' + hash }); await sleep(300); await send('Page.reload'); await sleep(3800);
 }
-const porMenu = async () => { await ev(`document.getElementById('menuBtn').click(); 1`); await sleep(400); await ev(`document.getElementById('pmCompetition').click(); 1`); await sleep(2500); };
+// Explorar mazos vive en Mazos (caja «Explorar mazos»); el menú Competición abre Meta (ver el bloque de abajo)
+const porMenu = async () => { await ev(`document.getElementById('tbDecks').click(); 1`); await sleep(900); await ev(`document.getElementById('dpExplore').click(); 1`); await sleep(2500); };
+const porMenuReal = async () => { await ev(`document.getElementById('menuBtn').click(); 1`); await sleep(400); await ev(`document.getElementById('pmCompetition').click(); 1`); await sleep(2500); };
 const txt = (sel) => ev(`(function(){ var e=document.querySelector(${JSON.stringify(sel)}); return e ? e.textContent.trim().replace(/\\s+/g,' ') : null })()`);
 const count = (sel) => ev(`document.querySelectorAll(${JSON.stringify(sel)}).length`);
 const hs = () => ev('document.documentElement.scrollWidth <= innerWidth + 1');

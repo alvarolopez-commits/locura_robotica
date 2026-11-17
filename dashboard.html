@@ -35,7 +35,7 @@
   --navy:#221e41; --navy-2:#2c2757; --paper:#eef2f5; --panel:#ffffff; --tone:#e3eaef; --tone-2:#d3dde5; --line:#c6d3dc;
   --fg-1:#221e41; --fg-2:#2e4a62; --fg-3:#4b6880;
   --on-navy:#e6eef6; --on-navy-2:#a9bdd2;
-  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --cyan-ink:#0a739a; --collection-builder:#CD9FC8; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
+  --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --cyan-ink:#0a739a; --collection-builder:#CD9FC8; --deck-explorer:#E7B685; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
   --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2;
   --font-sans:'Inter','Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-display:'Inter Digits','Big Shoulders Display',var(--font-sans);
@@ -484,12 +484,12 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 .card-body{ padding:6px 8px 10px; display:flex; flex-direction:column; gap:6px; }
 /* ===== EFECTOS · cajas Activación · Efecto, badges inline, habilidad ===== */
 .fx-box,.fx-badge,.fx-kw,.fx-more{ font-family:var(--font-sans); font-weight:700; letter-spacing:0; text-transform:none; line-height:1.15; }
-.fx-box{ display:inline-flex; align-items:center; max-width:100%; padding:4px 9px; font-size:12px; background:var(--fx-bg,#5F7F8D); color:var(--fx-fg,var(--white)); clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%); }
+.fx-box{ display:inline-flex; align-items:center; max-width:100%; padding:4px 9px; font-size:12px; background:var(--fx-bg,#587887); color:var(--fx-fg,var(--white)); clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%); }
 .fx-box.neutral{ background:var(--tone-2); color:var(--fg-1); }
 .fx-more{ display:inline-flex; align-items:center; padding:4px 7px; font-size:12px; color:var(--fg-2); background:var(--tone); border-radius:9999px; }
 .card-fxrow{ display:flex; flex-wrap:wrap; gap:4px; }
 .card-fxrow:empty{ display:none; }
-.fx-badge{ display:inline-flex; align-items:center; padding:1px 8px 2px; margin:0 3px 0 0; font-size:.82em; vertical-align:.06em; border-radius:4px; background:var(--fx-bg,#5F7F8D); color:var(--fx-fg,var(--white)); white-space:nowrap; }
+.fx-badge{ display:inline-flex; align-items:center; padding:1px 8px 2px; margin:0 3px 0 0; font-size:.82em; vertical-align:.06em; border-radius:4px; background:var(--fx-bg,#587887); color:var(--fx-fg,var(--white)); white-space:nowrap; }
 .fx-badge.once{ font-size:.72em; font-weight:600; padding:0 6px 1px; background:transparent; color:inherit; box-shadow:inset 0 0 0 1px currentColor; opacity:.85; }
 .fx-badge.neutral{ background:rgba(255,255,255,.14); color:inherit; }
 .fx-qual{ font-weight:500; opacity:.9; margin-right:3px; }
@@ -1181,17 +1181,95 @@ span.legalChip{ cursor:inherit; }
   .legalModal.open{ transform:none; }
 }
 
-/* ===== Mi colección: entrada a «Crear desde mi colección» (rosa reservado a esta función) ===== */
-.coll-builder-wrap{ margin:2px 0 6px; max-width:460px; }
-.coll-builder-wrap[hidden]{ display:none; }
-.coll-builder{ display:flex; align-items:center; gap:12px; width:100%; min-height:64px; padding:10px 16px 10px 12px; text-align:left; color:var(--navy); background:var(--collection-builder); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); transition:transform .16s var(--ease-out); }
-.coll-builder img{ flex:none; width:36px; height:36px; display:block; }
-.coll-builder .cb-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
-.coll-builder b{ font-size:16px; font-weight:800; line-height:1.2; }
-.coll-builder small{ font-size:13px; font-weight:600; line-height:1.3; }
-.coll-builder:active{ transform:scale(.985); }
-.coll-builder:focus-visible{ outline:3px solid var(--sky); outline-offset:2px; }
-@media (hover:hover){ .coll-builder:hover{ filter:brightness(1.05); } }
+
+/* ===== Mazos: dos cajas de entrada bajo el título de Mis mazos (rosa = crear, albaricoque = explorar) ===== */
+.dp-doors{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:2px 0 16px; max-width:720px; }
+.dp-door{ display:flex; align-items:center; gap:10px; min-height:64px; padding:10px 12px; text-align:left; color:var(--navy); clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut)); transition:transform .16s var(--ease-out); }
+.dp-door-build{ background:var(--collection-builder); }
+.dp-door-explore{ background:var(--deck-explorer); }
+.dp-door > img,.dp-door > svg{ flex:none; width:32px; height:32px; display:block; }
+.dp-door .cb-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.dp-door b{ font-size:15px; font-weight:800; line-height:1.2; }
+.dp-door small{ font-size:12.5px; font-weight:600; line-height:1.3; }
+.dp-door:active{ transform:scale(.985); }
+.dp-door:focus-visible{ outline:3px solid var(--sky); outline-offset:2px; }
+@media (hover:hover){ .dp-door:hover{ filter:brightness(1.05); } }
+
+/* ===== Meta: resumen, cuota por color, cartas más usadas y podio ===== */
+.gd-stats{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.gd-stat{ padding:10px 12px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.gd-stat .k{ display:block; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.gd-stat .v{ display:block; margin-top:2px; font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--fg-1); }
+.gd-crows{ display:flex; flex-direction:column; gap:8px; }
+.gd-crow{ display:grid; grid-template-columns:96px minmax(0,1fr) 62px; gap:10px; align-items:center; }
+.gd-cname{ display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:var(--fg-1); }
+.gd-ctrack{ display:block; height:10px; background:rgba(255,255,255,.08); }
+.gd-ctrack i{ display:block; height:100%; }
+.gd-ctrack i[data-color="Blue"]{ background:var(--c-blue); } .gd-ctrack i[data-color="Green"]{ background:var(--c-green); } .gd-ctrack i[data-color="Red"]{ background:var(--c-red); }
+.gd-ctrack i[data-color="Purple"]{ background:var(--c-purple); } .gd-ctrack i[data-color="White"]{ background:var(--c-white); }
+.gd-cval{ font-size:14px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums; color:var(--fg-2); }
+.gd-tclist{ display:flex; flex-direction:column; gap:4px; margin:0; padding:0; list-style:none; }
+.gd-tcard{ display:grid; grid-template-columns:24px 40px minmax(0,1fr); gap:10px; align-items:center; width:100%; min-height:60px; padding:6px 10px; text-align:left; color:inherit; background:rgba(255,255,255,.05); cursor:pointer; }
+.gd-tcard:focus-visible{ outline:2px solid var(--sky); outline-offset:-2px; }
+.gd-trank{ font-size:14px; font-weight:800; text-align:center; color:var(--fg-3); font-variant-numeric:tabular-nums; }
+.gd-timg{ display:block; width:40px; aspect-ratio:5/7; overflow:hidden; background:var(--tone-2); }
+.gd-timg img{ display:block; width:100%; height:100%; object-fit:cover; }
+.gd-ttext b{ display:block; font-size:14px; line-height:1.25; overflow-wrap:anywhere; }
+.gd-ttext small{ display:block; font-size:12px; color:var(--fg-2); font-variant-numeric:tabular-nums; }
+.gd-podium{ display:flex; flex-direction:column; gap:3px; margin-top:8px; }
+.gd-pod{ display:flex; align-items:center; gap:8px; font-size:14px; color:var(--fg-1); }
+.gd-pod b{ min-width:30px; color:var(--sky); font-variant-numeric:tabular-nums; }
+.gd-day{ grid-column:1 / -1; margin:10px 0 0; font-size:13px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+
+/* ===== Explorar: filtros, resumen y mano de prueba ===== */
+.cx-filterbar{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.cx-fbtn{ min-height:44px; gap:8px; }
+.cx-badge{ display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px; margin-left:8px; font-size:12px; font-weight:800; background:var(--sky); color:var(--sky-ink); }
+.cx-sort select{ min-height:44px; padding:0 34px 0 12px; border:0; appearance:none; -webkit-appearance:none; cursor:pointer; font:inherit; font-size:14px; font-weight:700; color:var(--white); background:var(--navy-2); box-shadow:inset 0 0 0 1px rgba(139,205,255,.4); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.cx-sort{ position:relative; display:block; }
+.cx-sort::after{ content:""; position:absolute; right:13px; top:50%; width:7px; height:7px; margin-top:-6px; pointer-events:none; border-right:2px solid var(--sky); border-bottom:2px solid var(--sky); transform:rotate(45deg); }
+.cx-sort select:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+.cx-panel{ display:flex; flex-direction:column; gap:14px; margin-top:10px; padding:14px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.cx-panel[hidden]{ display:none; }
+.cx-flabel{ margin:0 0 6px; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.cx-cardq{ width:100%; min-height:44px; padding:0 12px; border:0; color:var(--fg-1); background:var(--tone); font:var(--text-body); }
+.cx-cardq:disabled{ opacity:.5; }
+.cx-suggest{ display:flex; flex-direction:column; gap:4px; margin-top:6px; }
+.cx-sug{ display:grid; grid-template-columns:40px minmax(0,1fr); gap:10px; align-items:center; width:100%; min-height:56px; padding:4px 8px; text-align:left; color:inherit; background:var(--tone); }
+.cx-sug b{ display:block; font-size:14px; line-height:1.25; overflow-wrap:anywhere; }
+.cx-sug small{ display:block; font-size:12px; color:var(--fg-3); }
+.cx-sugimg{ display:block; width:40px; aspect-ratio:5/7; background:var(--tone-2); overflow:hidden; }
+.cx-sugimg img{ display:block; width:100%; height:100%; object-fit:cover; }
+.cx-sug:focus-visible,.cx-cardchip:focus-visible{ outline:3px solid var(--accent); outline-offset:-3px; }
+.cx-cardchips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.cx-cardchip{ display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 12px; font-size:13px; font-weight:700; color:var(--sky-ink); background:var(--sky); }
+.cx-cardchip svg{ width:12px; height:12px; flex:none; }
+.cx-clear{ align-self:flex-start; min-height:44px; }
+.cx-panel .tag.chip{ min-height:44px; }
+.cx-srclink{ display:inline-flex; align-items:center; min-height:44px; }
+.cx-actions2{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.cx-actions2 .dp-btn{ flex:1 1 150px; min-height:44px; }
+.cx-stats{ margin-top:10px; padding:14px; background:var(--panel); clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut)); }
+.cx-statrow{ display:flex; flex-wrap:wrap; gap:8px 28px; }
+.cx-stat .k{ display:block; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
+.cx-stat .v{ display:block; margin-top:2px; font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--fg-1); }
+.cx-stat .cx-pips{ display:flex; flex-wrap:wrap; gap:4px 12px; font-size:16px; }
+.cx-pip{ display:inline-flex; align-items:center; gap:6px; }
+.cx-curve{ margin-top:12px; }
+.cx-bars{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:6px; align-items:end; }
+.cx-bar{ display:flex; flex-direction:column; align-items:center; gap:3px; }
+.cx-bar b{ font-size:12px; font-variant-numeric:tabular-nums; color:var(--fg-2); }
+.cx-bar i{ display:block; width:100%; height:calc(var(--h) * 64px); min-height:2px; background:var(--sky); }
+.cx-bar span{ font-size:12px; color:var(--fg-3); }
+.hand-scrim{ position:fixed; inset:0; z-index:var(--z-modal-scrim); background:rgba(10,9,20,.6); }
+.hand-scrim[hidden],.hand-modal[hidden]{ display:none; }
+.hand-modal{ position:fixed; z-index:var(--z-modal); left:50%; top:50%; transform:translate(-50%,-50%); width:min(94vw,640px); max-height:90dvh; overflow-y:auto; padding:18px; background:var(--paper); color:var(--fg-1); clip-path:polygon(var(--cut-l) 0,100% 0,100% 100%,0 100%,0 var(--cut-l)); }
+.hand-title{ margin:0 0 4px; font-size:20px; font-weight:800; }
+.hand-cards{ display:grid; grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:8px; margin:14px 0; }
+.hand-card{ background:var(--tone); }
+.hand-actions{ display:flex; flex-wrap:wrap; gap:8px; }
+.hand-actions .dp-btn{ flex:1 1 120px; min-height:44px; }
+.hand-actions .dp-btn:not(.dp-btn-primary){ color:var(--fg-1); background:var(--tone); box-shadow:inset 0 0 0 2px var(--fg-3); }
 
 /* ===== Crear desde mis cartas ===== */
 .mc-intro{ margin:6px 0 0; font-size:14px; line-height:1.45; color:var(--fg-2); }
@@ -2013,6 +2091,18 @@ html{ touch-action:manipulation; }
   </div>
 </div>
 
+<div class="hand-scrim" id="handScrim" hidden></div>
+<div class="hand-modal" id="handModal" role="dialog" aria-modal="true" aria-labelledby="handTitle" hidden>
+  <h2 class="hand-title" id="handTitle">Mano de prueba</h2>
+  <p class="comp-note" id="handNote"></p>
+  <div class="hand-cards" id="handCards"></div>
+  <div class="hand-actions">
+    <button type="button" class="dp-btn dp-btn-primary" id="handNew">Nueva mano</button>
+    <button type="button" class="dp-btn" id="handDraw">Robar</button>
+    <button type="button" class="dp-btn" id="handClose">Cerrar</button>
+  </div>
+  <p class="sr-only" id="handLive" role="status"></p>
+</div>
 <div class="sr-only" id="deckLive" role="status" aria-live="polite"></div>
 <div class="warmToast cut" id="warmToast" role="status" aria-live="polite" hidden>
   <span id="warmText"></span>
@@ -2066,6 +2156,10 @@ html{ touch-action:manipulation; }
       <div class="dp-head">
         <h1 class="dp-title" id="lblDpTitle">Mis mazos</h1>
         <span class="dp-meta" id="dpCount"></span>
+      </div>
+      <div class="dp-doors" id="dpDoors">
+        <button type="button" class="dp-door dp-door-build" id="dpBuild"><img src="icons/avatar-de-perfil.png" alt="" width="32" height="32"><span class="cb-txt"><b id="lblDpBuild">Crear mazo</b><small id="lblDpBuildSub">Encuentra mazos con tus cartas</small></span></button>
+        <button type="button" class="dp-door dp-door-explore" id="dpExplore"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="8.5" stroke="currentColor" stroke-width="2.6"/><path d="M20.5 20.5L28 28" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg><span class="cb-txt"><b id="lblDpExplore">Explorar mazos</b><small id="lblDpExploreSub">Descubre qué se está jugando</small></span></button>
       </div>
       <div class="cloud-note" id="dpCloudNote" hidden></div>
       <div class="dp-copybar" id="dpCopyBar">
@@ -2185,9 +2279,6 @@ html{ touch-action:manipulation; }
       <div class="coll-head-actions" id="collStartersBtnWrap">
         <button type="button" class="dp-btn dp-btn-primary" id="collStarters"></button>
       </div>
-    </div>
-    <div class="coll-builder-wrap" id="collBuilderWrap">
-      <button type="button" class="coll-builder" id="collBuilder"><img src="icons/avatar-de-perfil.png" alt="" width="36" height="36"><span class="cb-txt"><b id="lblCollBuilder">Crear desde mi colección</b><small id="lblCollBuilderSub">Encuentra mazos con tus cartas</small></span></button>
     </div>
     <div class="coll-bar" id="collBar">
       <div class="coll-search">
@@ -3026,7 +3117,7 @@ var EFFECT_CONFIG = {
         empty:'No hay listas con estos filtros.', cards:'cartas', noEvent:'Evento sin título', descPrefix:'Lista de torneo'
       },
       mc:{
-        entry:'Crear desde mi colección', entrySub:'Encuentra mazos con tus cartas', fromComp:'Desde mis cartas', title:'Crear desde mis cartas', intro:'Elige las cartas con las que quieres jugar y encuentra listas que las utilizan',
+        entry:'Crear desde mi colección', entrySub:'Encuentra mazos con tus cartas', doorBuild:'Crear mazo', doorBuildSub:'Encuentra mazos con tus cartas', doorExplore:'Explorar mazos', doorExploreSub:'Descubre qué se está jugando', backDecks:'Mazos', fromComp:'Desde mis cartas', title:'Crear desde mis cartas', intro:'Elige las cartas con las que quieres jugar y encuentra listas que las utilizan',
         backColl:'Mi colección', backPick:'Elegir cartas', backRes:'Resultados', loadingColl:'Cargando tu colección…', noPilots:'Todavía no tienes Pilots registrados en tu colección.', noUnits:'Todavía no tienes Units registradas en tu colección.',
         goColl:'Ir a Mi colección', exploreUnits:'Explorar mis Units', exploreMine:'Ver mis Pilots', pilots:'Pilots', units:'Units', all:'Todos', onlyLR:'Solo LR', search:'Buscar por nombre o código…', searchAria:'Buscar entre tus cartas por nombre o código',
         have:'TENGO', haveNot:'No tengo', haveYes:'Tengo', trayHint:'Elige entre 1 y 3 cartas. Tu mazo no se modifica: es solo para buscar listas.', must:'Imprescindible', want:'Me gustaría incluirla',
@@ -3042,7 +3133,11 @@ var EFFECT_CONFIG = {
         ownedNote:function(h, n){ return 'Tienes '+h+' de las '+n+' cartas distintas de esta lista; el resto no las tienes en tu colección. Puedes consultarla y copiarla igualmente.'; }, ownedAll:'Tienes todas las cartas distintas de esta lista en tu colección.', ownedNone:'Aún no tienes cartas registradas en tu colección: puedes consultar la lista y copiarla igualmente.'
       },
       cx:{
-        sub:'Descubre qué mazos se están jugando.', search:'Buscar mazo…', searchAria:'Buscar mazo por nombre', loading:'Cargando mazos…', error:'No se pudieron cargar los mazos.',
+        sub:'Descubre qué mazos se están jugando.', filters:'Filtros', filtersN:function(n){ return n+(n === 1 ? ' filtro activo' : ' filtros activos'); }, sortAria:'Ordenar', sortRecent:'Más recientes', sortAz:'A–Z', period:'Periodo', periodAll:'Todo', period30:'Últimos 30 días', colors:'Colores', style:'Estilo',
+        contains:'Contiene cartas', containsHint:'Las listas deben incluir todas las cartas elegidas. Hasta 10.', containsPh:'Buscar carta por nombre o código…', removeCard:function(n){ return 'Quitar '+n; }, clear:'Limpiar filtros', noFilterMatch:'Ningún mazo coincide con estos filtros.',
+        count:function(n, t){ return n+' de '+t+' arquetipos con estos filtros'; }, countAll:function(t){ return t+(t === 1 ? ' arquetipo' : ' arquetipos'); }, listsShown:function(n, m){ return 'Mostrando '+n+' de '+m+' listas con tus filtros'; }, dropFilters:'Quitar filtros',
+        summary:'Resumen', avgCost:'Coste medio', colorsTitle:'Colores', curve:'Curva de coste', copyText:'Copiar lista', textCopied:'Lista copiada como texto.', hand:'Mano de prueba', handNote:'Cinco cartas de esta lista al azar. Sirve para hacerse una idea, no sustituye a una partida.',
+        handNew:'Nueva mano', handDraw:function(n){ return 'Robar (quedan '+n+')'; }, handClose:'Cerrar', handCount:function(h, d){ return h+' cartas en mano, '+d+' en el mazo'; }, search:'Buscar mazo…', searchAria:'Buscar mazo por nombre', loading:'Cargando mazos…', error:'No se pudieron cargar los mazos.',
         empty:'Todavía no hay listas completas disponibles.', noMatch:function(q){ return 'Ningún mazo coincide con «'+q+'».'; }, toMeta:'Ver Meta y Torneos', noDate:'Fecha no disponible',
         openList:function(n, d){ return 'Abrir la lista de '+n+(d ? ', '+d : ''); }, openArch:function(n){ return 'Ver las listas de '+n; }, backHome:'Competición', backArch:function(n){ return n; },
         copyHint:'Se creará un mazo nuevo con esta lista y se guardará en Mis mazos. Ninguno de tus mazos se modifica.', copySuffix:' · Copia', viewDeck:'Ver mi mazo',
@@ -3088,6 +3183,11 @@ var EFFECT_CONFIG = {
         showAll:function(n){ return 'Ver todos ('+n+')'; }, showLess:'Ver menos',
         changes:'Cambios recientes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') frente a '+p+' (n = '+pn+'), misma fuente y ámbito. Variación en puntos de presencia.'; },
         noTrend:{ single:'Todavía hay un solo periodo con esta segmentación, así que no se pueden indicar subidas ni bajadas.', segment:'Los periodos disponibles no son comparables entre sí, así que no se indican subidas ni bajadas.', sample:'Datos insuficientes: algún periodo no tiene muestra suficiente para comparar.' },
+        summary:'Resumen del meta', sLists:'Listas', sArch:'Arquetipos', sTop3:'Cuota del top 3', toExplore:'Explorar mazos', noDate:'Sin fecha',
+        colorTitle:'Cuota por color', colorNote:function(n){ return 'Sobre '+n+' listas con colores conocidos. Cada lista reparte su peso entre sus colores, así que la suma es 100 %.'; }, colorAria:function(c, p, n){ return c+': '+p+' ('+n+' listas lo llevan)'; },
+        topTitle:'Cartas más usadas', topNote:function(n){ return 'Porcentaje de las '+n+' listas con las 50 cartas conocidas que incluyen cada carta.'; },
+        cardsInc:function(a, b, p){ return a+' / '+b+' listas · '+p+' de inclusión'; }, cardAria:function(i, nm, a, b, p){ return i+'. '+nm+': '+a+' de '+b+' listas, '+p+' de inclusión. Ver carta.'; }, cardsMore:function(n){ return 'Ver las '+n+' primeras'; },
+        podium:'Podio',
         recent:'Torneos recientes', allEvents:'Ver todos los torneos', updated:function(d){ return 'Datos actualizados el '+d+'.'; },
         players:function(n){ return n === 1 ? 'participante' : 'participantes'; }, published:function(n){ return n === 1 ? 'lista publicada' : 'listas publicadas'; }, inSample:function(n){ return n === 1 ? 'lista en la muestra' : 'listas en la muestra'; }, onlyCut:function(c){ return 'Solo '+c; }, noEvents:'No hay torneos con estos filtros.',
         back:'Volver', sourceMain:'Fuente', sourceAlt:'Otra fuente', place:function(n){ return n+'.º'; },
@@ -3356,7 +3456,7 @@ var EFFECT_CONFIG = {
         empty:'No lists match these filters.', cards:'cards', noEvent:'Untitled event', descPrefix:'Tournament list'
       },
       mc:{
-        entry:'Build from my collection', entrySub:'Find decks with your cards', fromComp:'From my cards', title:'Build from my cards', intro:'Choose the cards you want to play with and find lists that use them',
+        entry:'Build from my collection', entrySub:'Find decks with your cards', doorBuild:'Create deck', doorBuildSub:'Find decks with your cards', doorExplore:'Explore decks', doorExploreSub:'Discover what is being played', backDecks:'Decks', fromComp:'From my cards', title:'Build from my cards', intro:'Choose the cards you want to play with and find lists that use them',
         backColl:'My collection', backPick:'Choose cards', backRes:'Results', loadingColl:'Loading your collection…', noPilots:'You do not have any Pilots registered in your collection yet.', noUnits:'You do not have any Units registered in your collection yet.',
         goColl:'Go to My collection', exploreUnits:'Browse my Units', exploreMine:'See my Pilots', pilots:'Pilots', units:'Units', all:'All', onlyLR:'LR only', search:'Search by name or code…', searchAria:'Search your cards by name or code',
         have:'OWNED', haveNot:'Not owned', haveYes:'Owned', trayHint:'Choose 1 to 3 cards. Your decks are not modified: this is only to search lists.', must:'Must include', want:'Would like to include',
@@ -3372,7 +3472,11 @@ var EFFECT_CONFIG = {
         ownedNote:function(h, n){ return 'You own '+h+' of the '+n+' distinct cards in this list; the rest are not in your collection. You can still view and copy it.'; }, ownedAll:'You own every distinct card in this list.', ownedNone:'You have no cards registered in your collection yet: you can still view and copy the list.'
       },
       cx:{
-        sub:'Discover which decks are being played.', search:'Search deck…', searchAria:'Search deck by name', loading:'Loading decks…', error:'Decks could not be loaded.',
+        sub:'Discover which decks are being played.', filters:'Filters', filtersN:function(n){ return n+(n === 1 ? ' active filter' : ' active filters'); }, sortAria:'Sort', sortRecent:'Most recent', sortAz:'A–Z', period:'Period', periodAll:'All', period30:'Last 30 days', colors:'Colors', style:'Style',
+        contains:'Contains cards', containsHint:'Lists must include all the chosen cards. Up to 10.', containsPh:'Search card by name or code…', removeCard:function(n){ return 'Remove '+n; }, clear:'Clear filters', noFilterMatch:'No deck matches these filters.',
+        count:function(n, t){ return n+' of '+t+' archetypes with these filters'; }, countAll:function(t){ return t+(t === 1 ? ' archetype' : ' archetypes'); }, listsShown:function(n, m){ return 'Showing '+n+' of '+m+' lists with your filters'; }, dropFilters:'Remove filters',
+        summary:'Summary', avgCost:'Average cost', colorsTitle:'Colors', curve:'Cost curve', copyText:'Copy list', textCopied:'List copied as text.', hand:'Test hand', handNote:'Five random cards from this list. It gives you an idea; it does not replace a real game.',
+        handNew:'New hand', handDraw:function(n){ return 'Draw ('+n+' left)'; }, handClose:'Close', handCount:function(h, d){ return h+' cards in hand, '+d+' in the deck'; }, search:'Search deck…', searchAria:'Search deck by name', loading:'Loading decks…', error:'Decks could not be loaded.',
         empty:'There are no complete lists available yet.', noMatch:function(q){ return 'No deck matches “'+q+'”.'; }, toMeta:'See Meta and Tournaments', noDate:'Date not available',
         openList:function(n, d){ return 'Open the '+n+' list'+(d ? ', '+d : ''); }, openArch:function(n){ return 'See the '+n+' lists'; }, backHome:'Competition', backArch:function(n){ return n; },
         copyHint:'A new deck will be created with this list and saved in My decks. None of your decks is modified.', copySuffix:' · Copy', viewDeck:'View my deck',
@@ -3418,6 +3522,11 @@ var EFFECT_CONFIG = {
         showAll:function(n){ return 'Show all ('+n+')'; }, showLess:'Show less',
         changes:'Recent changes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') against '+p+' (n = '+pn+'), same source and scope. Change in presence points.'; },
         noTrend:{ single:'There is only one period with this segmentation so far, so no rises or falls can be shown.', segment:'The available periods are not comparable, so no rises or falls are shown.', sample:'Not enough data: a period does not have a large enough sample to compare.' },
+        summary:'Meta overview', sLists:'Lists', sArch:'Archetypes', sTop3:'Top 3 share', toExplore:'Explore decks', noDate:'No date',
+        colorTitle:'Share by color', colorNote:function(n){ return 'Out of '+n+' lists with known colors. Each list splits its weight across its colors, so the total is 100%.'; }, colorAria:function(c, p, n){ return c+': '+p+' ('+n+' lists play it)'; },
+        topTitle:'Most played cards', topNote:function(n){ return 'Share of the '+n+' lists with all 50 cards known that include each card.'; },
+        cardsInc:function(a, b, p){ return a+' / '+b+' lists · '+p+' inclusion'; }, cardAria:function(i, nm, a, b, p){ return i+'. '+nm+': '+a+' of '+b+' lists, '+p+' inclusion. View card.'; }, cardsMore:function(n){ return 'See the top '+n; },
+        podium:'Podium',
         recent:'Recent tournaments', allEvents:'See all tournaments', updated:function(d){ return 'Data updated on '+d+'.'; },
         players:function(n){ return n === 1 ? 'player' : 'players'; }, published:function(n){ return n === 1 ? 'published list' : 'published lists'; }, inSample:function(n){ return n === 1 ? 'list in the sample' : 'lists in the sample'; }, onlyCut:function(c){ return c+' only'; }, noEvents:'No tournaments match these filters.',
         back:'Back', sourceMain:'Source', sourceAlt:'Other source', place:function(n){ return '#'+n; },
@@ -5732,6 +5841,7 @@ var EFFECT_CONFIG = {
     document.getElementById('sbClose').setAttribute('aria-label', t().closeFilters);
     document.getElementById('lblCompareTitle').textContent = t().compareTitle;
     document.getElementById('lblDpTitle').textContent = t().myDecksTitle;
+    var MCt = t().mc; document.getElementById('lblDpBuild').textContent = MCt.doorBuild; document.getElementById('lblDpBuildSub').textContent = MCt.doorBuildSub; document.getElementById('lblDpExplore').textContent = MCt.doorExplore; document.getElementById('lblDpExploreSub').textContent = MCt.doorExploreSub;
     document.getElementById('lblDpAddCards').textContent = t().dpAddCards;
     paintDpCopy(false);
     var dpDel = document.getElementById('dpDelete'); if(dpDel){ dpDel.setAttribute('aria-label', t().cloud.delDeck); dpDel.title = t().cloud.delDeck; }
@@ -5945,6 +6055,8 @@ var EFFECT_CONFIG = {
     DECKS[dpDeckId].name = e.target.value; document.getElementById('dpNameWrap').dataset.value = e.target.value || ' '; saveDecksToStorage();
   });
   document.getElementById('dpAddCards').addEventListener('click', goAddCards);
+  document.getElementById('dpBuild').addEventListener('click', function(){ mcOpen('decks'); });
+  document.getElementById('dpExplore').addEventListener('click', function(){ closeDecksPage(); GD.detail = null; GD.cx = { view:'home', arch:'', list:'' }; GD.cxq = ''; GD.cxf = null; CX.fromDecks = true; openCompPage(true); });
   /* copiar el mazo desde su ventana: botón cuadrado como el de Mi colección (mismo texto que "Copiar lista" de Mis mazos) */
   var dvCopyTimer = null;
   function paintDvCopy(copied){
@@ -6611,7 +6723,8 @@ var EFFECT_CONFIG = {
     }
     if(GD.cx){   // Explorar mazos: #competicion/mazos[/<arquetipo>[/<lista>]][?q=…]
       var cp = '#competicion/mazos'+(GD.cx.arch ? '/'+encodeURIComponent(GD.cx.arch) : '')+(GD.cx.list ? '/'+encodeURIComponent(GD.cx.list) : '');
-      return cp+(GD.cxq ? '?q='+encodeURIComponent(GD.cxq) : '');
+      var cq = []; if(GD.cxq) cq.push('q='+encodeURIComponent(GD.cxq)); cq = cq.concat(CompStats.exploreToQuery(cxf()));
+      return cp+(cq.length ? '?'+cq.join('&') : '');
     }
     var d = GD.detail, path = '#competicion', p = new URLSearchParams(), g = GD.f;
     if(d) path += '/'+(d.type === 'arch' ? 'arquetipo' : d.type === 'compare' ? 'comparar' : 'torneo')+(d.id ? '/'+encodeURIComponent(d.id) : '');
@@ -6629,6 +6742,7 @@ var EFFECT_CONFIG = {
       : seg[1] === 'mias' ? { mine:true, view:seg[2] === 'buscar' ? 'res' : seg[2] === 'lista' ? 'list' : 'pick', arch:'', list:seg[3] ? decodeURIComponent(seg[3]) : '' } : null;
     if(GD.cx && GD.cx.mine){ MC.sel = CompStats.criteriaFromString(p.get('s')); MC.partial = p.get('p') === '1'; }
     GD.cxq = GD.cx && !GD.cx.mine ? (p.get('q') || '') : '';
+    GD.cxf = GD.cx && !GD.cx.mine ? CompStats.exploreFromQuery(function(k){ return p.get(k); }) : null;
     GD.tab = seg[1] === 'torneos' || p.get('t') === 'torneos' ? 'torneos' : 'meta';
     GD.season = p.get('s') || null; GD.q = p.get('q') || '';
     GD.f = { country:p.get('c') || '', from:p.get('from') || '', to:p.get('to') || '', format:p.get('fmt') || '', size:p.get('size') || '', topN:Number(p.get('top')) || 0, cov:p.get('cov') === 'all' ? 'all' : '' };
@@ -6654,7 +6768,7 @@ var EFFECT_CONFIG = {
   }
 
   /* ---- filtros ---- */
-  function gdChanged(id){ GD.evShown = 10; GD.allArch = false; gdSyncUrl(); renderComp(); var again = id && document.getElementById(id); if(again) again.focus(); }
+  function gdChanged(id){ GD.evShown = 10; GD.allArch = false; GD.allCards = false; gdSyncUrl(); renderComp(); var again = id && document.getElementById(id); if(again) again.focus(); }
   function gdSelect(label, id, opts, val, onChange){
     var f = el('label','dl-field'); f.appendChild(el('span', null, label));
     var sel = document.createElement('select'); sel.className = 'dl-select'; sel.id = id;
@@ -6777,6 +6891,10 @@ var EFFECT_CONFIG = {
       sec.appendChild(all);
     }
     gdNote(sec, G.shareCaveat);
+    var go2 = el('button','dp-btn gd-all', G.toExplore); go2.type = 'button'; go2.id = 'gdToExplore'; go2.addEventListener('click', gdToExplore); sec.appendChild(go2);
+    gdSummary(panel, p);
+    var smp = c.aggregate ? c.results : CompStats.filterResults(c.results, c.events, gdF());
+    gdColorShare(panel, smp); gdTopCards(panel, smp);
     /* cambios recientes: solo con periodos comparables */
     var ch = el('section','comp-sec'), tr2 = gdTrend(c); gdH(ch, G.changes);
     if(tr2.comparable){
@@ -6804,6 +6922,67 @@ var EFFECT_CONFIG = {
     gdAttribution(panel, c);
   }
 
+  /* ---- Resumen del meta: cifras, cuota por color y cartas más usadas ---- */
+  function gdToExplore(){
+    GD.scroll[location.hash] = compPage.scrollTop; GD.detail = null; GD.cx = { view:'home', arch:'', list:'' }; GD.cxq = ''; GD.cxf = null; GD.nav++; GD.depth++;
+    try{ history.pushState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){}
+    compState.animate = true; compState.dir = 'forward'; renderComp(); compPage.scrollTop = 0;
+  }
+  function gdSummary(panel, p){
+    var G = t().gd, S = CompStats.metaSummary(p), sec = el('section','comp-sec gd-summary'); gdH(sec, G.summary);
+    var row = el('div','gd-stats');
+    [[G.sLists, gdNum(S.lists)], [G.sArch, gdNum(S.archetypes)], [G.sTop3, S.lists ? gdPct(S.top3) : '—']].forEach(function(x){
+      var d = el('div','gd-stat'); d.appendChild(el('span','k', x[0])); d.appendChild(el('span','v', x[1])); row.appendChild(d);
+    });
+    sec.appendChild(row); panel.appendChild(sec);
+  }
+  function gdColorShare(panel, results){
+    var G = t().gd, rows = CompStats.colorShare(results); if(!rows.length) return;
+    var n = results.filter(function(r){ return (r.colors || []).length; }).length, sec = el('section','comp-sec gd-colors'); sec.id = 'gdColors';
+    gdH(sec, G.colorTitle); gdNote(sec, G.colorNote(gdNum(n)));
+    var max = rows[0].pct || 1, box = el('div','gd-crows');
+    rows.forEach(function(r){
+      var name = t().colors[r.color] || r.color, line = el('div','gd-crow'); line.setAttribute('role','img'); line.setAttribute('aria-label', G.colorAria(name, gdPct(r.pct), gdNum(r.lists)));
+      var nm = el('span','gd-cname'); var pip = el('span','dd-pip'); pip.dataset.color = r.color; nm.appendChild(pip); nm.appendChild(document.createTextNode(name)); line.appendChild(nm);
+      var tr = el('span','gd-ctrack'), fill = el('i'); fill.dataset.color = r.color; fill.style.width = (r.pct / max * 100)+'%'; tr.appendChild(fill); line.appendChild(tr);
+      line.appendChild(el('span','gd-cval', gdPct(r.pct))); box.appendChild(line);
+    });
+    sec.appendChild(box); panel.appendChild(sec);
+  }
+  var GD_TOPCARDS = 10, GD_TOPCARDS_MAX = 30;
+  function gdTopCards(panel, results){
+    var G = t().gd, T = CompStats.topCards(results, GD_TOPCARDS_MAX, function(n){ var cd = cardByNumber(n); return !!cd && !cd.token; });
+    if(!T.total || !T.rows.length) return;
+    var sec = el('section','comp-sec gd-topcards'); sec.id = 'gdTopCards'; gdH(sec, G.topTitle); gdNote(sec, G.topNote(gdNum(T.total)));
+    var list = el('ol','gd-tclist'), shown = GD.allCards ? T.rows : T.rows.slice(0, GD_TOPCARDS);
+    shown.forEach(function(x, i){
+      var cd = cardByNumber(x.n), li = el('li'), b = el('button','gd-tcard'); b.type = 'button'; b.dataset.number = x.n;
+      b.setAttribute('aria-label', G.cardAria(i + 1, cd.name, gdNum(x.lists), gdNum(T.total), gdPct(x.pct)));
+      b.appendChild(el('span','gd-trank', String(i + 1)));
+      var w = el('span','gd-timg'), im = cxImg(x.n, cd.name, w); b.appendChild(w);
+      var tx = el('span','gd-ttext'); tx.appendChild(el('b', null, cd.name)); tx.appendChild(el('small', null, G.cardsInc(gdNum(x.lists), gdNum(T.total), gdPct(x.pct)))); b.appendChild(tx);
+      b.addEventListener('click', function(){ openDetail(cd, im); });
+      li.appendChild(b); list.appendChild(li);
+    });
+    sec.appendChild(list);
+    if(T.rows.length > GD_TOPCARDS){
+      var more = el('button','dp-btn gd-all', GD.allCards ? G.showLess : G.cardsMore(T.rows.length)); more.type = 'button'; more.id = 'gdAllCards'; more.setAttribute('aria-expanded', String(!!GD.allCards));
+      more.addEventListener('click', function(){ GD.allCards = !GD.allCards; renderComp(); var a = document.getElementById('gdAllCards'); if(a) a.focus(); });
+      sec.appendChild(more);
+    }
+    panel.appendChild(sec);
+  }
+  /* podio de un torneo: los 3 mejores puestos conocidos, con su arquetipo (sin jugadores) */
+  function gdPodium(rs){
+    var G = t().gd, top = CompStats.podium(rs); if(!top.length) return null;
+    var box = el('span','gd-podium'); box.setAttribute('aria-label', G.podium+': '+top.map(function(r){ return G.place(r.placement)+' '+(r.archetype || CompStats.UNCLASSIFIED); }).join(', '));
+    top.forEach(function(r){
+      var it = el('span','gd-pod'); it.setAttribute('aria-hidden','true'); it.appendChild(el('b', null, G.place(r.placement))); it.appendChild(gdPips(r.colors));
+      it.appendChild(el('span', null, r.archetype || CompStats.UNCLASSIFIED)); box.appendChild(it);
+    });
+    return box;
+  }
+
   /* ---- Torneos ---- */
   function gdEventTitle(e){ return e.venue || e.name; }
   function gdEventMeta(e){
@@ -6824,6 +7003,7 @@ var EFFECT_CONFIG = {
     var line = el('span','dl-event'); line.appendChild(flagEl(gdIso(e.country))); line.appendChild(el('span','dl-etitle', gdEventTitle(e))); line.appendChild(el('span','dl-edate', fmtDate(e.date))); b.appendChild(line);
     b.appendChild(el('span','dl-meta', gdEventMeta(e)));
     b.appendChild(gdFacts(e, rs, c));
+    var pod = gdPodium(rs); if(pod) b.appendChild(pod);
     b.addEventListener('click', function(){ gdGo({ type:'event', id:e.id }); });
     return b;
   }
@@ -6834,7 +7014,11 @@ var EFFECT_CONFIG = {
     if(c.aggregate) gdNote(panel, G.side6Sample);
     gdFilterBar(panel, c, 'torneos');
     if(!evs.length){ gdNote(panel, G.noEvents, 'gd-empty'); return; }
-    var list = el('div','dl-list gd-grid'); evs.slice(0, GD.evShown).forEach(function(e){ list.appendChild(gdEventCard(e, c)); });
+    var list = el('div','dl-list gd-grid'), lastDay = null;
+    evs.slice(0, GD.evShown).forEach(function(e){
+      if(e.date !== lastDay){ lastDay = e.date; list.appendChild(el('h3','gd-day', e.date ? fmtDate(e.date) : G.noDate)); }
+      list.appendChild(gdEventCard(e, c));
+    });
     panel.appendChild(list);
     if(evs.length > GD.evShown){ var more = el('button','dp-btn dl-more', t().dl.more(evs.length - GD.evShown)); more.type = 'button'; more.addEventListener('click', function(){ GD.evShown += 10; renderComp(); }); panel.appendChild(more); }
     gdAttribution(panel, c);
@@ -7259,7 +7443,7 @@ var EFFECT_CONFIG = {
       var b = el('button','comp-chip', s); b.type = 'button'; b.id = 'gdSeason-'+s; b.setAttribute('aria-pressed', String(s === cur));
       b.addEventListener('click', function(){
         if(s === cur) return;
-        GD.season = s; GD.f = gdNoFilters(); GD.q = ''; GD.evShown = 10; GD.allArch = false; gdSyncUrl(); renderComp(); compPage.scrollTop = 0;
+        GD.season = s; GD.f = gdNoFilters(); GD.q = ''; GD.evShown = 10; GD.allArch = false; GD.allCards = false; gdSyncUrl(); renderComp(); compPage.scrollTop = 0;
         var a = document.getElementById('gdSeason-'+s); if(a) a.focus();
       });
       box.appendChild(b);
@@ -7284,8 +7468,8 @@ var EFFECT_CONFIG = {
    * data/competition_events.json (torneos). Sin jugadores, sin puestos, sin porcentajes. Los arquetipos de cada temporada no se mezclan (clave = nombre + temporada).
    * Carta del arquetipo: la que más listas incluyen (desempate: menos presente en el resto de arquetipos, UNIT/PILOT antes, código). Miniaturas de cada lista: unidades y pilotos
    * con 2+ copias que menos aparecen en las otras listas del arquetipo (si no hay suficientes, las de más copias). Todo determinista. */
-  var COMP_V1 = true;   // false: el menú abre otra vez Meta y Torneos (las rutas antiguas funcionan siempre)
-  var CX = { cache:null, done:{} };
+  var COMP_V1 = false;   // false: el menú abre otra vez Meta y Torneos (las rutas antiguas funcionan siempre)
+  var CX = { cache:null, done:{}, fromDecks:false };
   function cxSlug(name, set){ return CompStats.normText(name).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')+'.'+String(set || '').toLowerCase(); }
   function cxSig(cards){ return Object.keys(cards).sort().map(function(k){ return k+':'+cards[k]; }).join(','); }
   function cxData(){
@@ -7299,7 +7483,7 @@ var EFFECT_CONFIG = {
     }
     DL.data.archetypes.forEach(function(a){ a.decks.forEach(function(d){
       var e = d.event || {};
-      push({ key:d.h, name:a.name, colors:a.colors || [], set:GD_SIDE6_SET, date:e.date || '', cards:d.cards, eventTitle:e.title || '', label:d.urlLabel || t().dl.original, url:d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/' });
+      push({ key:d.h, name:a.name, style:a.style || '', colors:a.colors || [], set:GD_SIDE6_SET, date:e.date || '', cards:d.cards, eventTitle:e.title || '', label:d.urlLabel || t().dl.original, url:d.url !== undefined ? d.url : BASE_SIDE6+'/en/decklists/'+d.h+'/' });
     }); });
     var evs = {}; GD.data.events.forEach(function(e){ evs[e.id] = e; });
     GD.data.results.forEach(function(r){
@@ -7316,6 +7500,7 @@ var EFFECT_CONFIG = {
       A.lists.forEach(function(it){ var c = it.colors.join('/'); if(c) A.colorsTally[c] = { n:((A.colorsTally[c] || {}).n || 0)+1, c:it.colors }; });
       var best = null; Object.keys(A.colorsTally).forEach(function(c){ if(!best || A.colorsTally[c].n > best.n || (A.colorsTally[c].n === best.n && c < best.k)) best = { k:c, n:A.colorsTally[c].n, c:A.colorsTally[c].c }; });
       A.colors = best ? best.c : [];
+      A.style = (A.lists.filter(function(l){ return l.style; })[0] || {}).style || '';   // solo si la fuente lo da (Side-6)
       var rank = { UNIT:0, PILOT:1, COMMAND:2, BASE:3 };
       A.cover = Object.keys(A.inc).map(function(n){ var cd = cardByNumber(n); return { n:n, cd:cd, share:A.inc[n] / A.lists.length, g:ginc[n] / lists.length }; }).filter(function(x){ return x.cd; })
         .sort(function(a, b){ return (b.share - a.share) || (a.g - b.g) || ((rank[a.cd.type] === undefined ? 9 : rank[a.cd.type]) - (rank[b.cd.type] === undefined ? 9 : rank[b.cd.type])) || (a.n < b.n ? -1 : 1); })[0] || null;
@@ -7354,6 +7539,7 @@ var EFFECT_CONFIG = {
   }
   function cxBack(){
     if(GD.depth > 0){ compState.animate = true; compState.dir = 'back'; history.back(); return; }
+    if(GD.cx.mine && GD.cx.view === 'pick' && MC.from === 'decks'){ closeCompPage(); openDecksPage(); return; }
     if(GD.cx.mine && GD.cx.view === 'pick' && MC.from === 'coll'){ closeCompPage(); return; }
     GD.cx = GD.cx.mine ? (GD.cx.view === 'list' ? { mine:true, view:'res', arch:'', list:'' } : GD.cx.view === 'res' ? { mine:true, view:'pick', arch:'', list:'' } : { view:'home', arch:'', list:'' })
       : GD.cx.list ? { view:'arch', arch:GD.cx.arch, list:'' } : { view:'home', arch:'', list:'' };   // se entró directamente por un enlace
@@ -7362,43 +7548,102 @@ var EFFECT_CONFIG = {
   function cxBackBtn(panel, label, id){
     var b = el('button','dp-btn gd-back', '← '+label); b.type = 'button'; b.id = id; b.addEventListener('click', cxBack); panel.appendChild(b);
   }
+  /* ---- filtros de Explorar ---- */
+  function cxf(){ if(!GD.cxf) GD.cxf = CompStats.exploreFromQuery(function(){ return null; }); return GD.cxf; }
+  function cxCutoff(){ return CompStats.periodCutoff(new Date().toISOString().slice(0, 10), cxf().period === '30' ? 30 : 0); }
+  function cxFiltered(D){
+    var f = cxf(), cut = cxCutoff(), q = CompStats.normText(GD.cxq || '');
+    var out = D.arches.filter(function(A){ return CompStats.exploreArchOk(A, f) && (!q || CompStats.normText(A.name).indexOf(q) >= 0); }).map(function(A){
+      var ls = A.lists.filter(function(l){ return CompStats.exploreListOk(l, f, cut); }); return ls.length ? { A:A, lists:ls, latest:ls[0].date || '' } : null;
+    }).filter(Boolean);
+    out.sort(f.sort === 'az' ? function(a, b){ return a.A.name.localeCompare(b.A.name); } : function(a, b){ return (a.latest ? 0 : 1) - (b.latest ? 0 : 1) || String(b.latest).localeCompare(a.latest) || a.A.name.localeCompare(b.A.name); });
+    return out;
+  }
+  function cxSuggest(q){
+    var n = CompStats.normText(q || ''), f = cxf(); if(n.length < 2) return [];
+    return ALL.filter(function(c){ return !c.token && f.cards.indexOf(c.number) < 0 && (CompStats.normText(c.name).indexOf(n) >= 0 || CompStats.normText(c.number).indexOf(n) >= 0); }).slice(0, 8);
+  }
   function cxHome(panel, D){
-    var C = t().cx, wrap = el('div','cx-home'), lab = el('label','cx-search'), inp = document.createElement('input');
+    var C = t().cx, f = cxf(), wrap = el('div','cx-home'), lab = el('label','cx-search'), inp = document.createElement('input');
     inp.type = 'search'; inp.id = 'cxSearch'; inp.placeholder = C.search; inp.setAttribute('aria-label', C.searchAria); inp.autocomplete = 'off'; inp.value = GD.cxq || '';
     lab.appendChild(inp); wrap.appendChild(lab);
-    var grid = el('div','cx-grid'); grid.id = 'cxGrid'; var note = el('p','comp-note cx-note'); note.setAttribute('role','status'); wrap.appendChild(grid); wrap.appendChild(note);
-    function paint(){
-      var q = CompStats.normText(inp.value || ''); grid.innerHTML = ''; note.textContent = '';
-      var shown = D.arches.filter(function(A){ return !q || CompStats.normText(A.name).indexOf(q) >= 0; });
-      if(!D.arches.length) note.textContent = C.empty; else if(!shown.length) note.textContent = C.noMatch(inp.value.trim());
-      shown.forEach(function(A){
-        var b = el('button','cx-card'); b.type = 'button'; b.dataset.arch = A.key; b.setAttribute('aria-label', C.openArch(A.name));
+    if(CX.filtersOpen === undefined) CX.filtersOpen = CompStats.exploreActiveCount(f) > 0;
+    var bar = el('div','cx-filterbar'), fb = el('button','dp-btn cx-fbtn'); fb.type = 'button'; fb.id = 'cxFilterBtn'; fb.setAttribute('aria-controls','cxFilters');
+    var sortLab = el('label','cx-sort'), srt = document.createElement('select'); srt.id = 'cxSort'; srt.setAttribute('aria-label', C.sortAria);
+    [['recent', C.sortRecent], ['az', C.sortAz]].forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if(f.sort === o[0]) op.selected = true; srt.appendChild(op); });
+    sortLab.appendChild(srt); bar.appendChild(fb); bar.appendChild(sortLab); wrap.appendChild(bar);
+    var pnl = el('div','cx-panel'); pnl.id = 'cxFilters'; wrap.appendChild(pnl);
+    var grid = el('div','cx-grid'); grid.id = 'cxGrid'; var note = el('p','comp-note cx-note'); note.id = 'cxCount'; note.setAttribute('role','status'); wrap.appendChild(note); wrap.appendChild(grid);
+    function changed(){ gdSyncUrl(); paintBtn(); paintPanel(); paintGrid(); }
+    function chipBtn(label, on, fn, color){ var b = el('button','tag chip'+(on ? ' active' : ''), label); b.type = 'button'; b.setAttribute('aria-pressed', String(on)); if(color) b.dataset.color = color; b.addEventListener('click', fn); return b; }
+    function paintBtn(){
+      var n = CompStats.exploreActiveCount(cxf()); fb.textContent = ''; fb.appendChild(document.createTextNode(C.filters)); if(n){ var bd = el('span','cx-badge', String(n)); bd.setAttribute('aria-label', C.filtersN(n)); fb.appendChild(bd); }
+      fb.setAttribute('aria-expanded', String(!!CX.filtersOpen)); pnl.hidden = !CX.filtersOpen;
+    }
+    function paintPanel(){
+      var F = cxf(); pnl.innerHTML = ''; if(!CX.filtersOpen) return;
+      var g1 = el('div','cx-fgroup'); g1.appendChild(el('div','cx-flabel', C.period)); var r1 = el('div','mc-chips'); r1.setAttribute('role','group');
+      r1.appendChild(chipBtn(C.periodAll, !F.period, function(){ F.period = ''; changed(); })); r1.appendChild(chipBtn(C.period30, F.period === '30', function(){ F.period = '30'; changed(); })); g1.appendChild(r1); pnl.appendChild(g1);
+      var g2 = el('div','cx-fgroup'); g2.appendChild(el('div','cx-flabel', C.colors)); var r2 = el('div','mc-chips'); r2.setAttribute('role','group');
+      CompStats.EXPLORE_COLORS.forEach(function(c){ var on = F.colors.indexOf(c) >= 0; r2.appendChild(chipBtn(t().colors[c] || c, on, function(){ F.colors = on ? F.colors.filter(function(x){ return x !== c; }) : F.colors.concat([c]); changed(); }, c)); }); g2.appendChild(r2); pnl.appendChild(g2);
+      var g3 = el('div','cx-fgroup'); g3.appendChild(el('div','cx-flabel', C.style)); var r3 = el('div','mc-chips'); r3.setAttribute('role','group');
+      CompStats.EXPLORE_STYLES.forEach(function(st){ r3.appendChild(chipBtn(st, F.style === st, function(){ F.style = F.style === st ? '' : st; changed(); })); }); g3.appendChild(r3); pnl.appendChild(g3);
+      var g4 = el('div','cx-fgroup'); g4.appendChild(el('div','cx-flabel', C.contains)); g4.appendChild(el('p','comp-note', C.containsHint));
+      var qi = document.createElement('input'); qi.type = 'search'; qi.id = 'cxCardQ'; qi.className = 'cx-cardq'; qi.placeholder = C.containsPh; qi.setAttribute('aria-label', C.containsPh); qi.autocomplete = 'off'; qi.disabled = F.cards.length >= CompStats.MAX_EXPLORE_CARDS; g4.appendChild(qi);
+      var sug = el('div','cx-suggest'); sug.id = 'cxSuggest'; g4.appendChild(sug);
+      qi.addEventListener('input', function(){
+        sug.innerHTML = ''; cxSuggest(qi.value).forEach(function(c){
+          var b = el('button','cx-sug'); b.type = 'button'; b.dataset.number = c.number; var w = el('span','cx-sugimg'); cxImg(c.number, c.name, w); b.appendChild(w);
+          var tx = el('span'); tx.appendChild(el('b', null, c.name)); tx.appendChild(el('small', null, c.number)); b.appendChild(tx);
+          b.addEventListener('click', function(){ if(F.cards.length >= CompStats.MAX_EXPLORE_CARDS) return; F.cards = F.cards.concat([c.number]); changed(); var again = document.getElementById('cxCardQ'); if(again && !again.disabled) again.focus(); }); sug.appendChild(b);
+        });
+      });
+      var ch = el('div','cx-cardchips'); F.cards.forEach(function(n){
+        var cd = cardByNumber(n), b = el('button','cx-cardchip'); b.type = 'button'; b.dataset.number = n; b.setAttribute('aria-label', C.removeCard(cd ? cd.name : n));
+        b.appendChild(el('span', null, (cd ? cd.name : n))); b.insertAdjacentHTML('beforeend', ICON_X); b.addEventListener('click', function(){ F.cards = F.cards.filter(function(x){ return x !== n; }); changed(); }); ch.appendChild(b);
+      }); g4.appendChild(ch); pnl.appendChild(g4);
+      if(CompStats.exploreActiveCount(F) > 0){ var cl = el('button','dp-btn cx-clear', C.clear); cl.type = 'button'; cl.id = 'cxClear'; cl.addEventListener('click', function(){ GD.cxf = null; cxf(); changed(); }); pnl.appendChild(cl); }
+    }
+    function paintGrid(){
+      grid.innerHTML = ''; note.textContent = '';
+      var all = D.arches.length, shown = cxFiltered(D), n = CompStats.exploreActiveCount(cxf()) + (GD.cxq ? 1 : 0);
+      if(!all) note.textContent = C.empty;
+      else if(!shown.length) note.textContent = n ? (GD.cxq && !CompStats.exploreActiveCount(cxf()) ? C.noMatch(GD.cxq) : C.noFilterMatch) : C.empty;
+      else note.textContent = n ? C.count(shown.length, all) : C.countAll(all);
+      shown.forEach(function(x){
+        var A = x.A, b = el('button','cx-card'); b.type = 'button'; b.dataset.arch = A.key; b.setAttribute('aria-label', C.openArch(A.name));
         var im = el('div','cx-img'); if(A.cover) cxImg(A.cover.n, A.cover.cd.name, im); else im.appendChild(el('div','cx-ph', A.name)); b.appendChild(im);
         var nm = el('div','cx-name'); nm.appendChild(cxDual(A.colors)); nm.appendChild(el('span', null, A.name)); b.appendChild(nm);
         b.addEventListener('click', function(){ cxGo({ view:'arch', arch:A.key, list:'' }); });
         grid.appendChild(b);
       });
     }
-    inp.addEventListener('input', function(){ GD.cxq = inp.value.trim() ? inp.value : ''; gdSyncUrl(); paint(); });
-    paint();
+    fb.addEventListener('click', function(){ CX.filtersOpen = !CX.filtersOpen; paintBtn(); paintPanel(); });
+    srt.addEventListener('change', function(){ cxf().sort = srt.value === 'az' ? 'az' : 'recent'; gdSyncUrl(); paintGrid(); });
+    inp.addEventListener('input', function(){ GD.cxq = inp.value.trim() ? inp.value : ''; gdSyncUrl(); paintGrid(); });
+    paintBtn(); paintPanel(); paintGrid();
+    var mine = el('button','cx-link', t().mc.fromComp); mine.type = 'button'; mine.id = 'cxMine'; mine.style.marginRight = '18px';
+    mine.addEventListener('click', function(){ mcOpen('comp'); });
     var meta = el('button','cx-link', C.toMeta); meta.type = 'button'; meta.id = 'cxToMeta';
     meta.addEventListener('click', function(){
       GD.scroll[location.hash] = compPage.scrollTop; GD.cx = null; GD.detail = null; GD.tab = 'meta'; GD.nav++; GD.depth++;
       try{ history.pushState({ gdN:GD.nav, gdD:GD.depth }, '', gdHash()); }catch(e){}
       compState.animate = true; compState.dir = 'forward'; renderComp(); compPage.scrollTop = 0;
     });
-    var mine = el('button','cx-link', t().mc.fromComp); mine.type = 'button'; mine.id = 'cxMine'; mine.style.marginRight = '18px';
-    mine.addEventListener('click', function(){ mcOpen('comp'); });
-    wrap.insertBefore(mine, grid);
-    wrap.appendChild(meta); panel.appendChild(wrap);
+    wrap.insertBefore(mine, bar); wrap.appendChild(meta); panel.appendChild(wrap);
   }
   function cxArch(panel, D, A){
-    var C = t().cx;
+    var C = t().cx, f = cxf(), cut = cxCutoff(), lists = A.lists.filter(function(l){ return CompStats.exploreListOk(l, f, cut); });
     cxBackBtn(panel, C.backHome, 'cxBack');
     var head = el('div','cx-head'), im = el('div','cx-img'); if(A.cover) cxImg(A.cover.n, A.cover.cd.name, im); else im.appendChild(el('div','cx-ph', A.name)); head.appendChild(im);
     var h = el('h2','comp-h cx-title'); h.tabIndex = -1; h.appendChild(cxDual(A.colors)); h.appendChild(el('span', null, A.name)); head.appendChild(h); panel.appendChild(head);
+    if(CompStats.exploreActiveCount(f) > 0){
+      var info = el('p','comp-note cx-note'); info.id = 'cxFilterInfo'; info.setAttribute('role','status'); info.textContent = C.listsShown(lists.length, A.lists.length); panel.appendChild(info);
+      var drop = el('button','cx-link', C.dropFilters); drop.type = 'button'; drop.id = 'cxDropFilters'; drop.addEventListener('click', function(){ GD.cxf = null; cxf(); gdSyncUrl(); renderComp(); }); panel.appendChild(drop);
+    }
     var box = el('div','cx-lists');
-    A.lists.forEach(function(it){
+    if(!lists.length) panel.appendChild(el('p','comp-note cx-note', C.noFilterMatch));
+    lists.forEach(function(it){
       var b = el('button','cx-list'); b.type = 'button'; b.dataset.list = it.key; b.setAttribute('aria-label', C.openList(A.name, it.date ? fmtDate(it.date) : ''));
       var th = el('div','cx-thumbs'); cxThumbCards(it, A).forEach(function(x){ var w = el('div','cx-img'); cxImg(x.n, x.cd.name, w); th.appendChild(w); }); b.appendChild(th);
       var ft = el('div','cx-foot'); ft.appendChild(el('span', null, cxDateLabel(it)+(it.set ? ' · '+it.set : '')));
@@ -7408,6 +7653,50 @@ var EFFECT_CONFIG = {
     });
     panel.appendChild(box);
   }
+  /* ---- detalle: resumen, copiar como texto y mano de prueba ---- */
+  function cxStats(panel, it){
+    var C = t().cx, cur = [0,0,0,0,0,0,0,0], tot = 0, sum = 0, col = {};
+    Object.keys(it.cards).forEach(function(n){ var cd = cardByNumber(n), q = it.cards[n]; if(!cd) return; var c = Number(cd.cost); if(!isNaN(c)){ cur[Math.min(7, Math.max(0, c))] += q; tot += q; sum += c * q; } if(cd.color) col[cd.color] = (col[cd.color] || 0) + q; });
+    var sec = el('section','cx-stats'); sec.appendChild(el('h3','cx-type', C.summary));
+    var row = el('div','cx-statrow'); var st = el('div','cx-stat'); st.appendChild(el('span','k', C.avgCost)); st.appendChild(el('span','v', tot ? (sum / tot).toFixed(1).replace('.', LANG === 'es' ? ',' : '.') : '—')); row.appendChild(st);
+    var cc = el('div','cx-stat'); cc.appendChild(el('span','k', C.colorsTitle)); var pv = el('span','v cx-pips'); CompStats.EXPLORE_COLORS.forEach(function(c){ if(!col[c]) return; var p = el('span','cx-pip'); var d = el('span','dd-pip'); d.dataset.color = c; d.title = t().colors[c] || c; p.appendChild(d); p.appendChild(document.createTextNode(' '+(t().colors[c] || c)+' '+col[c])); pv.appendChild(p); }); cc.appendChild(pv); row.appendChild(cc); sec.appendChild(row);
+    var max = Math.max.apply(null, cur.concat([1])), bars = el('div','cx-bars'); bars.setAttribute('role','img'); bars.setAttribute('aria-label', C.curve+': '+cur.map(function(n, i){ return (i === 7 ? '7+' : i)+' → '+n; }).join(', '));
+    cur.forEach(function(n, i){ var b = el('div','cx-bar'); b.appendChild(el('b', null, String(n))); var bar = el('i'); bar.style.setProperty('--h', String(n / max)); b.appendChild(bar); b.appendChild(el('span', null, i === 7 ? '7+' : String(i))); bars.appendChild(b); });
+    var cv = el('div','cx-curve'); cv.appendChild(el('div','cx-flabel', C.curve)); cv.appendChild(bars); sec.appendChild(cv); panel.appendChild(sec);
+  }
+  var handState = null;
+  function cxShuffle(a){ for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+  function cxHand(A, it, opener){
+    var C = t().cx, deck = []; Object.keys(it.cards).forEach(function(n){ for(var i = 0; i < it.cards[n]; i++) deck.push(n); });
+    handState = { deck:cxShuffle(deck.slice()), hand:[], all:deck, opener:opener };
+    handState.hand = handState.deck.splice(0, 5);
+    var m = document.getElementById('handModal'), sc = document.getElementById('handScrim'); document.getElementById('handTitle').textContent = C.hand; document.getElementById('handNote').textContent = C.handNote; document.getElementById('handNew').textContent = C.handNew; document.getElementById('handClose').textContent = C.handClose; document.getElementById('handClose').setAttribute('aria-label', C.handClose);
+    m.hidden = false; sc.hidden = false; paintHand(); document.getElementById('handNew').focus();
+  }
+  function paintHand(){
+    var C = t().cx, box = document.getElementById('handCards'), dr = document.getElementById('handDraw'); box.innerHTML = '';
+    handState.hand.forEach(function(n){ var cd = cardByNumber(n), w = el('div','cx-img hand-card'); cxImg(n, cd ? cd.name : n, w); box.appendChild(w); });
+    dr.textContent = C.handDraw(handState.deck.length); dr.disabled = !handState.deck.length;
+    document.getElementById('handLive').textContent = C.handCount(handState.hand.length, handState.deck.length);
+  }
+  function closeHand(){
+    var m = document.getElementById('handModal'); if(m.hidden) return; m.hidden = true; document.getElementById('handScrim').hidden = true;
+    var o = handState && handState.opener; handState = null; if(o && document.body.contains(o)) o.focus({ preventScroll:true });
+  }
+  document.getElementById('handNew').addEventListener('click', function(){ if(!handState) return; handState.deck = cxShuffle(handState.all.slice()); handState.hand = handState.deck.splice(0, 5); paintHand(); });
+  document.getElementById('handDraw').addEventListener('click', function(){ if(!handState || !handState.deck.length) return; handState.hand.push(handState.deck.shift()); paintHand(); });
+  document.getElementById('handClose').addEventListener('click', closeHand);
+  document.getElementById('handScrim').addEventListener('click', closeHand);
+  document.addEventListener('keydown', function(e){
+    var m = document.getElementById('handModal'); if(m.hidden) return;
+    if(e.key === 'Escape'){ e.stopPropagation(); closeHand(); return; }
+    if(e.key !== 'Tab') return;
+    var f = Array.prototype.filter.call(m.querySelectorAll('button'), function(b){ return !b.disabled && b.offsetParent !== null; }); if(!f.length) return;
+    var first = f[0], last = f[f.length - 1], a = document.activeElement;
+    if(!m.contains(a)){ e.preventDefault(); first.focus(); }
+    else if(e.shiftKey && a === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && a === last){ e.preventDefault(); first.focus(); }
+  }, true);
   function cxCreateDeck(A, it, name){
     var nid = createDeck(name || (A.name+t().cx.copySuffix)), cards = {};
     Object.keys(it.cards).forEach(function(n){ cards[n] = it.cards[n]; });
@@ -7424,7 +7713,7 @@ var EFFECT_CONFIG = {
     cxBackBtn(panel, (opts && opts.backLabel) || C.backArch(A.name), 'cxBack');
     var h = el('h2','comp-h cx-title'); h.tabIndex = -1; h.style.marginTop = '10px'; h.appendChild(cxDual(A.colors)); h.appendChild(el('span', null, A.name)); panel.appendChild(h);
     var meta = el('p','cx-metaline'); meta.appendChild(el('span', null, cxDateLabel(it)+(it.set ? ' · '+it.set : '')));
-    if(it.url){ var a = document.createElement('a'); a.href = it.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = C.source+': '+it.label; meta.appendChild(a); }
+    if(it.url){ var a = document.createElement('a'); a.href = it.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = C.source+': '+it.label; a.className = 'cx-srclink'; meta.appendChild(a); }
     panel.appendChild(meta);
     var cta = el('button','dp-btn dp-btn-primary cx-cta', L.dl.copyDeck); cta.type = 'button'; cta.id = 'cxCopy';
     cta.addEventListener('click', function(){
@@ -7432,6 +7721,15 @@ var EFFECT_CONFIG = {
         onSave:function(name){ CX.done[it.key] = cxCreateDeck(A, it, name); renderComp(); var m = document.getElementById('cxMsg'); if(m) m.focus({ preventScroll:true }); } });
     });
     panel.appendChild(cta);
+    var sec2 = el('div','cx-actions2'), cpt = el('button','dp-btn', C.copyText); cpt.type = 'button'; cpt.id = 'cxCopyText';
+    var handBtn = el('button','dp-btn', C.hand); handBtn.type = 'button'; handBtn.id = 'cxHandBtn'; handBtn.addEventListener('click', function(){ cxHand(A, it, handBtn); });
+    cpt.addEventListener('click', function(){
+      var txt = deckAsText({ name:A.name+(it.date ? ' · '+fmtDate(it.date) : ''), cards:it.cards }), st = document.getElementById('cxTextMsg');
+      function ok(){ st.textContent = C.textCopied; } function fail(){ fallbackCopy(txt); st.textContent = C.textCopied; }
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fail); else fail();
+    });
+    sec2.appendChild(cpt); sec2.appendChild(handBtn); panel.appendChild(sec2);
+    var tm = el('p','comp-note cx-note'); tm.id = 'cxTextMsg'; tm.setAttribute('role','status'); panel.appendChild(tm);
     var done = CX.done[it.key];
     if(done && done.id && DECKS[done.id]){
       var ok = el('div','cx-msg'); ok.id = 'cxMsg'; ok.tabIndex = -1; ok.setAttribute('role','status'); ok.appendChild(el('span', null, L.dl.created(DECKS[done.id].name)));
@@ -7442,6 +7740,7 @@ var EFFECT_CONFIG = {
       var M = t().mc, ks = Object.keys(it.cards), have = ks.filter(function(n){ return COLL.has(n); }).length;
       panel.appendChild(el('p','comp-note cx-note', !COLL.size() ? M.ownedNone : have === ks.length ? M.ownedAll : M.ownedNote(have, ks.length)));
     }
+    cxStats(panel, it);
     var groups = { UNIT:[], PILOT:[], COMMAND:[], BASE:[], OTHER:[] };
     Object.keys(it.cards).forEach(function(n){ var cd = cardByNumber(n); (cd && groups[cd.type] ? groups[cd.type] : groups.OTHER).push({ n:n, cd:cd, q:it.cards[n] }); });
     ['UNIT','PILOT','COMMAND','BASE','OTHER'].forEach(function(ty){
@@ -7473,6 +7772,7 @@ var EFFECT_CONFIG = {
     MC = { sel:[], kind:'PILOT', color:'', q:'', lr:false, partial:false, from:from, msg:'', warn:false, linkAll:{}, shown:20 };
     if(from === 'coll'){ closeCollPage(true); GD.detail = null;   // true: no toca la dirección, así «atrás» vuelve a #coleccion
       GD.cx = { mine:true, view:'pick', arch:'', list:'' }; GD.cxq = ''; openCompPage(true); }
+    else if(from === 'decks'){ closeDecksPage(); GD.detail = null; GD.cx = { mine:true, view:'pick', arch:'', list:'' }; GD.cxq = ''; openCompPage(true); }   // «atrás» vuelve a Mazos
     else cxGo({ mine:true, view:'pick', arch:'', list:'' });
   }
   function mcImg(n, name, size){ var w = el('div','cx-img'); if(size) w.style.width = size+'px'; cxImg(n, name, w); return w; }
@@ -7579,7 +7879,7 @@ var EFFECT_CONFIG = {
   function mcRefresh(){ mcPaintTray(); mcPaintNote(); mcPaintGo(); mcPaintLinks(); mcMarkTiles(); }
   function mcPick(panel){
     var M = t().mc, C = t().cx;
-    var back = el('button','dp-btn gd-back', '← '+(MC.from === 'coll' ? M.backColl : C.backHome)); back.type = 'button'; back.id = 'mcBack'; back.addEventListener('click', cxBack); panel.appendChild(back);
+    var back = el('button','dp-btn gd-back', '← '+(MC.from === 'coll' ? M.backColl : MC.from === 'decks' ? M.backDecks : C.backHome)); back.type = 'button'; back.id = 'mcBack'; back.addEventListener('click', cxBack); panel.appendChild(back);
     var root = el('div','mc'); root.id = 'mcRoot';
     var h = el('h2','comp-h cx-title', M.title); h.tabIndex = -1; h.style.marginTop = '10px'; root.appendChild(h); root.appendChild(el('p','mc-intro', M.intro));
     var tray = el('div','mc-tray'); tray.id = 'mcTray'; root.appendChild(tray);
@@ -7637,7 +7937,7 @@ var EFFECT_CONFIG = {
   function cxRender(panel){
     var C = t().cx, st = GD.cx, home = st.view === 'home';
     document.getElementById('compScope').hidden = true; var tabs = document.getElementById('compTabs'); tabs.innerHTML = ''; tabs.hidden = true;
-    document.getElementById('compBack').hidden = !home;
+    document.getElementById('compBack').hidden = !home; document.getElementById('lblCompBack').textContent = CX.fromDecks ? t().mc.backDecks : t().dpBackCatalog;   // si se llegó desde Mazos, vuelve a Mazos
     var sub = document.getElementById('compSub'); sub.textContent = C.sub; sub.hidden = !home;
     if(DL.status === 'idle') loadDecklists();   // con error no se vuelve a pedir solo (el botón «Reintentar» lo reinicia): evita un bucle de peticiones
     if(GD.status === 'error' || DL.status === 'error'){ gdRetry(panel, C.error+(navigator.onLine === false ? ' '+C.offline : ''), function(){ if(GD.status === 'error') GD.status = 'idle'; if(DL.status === 'error') DL.status = 'idle'; CX.cache = null; renderComp(); }); return; }
@@ -7682,7 +7982,7 @@ var EFFECT_CONFIG = {
   }
   function openCompPage(fromUrl){
     closeSidebar(); closeDeckView();
-    if(fromUrl !== true){ GD.detail = null; GD.cx = COMP_V1 ? { view:'home', arch:'', list:'' } : null; GD.cxq = ''; }   // desde el menú se entra en «Explorar mazos»
+    if(fromUrl !== true){ GD.detail = null; GD.cx = COMP_V1 ? { view:'home', arch:'', list:'' } : null; GD.cxq = ''; GD.cxf = null; CX.fromDecks = false; }   // desde el menú se entra en «Explorar mazos»
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
     renderComp();
@@ -7697,7 +7997,7 @@ var EFFECT_CONFIG = {
     try{ if(!fromHistory && gdIsHash()){ if(GD.nav > 0) history.go(-GD.nav); else history.replaceState(null, '', location.pathname+location.search); } }catch(e){}   // se sale de todas las fichas abiertas de una vez
     updateTabbar();
   }
-  document.getElementById('compBack').addEventListener('click', function(){ closeCompPage(); closeDeckView(); });
+  document.getElementById('compBack').addEventListener('click', function(){ var toDecks = CX.fromDecks; CX.fromDecks = false; closeCompPage(); closeDeckView(); if(toDecks) openDecksPage(); });
   window.addEventListener('popstate', function(){
     if(gdIsHash()){
       gdFromHash();
@@ -7752,7 +8052,6 @@ var EFFECT_CONFIG = {
     else { fallbackCopy(txt); done(); }
   });
   document.getElementById('collStarters').addEventListener('click', function(){ collView = 'starters'; renderColl(); collPage.scrollTop = 0; });
-  document.getElementById('collBuilder').addEventListener('click', function(){ mcOpen('coll'); });
 
   /* ---- filtros y orden: el constructor es el del catálogo (buildFiltersFor), aquí con las cartas que tienes ---- */
   var COLL_FILTERS = {
@@ -7948,7 +8247,6 @@ var EFFECT_CONFIG = {
     document.getElementById('lblCollBack').textContent = C.collBack;
     document.getElementById('collTitle').textContent = C.collTitle;
     document.getElementById('collStarters').textContent = C.collStarters;
-    document.getElementById('lblCollBuilder').textContent = C.mc.entry; document.getElementById('lblCollBuilderSub').textContent = C.mc.entrySub; document.getElementById('collBuilderWrap').hidden = starters;
     document.getElementById('collCopy').hidden = starters || ownedKnown().length === 0; if(!collCopyTimer) paintCopyBtn(false);
     document.getElementById('collBar').hidden = starters;
     document.getElementById('collLayout').classList.toggle('is-starters', starters);
