@@ -407,6 +407,18 @@
     var rows = (p && p.rows) || [];
     return { lists: (p && p.n) || 0, archetypes: rows.length, top3: rows.slice(0, 3).reduce(function (s, r) { return s + (r.pct || 0); }, 0) };
   }
+  /* metaStrip(p, n): los n primeros arquetipos de la presencia y el resto agrupado (la franja proporcional del meta). Los % son los de la presencia, así que partes + resto = 100. */
+  function metaStrip(p, n) {
+    var rows = (p && p.rows) || [], k = Math.max(1, Math.floor(+n) || 1), items = rows.slice(0, k), rest = rows.slice(k);
+    return { items: items.map(function (r) { return { archetype: r.archetype, lists: r.lists, pct: r.pct }; }),
+      rest: { count: rest.length, lists: rest.reduce(function (s, r) { return s + (r.lists || 0); }, 0), pct: rest.reduce(function (s, r) { return s + (r.pct || 0); }, 0) } };
+  }
+  /* metaDiversity(p, target): cuántos arquetipos (de mayor a menor) hacen falta para llegar al target % de los puestos; menos = meta más concentrado. */
+  function metaDiversity(p, target) {
+    var rows = (p && p.rows) || [], t = +target > 0 && +target <= 100 ? +target : 80, acc = 0, count = 0;
+    for (var i = 0; i < rows.length && acc < t - 1e-9; i++) { acc += rows[i].pct || 0; count++; }
+    return { count: count, total: rows.length, target: t, pct: acc };
+  }
   function colorShare(results) {
     var w = {}, l = {}, total = 0;
     (results || []).forEach(function (r) {
@@ -454,7 +466,7 @@
   }
 
   return {
-    metaSummary: metaSummary, colorShare: colorShare, topCards: topCards, estimateTopCards: estimateTopCards, podium: podium,
+    metaSummary: metaSummary, metaStrip: metaStrip, metaDiversity: metaDiversity, colorShare: colorShare, topCards: topCards, estimateTopCards: estimateTopCards, podium: podium,
     EXPLORE_COLORS: EXPLORE_COLORS, EXPLORE_STYLES: EXPLORE_STYLES, MAX_EXPLORE_CARDS: MAX_EXPLORE_CARDS, exploreFromQuery: exploreFromQuery, exploreToQuery: exploreToQuery, exploreActiveCount: exploreActiveCount,
     exploreArchOk: exploreArchOk, exploreListOk: exploreListOk, periodCutoff: periodCutoff,
     MAX_CRITERIA: MAX_CRITERIA, toggleCriterion: toggleCriterion, setCriterionPrio: setCriterionPrio, criteriaToString: criteriaToString, criteriaFromString: criteriaFromString, matchLists: matchLists,

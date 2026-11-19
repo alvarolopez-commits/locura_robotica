@@ -26,10 +26,10 @@ function rules() {
 }
 const R = rules();
 
-test('el catálogo no va incrustado en el HTML y el HTML pesa menos de 740 KB', () => {
+test('el catálogo no va incrustado en el HTML y el HTML pesa menos de 760 KB', () => {
   if (/var CARDS_DATA = \[/.test(html)) throw new Error('CARDS_DATA sigue dentro de dashboard.html');
   if (!/<script src="data\/cards\.js"><\/script>/.test(html)) throw new Error('falta <script src="data/cards.js">');
-  const kb = Buffer.byteLength(html) / 1024; if (kb > 740) throw new Error(kb.toFixed(0) + ' KB');
+  const kb = Buffer.byteLength(html) / 1024; if (kb > 760) throw new Error(kb.toFixed(0) + ' KB');
 });
 test('data/cards.js tiene las 1086 cartas y es igual que data/all_cards.json', () => {
   const js = fs.readFileSync(path.join(__dirname, '..', 'data', 'cards.js'), 'utf8');

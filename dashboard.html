@@ -36,7 +36,7 @@
   --fg-1:#221e41; --fg-2:#2e4a62; --fg-3:#4b6880;
   --on-navy:#e6eef6; --on-navy-2:#a9bdd2;
   --accent:#3e707c; --accent-ink:#2f5a66; --sky:#8bcdff; --cyan-ink:#0a739a; --collection-builder:#CD9FC8; --deck-explorer:#E7B685; --sky-ink:#0e2338; --rose:#f4a6a6; --rose-ink:#5c1f1f;
-  --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2;
+  --c-blue:#3b6ea5; --c-green:#4a7a52; --c-red:#b5544a; --c-purple:#7a5b9c; --c-white:#aeb4c2; --cm-blue:#5884b2; --cm-green:#658e6c; --cm-red:#c06e65; --cm-purple:#8e74ab; --cm-white:var(--c-white);
   --font-sans:'Inter','Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-display:'Inter Digits','Big Shoulders Display',var(--font-sans);
   /* capas (z-index): de abajo arriba. Todo lo que flota usa una de estas */
@@ -249,8 +249,14 @@ body.menu-open .db-top{ z-index:var(--z-topbar-open); }
 .bb-namebtn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
 .bb-nameinput{ width:100%; min-height:44px; padding:0 0 2px; font:inherit; letter-spacing:inherit; text-transform:inherit; color:var(--white); background:transparent; border:0; border-bottom:2px solid var(--sky); border-radius:0; outline:none; }
 .bb-hint{ margin:2px 0 0; font-size:var(--text-body-sm-size); line-height:var(--text-body-sm-lh); color:var(--on-navy-2); }
-.bb-pick{ display:block; margin-top:10px; width:min(100%,360px); cursor:pointer; color:var(--white); }
-.bb-pick:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+.bb-find{ --fg-1:var(--white); --fg-3:var(--on-navy-2); margin-top:14px; max-width:460px; }   /* buscador de mazo: reutiliza .coll-search */
+.coll-search.bb-find .cs-ico{ top:26px; }
+.bb-picklist{ list-style:none; margin:6px 0 0; padding:4px; max-height:236px; overflow:auto; background:rgba(255,255,255,.07); border:1px solid rgba(139,205,255,.3); border-radius:14px; }
+.bb-picklist li{ display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding:0 12px; border-radius:10px; cursor:pointer; color:var(--white); font-size:var(--text-button-size); font-weight:600; overflow-wrap:anywhere; }
+.bb-picklist li:hover, .bb-picklist li.on{ background:rgba(139,205,255,.2); }
+.bb-picklist b{ flex:none; font-weight:700; color:var(--on-navy-2); font-variant-numeric:tabular-nums; }
+.bb-picklist .bb-none{ cursor:default; color:var(--on-navy-2); }
+.bb-picklist [data-id="__new"]{ color:var(--sky); }
 .buildBar.is-empty .bb-side{ display:none; }   /* sin mazo seleccionado: ni recuento, ni estado, ni Comparar */
 .buildBar.is-empty .bb-namebtn{ text-decoration:none; cursor:default; }
 .bb-side{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; }   /* recuento, estado y Comparar bajan a la línea siguiente si no caben */
@@ -1221,12 +1227,29 @@ span.legalChip{ cursor:inherit; }
 .gd-stat .k{ display:block; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-3); }
 .gd-stat .v{ display:block; margin-top:2px; font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--fg-1); }
 .gd-crows{ display:flex; flex-direction:column; gap:8px; }
-.gd-crow{ display:grid; grid-template-columns:96px minmax(0,1fr) 62px; gap:10px; align-items:center; }
+.gd-crow{ display:grid; grid-template-columns:minmax(0,1fr) 62px; gap:10px; align-items:center; }
 .gd-cname{ display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:var(--fg-1); }
-.gd-ctrack{ display:block; height:10px; background:rgba(255,255,255,.08); }
-.gd-ctrack i{ display:block; height:100%; }
-.gd-ctrack i[data-color="Blue"]{ background:var(--c-blue); } .gd-ctrack i[data-color="Green"]{ background:var(--c-green); } .gd-ctrack i[data-color="Red"]{ background:var(--c-red); }
-.gd-ctrack i[data-color="Purple"]{ background:var(--c-purple); } .gd-ctrack i[data-color="White"]{ background:var(--c-white); }
+.gd-cwrap{ display:flex; flex-wrap:wrap; align-items:center; gap:18px 32px; }   /* donut + leyenda; marcas con --cm-* (aclaradas para contrastar sobre el fondo oscuro) */
+.gd-cwrap [data-color="Blue"]{ --cm:var(--cm-blue); } .gd-cwrap [data-color="Green"]{ --cm:var(--cm-green); } .gd-cwrap [data-color="Red"]{ --cm:var(--cm-red); }
+.gd-cwrap [data-color="Purple"]{ --cm:var(--cm-purple); } .gd-cwrap [data-color="White"]{ --cm:var(--cm-white); }
+.gd-donut{ position:relative; flex:none; width:168px; height:168px; }
+.gd-donut svg{ display:block; width:100%; height:100%; transform:rotate(-90deg); }
+.gd-donut circle{ fill:none; stroke:var(--cm); stroke-width:16; }
+.gd-donut-c{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.gd-donut-c b{ font-size:var(--text-metric-size); font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums; color:var(--fg-1); }
+.gd-donut-c span{ font-size:var(--text-label-size); color:var(--fg-3); }
+.gd-cpip{ display:inline-block; width:12px; height:12px; flex:none; background:var(--cm); }
+.gd-cwrap .gd-crows{ flex:1 1 220px; min-width:0; max-width:360px; }
+.gd-strip{ display:flex; gap:2px; height:104px; margin:0 0 16px; }   /* franja proporcional: ancho = puestos, con el arte de la carta clave */
+@media (min-width:760px){ .gd-strip{ height:132px; } }
+.gd-seg{ position:relative; min-width:0; padding:0; border:0; border-radius:6px; overflow:hidden; background:var(--navy-2); color:var(--white); cursor:pointer; }
+.gd-seg img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%; transform:scale(1.32); transform-origin:50% 26%; transition:filter .15s var(--ease); }   /* acerca la ilustración (sin el marco de la carta) */
+.gd-seg:hover img{ filter:brightness(1.12); }
+.gd-seg:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; z-index:1; }
+.gd-seg b{ position:absolute; left:0; right:0; bottom:0; padding:16px 6px 5px; font-size:var(--text-label-size); font-weight:700; line-height:1.2; text-align:left; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--white); background:linear-gradient(rgba(21,18,42,0), rgba(21,18,42,.92)); }
+.gd-seg b[hidden]{ display:none; }
+.gd-seg.is-rest{ background:repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 6px, rgba(255,255,255,.1) 6px 12px); box-shadow:inset 0 0 0 1px rgba(139,205,255,.25); }
+.gd-seg.is-rest b{ top:0; background:none; display:flex; align-items:flex-end; }
 .gd-cval{ font-size:14px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums; color:var(--fg-2); }
 .gd-tclist{ display:flex; flex-direction:column; gap:4px; margin:0; padding:0; list-style:none; }
 .gd-tcard{ display:grid; grid-template-columns:24px 40px minmax(0,1fr); gap:10px; align-items:center; width:100%; min-height:60px; padding:6px 10px; text-align:left; color:inherit; background:rgba(255,255,255,.05); cursor:pointer; }
@@ -2073,7 +2096,7 @@ html{ touch-action:manipulation; }
         <div class="bb-main">
           <h2 class="bb-name"><button type="button" class="bb-namebtn" id="bbName"></button></h2>
           <p class="bb-hint" id="bbHint" hidden></p>
-          <select class="dl-select bb-pick" id="bbPick" hidden></select>
+          <div class="coll-search bb-find" id="bbPickWrap" hidden><svg class="cs-ico" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.6" stroke="currentColor" stroke-width="1.8"/><path d="M13.3 13.3L17 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" id="bbPick" role="combobox" aria-expanded="false" aria-controls="bbPickList" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false"><ul class="bb-picklist" id="bbPickList" role="listbox" hidden></ul></div>
           <button type="button" class="legalChip cut" id="bbLegal" hidden></button>
         </div>
         <div class="bb-side">
@@ -3206,7 +3229,7 @@ var EFFECT_CONFIG = {
         changes:'Cambios recientes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') frente a '+p+' (n = '+pn+'), misma fuente y ámbito. Variación en puntos de presencia.'; },
         noTrend:{ single:'Todavía hay un solo periodo con esta segmentación, así que no se pueden indicar subidas ni bajadas.', segment:'Los periodos disponibles no son comparables entre sí, así que no se indican subidas ni bajadas.', sample:'Datos insuficientes: algún periodo no tiene muestra suficiente para comparar.' },
         summary:'Resumen del meta', sLists:'Listas', sArch:'Arquetipos', sTop3:'Cuota del top 3', toExplore:'Explorar mazos', noDate:'Sin fecha',
-        sideScope:'Side-6, todas las regiones', days:function(n){ return n === 1 ? '1 día' : n+' días'; }, aPlacementsLabel:'puestos registrados', sArchLow:'arquetipos', sTop3Low:'en el top 3',
+        sideScope:'Side-6, todas las regiones', days:function(n){ return n === 1 ? '1 día' : n+' días'; }, aPlacementsLabel:'puestos registrados', sArchLow:'arquetipos', sTop3Low:'en el top 3', s80Low:'arquetipos suman el 80 %', stripAria:function(n){ return 'Cuota por arquetipo: los '+n+' primeros y el resto'; }, stripRest:function(n, p){ return n+' arquetipos más: '+p+'. Mostrar todos.'; },
         partialNote:function(d){ return 'Temporada en curso ('+(d === 1 ? '1 día' : d+' días')+' de datos): los porcentajes pueden cambiar.'; }, unclassNote:function(n, p){ return n+' puestos ('+p+') no tienen arquetipo asignado y no entran en el ranking.'; },
         methodTitle:'Sobre estos datos', methodBody:['Los puestos registrados son los resultados que Side-6 ha recogido de torneos, no todos los participantes de cada torneo ni el calendario completo.', 'Side-6 solo da totales por temporada: no se puede filtrar por país ni por fecha. Cada arquetipo cuenta sus puestos; los porcentajes son sobre los puestos con arquetipo asignado.', 'GD05 suma las ventanas GD05 y GD05:ST11-14 (hasta el 6 nov); GD06 empieza el 6 nov.'],
         aRankTitle:function(n){ return 'Ranking de arquetipos · '+n+' puestos registrados'; }, aNOf:function(a){ return a+(String(a) === '1' ? ' puesto' : ' puestos'); },
@@ -3560,7 +3583,7 @@ var EFFECT_CONFIG = {
         changes:'Recent changes', changesNote:function(c, n, p, pn){ return c+' (n = '+n+') against '+p+' (n = '+pn+'), same source and scope. Change in presence points.'; },
         noTrend:{ single:'There is only one period with this segmentation so far, so no rises or falls can be shown.', segment:'The available periods are not comparable, so no rises or falls are shown.', sample:'Not enough data: a period does not have a large enough sample to compare.' },
         summary:'Meta overview', sLists:'Lists', sArch:'Archetypes', sTop3:'Top 3 share', toExplore:'Explore decks', noDate:'No date',
-        sideScope:'Side-6, all regions', days:function(n){ return n === 1 ? '1 day' : n+' days'; }, aPlacementsLabel:'recorded placements', sArchLow:'archetypes', sTop3Low:'in the top 3',
+        sideScope:'Side-6, all regions', days:function(n){ return n === 1 ? '1 day' : n+' days'; }, aPlacementsLabel:'recorded placements', sArchLow:'archetypes', sTop3Low:'in the top 3', s80Low:'archetypes make up 80%', stripAria:function(n){ return 'Share by archetype: the top '+n+' and the rest'; }, stripRest:function(n, p){ return n+' more archetypes: '+p+'. Show all.'; },
         partialNote:function(d){ return 'Season in progress ('+(d === 1 ? '1 day' : d+' days')+' of data): percentages may change.'; }, unclassNote:function(n, p){ return n+' placements ('+p+') have no archetype assigned and are left out of the ranking.'; },
         methodTitle:'About this data', methodBody:['Recorded placements are the results Side-6 has collected from tournaments, not every participant of each tournament nor the full calendar.', 'Side-6 only gives totals per season: you cannot filter by country or date. Each archetype counts its placements; percentages are over placements with an assigned archetype.', 'GD05 adds the GD05 and GD05:ST11-14 windows (until 6 Nov); GD06 starts on 6 Nov.'],
         aRankTitle:function(n){ return 'Archetype ranking · '+n+' recorded placements'; }, aNOf:function(a){ return a+(String(a) === '1' ? ' placement' : ' placements'); },
@@ -4441,23 +4464,37 @@ var EFFECT_CONFIG = {
     updateBuildBar();
   }
   var lastBarDeck;
-  /* Sin mazo seleccionado, la barra deja elegir entre los mazos creados (o crear uno) sin salir del catálogo. */
-  function fillBarPick(){
-    var sel = document.getElementById('bbPick'), D = t().deckBlock;
-    sel.setAttribute('aria-label', D.pickDeck); sel.innerHTML = '';
-    var ph = document.createElement('option'); ph.value = ''; ph.textContent = D.pickDeck; ph.selected = true; sel.appendChild(ph);
-    Object.keys(DECKS).forEach(function(id){ var o = document.createElement('option'); o.value = id; o.textContent = DECKS[id].name || t().deckNewName; sel.appendChild(o); });
-    var nw = document.createElement('option'); nw.value = '__new'; nw.textContent = D.newDeck; sel.appendChild(nw);
+  var bbIn = document.getElementById('bbPick'), bbList = document.getElementById('bbPickList'), bbAct = -1;   // buscador de mazo (barra sin mazo seleccionado)
+  function bbOpts(){ return bbList.querySelectorAll('[role=option]'); }
+  function bbShow(open){
+    bbList.hidden = !open; bbIn.setAttribute('aria-expanded', open); bbIn.removeAttribute('aria-activedescendant'); bbAct = -1;
+    if(!open) return;
+    var norm = function(x){ return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }, q = norm(bbIn.value.trim()), n = 0; bbList.innerHTML = '';
+    var add = function(id, name, c){ var li = document.createElement('li'); li.setAttribute('role', 'option'); li.id = 'bbo' + n++; li.dataset.id = id; li.textContent = name + ' '; if(c != null){ var b = document.createElement('b'); b.textContent = c + '/50'; li.appendChild(b); } bbList.appendChild(li); };
+    Object.keys(DECKS).forEach(function(id){ var nm = DECKS[id].name || t().deckNewName; if(!q || norm(nm).indexOf(q) >= 0) add(id, nm, deckTotal(DECKS[id])); });
+    if(!n && q){ var no = document.createElement('li'); no.className = 'bb-none'; no.textContent = LANG === 'es' ? 'Sin resultados' : 'No results'; bbList.appendChild(no); }
+    add('__new', t().deckBlock.newDeck);
   }
-  document.getElementById('bbPick').addEventListener('change', function(){
-    var v = this.value; if(!v) return;
-    if(v === '__new') activeDeckId = createDeck(t().deckNewName+' '+(Object.keys(DECKS).length + 1));
-    else if(DECKS[v]) activeDeckId = v; else { fillBarPick(); return; }
-    saveDecksToStorage();
+  function bbChoose(v){
+    if(v === '__new') activeDeckId = createDeck(t().deckNewName + ' ' + (Object.keys(DECKS).length + 1)); else if(DECKS[v]) activeDeckId = v; else return;
+    bbIn.value = ''; saveDecksToStorage();
     if(!document.getElementById('decksPage').hidden) showDpView();
     render(); updateDeckPill(); updateBuildBar();
+  }
+  ['focus', 'click', 'input'].forEach(function(ev){ bbIn.addEventListener(ev, function(){ bbShow(true); }); });
+  bbIn.addEventListener('keydown', function(e){
+    var o = bbOpts();
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault(); if(bbList.hidden){ bbShow(true); o = bbOpts(); }
+      bbAct = bbAct < 0 ? (e.key === 'ArrowDown' ? 0 : o.length - 1) : (bbAct + (e.key === 'ArrowDown' ? 1 : -1) + o.length) % o.length;
+      Array.prototype.forEach.call(o, function(x, i){ x.classList.toggle('on', i === bbAct); x.setAttribute('aria-selected', i === bbAct); });
+      bbIn.setAttribute('aria-activedescendant', o[bbAct].id); o[bbAct].scrollIntoView({ block: 'nearest' });
+    } else if(e.key === 'Enter'){
+      e.preventDefault(); var el = bbAct >= 0 ? o[bbAct] : (bbIn.value.trim() && o.length === 2 ? o[0] : null); if(el) bbChoose(el.dataset.id);
+    } else if(e.key === 'Escape' && !bbList.hidden){ e.stopPropagation(); bbShow(false); }
   });
-  document.getElementById('bbPick').addEventListener('focus', fillBarPick);   // por si se creó, borró o renombró un mazo desde otra pantalla
+  bbList.addEventListener('click', function(e){ var o = e.target.closest('[role=option]'); if(o) bbChoose(o.dataset.id); });
+  document.addEventListener('pointerdown', function(e){ if(!bbList.hidden && !document.getElementById('bbPickWrap').contains(e.target)) bbShow(false); });
   function updateBuildBar(){
     var bar = document.getElementById('buildBar');
     var deck = activeDeck();
@@ -4468,8 +4505,8 @@ var EFFECT_CONFIG = {
     lastBarDeck = activeDeckId;
     if(!building){ bar.hidden = true; return; }
     bar.hidden = false; bar.classList.toggle('is-empty', !deck);
-    var bbn = document.getElementById('bbName'), hint = document.getElementById('bbHint'), DB = t().deckBlock, pick = document.getElementById('bbPick');
-    if(!deck){ bbn.textContent = DB.noDeck; bbn.disabled = true; bbn.removeAttribute('title'); hint.textContent = DB.noDeckHint; hint.hidden = false; fillBarPick(); pick.hidden = false; return; }
+    var bbn = document.getElementById('bbName'), hint = document.getElementById('bbHint'), DB = t().deckBlock, pick = document.getElementById('bbPickWrap');
+    if(!deck){ bbn.textContent = DB.noDeck; bbn.disabled = true; bbn.removeAttribute('title'); hint.textContent = DB.noDeckHint; hint.hidden = false; bbIn.placeholder = LANG === 'es' ? 'Buscar mi mazo…' : 'Search my deck…'; bbIn.setAttribute('aria-label', DB.pickDeck); bbIn.value = ''; bbShow(false); pick.hidden = false; return; }
     bbn.disabled = false; hint.hidden = true; pick.hidden = true;
     bbn.textContent = deck.name || t().deckNewName;
     bbn.title = LANG === 'es' ? 'Abrir el mazo · doble clic para renombrar' : 'Open the deck · double-click to rename';
@@ -6718,7 +6755,7 @@ var EFFECT_CONFIG = {
    * Presencia = listas publicadas del arquetipo / listas publicadas de la muestra filtrada (CompStats); nunca los inscritos.
    * El estado (pestaña, filtros, ficha) vive en la URL: #competicion[/torneos|/arquetipo/x|/torneo/x][?s=…&c=…]. */
   var GD_ISO = { 'Japan':'JP', 'Philippines':'PH', 'Indonesia':'ID', 'United States':'US', 'Germany':'DE', 'France':'FR', 'Spain':'ES', 'Italy':'IT', 'United Kingdom':'GB', 'Canada':'CA', 'Mexico':'MX', 'Brazil':'BR', 'Korea':'KR', 'Taiwan':'TW', 'Singapore':'SG', 'Thailand':'TH', 'Malaysia':'MY' };
-  var GD_SIDE6_SETS = ['GD06', 'GD05'], GD_SIDE6_DEFAULT_SET = 'GD05', GD_MIN_TREND = 30, GD_ARCH_FIRST = 7;   // temporadas que salen de Side-6 (la más reciente primero); una lista sin set es de GD05
+  var GD_SIDE6_SETS = ['GD06', 'GD05'], GD_SIDE6_DEFAULT_SET = 'GD05', GD_MIN_TREND = 30, GD_ARCH_FIRST = 7, GD_STRIP_N = 8;   // temporadas que salen de Side-6 (la más reciente primero); una lista sin set es de GD05
   var GD_SIZES = { s:{ sizeMax:32 }, m:{ sizeMin:33, sizeMax:64 }, l:{ sizeMin:65 } };
   function gdNoFilters(){ return { country:'', from:'', to:'', format:'', size:'', topN:0, cov:'' }; }
   var GD = { status:'idle', table:null, data:null, cache:{}, season:null, tab:'meta', detail:null, f:gdNoFilters(), q:'', more:false, allArch:false, listShown:12, evShown:10, open:{}, scroll:{}, tabScroll:{}, nav:0, depth:0 };
@@ -6943,6 +6980,22 @@ var EFFECT_CONFIG = {
   /* «Top 8/16»: los cortes (listas publicadas por torneo) de los eventos que forman la muestra */
   function gdCutLabel(evs){ var cuts = {}; evs.forEach(function(e){ if(e && e.listsPublished) cuts[e.listsPublished] = 1; }); var l = Object.keys(cuts).map(Number).sort(function(a, b){ return a - b; }); return l.length ? t().gd.top(l.join('/')) : ''; }
   function gdPoints(d){ var s = (d > 0 ? '+' : d < 0 ? '−' : '')+Math.abs(d).toFixed(1); return (LANG === 'es' ? s.replace('.', ',') : s)+' pts'; }
+  function gdCover(name){ var d = cxData(), a = d ? d.arches : []; for(var i = 0; i < a.length; i++) if(a[i].name === name && a[i].cover) return a[i].cover; return null; }
+  function gdFitStrip(){ Array.prototype.forEach.call(document.querySelectorAll('.gd-seg b'), function(b){ b.hidden = false; b.hidden = b.scrollWidth > b.parentNode.clientWidth; }); }   // la etiqueta solo se ve si cabe
+  window.addEventListener('resize', gdFitStrip);
+  function gdStrip(p){
+    var G = t().gd, S = CompStats.metaStrip(p, GD_STRIP_N), box = el('div','gd-strip'); box.setAttribute('role','group'); box.setAttribute('aria-label', G.stripAria(S.items.length));
+    S.items.forEach(function(r){
+      var b = el('button','gd-seg'), cv = gdCover(r.archetype); b.type = 'button'; b.style.flex = r.pct+' 1 0'; b.setAttribute('aria-label', G.aArchAria(r.archetype, gdPct(r.pct), gdNum(r.lists), gdNum(p.n), ''));
+      if(cv){ var im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.src = 'images/'+cv.n+'.webp'; b.appendChild(im); }
+      b.appendChild(el('b', null, gdPct(r.pct))); b.addEventListener('click', function(){ gdGo({ type:'arch', id:r.archetype }); }); box.appendChild(b);
+    });
+    if(S.rest.count){
+      var rb = el('button','gd-seg is-rest'); rb.type = 'button'; rb.style.flex = S.rest.pct+' 1 0'; rb.setAttribute('aria-label', G.stripRest(S.rest.count, gdPct(S.rest.pct))); rb.appendChild(el('b', null, '+'+S.rest.count+' · '+gdPct(S.rest.pct)));
+      rb.addEventListener('click', function(){ GD.allArch = true; renderComp(); var a = document.getElementById('gdAll'); if(a) a.focus(); }); box.appendChild(rb);
+    }
+    requestAnimationFrame(gdFitStrip); return box;
+  }
   function gdMetaView(panel, c){
     var G = t().gd, p = gdPresence(c);
     if(c.aggregate){
@@ -6976,6 +7029,7 @@ var EFFECT_CONFIG = {
       row.addEventListener('click', function(){ gdGo({ type:'arch', id:r.archetype }); });
       var line = el('div','gd-arow-wrap'); line.appendChild(row); line.appendChild(gdStar(gdSeason(), r.archetype, 'rank')); rows.appendChild(line);
     });
+    if(c.aggregate) sec.appendChild(gdStrip(p));
     sec.appendChild(rows);
     if(p.rows.length > GD_ARCH_FIRST){
       var all = el('button','dp-btn gd-all', GD.allArch ? G.showLess : G.showAll(p.rows.length)); all.type = 'button'; all.id = 'gdAll'; all.setAttribute('aria-expanded', String(!!GD.allArch));
@@ -7042,7 +7096,7 @@ var EFFECT_CONFIG = {
     var G = t().gd, sn = ML.data.snapshot, season = gdSeason(), w = gdWindowOf(season), S = CompStats.metaSummary(p), days = gdDays(w.from, w.to), sec = el('section','gd-season'); sec.id = 'gdSeasonSummary';
     var cov = el('p','gd-cover'); cov.appendChild(el('b', null, season)); cov.appendChild(document.createTextNode(' · '+G.sideScope+' · '+gdPeriod(w.from, w.to)+(days ? ' ('+G.days(days)+')' : ''))); sec.appendChild(cov);
     var st = el('p','gd-stats-inline');
-    [[gdNum(S.lists), G.aPlacementsLabel], [gdNum(S.archetypes), G.sArchLow], [S.lists ? gdPct(S.top3) : '—', G.sTop3Low]].forEach(function(x, i){ if(i) st.appendChild(el('span','gd-sep', ' · ')); var d = el('span','gd-stat-i'); d.appendChild(el('b', null, x[0])); d.appendChild(document.createTextNode(' '+x[1])); st.appendChild(d); });
+    [[gdNum(S.lists), G.aPlacementsLabel], [gdNum(S.archetypes), G.sArchLow], [S.lists ? gdPct(S.top3) : '—', G.sTop3Low], [gdNum(CompStats.metaDiversity(p, 80).count), G.s80Low]].forEach(function(x, i){ if(i) st.appendChild(el('span','gd-sep', ' · ')); var d = el('span','gd-stat-i'); d.appendChild(el('b', null, x[0])); d.appendChild(document.createTextNode(' '+x[1])); st.appendChild(d); });
     sec.appendChild(st);
     var notes = [], un = w.total - S.lists;
     if(season === sn.era) notes.push(G.partialNote(days));
@@ -7080,13 +7134,17 @@ var EFFECT_CONFIG = {
     var G = t().gd, rows = CompStats.colorShare(results); if(!rows.length) return;
     var n = results.reduce(function(sum, r){ return sum + ((r.colors || []).length ? (r.weight === undefined ? 1 : (r.weight > 0 ? r.weight : 0)) : 0); }, 0), sec = el('section','comp-sec gd-colors'); sec.id = 'gdColors';
     gdH(sec, G.colorTitle); gdNote(sec, G.colorNote(gdNum(n)));
-    var max = rows[0].pct || 1, box = el('div','gd-crows');
+    var box = el('div','gd-crows'), wrap = el('div','gd-cwrap'), dn = el('div','gd-donut'), NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'), C = 2 * Math.PI * 42, cum = 0;
+    svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('aria-hidden', 'true');
     rows.forEach(function(r){
+      var len = C * r.pct / 100, dash = Math.max(len - (rows.length > 1 ? 1.4 : 0), 0.1), ci = document.createElementNS(NS, 'circle');   // 1,4 de hueco entre sectores
+      ci.setAttribute('cx', '50'); ci.setAttribute('cy', '50'); ci.setAttribute('r', '42'); ci.dataset.color = r.color; ci.setAttribute('stroke-dasharray', dash.toFixed(2)+' '+(C - dash).toFixed(2)); ci.setAttribute('stroke-dashoffset', (-cum).toFixed(2)); svg.appendChild(ci); cum += len;
       var name = t().colors[r.color] || r.color, line = el('div','gd-crow'); line.setAttribute('role','img'); line.setAttribute('aria-label', G.colorAria(name, gdPct(r.pct), gdNum(r.lists)));
-      var nm = el('span','gd-cname'); var pip = el('span','dd-pip'); pip.dataset.color = r.color; nm.appendChild(pip); nm.appendChild(document.createTextNode(name)); line.appendChild(nm);
-      var tr = el('span','gd-ctrack'), fill = el('i'); fill.dataset.color = r.color; fill.style.width = (r.pct / max * 100)+'%'; tr.appendChild(fill); line.appendChild(tr);
+      var nm = el('span','gd-cname'), pip = el('span','gd-cpip'); pip.dataset.color = r.color; nm.appendChild(pip); nm.appendChild(document.createTextNode(name)); line.appendChild(nm);
       line.appendChild(el('span','gd-cval', gdPct(r.pct))); box.appendChild(line);
     });
+    dn.appendChild(svg); var ce = el('div','gd-donut-c'); ce.appendChild(el('b', null, gdPct(rows[0].pct))); ce.appendChild(el('span', null, t().colors[rows[0].color] || rows[0].color)); dn.appendChild(ce);
+    wrap.appendChild(dn); wrap.appendChild(box); sec.appendChild(wrap); panel.appendChild(sec); return;
     sec.appendChild(box); panel.appendChild(sec);
   }
   var GD_TOPCARDS = 10, GD_TOPCARDS_MAX = 30;
@@ -8141,7 +8199,7 @@ var EFFECT_CONFIG = {
   }
   function openCompPage(fromUrl){
     closeSidebar(); closeDeckView();
-    if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) closeCollPage('sibling');   // Mi colección es hermana de Competición: si estaba abierta, se cierra (antes quedaba delante y «Competición» no parecía abrir)
+    if(typeof collPage !== 'undefined' && collPage && !collPage.hidden) closeCollPage('sibling');   // hermana: si Mi colección estaba abierta, se cierra
     if(fromUrl !== true){ GD.detail = null; GD.cx = COMP_V1 ? { view:'home', arch:'', list:'' } : null; GD.cxq = ''; GD.cxf = null; CX.fromDecks = false; }   // desde el menú se entra en «Explorar mazos»
     if(!document.getElementById('decksPage').hidden) closeDecksPage();
     if(!cmpModal.hidden) closeCompareModal();
@@ -8155,7 +8213,7 @@ var EFFECT_CONFIG = {
     if(typeof closeCollPage === 'function') closeCollPage(fromHistory ? true : 'sibling');   // pantallas hermanas: abrir una cierra la otra (si viene del historial, no se toca la dirección)
     if(compPage.hidden) return;
     compPage.hidden = true; backToCatalog();
-    try{ if(!fromHistory && gdIsHash()){ if(GD.nav > 0 && !sibling) history.go(-GD.nav); else history.replaceState(null, '', location.pathname+location.search); } }catch(e){}   // se sale de todas las fichas abiertas de una vez (history.go es asíncrono: si la pantalla que se abre añade su entrada, se sustituye la dirección en lugar de retroceder)
+    try{ if(!fromHistory && gdIsHash()){ if(GD.nav > 0 && !sibling) history.go(-GD.nav); else history.replaceState(null, '', location.pathname+location.search); } }catch(e){}   // history.go es asíncrono: si la pantalla que se abre añade su entrada (Mi colección), se sustituye la dirección
     updateTabbar();
   }
   document.getElementById('compBack').addEventListener('click', function(){ var toDecks = CX.fromDecks; CX.fromDecks = false; closeCompPage(); closeDeckView(); if(toDecks) openDecksPage(); });

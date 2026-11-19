@@ -4,9 +4,9 @@
 
 - **El menú «Competición» abre Meta**. Explorar mazos vive en **Mazos → Explorar mazos** y también se llega desde un botón al final del ranking de Meta. Las rutas antiguas (`#competicion/mazos…`, `/torneos`, `/arquetipo/…`) siguen funcionando.
 - **Meta** (temporadas **GD06** y **GD05**, las dos desde Side-6), de arriba abajo:
-  1. **Resumen de temporada**: temporada, fechas de cobertura y días, puestos registrados, arquetipos y porcentaje acumulado del top 3. Avisos discretos: «Temporada en curso» (la más reciente) y los puestos sin arquetipo asignado. «Sobre estos datos» (desplegable cerrado) explica que los puestos no son participantes.
-  2. **Ranking de arquetipos** (protagonista): posición, colores, nombre, puestos registrados, % sobre los puestos con arquetipo, barra y **evolución en puntos respecto a la temporada anterior** (▲/▼ con signo y texto accesible) cuando es comparable. Cada fila abre su ficha.
-  3. **Representación por color**: cada arquetipo pesa por sus puestos y reparte su peso a partes iguales entre sus colores; suma 100 %.
+  1. **Resumen de temporada**: temporada, fechas de cobertura y días, puestos registrados, arquetipos y porcentaje acumulado del top 3 y **cuántos arquetipos suman el 80 %** de los puestos (menos = meta más concentrado). Avisos discretos: «Temporada en curso» (la más reciente) y los puestos sin arquetipo asignado. «Sobre estos datos» (desplegable cerrado) explica que los puestos no son participantes.
+  2. **Ranking de arquetipos** (protagonista): una **franja proporcional** con el arte de la carta clave de los 8 primeros (ancho = puestos; el resto, agrupado en un tramo rayado «+N · %»; cada parte abre su ficha y el % solo se ve si cabe) y debajo la lista con posición, colores, nombre, puestos registrados, % sobre los puestos con arquetipo, barra y **evolución en puntos respecto a la temporada anterior** (▲/▼ con signo y texto accesible) cuando es comparable. Cada fila abre su ficha.
+  3. **Representación por color** (donut con el color líder en el centro y leyenda con los %, que es lo que leen los lectores de pantalla): cada arquetipo pesa por sus puestos y reparte su peso a partes iguales entre sus colores; suma 100 %.
   4. **Cartas más utilizadas**: imagen, nombre y **uso estimado** (≈ %, entero). Distingue la base de los datos: consenso de Side-6, solo listas de ejemplo (menos fiable) y sin perfil. Con menos del 50 % de los puestos con perfil dice «datos insuficientes» en lugar de estimar.
   5. **Cambios recientes**: puntos porcentuales de representación entre temporadas, con los días y puestos de cada una y la limitación («no volúmenes»; aviso si la anterior deja ≥ 10 % de puestos sin arquetipo).
 - **Torneos**: «torneos registrados» agrupados por día, con **mejores puestos conocidos** (hasta 3, solo los que se conocen; nunca nombres de jugador) y «N puestos conocidos». Aviso: no es el calendario completo.
@@ -14,7 +14,9 @@
 - **Explorar mazos / Crear desde mis cartas**: usan las listas completas verificadas de Side-6 (**actuales**) **más las del histórico** (`data/decklists_hist.json`), que llevan la etiqueta «Clasificación anterior», su set y la fecha de importación. Un perfil de consenso nunca se presenta como lista.
 - Sin dinero, vistas ni autores: nada de precios, mercado, Pro ni popularidad.
 
-Lógica pura probada en `comp_stats.js`: `metaSummary`, `colorShare` (con peso), `topCards`, `estimateTopCards` (perfil del mismo set, desglose por base), `podium`.
+Los colores de las marcas de gráfico son los tokens `--cm-*` (los `--c-*` de juego aclarados un 15 %, ≥ 3,9 : 1 sobre el panel navy y ≥ 3,4 : 1 sobre el panel más claro; los originales siguen en `--c-*` para chips y puntos). Siguiendo el estudio Chart Intelligence: color nunca como único canal (etiqueta y valor en cada marca), leyenda y lista como tabla alternativa, y el color de cada categoría es siempre el mismo. Pruebas: `tests/meta_visual.test.js` y `tests/ui_meta_visual.mjs`.
+
+Lógica pura probada en `comp_stats.js`: `metaSummary`, `metaStrip`, `metaDiversity`, `colorShare` (con peso), `topCards`, `estimateTopCards` (perfil del mismo set, desglose por base), `podium`.
 
 ## Cómo se actualizan los datos
 

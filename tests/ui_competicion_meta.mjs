@@ -49,7 +49,7 @@ check('el menú Competición abre Meta con sus pestañas, no la portada de Explo
 
 console.log('\n== Meta GD05: resumen de temporada, ranking, color y cartas ==');
 await abrir(390, 844, '#competicion?s=GD05');
-check('el ranking sigue siendo lo primero que se ve (390 × 844)', (await ev(`(function(){ var a=document.querySelector('.gd-arow').getBoundingClientRect(); return a.bottom <= innerHeight - 60 })()`)) === true);
+check('el ranking sigue siendo lo primero que se ve (390 × 844): su franja se ve entera y la primera fila ya asoma', (await ev(`(function(){ var s=document.querySelector('.gd-strip').getBoundingClientRect(), a=document.querySelector('.gd-arow').getBoundingClientRect(); return s.bottom <= innerHeight - 60 && a.top < innerHeight - 20 })()`)) === true);
 const cover = await txt('.gd-cover'), inl = await txt('.gd-stats-inline');
 check('resumen: temporada, fechas de cobertura y días', /^GD05 · Side-6/.test(cover) && /31 jul 2026/.test(cover) && /6 nov 2026/.test(cover) && /\(\d+ días\)/.test(cover), cover);
 const miles = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
